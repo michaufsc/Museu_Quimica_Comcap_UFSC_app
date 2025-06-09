@@ -1,41 +1,49 @@
 import streamlit as st
 import pandas as pd
 
-# Carregar os dados
-df = pd.read_csv("plasticos.csv")
+# Carrega o CSV
+df = pd.read_csv("residuos.csv")
 
-st.set_page_config(page_title="Glossário da Química do Lixo", layout="wide")
-
-st.title("🔬 Glossário Interativo – Química do Lixo")
+st.set_page_config(page_title="Glossário da Química dos Resíduos", layout="wide")
+st.title("♻️ Glossário Interativo – Química dos Resíduos")
 st.markdown("""
-Este glossário ajuda educadores a explorar os principais tipos de plásticos e resíduos, com foco em **química, reciclabilidade e aplicações**.
+Este glossário interativo visa apoiar **educadores ambientais** no ensino sobre **resíduos sólidos**, suas **características químicas**, **classificação segundo a ABNT**, e formas adequadas de destinação e reaproveitamento.
+
+Use os filtros abaixo para explorar os resíduos por tipo, reciclabilidade ou classe ambiental.
 """)
 
-# Filtros interativos
-col1, col2 = st.columns(2)
+# Filtros
+col1, col2, col3 = st.columns(3)
+
+categorias = df["Categoria"].unique()
+classes = df["Classe ABNT"].unique()
+reciclavel = df["Reciclável"].unique()
+
 with col1:
-    categoria = st.selectbox("Filtrar por categoria", ["Todas"] + sorted(df["Categoria"].unique().tolist()))
+    categoria_sel = st.multiselect("Categoria", categorias, default=categorias)
+
 with col2:
-    reciclavel = st.selectbox("Reciclável?", ["Todos", "Sim", "Não", "Sim (limitado)"])
+    classe_sel = st.multiselect("Classe ABNT", classes, default=classes)
 
-# Aplicar filtros
-filtered_df = df.copy()
-if categoria != "Todas":
-    filtered_df = filtered_df[filtered_df["Categoria"] == categoria]
-if reciclavel != "Todos":
-    filtered_df = filtered_df[filtered_df["Reciclável"] == reciclavel]
+with col3:
+    reciclavel_sel = st.multiselect("Reciclável", reciclavel, default=reciclavel)
 
-# Mostrar tabela com clique para detalhes
-st.subheader("📘 Lista de Materiais")
-for i, row in filtered_df.iterrows():
-    with st.expander(f"{row['Sigla']} – {row['Nome Completo']}"):
-        st.markdown(f"""
-        **Nome completo:** {row['Nome Completo']}  
-        **Categoria:** {row['Categoria']}  
-        **Reciclável:** {row['Reciclável']}  
-        **Aplicações comuns:** {row['Aplicações Comuns']}
-        """)
+# Filtra os dados
+df_filtrado = df[
+    (df["Categoria"].isin(categoria_sel)) &
+    (df["Classe ABNT"].isin(classe_sel)) &
+    (df["Reciclável"].isin(reciclavel_sel))
+]
 
-# Rodapé
-st.markdown("---")
-st.caption("Dados coletados e organizados com base em fontes confiáveis para fins educativos.")
+# Mostra os dados
+st.dataframe(df_filtrado, use_container_width=True)
+
+# Expansor com detalhes
+with st.expander("📘 Saiba mais sobre a Classificação da ABNT NBR 10.004"):
+    st.markdown("""
+- **Classe I – Perigosos**: inflamáveis, tóxicos, corrosivos, reativos.
+- **Classe II A – Não inertes**: resíduos orgânicos e biodegradáveis (restos de alimento, folhas etc.).
+- **Classe II B – Inertes**: resíduos que não sofrem transformações físicas, químicas ou biológicas (vidro, certos plásticos, metais).
+
+👉 Esses conceitos são importantes para a **gestão ambiental, separação correta e educação nas escolas.**
+""")
