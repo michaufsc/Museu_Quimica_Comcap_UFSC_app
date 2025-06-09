@@ -1,0 +1,15 @@
+Categoria,Sigla ou Nome,Composição Química,Classe ABNT,Reciclável,Destinação,Aplicações ou Exemplos
+Plástico,PEAD (Polietileno de Alta Densidade),Polímero de etileno,Classe II-B,Sim,Reciclagem mecânica,Sacolas, frascos rígidos
+Plástico,PET (Polietileno Tereftalato),Poliéster,Classe II-B,Sim,Reciclagem química ou mecânica,Garrafas, embalagens de alimentos
+Plástico,PVC (Policloreto de Vinila),Polímero vinílico com cloro,Classe II-B,Limitado,Reciclagem especializada,Tubos, brinquedos
+Metal,Alumínio,Al,Classe II-B,Sim,Fusão e reutilização,Latinhas, embalagens, esquadrias
+Metal,Ferro,Fe,Classe II-B,Sim,Reciclagem siderúrgica,Arames, peças de máquinas
+Vidro,Comum (sílica + carbonato de sódio),SiO₂ + Na₂CO₃,Classe II-B,Sim,Reciclagem infinita,Garfos, garrafas, potes
+Papel,Papelão e papel branco,Base celulósica,Classe II-B,Sim,Reciclagem mecânica,Caixas, folhas, embalagens
+Orgânico,Resíduo de alimentos,Compostos orgânicos,Classe II-A,Não,Compostagem,Restos de frutas, cascas, vegetais
+Orgânico,Resíduo de poda,Celulose, lignina,Classe II-A,Não,Compostagem,Podas, grama, folhas secas
+Hospitalar,Agulhas, seringas, sangue,Metais pesados e orgânicos,Classe I,Não,Incinerador licenciado,Resíduos de postos de saúde, hospitais
+Eletrônico,Baterias de Lítio,Li, Classe I,Classe I,Não,Reciclagem especial/Ponto de coleta,Smartphones, notebooks
+Eletrônico,Placas de circuito impresso,Metais pesados + polímeros,Classe I,Não,Recuperação especializada,Computadores, eletrodomésticos
+Perigoso,Óleo usado,Compostos orgânicos polares,Classe I,Não,Coleta e regeneração ou coprocessamento,Óleo de motor, óleo de fritura
+Perigoso,Solventes industriais,Compostos orgânicos voláteis,Classe I,Não,Coprocessamento em fornos,Thinner, acetona
