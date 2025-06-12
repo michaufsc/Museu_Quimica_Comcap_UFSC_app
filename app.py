@@ -1,6 +1,6 @@
 import streamlit as st
 
-# ✅ A configuração da página deve ser o primeiro comando de Streamlit
+# ✅ DEVE SER A PRIMEIRA INSTRUÇÃO Streamlit (antes de qualquer outro st.)
 st.set_page_config(
     page_title="Glossário da Química dos Resíduos",
     page_icon="♻️",
@@ -46,5 +46,4 @@ else:
 
 # ✅ Exibir tabela filtrada
 st.dataframe(df_filtrado, use_container_width=True)
-
 
