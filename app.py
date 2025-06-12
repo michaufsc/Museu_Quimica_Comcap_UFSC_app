@@ -2,7 +2,15 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
+# ✅ ESTE COMANDO DEVE SER O PRIMEIRO COMANDO DO STREAMLIT
+st.set_page_config(
+    page_title="Glossário da Química dos Resíduos",
+    page_icon="♻️",
+    layout="wide"
+)
+
 @st.cache_data
+
 def carregar_dados():
     dados_csv = """Categoria,Sigla ou Nome,Composição Química,Classe ABNT,Reciclável,Destinação,Aplicações ou Exemplos
 Plástico,PEAD (Polietileno de Alta Densidade),Polímero de etileno,Classe II-B,Sim,Reciclagem mecânica,"Sacolas, frascos rígidos"
