@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
-# Função para carregar os dados com tratamento de erros
-@st.cache_data  # Cache para melhor desempenho
+@st.cache_data
 def carregar_dados():
-    # Dados CSV como string (substitua pelo seu arquivo ou URL)
     dados_csv = """Categoria,Sigla ou Nome,Composição Química,Classe ABNT,Reciclável,Destinação,Aplicações ou Exemplos
 Plástico,PEAD (Polietileno de Alta Densidade),Polímero de etileno,Classe II-B,Sim,Reciclagem mecânica,"Sacolas, frascos rígidos"
 Plástico,PET (Polietileno Tereftalato),Poliéster,Classe II-B,Sim,"Reciclagem química ou mecânica","Garrafas, embalagens de alimentos"
@@ -22,41 +20,37 @@ Eletrônico,Placas de circuito impresso,"Metais pesados + polímeros",Classe I,N
 Perigoso,Óleo usado,"Compostos orgânicos polares",Classe I,Não,"Coleta e regeneração ou coprocessamento","Óleo de motor, óleo de fritura"
 Perigoso,Solventes industriais,"Compostos orgânicos voláteis",Classe I,Não,"Coprocessamento em fornos","Thinner, acetona"
 """
-    
     try:
-        # Para arquivo local (descomente se for usar arquivo)
-        # df = pd.read_csv("residuos.csv", encoding='utf-8', quotechar='"', engine='python')
-        
-        # Para GitHub (descomente e substitua a URL)
-        # url = "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/residuos.csv"
-        # df = pd.read_csv(url, encoding='utf-8', quotechar='"', engine='python')
-        
-        # Usando os dados diretamente (para teste)
         df = pd.read_csv(StringIO(dados_csv), encoding='utf-8', quotechar='"', engine='python')
-        
         return df
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
         return pd.DataFrame()
 
-# Carrega os dados
 df = carregar_dados()
 
-# Configuração da página
 st.set_page_config(
     page_title="Glossário da Química dos Resíduos",
     page_icon="♻️",
     layout="wide"
 )
 
-# Cabeçalho
 st.title("♻️ Glossário Interativo - Química dos Resíduos")
 st.markdown("""
 Este glossário interativo visa apoiar **educadores ambientais** no ensino sobre **resíduos sólidos**, 
 suas **características químicas**, **classificação segundo a ABNT**, e formas adequadas de destinação e reaproveitamento.
 """)
 
-# Filtros na barra lateral
+# 🔍 CAMPO DE BUSCA
+busca = st.text_input("🔍 Buscar termo (ex: PET, celulose, compostagem):")
+dados_filtrados = df.copy()
+
+if busca:
+    dados_filtrados = dados_filtrados[dados_filtrados.apply(
+        lambda row: busca.lower() in row.astype(str).str.lower().to_string(), axis=1
+    )]
+
+# 🔧 FILTROS
 st.sidebar.header("Filtros")
 categorias_selecionadas = st.sidebar.multiselect(
     "Selecione as categorias:",
@@ -77,19 +71,18 @@ reciclavel_selecionado = st.sidebar.selectbox(
     index=0
 )
 
-# Filtra os dados
-dados_filtrados = df[
-    (df['Categoria'].isin(categorias_selecionadas)) &
-    (df['Classe ABNT'].isin(classes_selecionadas))
+# 🧠 APLICAÇÃO DOS FILTROS
+dados_filtrados = dados_filtrados[
+    (dados_filtrados['Categoria'].isin(categorias_selecionadas)) &
+    (dados_filtrados['Classe ABNT'].isin(classes_selecionadas))
 ]
 
 if reciclavel_selecionado != 'Todos':
     dados_filtrados = dados_filtrados[dados_filtrados['Reciclável'] == reciclavel_selecionado]
 
-# Conteúdo principal
+# 📋 EXIBIÇÃO DOS DADOS
 if not dados_filtrados.empty:
-    # Exibe os dados filtrados
-    st.subheader("Dados Filtrados")
+    st.subheader("📋 Dados Filtrados")
     st.dataframe(
         dados_filtrados,
         use_container_width=True,
@@ -100,33 +93,31 @@ if not dados_filtrados.empty:
             "Aplicações ou Exemplos": st.column_config.TextColumn(width="large")
         }
     )
-    
-    # Visualização detalhada
+
     with st.expander("🔍 Visualização Detalhada por Item"):
         material_selecionado = st.selectbox(
             "Selecione um material para detalhes:",
             options=dados_filtrados['Sigla ou Nome'].unique()
         )
-        
         dados_material = dados_filtrados[dados_filtrados['Sigla ou Nome'] == material_selecionado].iloc[0]
-        
+
         col1, col2 = st.columns(2)
         with col1:
             st.markdown(f"**Categoria:** {dados_material['Categoria']}")
             st.markdown(f"**Nome/Sigla:** {dados_material['Sigla ou Nome']}")
             st.markdown(f"**Composição Química:** {dados_material['Composição Química']}")
-        
+
         with col2:
             st.markdown(f"**Classe ABNT:** {dados_material['Classe ABNT']}")
             st.markdown(f"**Reciclável:** {dados_material['Reciclável']}")
             st.markdown(f"**Destinação:** {dados_material['Destinação']}")
-        
+
         st.markdown("**Aplicações/Exemplos:**")
         st.info(dados_material['Aplicações ou Exemplos'])
 else:
-    st.warning("Nenhum resultado encontrado com os filtros selecionados.")
+    st.warning("Nenhum resultado encontrado com os filtros ou termo buscado.")
 
-# Informações adicionais
+# ℹ️ INFORMAÇÕES ADICIONAIS
 st.divider()
 with st.expander("📚 Sobre a Classificação ABNT NBR 10.004"):
     st.markdown("""
@@ -135,5 +126,5 @@ with st.expander("📚 Sobre a Classificação ABNT NBR 10.004"):
     - **Classe II B - Inertes**: Resíduos que não se degradam facilmente (vidro, alguns plásticos e metais).
     """)
 
-# Rodapé
 st.caption("Desenvolvido para educação ambiental - Dados conforme ABNT NBR 10.004")
+
