@@ -1,138 +1,50 @@
 import streamlit as st
+
+# ✅ A configuração da página deve ser o primeiro comando de Streamlit
+st.set_page_config(
+    page_title="Glossário da Química dos Resíduos",
+    page_icon="♻️",
+    layout="wide"
+)
+
 import pandas as pd
 from io import StringIO
 
-# ✅ ESTE COMANDO DEVE SER O PRIMEIRO COMANDO DO STREAMLIT
-st.set_page_config(
-    page_title="Glossário da Química dos Resíduos",
-    page_icon="♻️",
-    layout="wide"
-)
-
+# ✅ Dados do glossário
 @st.cache_data
-
 def carregar_dados():
-    dados_csv = """Categoria,Sigla ou Nome,Composição Química,Classe ABNT,Reciclável,Destinação,Aplicações ou Exemplos
-Plástico,PEAD (Polietileno de Alta Densidade),Polímero de etileno,Classe II-B,Sim,Reciclagem mecânica,"Sacolas, frascos rígidos"
-Plástico,PET (Polietileno Tereftalato),Poliéster,Classe II-B,Sim,"Reciclagem química ou mecânica","Garrafas, embalagens de alimentos"
-Plástico,PVC (Policloreto de Vinila),Polímero vinílico com cloro,Classe II-B,Limitado,Reciclagem especializada,"Tubos, brinquedos"
-Metal,Alumínio,Al,Classe II-B,Sim,"Fusão e reutilização","Latinhas, embalagens, esquadrias"
-Metal,Ferro,Fe,Classe II-B,Sim,Reciclagem siderúrgica,"Arames, peças de máquinas"
-Vidro,Comum (sílica + carbonato de sódio),"SiO₂ + Na₂CO₃",Classe II-B,Sim,"Reciclagem infinita","Garfos, garrafas, potes"
-Papel,"Papelão e papel branco",Base celulósica,Classe II-B,Sim,Reciclagem mecânica,"Caixas, folhas, embalagens"
-Orgânico,Resíduo de alimentos,Compostos orgânicos,Classe II-A,Não,Compostagem,"Restos de frutas, cascas, vegetais"
-Orgânico,Resíduo de poda,"Celulose, lignina",Classe II-A,Não,Compostagem,"Podas, grama, folhas secas"
-Hospitalar,"Agulhas, seringas, sangue","Metais pesados e orgânicos",Classe I,Não,"Incinerador licenciado","Resíduos de postos de saúde, hospitais"
-Eletrônico,Baterias de Lítio,"Li, Classe I",Classe I,Não,"Reciclagem especial/Ponto de coleta","Smartphones, notebooks"
-Eletrônico,Placas de circuito impresso,"Metais pesados + polímeros",Classe I,Não,"Recuperação especializada","Computadores, eletrodomésticos"
-Perigoso,Óleo usado,"Compostos orgânicos polares",Classe I,Não,"Coleta e regeneração ou coprocessamento","Óleo de motor, óleo de fritura"
-Perigoso,Solventes industriais,"Compostos orgânicos voláteis",Classe I,Não,"Coprocessamento em fornos","Thinner, acetona"
-"""
-    try:
-        df = pd.read_csv(StringIO(dados_csv), encoding='utf-8', quotechar='"', engine='python')
-        return df
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame()
+    dados_csv = """Categoria;Sigla ou Nome;Composição Química;Origem;Risco à saúde;Tratamento adequado;Destinação final
+Metais Pesados;Pb (Chumbo);Pb;Baterias, tintas, ligas metálicas;Neurotoxicidade, anemia;Remoção por precipitação química;Aterro Classe I
+Metais Pesados;Hg (Mercúrio);Hg;Lâmpadas fluorescentes, termômetros;Neurotoxicidade, problemas renais;Tratamento com enxofre;Aterro Classe I
+Solventes Orgânicos;Benzeno;C6H6;Indústria petroquímica, tintas;Cancerígeno, problemas hematológicos;Incinerador de alta temperatura;Coprocessamento
+Solventes Orgânicos;Tolueno;C7H8;Colas, tintas, combustíveis;Neurotoxicidade, irritação respiratória;Destilação;Coprocessamento
+Resíduos Hospitalares;Sangue contaminado;;Hospitais, clínicas;Risco biológico, infecções;Autoclavagem;Aterro Classe I
+Resíduos Hospitalares;Agulhas e seringas;;Hospitais, postos de saúde;Perfurocortantes, contaminação;Incinerador hospitalar;Aterro Classe I
+Agrotóxicos;DDT;C14H9Cl5;Agricultura (proibido);Disruptor endócrino, cancerígeno;Incineração controlada;Aterro Classe I
+Agrotóxicos;Glifosato;C3H8NO5P;Agricultura;Possível cancerígeno, toxicidade ambiental;Biorremediação;Aterro Classe I
+Plásticos Clorados;PVC;[C2H3Cl]n;Tubulações, embalagens;Liberação de dioxinas na queima;Reciclagem especializada;Coprocessamento
+Plásticos Clorados;PCBs;C12H10−xClx;Transformadores elétricos;Neurotoxicidade, bioacumulação;Incineração;Aterro Classe I
+Solventes Halogenados;Tetracloreto de carbono;CCl4;Indústria química;Hepatotoxicidade, neurotoxicidade;Destilação fracionada;Coprocessamento
+Solventes Halogenados;Tricloroetileno;C2HCl3;Desengraxantes, limpeza industrial;Cancerígeno, neurotoxicidade;Oxidação térmica;Coprocessamento"""
+    
+    return pd.read_csv(StringIO(dados_csv), sep=";")
 
+# ✅ Carregar os dados
 df = carregar_dados()
 
-st.set_page_config(
-    page_title="Glossário da Química dos Resíduos",
-    page_icon="♻️",
-    layout="wide"
-)
+# ✅ Título do app
+st.title("♻️ Glossário da Química dos Resíduos")
 
-st.title("♻️ Glossário Interativo - Química dos Resíduos")
-st.markdown("""
-Este glossário interativo visa apoiar **educadores ambientais** no ensino sobre **resíduos sólidos**, 
-suas **características químicas**, **classificação segundo a ABNT**, e formas adequadas de destinação e reaproveitamento.
-""")
+# ✅ Campo de busca
+busca = st.text_input("🔍 Buscar termo, sigla, composição ou categoria:")
 
-# 🔍 CAMPO DE BUSCA
-busca = st.text_input("🔍 Buscar termo (ex: PET, celulose, compostagem):")
-dados_filtrados = df.copy()
-
+# ✅ Filtragem dos dados
 if busca:
-    dados_filtrados = dados_filtrados[dados_filtrados.apply(
-        lambda row: busca.lower() in row.astype(str).str.lower().to_string(), axis=1
-    )]
-
-# 🔧 FILTROS
-st.sidebar.header("Filtros")
-categorias_selecionadas = st.sidebar.multiselect(
-    "Selecione as categorias:",
-    options=df['Categoria'].unique(),
-    default=df['Categoria'].unique()
-)
-
-classes_selecionadas = st.sidebar.multiselect(
-    "Selecione as classes ABNT:",
-    options=df['Classe ABNT'].unique(),
-    default=df['Classe ABNT'].unique()
-)
-
-opcoes_reciclavel = ['Todos'] + list(df['Reciclável'].unique())
-reciclavel_selecionado = st.sidebar.selectbox(
-    "Reciclável:",
-    options=opcoes_reciclavel,
-    index=0
-)
-
-# 🧠 APLICAÇÃO DOS FILTROS
-dados_filtrados = dados_filtrados[
-    (dados_filtrados['Categoria'].isin(categorias_selecionadas)) &
-    (dados_filtrados['Classe ABNT'].isin(classes_selecionadas))
-]
-
-if reciclavel_selecionado != 'Todos':
-    dados_filtrados = dados_filtrados[dados_filtrados['Reciclável'] == reciclavel_selecionado]
-
-# 📋 EXIBIÇÃO DOS DADOS
-if not dados_filtrados.empty:
-    st.subheader("📋 Dados Filtrados")
-    st.dataframe(
-        dados_filtrados,
-        use_container_width=True,
-        height=600,
-        hide_index=True,
-        column_config={
-            "Composição Química": st.column_config.TextColumn(width="large"),
-            "Aplicações ou Exemplos": st.column_config.TextColumn(width="large")
-        }
-    )
-
-    with st.expander("🔍 Visualização Detalhada por Item"):
-        material_selecionado = st.selectbox(
-            "Selecione um material para detalhes:",
-            options=dados_filtrados['Sigla ou Nome'].unique()
-        )
-        dados_material = dados_filtrados[dados_filtrados['Sigla ou Nome'] == material_selecionado].iloc[0]
-
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown(f"**Categoria:** {dados_material['Categoria']}")
-            st.markdown(f"**Nome/Sigla:** {dados_material['Sigla ou Nome']}")
-            st.markdown(f"**Composição Química:** {dados_material['Composição Química']}")
-
-        with col2:
-            st.markdown(f"**Classe ABNT:** {dados_material['Classe ABNT']}")
-            st.markdown(f"**Reciclável:** {dados_material['Reciclável']}")
-            st.markdown(f"**Destinação:** {dados_material['Destinação']}")
-
-        st.markdown("**Aplicações/Exemplos:**")
-        st.info(dados_material['Aplicações ou Exemplos'])
+    df_filtrado = df[df.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
 else:
-    st.warning("Nenhum resultado encontrado com os filtros ou termo buscado.")
+    df_filtrado = df
 
-# ℹ️ INFORMAÇÕES ADICIONAIS
-st.divider()
-with st.expander("📚 Sobre a Classificação ABNT NBR 10.004"):
-    st.markdown("""
-    - **Classe I - Perigosos**: Apresentam riscos à saúde pública ou ao meio ambiente (inflamáveis, tóxicos, corrosivos).
-    - **Classe II A - Não inertes**: Resíduos que podem sofrer decomposição (orgânicos, biodegradáveis).
-    - **Classe II B - Inertes**: Resíduos que não se degradam facilmente (vidro, alguns plásticos e metais).
-    """)
+# ✅ Exibir tabela filtrada
+st.dataframe(df_filtrado, use_container_width=True)
 
-st.caption("Desenvolvido para educação ambiental - Dados conforme ABNT NBR 10.004")
 
