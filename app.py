@@ -1,49 +1,85 @@
 import streamlit as st
 
-# ✅ DEVE SER A PRIMEIRA INSTRUÇÃO Streamlit (antes de qualquer outro st.)
+# ✅ Deve ser o primeiro comando Streamlit
 st.set_page_config(
-    page_title="Glossário da Química dos Resíduos",
-    page_icon="♻️",
+    page_title="Glossário de Polímeros",
+    page_icon="🧪",
     layout="wide"
 )
 
 import pandas as pd
-from io import StringIO
 
-# ✅ Dados do glossário
+# ✅ Carregar os dados do CSV
 @st.cache_data
 def carregar_dados():
-    dados_csv = """Categoria;Sigla ou Nome;Composição Química;Origem;Risco à saúde;Tratamento adequado;Destinação final
-Metais Pesados;Pb (Chumbo);Pb;Baterias, tintas, ligas metálicas;Neurotoxicidade, anemia;Remoção por precipitação química;Aterro Classe I
-Metais Pesados;Hg (Mercúrio);Hg;Lâmpadas fluorescentes, termômetros;Neurotoxicidade, problemas renais;Tratamento com enxofre;Aterro Classe I
-Solventes Orgânicos;Benzeno;C6H6;Indústria petroquímica, tintas;Cancerígeno, problemas hematológicos;Incinerador de alta temperatura;Coprocessamento
-Solventes Orgânicos;Tolueno;C7H8;Colas, tintas, combustíveis;Neurotoxicidade, irritação respiratória;Destilação;Coprocessamento
-Resíduos Hospitalares;Sangue contaminado;;Hospitais, clínicas;Risco biológico, infecções;Autoclavagem;Aterro Classe I
-Resíduos Hospitalares;Agulhas e seringas;;Hospitais, postos de saúde;Perfurocortantes, contaminação;Incinerador hospitalar;Aterro Classe I
-Agrotóxicos;DDT;C14H9Cl5;Agricultura (proibido);Disruptor endócrino, cancerígeno;Incineração controlada;Aterro Classe I
-Agrotóxicos;Glifosato;C3H8NO5P;Agricultura;Possível cancerígeno, toxicidade ambiental;Biorremediação;Aterro Classe I
-Plásticos Clorados;PVC;[C2H3Cl]n;Tubulações, embalagens;Liberação de dioxinas na queima;Reciclagem especializada;Coprocessamento
-Plásticos Clorados;PCBs;C12H10−xClx;Transformadores elétricos;Neurotoxicidade, bioacumulação;Incineração;Aterro Classe I
-Solventes Halogenados;Tetracloreto de carbono;CCl4;Indústria química;Hepatotoxicidade, neurotoxicidade;Destilação fracionada;Coprocessamento
-Solventes Halogenados;Tricloroetileno;C2HCl3;Desengraxantes, limpeza industrial;Cancerígeno, neurotoxicidade;Oxidação térmica;Coprocessamento"""
-    
-    return pd.read_csv(StringIO(dados_csv), sep=";")
+    return pd.read_csv("polimeros.csv")
 
-# ✅ Carregar os dados
 df = carregar_dados()
 
-# ✅ Título do app
-st.title("♻️ Glossário da Química dos Resíduos")
+# ✅ Título e introdução
+st.title("🧪 Glossário Interativo – Polímeros e Reciclagem")
+st.markdown("""
+Este glossário interativo apresenta os principais **polímeros utilizados na sociedade**, 
+com informações sobre **composição química, origem, tipo de polimerização, reciclabilidade e aplicações**.  
+Ideal para educadores ambientais, estudantes e espaços de divulgação científica.
+""")
 
-# ✅ Campo de busca
-busca = st.text_input("🔍 Buscar termo, sigla, composição ou categoria:")
+# 🔍 Campo de busca
+busca = st.text_input("🔍 Buscar por nome, sigla, monômero, aplicação:")
 
-# ✅ Filtragem dos dados
+# 🔧 Filtros interativos
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    tipos_pol = st.multiselect("Tipo de Polimerização", df["Tipo de Polimerização"].unique(), default=df["Tipo de Polimerização"].unique())
+
+with col2:
+    origem = st.multiselect("Origem", df["Aquisição"].unique(), default=df["Aquisição"].unique())
+
+with col3:
+    reciclavel = st.selectbox("Reciclável", options=["Todos"] + list(df["Reciclável"].unique()), index=0)
+
+# 📌 Aplicar filtros
+df_filtrado = df[
+    (df["Tipo de Polimerização"].isin(tipos_pol)) &
+    (df["Aquisição"].isin(origem))
+]
+
+if reciclavel != "Todos":
+    df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
+
 if busca:
-    df_filtrado = df[df.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
-else:
-    df_filtrado = df
+    df_filtrado = df_filtrado[df_filtrado.apply(
+        lambda row: busca.lower() in str(row).lower(), axis=1
+    )]
 
-# ✅ Exibir tabela filtrada
-st.dataframe(df_filtrado, use_container_width=True)
+# 📋 Exibir tabela
+if not df_filtrado.empty:
+    st.subheader("📘 Resultados filtrados")
+    st.dataframe(df_filtrado, use_container_width=True, hide_index=True)
+
+    with st.expander("🔍 Visualização detalhada por polímero"):
+        item = st.selectbox("Selecione um polímero:", df_filtrado["Nome"])
+        dados = df_filtrado[df_filtrado["Nome"] == item].iloc[0]
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"**Sigla:** {dados['Sigla']}")
+            st.markdown(f"**Tipo de Polimerização:** {dados['Tipo de Polimerização']}")
+            st.markdown(f"**Tipo de Cadeia:** {dados['Tipo de Cadeia']}")
+            st.markdown(f"**Monômero(s):** {dados['Monômero(s)']}")
+
+        with col2:
+            st.markdown(f"**Composição Química:** {dados['Composição Química']}")
+            st.markdown(f"**Origem:** {dados['Aquisição']}")
+            st.markdown(f"**Reciclável:** {dados['Reciclável']}")
+
+        st.markdown(f"**Aplicações Comuns:**")
+        st.info(dados["Aplicações Comuns"])
+else:
+    st.warning("Nenhum resultado encontrado com os filtros ou busca aplicada.")
+
+# Rodapé
+st.markdown("---")
+st.caption("Desenvolvido a partir de conteúdo do curso QMC5530 – UFSC | Apoio à Educação Ambiental")
 
