@@ -1,6 +1,6 @@
 import streamlit as st
 
-# ✅ Deve ser o primeiro comando Streamlit
+# ✅ Configuração da página – DEVE vir logo após o import do streamlit
 st.set_page_config(
     page_title="Glossário de Polímeros",
     page_icon="🧪",
@@ -9,10 +9,10 @@ st.set_page_config(
 
 import pandas as pd
 
-# ✅ Carregar os dados do CSV
+# ✅ Função para carregar os dados do arquivo CSV
 @st.cache_data
 def carregar_dados():
-    return pd.read_csv("polimeros.csv")
+    return pd.read_csv("polimeros.csv")  # Certifique-se de que este arquivo está no mesmo diretório do app.py
 
 df = carregar_dados()
 
@@ -81,5 +81,4 @@ else:
 
 # Rodapé
 st.markdown("---")
-st.caption("Desenvolvido a partir de conteúdo do curso QMC5530 – UFSC | Apoio à Educação Ambiental")
-
+st.caption("Desenvolvido a partir do conteúdo da disciplina QMC5530 – UFSC | Aplicação em educação ambiental")
