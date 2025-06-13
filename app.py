@@ -1,62 +1,69 @@
 import streamlit as st
+import pandas as pd
 
-# ✅ Configuração da página – DEVE vir logo após o import do streamlit
+# Configuração da página
 st.set_page_config(
-    page_title="Glossário de Polímeros",
-    page_icon="🧪",
+    page_title="Glossário Química dos Resíduos",
+    page_icon="♻️",
     layout="wide"
 )
 
-import pandas as pd
+st.title("♻️ Glossário Interativo – Química dos Resíduos e Polímeros")
 
-# ✅ Função para carregar os dados do arquivo CSV
+# Menu lateral de navegação
+menu = st.sidebar.radio("📚 Escolha uma seção:", ["Glossário de Resíduos", "Glossário de Polímeros"])
+
+# Função para carregar dados de resíduos
 @st.cache_data
-def carregar_dados():
-    return pd.read_csv("polimeros.csv")  # Certifique-se de que este arquivo está no mesmo diretório do app.py
+def carregar_residuos():
+    return pd.read_csv("residuos.csv")
 
-df = carregar_dados()
+# Função para carregar dados de polímeros
+@st.cache_data
+def carregar_polimeros():
+    return pd.read_csv("polimeros.csv")
 
-# ✅ Título e introdução
-st.title("🧪 Glossário Interativo – Polímeros e Reciclagem")
-st.markdown("""
-Este glossário interativo apresenta os principais **polímeros utilizados na sociedade**, 
-com informações sobre **composição química, origem, tipo de polimerização, reciclabilidade e aplicações**.  
-Ideal para educadores ambientais, estudantes e espaços de divulgação científica.
-""")
+# ========================
+# SEÇÃO 1: GLOSSÁRIO DE RESÍDUOS
+# ========================
+if menu == "Glossário de Resíduos":
+    df = carregar_residuos()
 
-# 🔍 Campo de busca
-busca = st.text_input("🔍 Buscar por nome, sigla, monômero, aplicação:")
+    busca = st.text_input("🔍 Buscar resíduo:")
 
-# 🔧 Filtros interativos
-col1, col2, col3 = st.columns(3)
+    categorias = st.sidebar.multiselect("Categoria", df["Categoria"].unique(), default=df["Categoria"].unique())
+    classes = st.sidebar.multiselect("Classe ABNT", df["Classe ABNT"].unique(), default=df["Classe ABNT"].unique())
+    reciclavel = st.sidebar.selectbox("Reciclável", ["Todos"] + list(df["Reciclável"].unique()))
 
-with col1:
-    tipos_pol = st.multiselect("Tipo de Polimerização", df["Tipo de Polimerização"].unique(), default=df["Tipo de Polimerização"].unique())
+    df_filtrado = df[(df["Categoria"].isin(categorias)) & (df["Classe ABNT"].isin(classes))]
+    if reciclavel != "Todos":
+        df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
+    if busca:
+        df_filtrado = df_filtrado[df_filtrado.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
 
-with col2:
-    origem = st.multiselect("Origem", df["Aquisição"].unique(), default=df["Aquisição"].unique())
-
-with col3:
-    reciclavel = st.selectbox("Reciclável", options=["Todos"] + list(df["Reciclável"].unique()), index=0)
-
-# 📌 Aplicar filtros
-df_filtrado = df[
-    (df["Tipo de Polimerização"].isin(tipos_pol)) &
-    (df["Aquisição"].isin(origem))
-]
-
-if reciclavel != "Todos":
-    df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
-
-if busca:
-    df_filtrado = df_filtrado[df_filtrado.apply(
-        lambda row: busca.lower() in str(row).lower(), axis=1
-    )]
-
-# 📋 Exibir tabela
-if not df_filtrado.empty:
     st.subheader("📘 Resultados filtrados")
-    st.dataframe(df_filtrado, use_container_width=True, hide_index=True)
+    st.dataframe(df_filtrado, use_container_width=True)
+
+# ========================
+# SEÇÃO 2: GLOSSÁRIO DE POLÍMEROS
+# ========================
+elif menu == "Glossário de Polímeros":
+    df = carregar_polimeros()
+
+    busca = st.text_input("🔍 Buscar polímero ou aplicação:")
+
+    tipos = st.sidebar.multiselect("Tipo de Polimerização", df["Tipo de Polimerização"].unique(), default=df["Tipo de Polimerização"].unique())
+    origem = st.sidebar.multiselect("Origem", df["Aquisição"].unique(), default=df["Aquisição"].unique())
+    reciclavel = st.sidebar.selectbox("Reciclável", ["Todos"] + list(df["Reciclável"].unique()))
+
+    df_filtrado = df[(df["Tipo de Polimerização"].isin(tipos)) & (df["Aquisição"].isin(origem))]
+    if reciclavel != "Todos":
+        df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
+    if busca:
+        df_filtrado = df_filtrado[df_filtrado.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
+
+    st.subheader("📘 Polímeros filtrados")
+    st.dataframe(df_filtrado, use_container_width=True)
 
     with st.expander("🔍 Visualização detalhada por polímero"):
         item = st.selectbox("Selecione um polímero:", df_filtrado["Nome"])
@@ -74,11 +81,5 @@ if not df_filtrado.empty:
             st.markdown(f"**Origem:** {dados['Aquisição']}")
             st.markdown(f"**Reciclável:** {dados['Reciclável']}")
 
-        st.markdown(f"**Aplicações Comuns:**")
+        st.markdown("**Aplicações Comuns:**")
         st.info(dados["Aplicações Comuns"])
-else:
-    st.warning("Nenhum resultado encontrado com os filtros ou busca aplicada.")
-
-# Rodapé
-st.markdown("---")
-st.caption("Desenvolvido a partir do conteúdo da disciplina QMC5530 – UFSC | Aplicação em educação ambiental")
