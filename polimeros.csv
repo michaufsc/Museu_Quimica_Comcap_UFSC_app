@@ -1,19 +1,7 @@
-Nome,Sigla,Tipo de Polimerização,Tipo de Cadeia,Monômero(s),Composição Química,Aquisição,Reciclável,Aplicações Comuns
-Polietileno de Alta Densidade,PEAD,Adição,Vinílica,Eteno (etileno),[-CH2-CH2-]n,Sintético,Sim,Sacolas, frascos, tampas
-Polietileno de Baixa Densidade,PEBD,Adição,Vinílica,Eteno (etileno),[-CH2-CH2-]n (ramificado),Sintético,Sim,Filmes plásticos, sacolas flexíveis
-Polipropileno,PP,Adição,Vinílica,Propeno,[-CH2-CH(CH3)-]n,Sintético,Sim,Embalagens, seringas, autopeças
-Policloreto de Vinila,PVC,Adição,Vinílica,Cloreto de vinila,[-CH2-CHCl-]n,Sintético,Sim*,Tubulações, calçados, brinquedos
-Poliestireno,PS,Adição,Vinílica,Estireno (vinil-benzeno),[-CH2-CH(C6H5)-]n,Sintético,Sim,Isopor®, bandejas, potes
-Poli(etileno tereftalato),PET,Condensação,Ester,Ácido tereftálico + etilenoglicol,(CO-C6H4-CO-OCH2CH2O-)n,Sintético,Sim,Garrafas PET, tecidos (poliéster)
-Nylon 6,6,Nylon,Condensação,Amida,Ácido adípico + hexametilenodiamina,[-NH-(CH2)6-NH-CO-(CH2)4-CO-]n,Sintético,Sim,Tecidos, cordas, paraquedas
-Kevlar,Kevlar,Condensação,Amida,Ácido tereftálico + p-diaminobenzeno,[-NH-C6H4-NH-CO-C6H4-CO-]n,Sintético,Não,Coletes à prova de balas
-Baquelite,Baquelite,Condensação,Fenólica,Fenol + formaldeído,Estrutura 3D fenólica,Sintético,Não,Tomadas, utensílios elétricos
-Policarbonato,PC,Condensação,Ester,Bisfenol-A + fosgênio,[-C(CH3)2-C6H4-O-CO-O-C6H4-C(CH3)2-]n,Sintético,Sim*,Escudos, viseiras, lentes
-Poliisopreno natural,Cautchu,Adição,Diênica,Isopreno,[-CH2-C(CH3)=CH-CH2-]n,Natural,Não,Borracha natural (pneus, solados)
-Poliisobutileno,PIB,Adição,Vinílica,Isobutileno,[-CH2-C(CH3)2-]n,Sintético,Sim,Câmaras de ar, selantes, luvas
-Poliuretano,PU,Condensação,Uretânica,Diisocianato + poliol,Estrutura com ligações uretânicas,Sintético,Limitado,Espumas, colchões, tecidos
-Politetrafluoreteno,PTFE,Adição,Vinílica,Tetrafluoreteno,[-CF2-CF2-]n,Sintético,Não,Teflon® (panelas, revestimentos)
-Poliacetato de vinila,PVA,Adição,Vinílica,Acetato de vinila,[-CH2-CH(OCOCH3)-]n,Sintético,Sim,Adesivos, tintas
-Poli(hidroxibutirato),PHB,Condensação,Poliéster,Ácido 3-hidroxibutírico,[-O-CH(CH3)-CH2-CO-]n,Biorrenovável,Sim,Biotubos, embalagens biodegradáveis
-Poli(ácido lático),PLA,Condensação,Poliéster,Ácido lático,[-O-CH(CH3)-CO-]n,Biorrenovável,Sim,Filamentos 3D, talheres, copos biodegradáveis
+Nome;Sigla;Tipo de Polimerização;Tipo de Cadeia;Monômero(s);Composição Química;Aquisição;Reciclável;Aplicações Comuns
+Polietileno de Alta Densidade;PEAD;Adição;Vinílica;Eteno;[-CH2-CH2-]n;Sintético;Sim;Sacolas, frascos, tampas
+Poliestireno;PS;Adição;Vinílica;Estireno;[-CH2-CH(C6H5)-]n;Sintético;Sim;Bandejas, isopor
+PVC;PVC;Adição;Vinílica;Cloreto de vinila;[-CH2-CHCl-]n;Sintético;Limitado;Tubos, brinquedos
+PLA;PLA;Condensação;Poliéster;Ácido lático;[-O-CH(CH3)-CO-]n;Biorrenovável;Sim;Talheres biodegradáveis
+
 
