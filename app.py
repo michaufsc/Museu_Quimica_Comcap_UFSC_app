@@ -253,27 +253,32 @@ def main():
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "🏷️ Glossário",
         "🧐 Quiz",
         "📚 Atividades",
         "🏛️ História do Museu",
         "🌱 Compostagem",
-        "ℹ️ Sobre"
+        "ℹ️ Sobre",
+        "🧪 Química"
     ])
 
     with tab1:
-        mostrar_glossario()
+        mostrar_história()
     with tab2:
-        mostrar_quiz()
+        mostrar_glossário()
     with tab3:
-        mostrar_atividades()
+        mostrar_química()
     with tab4:
-        mostrar_historia()
+        mostrar_quiz()
     with tab5:
         mostrar_compostagem()
     with tab6:
+        mostrar_quimica()
+    with tab7:
         st.header("Sobre o Projeto")
+    with tab6:
+mostrar_quimica()
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
