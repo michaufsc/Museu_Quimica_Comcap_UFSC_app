@@ -110,6 +110,7 @@ def mostrar_quiz():
     questions = st.session_state.questions
     q_num = st.session_state.current_question
 
+    # Se terminou o quiz, mostrar resultado final
     if q_num >= len(questions):
         score = st.session_state.score
         total = len(questions)
@@ -128,13 +129,16 @@ def mostrar_quiz():
             st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
 
         if st.button("Refazer Quiz"):
-            for key in ['questions', 'current_question', 'score']:
-                if key in st.session_state:
-                    del st.session_state[key]
+            del st.session_state.questions
+            del st.session_state.current_question
+            del st.session_state.score
             st.experimental_rerun()
-        return
 
+        return  # Para não mostrar mais perguntas
+
+    # Mostrar pergunta atual
     question = questions[q_num]
+
     st.progress((q_num + 1) / len(questions))
     st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
     st.markdown(f"**{question['pergunta']}**")
@@ -148,42 +152,23 @@ def mostrar_quiz():
             st.session_state[f"correta_{q_num}"] = correta
             if correta:
                 st.session_state.score += 1
-    else:
+
+    if f"respondido_{q_num}" in st.session_state:
         correta = st.session_state[f"correta_{q_num}"]
         if correta:
             st.success(f"✅ Correto! {question['explicacao']}")
         else:
             st.error(f"❌ Errado. {question['explicacao']}")
 
-        if st.button("Próxima pergunta", key=f"next_{q_num}"):
+        if st.button("Próxima pergunta"):
             st.session_state.current_question += 1
             st.experimental_rerun()
 
 # Função principal
 def main():
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "🏷️ Glossário",
-        "🧠 Quiz",
-        "📚 Atividades",
-        "ℹ️ Sobre"
-    ])
+    st.title("Museu do Lixo - CONCAP Florianópolis ♻️")
+    st.markdown("## Sistema Completo de Resíduos")
+    st.markdown("*Desenvolvido durante a disciplina de Química Ambiental*")
+    st.markdown("---")
 
-    with tab1:
-        mostrar_glossario()
-    with tab2:
-        mostrar_quiz()
-    with tab3:
-        mostrar_atividades()
-    with tab4:
-        st.header("Sobre o Projeto")
-        st.markdown("""
-        **Glossário Interativo de Resíduos e Polímeros**  
-        - Desenvolvido para educação ambiental  
-        - Dados técnicos baseados em normas ABNT  
-        - Integrado com atividades pedagógicas
-        """)
-
-if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
-    main()
+    tab1, tab2, tab3, tab4 = st.ta
