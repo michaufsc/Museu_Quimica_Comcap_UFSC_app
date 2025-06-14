@@ -261,22 +261,22 @@ A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, tra
 """)
 
     st.subheader("⚠️ O que NÃO deve ir para a compostagem:")
-    st.markdown("""
+st.markdown("""
 - Carnes, laticínios e peixes  
 - Excrementos de animais domésticos  
 - Óleos, gorduras e produtos químicos  
 - Itens sanitários ou plásticos
 """)
 
-    st.subheader("🧪 Como funciona a compostagem")
-    st.markdown("""
+st.subheader("🧪 Como funciona a compostagem")
+st.markdown("""
 A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica. Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico**, uma terra escura, fértil e rica em nutrientes.
 
 Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajudando a regenerar o solo e fechar o ciclo dos alimentos.
 """)
 
-    st.subheader("📊 Dados de Florianópolis")
-    st.markdown("""
+st.subheader("📊 Dados de Florianópolis")
+st.markdown("""
 - **35%** dos resíduos domiciliares são orgânicos  
   - 24%: restos de alimentos  
   - 11%: resíduos verdes (podas, folhas, jardinagem)  
@@ -286,7 +286,7 @@ Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajuda
 Das **193 mil toneladas** coletadas anualmente, **70 mil toneladas** são resíduos orgânicos. Separando-os na fonte, evitaríamos o envio de **27 caminhões de lixo por dia** ao aterro de Biguaçu.
 """)
 
-    st.subheader("💰 Economia e benefícios")
+st.subheader("💰 Economia e benefícios")
 st.markdown("""
 Cada tonelada aterrada custa **R$ 156,81** ao município.  
 Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano**, além de reduzir impactos ambientais e melhorar a qualidade do solo urbano.
@@ -299,7 +299,6 @@ st.markdown("""
 - 📗 [**Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
-
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
