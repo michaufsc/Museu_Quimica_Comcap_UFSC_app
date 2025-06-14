@@ -337,14 +337,18 @@ def main():
         st.markdown("""
 with tab7:
     st.header("Sobre o Projeto")
-    st.markdown(r"""
+    
+    # Usando f-strings para evitar problemas de interpretação
+    disciplina = "Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)"
+    
+    st.markdown(f"""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 
 **Autor:** nome alunos e prof  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
+**Disciplina:** {disciplina}  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
 
