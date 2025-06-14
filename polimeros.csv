@@ -1,7 +1,19 @@
-Nome;Sigla;Tipo de Polimerização;Tipo de Cadeia;Monômero(s);Composição Química;Aquisição;Reciclável;Aplicações Comuns
-Polietileno de Alta Densidade;PEAD;Adição;Vinílica;Eteno;[-CH2-CH2-]n;Sintético;Sim;Sacolas, frascos, tampas
-Poliestireno;PS;Adição;Vinílica;Estireno;[-CH2-CH(C6H5)-]n;Sintético;Sim;Bandejas, isopor
-PVC;PVC;Adição;Vinílica;Cloreto de vinila;[-CH2-CHCl-]n;Sintético;Limitado;Tubos, brinquedos
-PLA;PLA;Condensação;Poliéster;Ácido lático;[-O-CH(CH3)-CO-]n;Biorrenovável;Sim;Talheres biodegradáveis
-
-
+Nome;Sigla;Tipo de Polimerização;Monômero(s);Composição Química;Reciclável;Biodegradável;Aplicações Comuns;Impacto Ambiental;Símbolo Reciclagem
+Politereftalato de Etileno;PET;Condensação;Ácido tereftalico + Etilenoglicol;C10H8O4;Sim;Não;Garrafas, fibras têxteis;Alto (microplásticos);♷ 1
+Polietileno de Alta Densidade;PEAD;Adição;Eteno;(C₂H₄)n;Sim;Não;Sacolas, tubos, embalagens;Médio;♷ 2
+Policloreto de Vinila;PVC;Adição;Cloreto de vinila;(C₂H₃Cl)n;Limitado;Não;Tubos, brinquedos, cabos;Alto (tóxico);♷ 3
+Polietileno de Baixa Densidade;PEBD;Adição;Eteno;(C₂H₄)n;Sim;Não;Filmes plásticos, sacolas;Médio;♷ 4
+Polipropileno;PP;Adição;Propeno;(C₃H₆)n;Sim;Não;Utensílios domésticos, fibras;Baixo;♷ 5
+Poliestireno;PS;Adição;Estireno;(C₈H₈)n;Não;Não;Copos descartáveis, isolamento;Alto;♷ 6
+Poliácido Lático;PLA;Condensação;Ácido lático;C3H4O2;Sim;Sim;Embalagens, próteses;Baixo (compostável);♷ 7
+Poliuretano;PU;Condensação;Diisocianato + diol;Variável;Não;Não;Espumas, roupas (lycra);Alto;-
+Nylon 6,6;PA;Condensação;Ácido adípico + hexametilenodiamina;C12H22N2O2;Sim;Não;Têxteis, cordas;Médio;♷ 7
+Poli(metil metacrilato);PMMA;Adição;Metil metacrilato;(C₅O₂H₈)n;Sim;Não;Acrílico, lentes;Médio;♷ 7
+Politetrafluoretileno;PTFE;Adição;Tetrafluoretileno;(C₂F₄)n;Não;Não;Antiaderentes (teflon);Alto (persistente);-
+Borracha Natural;PIP;Adição;Isopreno;(C₅H₈)n;Sim;Sim (parcial);Pneus, elastômeros;Médio;-
+Borracha Butílica;PIB;Adição;Isobuteno;(C₄H₈)n;Não;Não;Câmaras de ar, vedantes;Alto;-
+Poli(tereftalato de butileno);PBT;Condensação;Ácido tereftálico + 1,4-butanodiol;C12H12O4;Sim;Não;Componentes elétricos;Médio;♷ 1
+Poli(óxido de fenileno);PPO;Condensação;2,6-dimetilfenol;(C₈H₈O)n;Sim;Não;Peças automotivas;Médio;♷ 7
+Poli(vinil álcool);PVA;Adição;Acetato de vinila;(C₂H₄O)n;Sim;Não;Adesivos, embalagens solúveis;Baixo;♷ 3
+Poli(éter sulfona);PES;Condensação;Dihidroxidifenil sulfona + dicloreto de difenil sulfona;(C12H8O3S)n;Não;Não;Membranas, peças médicas;Alto;-
+Poli(éter cetona);PEK;Condensação;Difluoro benzofenona + hidroquinona;(C14H10O3)n;Não;Não;Componentes aeroespaciais;Alto;-
