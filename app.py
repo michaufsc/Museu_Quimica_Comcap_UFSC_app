@@ -166,8 +166,9 @@ def mostrar_quiz():
 
 # Função principal
 def main():
-    st.title("Museu do Lixo - CONCAP Florianópolis ♻️")
-    st.markdown("## Sistema Completo de Resíduos")
+    # Identificação no topo da página
+    st.header("Museu do Lixo - CONCAP Florianópolis ♻️")
+    st.subheader("Sistema Completo de Resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Química Ambiental*")
     st.markdown("---")
 
