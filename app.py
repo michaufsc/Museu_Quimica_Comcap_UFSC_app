@@ -270,7 +270,7 @@ A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, tra
 
     st.subheader("🧪 Como funciona a compostagem")
     st.markdown("""
-A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica. Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico** — uma terra escura, fértil e rica em nutrientes.
+A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica. Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico**, uma terra escura, fértil e rica em nutrientes.
 
 Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajudando a regenerar o solo e fechar o ciclo dos alimentos.
 """)
