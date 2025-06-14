@@ -1,21 +1,22 @@
-pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta_correta
-Qual é o símbolo da reciclagem universal?;♳ PET;♴ PEAD;♻️ RECICLAGEM;♶ PP;♻️ RECICLAGEM
-Qual plástico é identificado pelo número 1?;♳ PET;♴ PEAD;♶ PP;♷ PS;♳ PET
-O símbolo ♶ representa qual tipo de plástico?;♳ PET;♶ PP;♵ PVC;♷ PS;♶ PP
-Qual é o símbolo usado para Polietileno de Alta Densidade?;♴ PEAD;♵ PVC;♳ PET;♹ OUTROS;♴ PEAD
-♷ PS representa qual tipo de plástico?;Poliestireno;Polietileno Tereftalato;Polipropileno;Outros;Poliestireno
-Qual desses plásticos é representado por ♸?;Outros;PVC;PP;PET;Outros
-♵ representa qual tipo de plástico?;PVC;PP;Policarbonato;PETG;PVC
-Qual desses é reciclável?;♹ Outros;♷ PS;♳ PET;♵ PVC;♳ PET
-Qual é a categoria da ABNT para resíduos infectantes?;Classe A;Classe B;Classe C;Classe D;Classe A
-Resíduos de pilhas e baterias entram em qual classe ABNT?;Classe A;Classe B;Classe C;Classe D;Classe B
-O que representa a sigla PP?;Poliestireno;Polipropileno;Policloreto;Poliacetato;Polipropileno
-♺ é símbolo de qual material?;Poliéster;PET reciclado;PEAD;PS;PET reciclado
-Qual símbolo representa materiais não recicláveis?;♹;♻️;♳;♷;♹
-♻️ indica o quê?;Produto biodegradável;Produto reciclado ou reciclável;Produto inflamável;Produto novo;Produto reciclado ou reciclável
-Qual classe ABNT envolve materiais radioativos?;Classe A;Classe C;Classe D;Classe B;Classe C
-♴ é símbolo de qual material plástico?;Poliestireno;PEAD;PVC;PP;PEAD
-♸ representa plásticos como?;PET reciclado;Outros não especificados;Poliestireno;Polipropileno;Outros não especificados
-Classe D da ABNT corresponde a quê?;Resíduos perigosos;Resíduos comuns;Resíduos recicláveis;Resíduos eletrônicos;Resíduos comuns
-♻️ pode ser usado para quais materiais?;Apenas plásticos;Materiais recicláveis em geral;Materiais hospitalares;Metais pesados;Materiais recicláveis em geral
-♵ é o símbolo de qual plástico?;PVC;Polipropileno;Polietileno;Policloreto de vinila;PVC
+pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta_correta;explicacao
+Qual é o símbolo da reciclagem universal?;♳ PET;♴ PEAD;♻️ RECICLAGEM;♶ PP;♻️ RECICLAGEM;A resposta correta é ♻️ RECICLAGEM, símbolo universal.
+Qual a sigla do polietileno de alta densidade?;PET;PEAD;PVC;PS;PEAD;PEAD significa Polietileno de Alta Densidade.
+Qual o número associado ao PET no código de reciclagem?;1;2;5;6;1;PET tem o código ♳ 1.
+Qual polímero é usado em garrafas de refrigerante?;PVC;PEAD;PET;PS;PET;PET é o mais comum em garrafas de bebidas.
+Qual desses é um material não reciclável convencionalmente?;Vidro;Metal;Isopor;Papelão;Isopor;O isopor tem reciclagem mais limitada.
+Qual o símbolo de reciclagem do poliestireno?;♶ PP;♸ OUTROS;♷ PS;♴ PEAD;♷ PS;PS é representado pelo símbolo ♷ 6.
+Qual classe ABNT corresponde a resíduos perigosos?;Classe A;Classe B;Classe D;Classe I;Classe I;Classe I segundo ABNT NBR 10004 são perigosos.
+Qual é a sigla do policloreto de vinila?;PVC;PET;PP;PS;PVC;PVC é a sigla do policloreto de vinila.
+Qual o número associado ao PEAD no símbolo de reciclagem?;1;2;4;6;2;PEAD tem o código ♴ 2.
+Qual material é comumente usado em sacolas plásticas?;PET;PVC;PEBD;PS;PEBD;Sacolas são geralmente de PEBD.
+Qual é o número de reciclagem do polipropileno (PP)?;3;5;7;6;5;PP tem o símbolo ♶ 5.
+Qual resíduo é Classe A segundo ABNT?;Resíduos perigosos;Resíduos recicláveis;Resíduos inertes;Resíduos não recicláveis;Resíduos recicláveis;Classe A representa recicláveis.
+Qual o principal uso do PET?;Tubulações;Garrafas;Revestimentos;Fios elétricos;Garrafas;PET é muito usado em garrafas plásticas.
+Qual sigla corresponde ao poliestireno?;PP;PEAD;PET;PS;PS;PS é a sigla de poliestireno.
+O símbolo ♸ representa quais materiais?;Plásticos convencionais;Papéis;Outros;Metais;Outros;♸ representa plásticos diversos não listados.
+Qual é a sigla do polipropileno?;PP;PS;PET;PVC;PP;PP é a sigla do polipropileno.
+Qual classe ABNT corresponde a resíduos inertes?;Classe C;Classe A;Classe II A;Classe II B;Classe II B;Resíduos inertes são Classe II B.
+Qual resíduo é mais comum em eletrônicos?;PVC;PET;PS;Policarbonato;Policarbonato;Plásticos como o policarbonato são usados em eletrônicos.
+Qual é o número de reciclagem para o PVC?;3;2;5;7;3;PVC tem o código ♵ 3.
+Qual o destino adequado para resíduos Classe II B?;Aterro industrial;Reciclagem;Compostagem;Aterro sanitário;Aterro sanitário;Classe II B devem ser enviados ao aterro sanitário.
+
