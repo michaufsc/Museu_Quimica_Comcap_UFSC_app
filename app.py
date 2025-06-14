@@ -184,6 +184,39 @@ As primeiras peças foram reunidas no antigo galpão de triagem da coleta seleti
 Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
 
+#função química 
+def mostrar_quimica():
+    st.header("🧪 Química dos Polímeros e Reciclagem")
+
+    st.markdown("""
+    Os **polímeros** são macromoléculas formadas por unidades repetitivas chamadas monômeros. Eles podem ser naturais, como a celulose, ou sintéticos, como:
+    - Polietileno (PE)
+    - Polipropileno (PP)
+    - Poli(tereftalato de etileno) (PET)
+    - Poli(cloreto de vinila) (PVC)
+    - Poliestireno (PS)
+
+    Os **termoplásticos**, como PE, PP, PET, PVC e PS, possuem as seguintes características:
+    - Moldáveis a quente
+    - Baixa densidade
+    - Boa aparência
+    - Isolantes térmico e elétrico
+    - Resistentes ao impacto
+    - Baixo custo
+
+    No Brasil, o consumo de termoplásticos tem crescido significativamente. Por exemplo, o PET apresentou um aumento de mais de **2.200%** na última década.
+
+    A **separação automatizada** de polímeros é realizada com base na diferença de densidade, utilizando tanques de flotação ou hidrociclones para:
+    - PE
+    - PP
+    - PS
+    - PVC
+    - PET
+
+    A **reciclagem** desses materiais envolve tecnologias mecânicas e químicas, além da recuperação de energia a partir de resíduos plásticos.
+
+    Empresas recicladoras de PE e PP processam entre 20 e 50 toneladas por mês, com poucas ultrapassando 100 toneladas mensais. As principais aplicações dos polímeros reciclados são em utilidades domésticas.
+    """)
 
 # Função: compostagem
 def mostrar_compostagem():
