@@ -102,6 +102,7 @@ def mostrar_atividades():
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
 
+    # Inicializa o estado do quiz
     if 'questions' not in st.session_state:
         st.session_state.questions = load_quiz()
         st.session_state.current_question = 0
@@ -110,12 +111,14 @@ def mostrar_quiz():
     questions = st.session_state.questions
     q_num = st.session_state.current_question
 
+    # Se terminou o quiz
     if q_num >= len(questions):
         score = st.session_state.score
         total = len(questions)
         percentual = score / total
         st.balloons()
         st.success(f"🎯 Pontuação Final: {score}/{total}")
+
         if percentual == 1:
             st.info("🌟 Excelente! Você acertou tudo!")
         elif percentual >= 0.75:
@@ -125,37 +128,44 @@ def mostrar_quiz():
         else:
             st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
 
-        if st.button("Refazer Quiz"):
+        if st.button("🔄 Refazer Quiz"):
+            for key in list(st.session_state.keys()):
+                if key.startswith("q") or key.startswith("b") or key.startswith("respondido") or key.startswith("correta"):
+                    del st.session_state[key]
             del st.session_state.questions
             del st.session_state.current_question
             del st.session_state.score
-            st.experimental_rerun()
         return
 
+    # Exibe a pergunta atual
     question = questions[q_num]
     st.progress((q_num + 1) / len(questions))
     st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
     st.markdown(f"**{question['pergunta']}**")
+
+    # Widget de escolha
     selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
 
+    # Botão de confirmar
     if f"respondido_{q_num}" not in st.session_state:
-        if st.button("Confirmar", key=f"b{q_num}"):
+        if st.button("✅ Confirmar", key=f"b{q_num}"):
             st.session_state[f"respondido_{q_num}"] = True
             correta = selected == question['opcoes'][question['resposta']]
             st.session_state[f"correta_{q_num}"] = correta
             if correta:
                 st.session_state.score += 1
 
-    if f"respondido_{q_num}" in st.session_state:
+    # Mostra resultado e botão próxima
+    if st.session_state.get(f"respondido_{q_num}", False):
         correta = st.session_state[f"correta_{q_num}"]
         if correta:
             st.success(f"✅ Correto! {question['explicacao']}")
         else:
             st.error(f"❌ Errado. {question['explicacao']}")
 
-        if st.button("Próxima pergunta"):
+        if st.button("➡️ Próxima pergunta"):
             st.session_state.current_question += 1
-            st.experimental_rerun()
+
 
 # Função: história do Museu
 def mostrar_historia():
