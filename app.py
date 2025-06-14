@@ -171,4 +171,29 @@ def main():
     st.markdown("*Desenvolvido durante a disciplina de Química Ambiental*")
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4 = st.ta
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "🏷️ Glossário",
+        "🧠 Quiz",
+        "📚 Atividades",
+        "ℹ️ Sobre"
+    ])
+
+    with tab1:
+        mostrar_glossario()
+    with tab2:
+        mostrar_quiz()
+    with tab3:
+        mostrar_atividades()
+    with tab4:
+        st.header("Sobre o Projeto")
+        st.markdown("""
+        **Glossário Interativo de Resíduos e Polímeros**  
+        - Desenvolvido para educação ambiental  
+        - Dados técnicos baseados em normas ABNT  
+        - Integrado com atividades pedagógicas
+        """)
+
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+    main()
