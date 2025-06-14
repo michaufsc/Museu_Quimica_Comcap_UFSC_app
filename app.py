@@ -167,9 +167,9 @@ def mostrar_quiz():
 # Função principal
 def main():
     # Identificação no topo da página
-    st.header("Museu do Lixo - CONCAP Florianópolis ♻️")
-    st.subheader("Sistema Completo de Resíduos")
-    st.markdown("*Desenvolvido durante a disciplina de Química Ambiental*")
+    st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
+    st.subheader("Aplicativo para educadores: Química dos resíduos")
+    st.markdown("*Desenvolvido durante a disciplina de  Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
     st.markdown("---")
 
     tab1, tab2, tab3, tab4 = st.tabs([
