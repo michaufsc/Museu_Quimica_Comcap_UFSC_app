@@ -199,7 +199,7 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 - O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap, empresa de economia mista da Prefeitura de Florianópolis.  
 - Recebe cerca de **7 mil visitantes por ano**, mediante **agendamento prévio**.  
 - O acervo conta com aproximadamente **10 mil itens** recuperados na coleta ou por **entrega voluntária**, ainda em processo de catalogação.  
-- A instalação ocupa uma área de **200 m²**.  
+-- A instalação ocupa uma área de **200 m&sup2;**.
 - **Coleções em destaque**: ferros de passar roupa, latas de refrigerante e cerveja, máquinas fotográficas e de costura, telefones e computadores antigos.  
 - Ambientes diferenciados foram montados com **materiais reutilizados**, transformando resíduos em expressão criativa.  
 - Foram criados personagens lúdicos para a monitoria ambiental e oficinas de reciclagem, como:  
