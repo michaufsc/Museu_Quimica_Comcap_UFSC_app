@@ -194,9 +194,10 @@ As primeiras peças foram reunidas no antigo galpão de triagem da coleta seleti
 ### 📍 Localização  
 Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
-### 🔍 Saiba mais
 
 st.markdown("""
+### Saiba mais
+
 - O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap, empresa de economia mista da Prefeitura de Florianópolis.  
 - Recebe cerca de **7 mil visitantes por ano**, mediante agendamento prévio.  
 - O acervo conta com aproximadamente **10 mil itens** recuperados na coleta ou por **entrega voluntária**, ainda em processo de catalogação.  
@@ -204,7 +205,10 @@ st.markdown("""
 - Coleções em destaque: ferros de passar roupa, latas de refrigerante e de cerveja, máquinas fotográficas e de costura, aparelhos de telefone e computadores.  
 - Os ambientes são decorados com **materiais reutilizados**, desde tintas até pisos.  
 - Foram criados personagens para as atividades educativas, como **Neiciclagem** (Valdinei Marques), **Dona Tainha** (Joseane Rosa), **Vento Sul** e **Reciclardo** (Ricardo Conceição).
+
+---
 """)
+
 
 ---
 #função química 
