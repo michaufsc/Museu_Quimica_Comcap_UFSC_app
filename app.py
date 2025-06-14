@@ -70,11 +70,11 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro de busca (VERSÃO CORRIGIDA)
+    # Filtro de busca - VERSÃO FINAL CORRIGIDA
     search_term = st.text_input("Buscar por termo")
     
     if search_term:
-        mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(axis=1)
+        mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False)).any(axis=1)
         filtered_df = df[mask]
     else:
         filtered_df = df
