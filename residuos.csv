@@ -1,5 +1,12 @@
-Categoria,Sigla ou Nome,Composição Química,Classe ABNT,Reciclável,Destinação,Aplicações ou Exemplos
-Plástico,PET (Polietileno Tereftalato),Poliéster,Classe II-B,Sim,Reciclagem,Garrafa PET
-Metal,Alumínio,Al,Classe II-B,Sim,Fundição,Latinhas
-Orgânico,Resíduo de alimentos,Compostos orgânicos,Classe II-A,Não,Compostagem,Cascas de fruta
-Eletrônico,Baterias de lítio,Li,Classe I,Não,Ponto de coleta,Smartphones
+Categoria;Sigla ou Nome;Composição Química;Classe ABNT;Reciclável;Destinação;Aplicações ou Exemplos;Perigo Potencial
+Plástico;PET;C10H8O4;II-B;Sim;Reciclagem química;Garrafas, fibras;Microplásticos
+Plástico;PEAD;(C₂H₄)n;II-B;Sim;Reciclagem mecânica;Sacolas, tubos;-
+Plástico;PVC;(C₂H₃Cl)n;II-B;Limitado;Reciclagem especializada;Brinquedos, cabos;Libera HCl
+Metal;Alumínio;Al;II-B;Sim;Fusão;Latas, estruturas;-
+Vidro;Sílica-vidro;SiO₂;II-B;Sim;Fusão;Garrafas, janelas;-
+Papel;Celulose;C6H10O5;II-B;Sim;Reciclagem mecânica;Embalagens, papel;-
+Orgânico;Restos alimentares;Matéria orgânica;II-A;Não;Compostagem;Adubo;Gás metano
+Eletrônico;Baterias de Li;LiCoO₂;I;Não;Descarte especial;Celulares, laptops;Tóxico
+Hospitalar;Agulhas;Aço inox;I;Não;Incineração;Material médico;Contaminação
+Perigoso;Óleo lubrificante;CxHy;I;Não;Coleta especial;Motores;Contaminação hídrica
+Construção;Entulho;Mistura mineral;II-B;Parcial;Aterro;Demolição;-
