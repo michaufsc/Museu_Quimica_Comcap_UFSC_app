@@ -295,45 +295,36 @@ def main():
    # Divisória superior
     st.markdown("---")
     
-     # Verificação DEBUG - Mostra o conteúdo da pasta (remova depois)
-    if os.path.exists("imagens"):
-        st.write("Conteúdo da pasta 'imagens':", os.listdir("imagens"))
-    else:
-        st.error("Pasta 'imagens' não encontrada!")
-    
-    # Container para os logos com tratamento robusto
-    with st.container():
-        col1, col2 = st.columns(2)
-        
-        # Caminhos completos das imagens
-        logo_ufsc = "imagens/logo_ufsc.png"
-        logo_museu = "imagens/logo_museu.png"
-        
-        # Logo UFSC
-        with col1:
-            if os.path.exists(logo_ufsc):
-                try:
-                    img_ufsc = Image.open(logo_ufsc)
-                    st.image(img_ufsc, width=150)
-                except Exception as e:
-                    st.error(f"Erro ao carregar logo UFSC: {str(e)}")
-                    st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
-            else:
-                st.warning("Arquivo logo_ufsc.png não encontrado")
-                st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
-        
-        # Logo Museu
-        with col2:
-            if os.path.exists(logo_museu):
-                try:
-                    img_museu = Image.open(logo_museu)
-                    st.image(img_museu, width=150)
-                except Exception as e:
-                    st.error(f"Erro ao carregar logo Museu: {str(e)}")
-                    st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
-            else:
-                st.warning("Arquivo logo_museu.png não encontrado")
-                st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
+  # Container para os logos com tratamento robusto
+with st.container():
+    col1, col2 = st.columns(2)
+
+    # Caminhos completos das imagens
+    logo_ufsc = "imagens/logo_ufsc.png"
+    logo_museu = "imagens/logo_museu.png"
+
+    # Logo UFSC
+    with col1:
+        if os.path.exists(logo_ufsc):
+            try:
+                img_ufsc = Image.open(logo_ufsc)
+                st.image(img_ufsc, width=150, caption="UFSC")
+            except:
+                st.image("https://via.placeholder.com/150x80?text=UFSC", caption="UFSC", width=150)
+        else:
+            st.image("https://via.placeholder.com/150x80?text=UFSC", caption="UFSC", width=150)
+
+    # Logo Museu
+    with col2:
+        if os.path.exists(logo_museu):
+            try:
+                img_museu = Image.open(logo_museu)
+                st.image(img_museu, width=150, caption="Museu do Lixo")
+            except:
+                st.image("https://via.placeholder.com/150x80?text=Museu", caption="Museu do Lixo", width=150)
+        else:
+            st.image("https://via.placeholder.com/150x80?text=Museu", caption="Museu do Lixo", width=150)
+
     
     st.markdown("---")
 
