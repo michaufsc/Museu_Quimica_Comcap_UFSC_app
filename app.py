@@ -249,19 +249,7 @@ A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, tra
 """)
 
     st.subheader("✅ O que pode ir para a compostagem:")
-    st.markdown("""
-- Cascas de frutas e de ovos  
-- Sobras de verduras e legumes  
-- Restos de comida (sem excesso de sal ou gordura)  
-- Borra de café ou chimarrão  
-- Filtro de papel do café  
-- Aparas de grama  
-- Folhas secas  
-- Palhas, serragem e pequenos galhos
-""")
-
-    st.subheader("⚠️ O que NÃO deve ir para a compostagem:")
-st.markdown("""
+  st.markdown("""
 - Carnes, laticínios e peixes  
 - Excrementos de animais domésticos  
 - Óleos, gorduras e produtos químicos  
@@ -294,10 +282,10 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 
 st.subheader("📚 Materiais e links úteis")
 st.markdown("""
-- 📘 [**Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
-- 🎥 [**Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
-- 📗 [**Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
-- 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
+- [📘 **Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
+- [🎥 **Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
+- [📗 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
+- [📒 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
 # Função principal
 def main():
