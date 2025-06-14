@@ -11,36 +11,48 @@ st.set_page_config(
     layout="wide"
 )
 
-# Carregar dados polímeros e resíduos
+# Diretório de imagens
+IMAGES_DIR = "imagens_materiais"
+
+# Cache para carregar dados
 @st.cache_data
 def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
 
+@st.cache_data
+def load_quiz():
+    df = pd.read_csv("quiz_perguntas.csv", sep=";")
+    questions = []
+
+    for _, row in df.iterrows():
+        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
+        random.shuffle(opcoes)
+        resposta_index = opcoes.index(str(row['resposta_correta']))
+
+        questions.append({
+            "pergunta": row['pergunta'],
+            "opcoes": opcoes,
+            "resposta": resposta_index,
+            "explicacao": f"A resposta correta é {row['resposta_correta']}."
+        })
+
+    return questions
+
 polimeros, residuos = load_data()
 
-IMAGES_DIR = "imagens_materiais"
-
-# Glossário
+# Glossário com imagens
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
 
-    dataset = st.radio(
-        "Selecione a base de dados:",
-        ["Polímeros", "Resíduos"],
-        horizontal=True
-    )
-
+    dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
     df = polimeros if dataset == "Polímeros" else residuos
 
     search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
 
     if search_term:
-        mask = df.apply(
-            lambda row: row.astype(str).str.contains(search_term, case=False).any(),
-            axis=1
-        )
+        mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)
         df = df[mask]
 
     for _, row in df.iterrows():
@@ -67,7 +79,7 @@ def mostrar_glossario():
 
         st.divider()
 
-# Atividades pedagógicas
+# Atividades por nível de ensino
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
 
@@ -75,43 +87,26 @@ def mostrar_atividades():
 
     with tab1:
         st.markdown("""
-        ### 1. Identificação de Polímeros
+        ### 1. Identificação de Polímeros  
         **Objetivo:** Reconhecer tipos de plásticos pelos símbolos  
         **Materiais:** Amostras de embalagens com códigos de reciclagem
         """)
 
     with tab2:
         st.markdown("""
-        ### 1. Análise de Propriedades
+        ### 1. Análise de Propriedades  
         **Objetivo:** Testar densidade e resistência de materiais  
         **Materiais:** Amostras de diferentes polímeros
         """)
 
     with tab3:
         st.markdown("""
-        ### 1. Análise de Ciclo de Vida
+        ### 1. Análise de Ciclo de Vida  
         **Objetivo:** Comparar impactos ambientais de materiais  
         **Materiais:** Dados de produção e decomposição
         """)
 
-# --- NOVO: Carregar quiz de CSV ---
-
-@st.cache_data
-def load_quiz():
-    df = pd.read_csv("quiz_perguntas.csv", sep=";")
-    questions = []
-    for _, row in df.iterrows():
-        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
-        correta = str(row['resposta_correta'])
-        questions.append({
-            "pergunta": row['pergunta'],
-            "opcoes": opcoes,
-            "resposta_correta": correta,
-            "explicacao": f"A resposta correta é **{correta}**."
-        })
-    random.shuffle(questions)
-    return questions
-
+# Quiz com perguntas fixas de CSV
 def mostrar_quiz():
     st.header("🧠 Quiz de Resíduos e Polímeros")
 
@@ -133,7 +128,7 @@ def mostrar_quiz():
         selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
 
         if st.button("Confirmar", key=f"b{q_num}"):
-            if selected == question['resposta_correta']:
+            if selected == question['opcoes'][question['resposta']]:
                 st.success(f"✅ Correto! {question['explicacao']}")
                 st.session_state.score += 1
             else:
@@ -184,7 +179,7 @@ def main():
         mostrar_atividades()
 
     with tab4:
-        st.header("Sobre o Projeto")
+        st.header("ℹ️ Sobre o Projeto")
         st.markdown("""
         **Glossário Interativo de Resíduos e Polímeros**  
         - Desenvolvido para educação ambiental  
