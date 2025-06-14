@@ -208,9 +208,6 @@ st.markdown("""
 
 ---
 """)
-
-
----
 #função química 
 def mostrar_quimica():
     st.header("🧪 Química dos Polímeros e Reciclagem")
