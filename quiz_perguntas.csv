@@ -1,22 +1,22 @@
-pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta_correta;explicacao
-Qual é o símbolo da reciclagem universal?;♳ PET;♴ PEAD;♻️ RECICLAGEM;♶ PP;♻️ RECICLAGEM;A resposta correta é ♻️ RECICLAGEM, símbolo universal.
-Qual a sigla do polietileno de alta densidade?;PET;PEAD;PVC;PS;PEAD;PEAD significa Polietileno de Alta Densidade.
-Qual o número associado ao PET no código de reciclagem?;1;2;5;6;1;PET tem o código ♳ 1.
-Qual polímero é usado em garrafas de refrigerante?;PVC;PEAD;PET;PS;PET;PET é o mais comum em garrafas de bebidas.
-Qual desses é um material não reciclável convencionalmente?;Vidro;Metal;Isopor;Papelão;Isopor;O isopor tem reciclagem mais limitada.
-Qual o símbolo de reciclagem do poliestireno?;♶ PP;♸ OUTROS;♷ PS;♴ PEAD;♷ PS;PS é representado pelo símbolo ♷ 6.
-Qual classe ABNT corresponde a resíduos perigosos?;Classe A;Classe B;Classe D;Classe I;Classe I;Classe I segundo ABNT NBR 10004 são perigosos.
-Qual é a sigla do policloreto de vinila?;PVC;PET;PP;PS;PVC;PVC é a sigla do policloreto de vinila.
-Qual o número associado ao PEAD no símbolo de reciclagem?;1;2;4;6;2;PEAD tem o código ♴ 2.
-Qual material é comumente usado em sacolas plásticas?;PET;PVC;PEBD;PS;PEBD;Sacolas são geralmente de PEBD.
-Qual é o número de reciclagem do polipropileno (PP)?;3;5;7;6;5;PP tem o símbolo ♶ 5.
-Qual resíduo é Classe A segundo ABNT?;Resíduos perigosos;Resíduos recicláveis;Resíduos inertes;Resíduos não recicláveis;Resíduos recicláveis;Classe A representa recicláveis.
-Qual o principal uso do PET?;Tubulações;Garrafas;Revestimentos;Fios elétricos;Garrafas;PET é muito usado em garrafas plásticas.
-Qual sigla corresponde ao poliestireno?;PP;PEAD;PET;PS;PS;PS é a sigla de poliestireno.
-O símbolo ♸ representa quais materiais?;Plásticos convencionais;Papéis;Outros;Metais;Outros;♸ representa plásticos diversos não listados.
-Qual é a sigla do polipropileno?;PP;PS;PET;PVC;PP;PP é a sigla do polipropileno.
-Qual classe ABNT corresponde a resíduos inertes?;Classe C;Classe A;Classe II A;Classe II B;Classe II B;Resíduos inertes são Classe II B.
-Qual resíduo é mais comum em eletrônicos?;PVC;PET;PS;Policarbonato;Policarbonato;Plásticos como o policarbonato são usados em eletrônicos.
-Qual é o número de reciclagem para o PVC?;3;2;5;7;3;PVC tem o código ♵ 3.
-Qual o destino adequado para resíduos Classe II B?;Aterro industrial;Reciclagem;Compostagem;Aterro sanitário;Aterro sanitário;Classe II B devem ser enviados ao aterro sanitário.
+pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao
+Qual é o símbolo da reciclagem universal?;♳ PET;♻️ RECICLAGEM;♴ PEAD;♶ PP;1;A resposta correta é ♻️ RECICLAGEM.
+Qual é o código do PET (politereftalato de etileno)?;♳ PET;♴ PEAD;♶ PP;♷ PS;0;O símbolo ♳ representa o PET, usado em garrafas de água e refrigerante.
+Qual símbolo representa o PEAD (polietileno de alta densidade)?;♳ PET;♴ PEAD;♷ PS;♶ PP;1;O símbolo ♴ é usado para PEAD, comum em frascos de leite.
+Qual o símbolo do polipropileno?;♳ PET;♴ PEAD;♶ PP;♷ PS;2;O símbolo ♶ representa o polipropileno, usado em embalagens rígidas.
+Qual símbolo representa o poliestireno?;♷ PS;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♷ é usado para poliestireno (PS).
+Qual símbolo representa o PVC (policloreto de vinila)?;♸ PVC;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♸ é para PVC, usado em tubos e conexões.
+Qual símbolo indica materiais compostos ou outros plásticos?;♹ Outros;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♹ indica outros plásticos não especificados.
+Qual o significado do símbolo ♻️?;Reciclagem universal;Plástico reciclado;Produto biodegradável;Produto tóxico;0;O símbolo ♻️ indica reciclagem universal.
+Qual é o símbolo do polietileno de baixa densidade?;♵ PEBD;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♵ representa PEBD, usado em sacolas plásticas.
+Qual símbolo representa o polietileno tereftalato?;♳ PET;♴ PEAD;♶ PP;♷ PS;0;O símbolo ♳ é para PET, usado em garrafas.
+Qual símbolo está associado ao polipropileno?;♶ PP;♷ PS;♴ PEAD;♳ PET;0;O símbolo ♶ é para polipropileno.
+Qual símbolo indica o plástico PVC?;♸ PVC;♷ PS;♴ PEAD;♳ PET;0;O símbolo ♸ representa PVC.
+Qual símbolo é usado para plásticos diversos?;♹ Outros;♶ PP;♷ PS;♳ PET;0;O símbolo ♹ é para plásticos diversos.
+Qual símbolo representa poliestireno?;♷ PS;♴ PEAD;♳ PET;♶ PP;0;O símbolo ♷ é para poliestireno.
+Qual símbolo indica o polietileno de baixa densidade?;♵ PEBD;♶ PP;♷ PS;♳ PET;0;O símbolo ♵ indica PEBD.
+Qual símbolo representa o PET reciclado?;♻️ RECICLAGEM;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♻️ é para material reciclado.
+Qual símbolo representa plástico biodegradável?;🌿 Biodegradável;♳ PET;♴ PEAD;♶ PP;0;O símbolo 🌿 indica material biodegradável.
+Qual símbolo indica material tóxico?;☠️ Tóxico;♳ PET;♴ PEAD;♶ PP;0;O símbolo ☠️ indica material tóxico.
+Qual símbolo representa a reutilização?;🔄 Reutilização;♳ PET;♴ PEAD;♶ PP;0;O símbolo 🔄 indica reutilização.
+
 
