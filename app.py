@@ -328,9 +328,9 @@ def main():
         mostrar_compostagem()
     with tab6:
         mostrar_quimica()
-    with tab7:
-        st.header("Sobre o Projeto")
-        st.markdown("""
+   with tab7:
+    st.header("Sobre o Projeto")
+    st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
@@ -339,7 +339,8 @@ def main():
 **Autor:** nome alunos e prof  
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
-        """)
+""")
+
 
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
