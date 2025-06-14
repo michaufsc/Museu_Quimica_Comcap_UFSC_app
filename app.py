@@ -337,7 +337,7 @@ def main():
 - Integrado com atividades pedagógicas  
 
 **Autor:** nome alunos e prof  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
+"**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h\-a)"
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
 
