@@ -1,22 +1,21 @@
 pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao
-Qual é o símbolo da reciclagem universal?;♳ PET;♻️ RECICLAGEM;♴ PEAD;♶ PP;1;A resposta correta é ♻️ RECICLAGEM.
-Qual é o código do PET (politereftalato de etileno)?;♳ PET;♴ PEAD;♶ PP;♷ PS;0;O símbolo ♳ representa o PET, usado em garrafas de água e refrigerante.
-Qual símbolo representa o PEAD (polietileno de alta densidade)?;♳ PET;♴ PEAD;♷ PS;♶ PP;1;O símbolo ♴ é usado para PEAD, comum em frascos de leite.
-Qual o símbolo do polipropileno?;♳ PET;♴ PEAD;♶ PP;♷ PS;2;O símbolo ♶ representa o polipropileno, usado em embalagens rígidas.
-Qual símbolo representa o poliestireno?;♷ PS;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♷ é usado para poliestireno (PS).
-Qual símbolo representa o PVC (policloreto de vinila)?;♸ PVC;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♸ é para PVC, usado em tubos e conexões.
-Qual símbolo indica materiais compostos ou outros plásticos?;♹ Outros;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♹ indica outros plásticos não especificados.
-Qual o significado do símbolo ♻️?;Reciclagem universal;Plástico reciclado;Produto biodegradável;Produto tóxico;0;O símbolo ♻️ indica reciclagem universal.
-Qual é o símbolo do polietileno de baixa densidade?;♵ PEBD;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♵ representa PEBD, usado em sacolas plásticas.
-Qual símbolo representa o polietileno tereftalato?;♳ PET;♴ PEAD;♶ PP;♷ PS;0;O símbolo ♳ é para PET, usado em garrafas.
-Qual símbolo está associado ao polipropileno?;♶ PP;♷ PS;♴ PEAD;♳ PET;0;O símbolo ♶ é para polipropileno.
-Qual símbolo indica o plástico PVC?;♸ PVC;♷ PS;♴ PEAD;♳ PET;0;O símbolo ♸ representa PVC.
-Qual símbolo é usado para plásticos diversos?;♹ Outros;♶ PP;♷ PS;♳ PET;0;O símbolo ♹ é para plásticos diversos.
-Qual símbolo representa poliestireno?;♷ PS;♴ PEAD;♳ PET;♶ PP;0;O símbolo ♷ é para poliestireno.
-Qual símbolo indica o polietileno de baixa densidade?;♵ PEBD;♶ PP;♷ PS;♳ PET;0;O símbolo ♵ indica PEBD.
-Qual símbolo representa o PET reciclado?;♻️ RECICLAGEM;♳ PET;♴ PEAD;♶ PP;0;O símbolo ♻️ é para material reciclado.
-Qual símbolo representa plástico biodegradável?;🌿 Biodegradável;♳ PET;♴ PEAD;♶ PP;0;O símbolo 🌿 indica material biodegradável.
-Qual símbolo indica material tóxico?;☠️ Tóxico;♳ PET;♴ PEAD;♶ PP;0;O símbolo ☠️ indica material tóxico.
-Qual símbolo representa a reutilização?;🔄 Reutilização;♳ PET;♴ PEAD;♶ PP;0;O símbolo 🔄 indica reutilização.
-
-
+Qual é o símbolo da reciclagem universal?;♳ PET;♻️ RECICLAGEM;♴ PEAD;♶ PP;1;O símbolo ♻️ representa a reciclagem universal.
+Qual tipo de resíduo é considerado lixo orgânico?;Restos de alimentos;Papel;Vidro;Plástico;0;Resíduos orgânicos são restos de alimentos e materiais biodegradáveis.
+O que é a coleta seletiva?;Separação dos resíduos por tipo para reciclagem;Coleta de todos os resíduos juntos;Queima de lixo;Descarte em rios;0;Coleta seletiva facilita a reciclagem e evita contaminação.
+Qual a função do símbolo ♶?;Representar o polipropileno;Identificar vidro;Indicar lixo tóxico;Simbolizar alumínio;0;♶ é o símbolo do polipropileno, usado em embalagens rígidas.
+Qual cor representa os recipientes para vidro na coleta seletiva?;Verde;Azul;Vermelho;Amarelo;0;O verde é usado para coleta de vidro.
+Como deve ser descartado o óleo de cozinha usado?;Em recipientes para reciclagem;Na pia;No lixo comum;No vaso sanitário;0;Óleo deve ser recolhido para reciclagem e evitar poluição da água.
+Qual é o principal problema do descarte inadequado de resíduos?;Contaminação do solo e da água;Aumento da reciclagem;Economia de espaço;Geração de energia;0;Descarte inadequado causa sérios danos ambientais.
+Qual símbolo representa o PVC (policloreto de vinila)?;♸ PVC;♳ PET;♴ PEAD;♶ PP;0;♸ indica PVC, usado em tubos e conexões.
+O que é compostagem?;Processo de decomposição de resíduos orgânicos;Queima de resíduos;Reciclagem de plástico;Descarte em aterro;0;Compostagem transforma resíduos orgânicos em adubo natural.
+Qual é o impacto do plástico no meio ambiente?;Demora para se decompor e polui;É biodegradável;Ajuda na fertilização;Não tem impacto;0;Plástico demora muito para decompor e causa poluição.
+Qual é a cor da coleta seletiva para papel e papelão?;Azul;Verde;Vermelho;Amarelo;0;O azul é usado para papel e papelão.
+Qual símbolo indica materiais compostos ou outros plásticos?;♹ Outros;♳ PET;♴ PEAD;♶ PP;0;♹ indica outros plásticos não especificados.
+Qual órgão fiscaliza a gestão de resíduos no Brasil?;IBAMA;ANVISA;INMETRO;Petrobras;0;O IBAMA é responsável pela fiscalização ambiental.
+O que deve ser feito com resíduos hospitalares?;Descarte controlado e tratamento especial;Jogar no lixo comum;Queimar em casa;Reciclar;0;Resíduos hospitalares exigem tratamento especial para evitar contaminação.
+Qual é a principal vantagem da reciclagem?;Reduz o volume de resíduos e economiza recursos naturais;Aumenta o lixo;Polui mais;Aumenta custos;0;Reciclagem ajuda a conservar o meio ambiente.
+Qual símbolo representa o polietileno de alta densidade?;♴ PEAD;♳ PET;♷ PS;♶ PP;0;♴ é o símbolo do PEAD, comum em frascos e embalagens.
+Qual é a importância da educação ambiental na gestão de resíduos?;Conscientizar para reduzir o lixo;Aumentar produção de lixo;Incentivar descarte irregular;Nenhuma;0;Educação ambiental promove práticas sustentáveis e redução do lixo.
+Qual símbolo indica o plástico PVC?;♸ PVC;♷ PS;♴ PEAD;♳ PET;0;♸ representa o PVC.
+O que são resíduos recicláveis?;Materiais que podem ser transformados em novos produtos;Resíduos orgânicos;Resíduos tóxicos;Resíduos hospitalares;0;Recicláveis são materiais reaproveitados na cadeia produtiva.
+Qual símbolo representa o PET (polietileno tereftalato)?;♳ PET;♴ PEAD;♶ PP;♷ PS;0;♳ é o símbolo do PET, usado em garrafas e embalagens.
