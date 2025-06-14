@@ -159,25 +159,31 @@ def mostrar_quiz():
 
 # Função: história do Museu
 def mostrar_historia():
-    st.header("🏛️ História do Museu do Lixo")
+    st.header("🏛️ Museu do Lixo – História e Agenda")
 
     st.markdown("""
-O Museu do Lixo, instalado pela Comcap em 25 de setembro de 2003, tornou-se uma referência em educação ambiental em Santa Catarina. Sua abordagem lúdica e acessível reforça conceitos de consumo consciente com base nos quatro erres (4Rs): Repensar, Reduzir, Reutilizar e Reciclar.
+O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou-se uma referência em **educação ambiental** em Santa Catarina. Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos quatro érres (4Rs): **Repensar, Reduzir, Reutilizar e Reciclar**.
 
-O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam resgatar objetos descartados para criar um espaço de memória sobre os hábitos de consumo da sociedade.
+O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** para criar um espaço de memória sobre os hábitos de consumo da sociedade.
 
-As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em ambientes temáticos, montados e decorados com materiais reaproveitados — desde as tintas das paredes até a mandala do piso, tudo foi feito com resíduos reciclados.
+As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em **ambientes temáticos**, montados e decorados com **materiais reaproveitados** — desde as tintas das paredes até a mandala do piso, tudo feito com resíduos reciclados.
 
-🕓 Horário de Funcionamento
-📅 Segunda a sexta-feira
+---
+
+### 🕓 Horário de Funcionamento  
+📅 Segunda a sexta-feira  
 🕗 Das 8h às 17h
 
-Visitas monitoradas devem ser agendadas:
-📞 (48) 3261-4808
+**Visitas monitoradas devem ser agendadas:**  
+📞 (48) 3261-4808  
 📧 ambiental.comcap@pmf.sc.gov.br
 
-📍 Localização
+---
+
+### 📍 Localização  
 Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
+""")
+
 
 # Função: compostagem
 def mostrar_compostagem():
