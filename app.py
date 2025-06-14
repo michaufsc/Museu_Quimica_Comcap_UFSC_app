@@ -4,7 +4,7 @@ import pandas as pd
 import random
 import os
 from PIL import Image
-
+# -*- coding: utf-8 -*-
 # Configuração da página
 st.set_page_config(
     page_title="Sistema Completo de Resíduos",
