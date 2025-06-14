@@ -1,10 +1,17 @@
 import streamlit as st
 import pandas as pd
 import random
-from PIL import Image
 import os
+from PIL import Image
 
-# Configuração dos símbolos de reciclagem
+# Configuração da página
+st.set_page_config(
+    page_title="Glossário de Resíduos com Quiz",
+    page_icon="♻️",
+    layout="wide"
+)
+
+# Dados dos símbolos de reciclagem
 RECYCLING_SYMBOLS = {
     "PET": "♷",
     "PEAD": "♴",
@@ -15,7 +22,20 @@ RECYCLING_SYMBOLS = {
     "OUTROS": "♻"
 }
 
-# Função para exibir símbolos com estilo
+# Função para carregar dados
+@st.cache_data
+def load_data():
+    try:
+        polimeros = pd.read_csv("polimeros.csv", sep=";")
+        residuos = pd.read_csv("residuos.csv", sep=";")
+        return polimeros, residuos
+    except Exception as e:
+        st.error(f"Erro ao carregar dados: {e}")
+        return pd.DataFrame(), pd.DataFrame()
+
+polimeros, residuos = load_data()
+
+# Função para exibir símbolos
 def display_symbol(symbol):
     return f"""
     <div style="
@@ -32,11 +52,11 @@ def display_symbol(symbol):
     </div>
     """
 
-# Gerar perguntas do quiz com símbolos melhorados
+# Gerar perguntas do quiz
 def generate_quiz_questions():
     questions = []
     
-    # Perguntas sobre símbolos de reciclagem
+    # Perguntas sobre polímeros
     for _, row in polimeros.iterrows():
         symbol = row.get('Símbolo Reciclagem', RECYCLING_SYMBOLS.get(row['Sigla'], '♻'))
         wrong_symbols = random.sample(
@@ -52,12 +72,25 @@ def generate_quiz_questions():
             "tipo": "symbol"
         })
     
-    # Outras perguntas (mantenha suas perguntas existentes)
-    # ...
+    # Perguntas sobre resíduos
+    for _, row in residuos.iterrows():
+        questions.append({
+            "pergunta": f"Como classificar {row['Categoria']} ({row['Sigla ou Nome']}) segundo a ABNT?",
+            "opcoes": [
+                row['Classe ABNT'],
+                random.choice(residuos['Classe ABNT'].unique()),
+                random.choice(residuos['Classe ABNT'].unique()),
+                "Não classificável"
+            ],
+            "resposta": 0,
+            "explicacao": f"Classificação correta: {row['Classe ABNT']}",
+            "tipo": "text"
+        })
     
-    return random.sample(questions, min(20, len(questions)))
+    random.shuffle(questions)
+    return questions[:10]  # Limita a 10 perguntas para demonstração
 
-# Função do Quiz com símbolos melhorados
+# Função do Quiz
 def mostrar_quiz():
     st.header("🧠 Quiz de Identificação de Resíduos")
     
@@ -72,8 +105,7 @@ def mostrar_quiz():
         st.subheader(f"Pergunta {st.session_state.current_question + 1}/{len(st.session_state.questions)}")
         st.markdown(f"**{question['pergunta']}**", unsafe_allow_html=True)
         
-        # Exibição especial para perguntas com símbolos
-        if question.get('tipo') == 'symbol':
+        if question['tipo'] == 'symbol':
             cols = st.columns(4)
             for i, option in enumerate(question['opcoes']):
                 with cols[i]:
@@ -113,4 +145,50 @@ def reset_quiz():
     st.session_state.score = 0
     st.experimental_rerun()
 
-# [Restante do seu código permanece igual...]
+# Função do Glossário
+def mostrar_glossario():
+    st.header("📖 Glossário de Resíduos e Polímeros")
+    
+    dataset = st.radio(
+        "Selecione a base de dados:",
+        ["Polímeros", "Resíduos"],
+        horizontal=True
+    )
+    
+    df = polimeros if dataset == "Polímeros" else residuos
+    
+    search_term = st.text_input("🔍 Buscar por termo:")
+    
+    if search_term:
+        mask = df.apply(
+            lambda row: row.astype(str).str.contains(search_term, case=False).any(),
+            axis=1
+        )
+        df = df[mask]
+    
+    for _, row in df.iterrows():
+        st.subheader(row['Nome'] if 'Nome' in row else row['Categoria'])
+        st.markdown(f"""
+        **Sigla:** {row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']}  
+        **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
+        **Reciclável:** {row.get('Reciclável', '-')}  
+        **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
+        """)
+        st.divider()
+
+# Interface principal
+def main():
+    tab1, tab2 = st.tabs(["📖 Glossário", "🧠 Quiz"])
+    
+    with tab1:
+        mostrar_glossario()
+    
+    with tab2:
+        mostrar_quiz()
+
+if __name__ == "__main__":
+    # Verificar se os arquivos existem
+    if not os.path.exists("polimeros.csv") or not os.path.exists("residuos.csv"):
+        st.error("Arquivos CSV não encontrados. Certifique-se que 'polimeros.csv' e 'residuos.csv' estão na mesma pasta do script.")
+    else:
+        main()
