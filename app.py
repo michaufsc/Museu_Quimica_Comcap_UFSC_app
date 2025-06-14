@@ -110,7 +110,6 @@ def mostrar_quiz():
     questions = st.session_state.questions
     q_num = st.session_state.current_question
 
-    # Se terminou o quiz, mostrar resultado final
     if q_num >= len(questions):
         score = st.session_state.score
         total = len(questions)
@@ -129,16 +128,13 @@ def mostrar_quiz():
             st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
 
         if st.button("Refazer Quiz"):
-            del st.session_state.questions
-            del st.session_state.current_question
-            del st.session_state.score
+            for key in ['questions', 'current_question', 'score']:
+                if key in st.session_state:
+                    del st.session_state[key]
             st.experimental_rerun()
+        return
 
-        return  # Para não mostrar mais perguntas
-
-    # Mostrar pergunta atual
     question = questions[q_num]
-
     st.progress((q_num + 1) / len(questions))
     st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
     st.markdown(f"**{question['pergunta']}**")
@@ -152,15 +148,14 @@ def mostrar_quiz():
             st.session_state[f"correta_{q_num}"] = correta
             if correta:
                 st.session_state.score += 1
-
-    if f"respondido_{q_num}" in st.session_state:
+    else:
         correta = st.session_state[f"correta_{q_num}"]
         if correta:
             st.success(f"✅ Correto! {question['explicacao']}")
         else:
             st.error(f"❌ Errado. {question['explicacao']}")
 
-        if st.button("Próxima pergunta"):
+        if st.button("Próxima pergunta", key=f"next_{q_num}"):
             st.session_state.current_question += 1
             st.experimental_rerun()
 
