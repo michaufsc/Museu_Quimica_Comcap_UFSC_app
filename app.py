@@ -5,24 +5,15 @@ import os
 
 # Configuração da página
 st.set_page_config(
-    page_title="Glossário com Imagens Específicas",
+    page_title="Glossário de Resíduos com Imagens",
     page_icon="♻️",
     layout="wide"
 )
 
-# Pasta onde as imagens estão armazenadas
+# Configuração de caminhos
 IMAGES_DIR = "imagens_materiais"
 
-# Dicionário de mapeamento de material para imagem (atualize com seus arquivos)
-MATERIAL_IMAGES = {
-    "PET": "pet.jpg",
-    "PEAD": "pead.jpg",
-    "PVC": "pvc.jpg",
-    "PLA": "pla.jpg",
-    # Adicione todos os mapeamentos necessários
-}
-
-# Função para carregar dados
+# Função para carregar dados com cache
 @st.cache_data
 def load_data(file_path):
     try:
@@ -35,33 +26,42 @@ def load_data(file_path):
 polimeros = load_data("polimeros.csv")
 residuos = load_data("residuos.csv")
 
-# Função para mostrar material com imagem
-def show_material(row):
-    # Obter a sigla do material
+# Função para exibir material com imagem
+def display_material(row):
     sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
+    image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.jpg")
     
-    # Verificar se existe imagem para este material
-    image_path = os.path.join(IMAGES_DIR, MATERIAL_IMAGES.get(sigla, ""))
+    col1, col2 = st.columns([1, 3])
     
-    if os.path.exists(image_path):
-        img = Image.open(image_path)
-        st.image(img, caption=sigla, width=200)
-    else:
-        st.warning(f"Imagem não encontrada para {sigla}")
+    with col1:
+        if os.path.exists(image_path):
+            st.image(Image.open(image_path), 
+                   caption=f"Imagem de {sigla}",
+                   width=200)
+        else:
+            st.warning("Imagem não disponível")
     
-    st.markdown(f"""
-    **Nome:** {row['Nome'] if 'Nome' in row else row['Categoria']}  
-    **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
-    **Reciclável:** {row.get('Reciclável', '-')}  
-    **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
-    """)
+    with col2:
+        st.markdown(f"""
+        ### {row['Nome'] if 'Nome' in row else row['Categoria']} ({sigla})
+        
+        **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
+        **Composição:** {row.get('Composição Química', '-')}  
+        **Reciclável:** {row.get('Reciclável', '-')}  
+        **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}  
+        **Impacto Ambiental:** {row.get('Impacto Ambiental', row.get('Perigo Potencial', '-'))}
+        """)
 
 # Interface principal
 def main():
-    st.title("♻️ Glossário de Materiais com Imagens")
+    st.title("🔍 Glossário Interativo de Resíduos")
     
-    # Seleção de dataset
-    dataset = st.selectbox("Selecione o tipo de material:", ["Polímeros", "Resíduos"])
+    # Seleção do dataset
+    dataset = st.radio(
+        "Selecione a base de dados:",
+        ["Polímeros", "Resíduos"],
+        horizontal=True
+    )
     
     df = polimeros if dataset == "Polímeros" else residuos
     
@@ -69,22 +69,31 @@ def main():
         st.warning("Dados não carregados corretamente.")
         return
     
-    # Filtro por material
-    selected_material = st.selectbox(
-        "Selecione o material:",
-        options=df['Sigla'].unique() if 'Sigla' in df.columns else df['Sigla ou Nome'].unique()
-    )
+    # Sistema de busca
+    search_term = st.text_input("Buscar por material, aplicação ou característica:")
     
-    # Obter dados do material selecionado
-    material_data = df[df['Sigla'] == selected_material] if 'Sigla' in df.columns else df[df['Sigla ou Nome'] == selected_material]
-    
-    if not material_data.empty:
-        show_material(material_data.iloc[0])
+    # Filtragem dos dados
+    if search_term:
+        mask = df.apply(
+            lambda row: row.astype(str).str.contains(search_term, case=False).any(),
+            axis=1
+        )
+        filtered_df = df[mask]
     else:
-        st.error("Material não encontrado")
+        filtered_df = df
+    
+    # Exibição dos resultados
+    if filtered_df.empty:
+        st.warning("Nenhum material encontrado com os critérios de busca.")
+    else:
+        st.subheader(f"Resultados ({len(filtered_df)} encontrados)")
+        
+        for _, row in filtered_df.iterrows():
+            display_material(row)
+            st.divider()
 
+# Verificação e execução
 if __name__ == "__main__":
-    # Verificar se a pasta de imagens existe
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
         st.warning(f"Pasta '{IMAGES_DIR}' criada. Adicione suas imagens lá.")
