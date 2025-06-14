@@ -12,7 +12,7 @@ st.set_page_config(
 @st.cache_data
 def carregar_dados(arquivo):
     try:
-        return pd.read_csv(arquivo, encoding='utf-8', quotechar='"', sep=';')  # sep ajustável
+        return pd.read_csv(arquivo, encoding='utf-8', quotechar='"', sep=';')
     except Exception as e:
         st.error(f"Erro ao carregar {arquivo}: {str(e)}")
         return pd.DataFrame()
@@ -41,8 +41,8 @@ if menu == "Resíduos":
             classes = df["Classe ABNT"].unique() if "Classe ABNT" in df.columns else []
             reciclaveis = df["Reciclável"].unique() if "Reciclável" in df.columns else []
 
-            categorias_sel = st.multiselect("Categoria", options=categorias, default=categorias) if categorias.size > 0 else []
-            classes_sel = st.multiselect("Classe ABNT", options=classes, default=classes) if classes.size > 0 else []
+            categorias_sel = st.multiselect("Categoria", options=categorias, default=categorias) if len(categorias) > 0 else []
+            classes_sel = st.multiselect("Classe ABNT", options=classes, default=classes) if len(classes) > 0 else []
             reciclavel_sel = st.selectbox("Reciclável", ["Todos"] + list(reciclaveis)) if len(reciclaveis) > 0 else "Todos"
         
         # Aplicar filtros
@@ -72,7 +72,7 @@ elif menu == "Polímeros":
             tipos = df["Tipo de Polimerização"].unique() if "Tipo de Polimerização" in df.columns else []
             reciclaveis = df["Reciclável"].unique() if "Reciclável" in df.columns else []
 
-            tipos_sel = st.multiselect("Tipo de Polimerização", options=tipos, default=tipos) if tipos.size > 0 else []
+            tipos_sel = st.multiselect("Tipo de Polimerização", options=tipos, default=tipos) if len(tipos) > 0 else []
             reciclavel_sel = st.selectbox("Reciclável", ["Todos"] + list(reciclaveis)) if len(reciclaveis) > 0 else "Todos"
         
         # Aplicar filtros
