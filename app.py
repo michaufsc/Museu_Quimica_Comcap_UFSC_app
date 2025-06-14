@@ -8,11 +8,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# Função para carregar dados com tratamento de erros
+# Função segura para carregar dados
 @st.cache_data
 def carregar_dados(arquivo):
     try:
-        return pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
+        df = pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
+        return df
     except Exception as e:
         st.error(f"Erro ao carregar {arquivo}: {str(e)}")
         return pd.DataFrame()
@@ -33,10 +34,11 @@ if menu == "Resíduos":
     if not df.empty:
         st.header("Glossário de Resíduos")
         
-        # Filtros na sidebar
+        # Filtros
         with st.sidebar:
             st.subheader("Filtros")
             
+            # Verifica e cria filtros apenas para colunas existentes
             if 'Categoria' in df.columns:
                 categorias = st.multiselect(
                     "Categoria",
@@ -68,13 +70,13 @@ if menu == "Resíduos":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if categorias:
+        if categorias and 'Categoria' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Categoria"].isin(categorias)]
         
-        if classes:
+        if classes and 'Classe ABNT' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Classe ABNT"].isin(classes)]
         
-        if reciclavel != "Todos":
+        if reciclavel != "Todos" and 'Reciclável' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
@@ -93,7 +95,7 @@ elif menu == "Polímeros":
     if not df.empty:
         st.header("Glossário de Polímeros")
         
-        # Filtros na sidebar
+        # Filtros
         with st.sidebar:
             st.subheader("Filtros")
             
@@ -119,10 +121,10 @@ elif menu == "Polímeros":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if tipos:
+        if tipos and 'Tipo de Polimerização' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Tipo de Polimerização"].isin(tipos)]
         
-        if reciclavel != "Todos":
+        if reciclavel != "Todos" and 'Reciclável' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
