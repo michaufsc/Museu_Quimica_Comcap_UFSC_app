@@ -21,34 +21,29 @@ def load_data():
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
 
+# Cache para carregar quiz
 @st.cache_data
 def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
     questions = []
-
     for _, row in df.iterrows():
         opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
-        random.shuffle(opcoes)
-        resposta_index = opcoes.index(str(row['resposta_correta']))
-
         questions.append({
             "pergunta": row['pergunta'],
             "opcoes": opcoes,
-            "resposta": resposta_index,
-            "explicacao": f"A resposta correta é {row['resposta_correta']}."
+            "resposta": int(row['resposta']),
+            "explicacao": row['explicacao']
         })
-
+    random.shuffle(questions)
     return questions
 
 polimeros, residuos = load_data()
 
-# Glossário com imagens
+# Função: glossário interativo
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
-
     dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
     df = polimeros if dataset == "Polímeros" else residuos
-
     search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
 
     if search_term:
@@ -58,7 +53,6 @@ def mostrar_glossario():
     for _, row in df.iterrows():
         sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
         image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.jpg")
-
         col1, col2 = st.columns([1, 3])
 
         with col1:
@@ -69,20 +63,18 @@ def mostrar_glossario():
 
         with col2:
             st.markdown(f"""
-            **Nome:** {row['Nome'] if 'Nome' in row else row['Categoria']}  
+            **Nome:** {row.get('Nome', row.get('Categoria'))}  
             **Sigla:** {sigla}  
             **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
             **Composição:** {row.get('Composição Química', '-')}  
             **Reciclável:** {row.get('Reciclável', '-')}  
             **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
             """)
-
         st.divider()
 
-# Atividades por nível de ensino
+# Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
-
     tab1, tab2, tab3 = st.tabs(["Fundamental", "Médio", "Superior"])
 
     with tab1:
@@ -106,7 +98,7 @@ def mostrar_atividades():
         **Materiais:** Dados de produção e decomposição
         """)
 
-# Quiz com perguntas fixas de CSV
+# Função: quiz interativo
 def mostrar_quiz():
     st.header("🧠 Quiz de Resíduos e Polímeros")
 
@@ -127,16 +119,24 @@ def mostrar_quiz():
 
         selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
 
-        if st.button("Confirmar", key=f"b{q_num}"):
-            if selected == question['opcoes'][question['resposta']]:
+        if f"respondido_{q_num}" not in st.session_state:
+            if st.button("Confirmar", key=f"b{q_num}"):
+                st.session_state[f"respondido_{q_num}"] = True
+                correta = selected == question['opcoes'][question['resposta']]
+                st.session_state[f"correta_{q_num}"] = correta
+                if correta:
+                    st.session_state.score += 1
+
+        if f"respondido_{q_num}" in st.session_state:
+            correta = st.session_state[f"correta_{q_num}"]
+            if correta:
                 st.success(f"✅ Correto! {question['explicacao']}")
-                st.session_state.score += 1
             else:
                 st.error(f"❌ Errado. {question['explicacao']}")
 
-            st.session_state.current_question += 1
-            st.experimental_rerun()
-
+            if st.button("Próxima pergunta"):
+                st.session_state.current_question += 1
+                st.experimental_rerun()
     else:
         score = st.session_state.score
         total = len(questions)
@@ -155,12 +155,10 @@ def mostrar_quiz():
             st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
 
         if st.button("Refazer Quiz"):
-            st.session_state.questions = load_quiz()
-            st.session_state.current_question = 0
-            st.session_state.score = 0
+            del st.session_state.questions
             st.experimental_rerun()
 
-# Interface principal
+# Função principal
 def main():
     tab1, tab2, tab3, tab4 = st.tabs([
         "🏷️ Glossário",
@@ -171,15 +169,12 @@ def main():
 
     with tab1:
         mostrar_glossario()
-
     with tab2:
         mostrar_quiz()
-
     with tab3:
         mostrar_atividades()
-
     with tab4:
-        st.header("ℹ️ Sobre o Projeto")
+        st.header("Sobre o Projeto")
         st.markdown("""
         **Glossário Interativo de Resíduos e Polímeros**  
         - Desenvolvido para educação ambiental  
