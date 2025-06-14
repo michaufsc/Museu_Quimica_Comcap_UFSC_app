@@ -172,10 +172,61 @@ def mostrar_compostagem():
     st.header("🌱 Compostagem com Resíduos Orgânicos")
 
     st.markdown("""
-A compostagem artesanal, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais.
+A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais. Além disso, a separação correta dos resíduos facilita a destinação dos recicláveis secos para a coleta seletiva.
+""")
 
-[...Texto reduzido para fins de visualização...]
-    """)
+    st.subheader("✅ O que pode ir para a compostagem:")
+    st.markdown("""
+- Cascas de frutas e de ovos  
+- Sobras de verduras e legumes  
+- Restos de comida (sem excesso de sal ou gordura)  
+- Borra de café ou chimarrão  
+- Filtro de papel do café  
+- Aparas de grama  
+- Folhas secas  
+- Palhas, serragem e pequenos galhos
+""")
+
+    st.subheader("⚠️ O que NÃO deve ir para a compostagem:")
+    st.markdown("""
+- Carnes, laticínios e peixes  
+- Excrementos de animais domésticos  
+- Óleos, gorduras e produtos químicos  
+- Itens sanitários ou plásticos
+""")
+
+    st.subheader("🧪 Como funciona a compostagem")
+    st.markdown("""
+A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica. Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico** — uma terra escura, fértil e rica em nutrientes.
+
+Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajudando a regenerar o solo e fechar o ciclo dos alimentos.
+""")
+
+    st.subheader("📊 Dados de Florianópolis")
+    st.markdown("""
+- **35%** dos resíduos domiciliares são orgânicos  
+  - 24%: restos de alimentos  
+  - 11%: resíduos verdes (podas, folhas, jardinagem)  
+- **43%** são recicláveis secos  
+- **22%** são rejeitos (lixo não reciclável)
+
+Das **193 mil toneladas** coletadas anualmente, **70 mil toneladas** são resíduos orgânicos. Separando-os na fonte, evitaríamos o envio de **27 caminhões de lixo por dia** ao aterro de Biguaçu.
+""")
+
+    st.subheader("💰 Economia e benefícios")
+    st.markdown("""
+Cada tonelada aterrada custa **R$ 156,81** ao município.  
+Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano**, além de reduzir impactos ambientais e melhorar a qualidade do solo urbano.
+""")
+
+    st.subheader("📚 Materiais e links úteis")
+    st.markdown("""
+- 📘 [**Manual de Compostagem com Minhocas – Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
+- 🎥 [**Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
+- 📗 [**Manual de Compostagem – MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
+- 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
+""")
+
 
 # Função principal
 def main():
