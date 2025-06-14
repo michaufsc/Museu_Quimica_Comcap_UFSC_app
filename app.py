@@ -33,6 +33,9 @@ if menu == "Resíduos":
     if not df.empty:
         st.header("📘 Glossário de Resíduos")
         
+        # Campo de busca
+        busca = st.text_input("🔍 Buscar por termo (ex: plástico, hospitalar, alimentos):", key="busca_residuos")
+
         # Filtros
         with st.sidebar:
             st.subheader("Filtros")
@@ -54,6 +57,8 @@ if menu == "Resíduos":
             df_filtrado = df_filtrado[df_filtrado["Classe ABNT"].isin(classes_sel)]
         if reciclavel_sel != "Todos":
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel_sel]
+        if busca:
+            df_filtrado = df_filtrado[df_filtrado.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
         
         # Exibição
         st.dataframe(df_filtrado, use_container_width=True, height=500)
@@ -64,6 +69,9 @@ elif menu == "Polímeros":
     
     if not df.empty:
         st.header("🧪 Glossário de Polímeros")
+
+        # Campo de busca
+        busca = st.text_input("🔍 Buscar por termo (ex: PET, biodegradável, PLA):", key="busca_polimeros")
         
         # Filtros
         with st.sidebar:
@@ -81,6 +89,8 @@ elif menu == "Polímeros":
             df_filtrado = df_filtrado[df_filtrado["Tipo de Polimerização"].isin(tipos_sel)]
         if reciclavel_sel != "Todos":
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel_sel]
+        if busca:
+            df_filtrado = df_filtrado[df_filtrado.apply(lambda row: busca.lower() in str(row).lower(), axis=1)]
         
         # Exibição
         st.dataframe(df_filtrado, use_container_width=True, height=500)
