@@ -11,14 +11,17 @@ st.set_page_config(
     layout="wide"
 )
 
+# Diretório de imagens
 IMAGES_DIR = "imagens_materiais"
 
+# Cache para carregar dados
 @st.cache_data
 def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
 
+# Cache para carregar quiz
 @st.cache_data
 def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
@@ -36,6 +39,7 @@ def load_quiz():
 
 polimeros, residuos = load_data()
 
+# Função: glossário interativo
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
     dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
@@ -46,17 +50,9 @@ def mostrar_glossario():
         mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)
         df = df[mask]
 
-    # Define nome da coluna sigla de forma segura
-    if "Sigla" in df.columns:
-        sigla_col = "Sigla"
-    elif "Sigla ou Nome" in df.columns:
-        sigla_col = "Sigla ou Nome"
-    else:
-        sigla_col = None  # Caso nenhuma coluna exista
-
     for _, row in df.iterrows():
-        sigla = row[sigla_col] if sigla_col else "sem_sigla"
-        image_path = os.path.join(IMAGES_DIR, f"{str(sigla).strip().lower()}.jpg")
+        sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
+        image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.jpg")
         col1, col2 = st.columns([1, 3])
 
         with col1:
@@ -67,15 +63,16 @@ def mostrar_glossario():
 
         with col2:
             st.markdown(f"""
-            **Nome:** {row.get('Nome', row.get('Categoria', '-'))}  
+            **Nome:** {row.get('Nome', row.get('Categoria'))}  
             **Sigla:** {sigla}  
             **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
             **Composição:** {row.get('Composição Química', '-')}  
             **Reciclável:** {row.get('Reciclável', '-')}  
             **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
             """)
-        st.markdown("---")
+        st.divider()
 
+# Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
     tab1, tab2, tab3 = st.tabs(["Fundamental", "Médio", "Superior"])
@@ -101,6 +98,7 @@ def mostrar_atividades():
         **Materiais:** Dados de produção e decomposição
         """)
 
+# Função: quiz interativo corrigida
 def mostrar_quiz():
     st.header("🧠 Quiz de Resíduos e Polímeros")
 
@@ -112,34 +110,8 @@ def mostrar_quiz():
     questions = st.session_state.questions
     q_num = st.session_state.current_question
 
-    if q_num < len(questions):
-        question = questions[q_num]
-
-        st.progress((q_num + 1) / len(questions))
-        st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
-        st.markdown(f"**{question['pergunta']}**")
-
-        selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
-
-        if f"respondido_{q_num}" not in st.session_state:
-            if st.button("Confirmar", key=f"b{q_num}"):
-                st.session_state[f"respondido_{q_num}"] = True
-                correta = selected == question['opcoes'][question['resposta']]
-                st.session_state[f"correta_{q_num}"] = correta
-                if correta:
-                    st.session_state.score += 1
-
-        if f"respondido_{q_num}" in st.session_state:
-            correta = st.session_state[f"correta_{q_num}"]
-            if correta:
-                st.success(f"✅ Correto! {question['explicacao']}")
-            else:
-                st.error(f"❌ Errado. {question['explicacao']}")
-
-            if st.button("Próxima pergunta"):
-                st.session_state.current_question += 1
-                st.experimental_rerun()
-    else:
+    # Se terminou o quiz, mostrar resultado final
+    if q_num >= len(questions):
         score = st.session_state.score
         total = len(questions)
         percentual = score / total
@@ -158,8 +130,41 @@ def mostrar_quiz():
 
         if st.button("Refazer Quiz"):
             del st.session_state.questions
+            del st.session_state.current_question
+            del st.session_state.score
             st.experimental_rerun()
 
+        return  # Para não mostrar mais perguntas
+
+    # Mostrar pergunta atual
+    question = questions[q_num]
+
+    st.progress((q_num + 1) / len(questions))
+    st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
+    st.markdown(f"**{question['pergunta']}**")
+
+    selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
+
+    if f"respondido_{q_num}" not in st.session_state:
+        if st.button("Confirmar", key=f"b{q_num}"):
+            st.session_state[f"respondido_{q_num}"] = True
+            correta = selected == question['opcoes'][question['resposta']]
+            st.session_state[f"correta_{q_num}"] = correta
+            if correta:
+                st.session_state.score += 1
+
+    if f"respondido_{q_num}" in st.session_state:
+        correta = st.session_state[f"correta_{q_num}"]
+        if correta:
+            st.success(f"✅ Correto! {question['explicacao']}")
+        else:
+            st.error(f"❌ Errado. {question['explicacao']}")
+
+        if st.button("Próxima pergunta"):
+            st.session_state.current_question += 1
+            st.experimental_rerun()
+
+# Função principal
 def main():
     tab1, tab2, tab3, tab4 = st.tabs([
         "🏷️ Glossário",
