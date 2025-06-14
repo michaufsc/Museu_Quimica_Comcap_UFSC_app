@@ -95,6 +95,7 @@ def mostrar_atividades():
         """)
 
 # --- NOVO: Carregar quiz de CSV ---
+
 @st.cache_data
 def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
