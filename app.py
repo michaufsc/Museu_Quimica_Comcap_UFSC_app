@@ -295,30 +295,46 @@ def main():
    # Divisória superior
     st.markdown("---")
     
- # DEBUG: Verifique se as imagens existem (remova depois)
-    st.write("Arquivos na pasta 'imagens':", os.listdir("imagens"))
+     # Verificação DEBUG - Mostra o conteúdo da pasta (remova depois)
+    if os.path.exists("imagens"):
+        st.write("Conteúdo da pasta 'imagens':", os.listdir("imagens"))
+    else:
+        st.error("Pasta 'imagens' não encontrada!")
     
-    # Container para os logos
+    # Container para os logos com tratamento robusto
     with st.container():
         col1, col2 = st.columns(2)
         
+        # Caminhos completos das imagens
+        logo_ufsc = "imagens/logo_ufsc.png"
+        logo_museu = "imagens/logo_museu.png"
+        
         # Logo UFSC
         with col1:
-            try:
-                st.image("imagens/logo_ufsc.png", width=150)
-            except:
-                st.warning("Logo UFSC não encontrado")
+            if os.path.exists(logo_ufsc):
+                try:
+                    img_ufsc = Image.open(logo_ufsc)
+                    st.image(img_ufsc, width=150)
+                except Exception as e:
+                    st.error(f"Erro ao carregar logo UFSC: {str(e)}")
+                    st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
+            else:
+                st.warning("Arquivo logo_ufsc.png não encontrado")
                 st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
         
         # Logo Museu
         with col2:
-            try:
-                st.image("imagens/logo_museu.png", width=150)
-            except:
-                st.warning("Logo Museu não encontrado")
+            if os.path.exists(logo_museu):
+                try:
+                    img_museu = Image.open(logo_museu)
+                    st.image(img_museu, width=150)
+                except Exception as e:
+                    st.error(f"Erro ao carregar logo Museu: {str(e)}")
+                    st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
+            else:
+                st.warning("Arquivo logo_museu.png não encontrado")
                 st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
     
-    st.markdown("---")
     st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
