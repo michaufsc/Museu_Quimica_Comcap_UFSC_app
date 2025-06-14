@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Carregar dados polimeros e residuos (seus originais)
+# Carregar dados polímeros e resíduos
 @st.cache_data
 def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
@@ -20,28 +20,98 @@ def load_data():
 
 polimeros, residuos = load_data()
 
-# Nova função para carregar perguntas do quiz do CSV
+IMAGES_DIR = "imagens_materiais"
+
+# Glossário
+def mostrar_glossario():
+    st.header("📖 Glossário Interativo")
+
+    dataset = st.radio(
+        "Selecione a base de dados:",
+        ["Polímeros", "Resíduos"],
+        horizontal=True
+    )
+
+    df = polimeros if dataset == "Polímeros" else residuos
+
+    search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
+
+    if search_term:
+        mask = df.apply(
+            lambda row: row.astype(str).str.contains(search_term, case=False).any(),
+            axis=1
+        )
+        df = df[mask]
+
+    for _, row in df.iterrows():
+        sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
+        image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.jpg")
+
+        col1, col2 = st.columns([1, 3])
+
+        with col1:
+            if os.path.exists(image_path):
+                st.image(Image.open(image_path), width=200)
+            else:
+                st.warning("Imagem não disponível")
+
+        with col2:
+            st.markdown(f"""
+            **Nome:** {row['Nome'] if 'Nome' in row else row['Categoria']}  
+            **Sigla:** {sigla}  
+            **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
+            **Composição:** {row.get('Composição Química', '-')}  
+            **Reciclável:** {row.get('Reciclável', '-')}  
+            **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
+            """)
+
+        st.divider()
+
+# Atividades pedagógicas
+def mostrar_atividades():
+    st.header("📚 Atividades Pedagógicas")
+
+    tab1, tab2, tab3 = st.tabs(["Fundamental", "Médio", "Superior"])
+
+    with tab1:
+        st.markdown("""
+        ### 1. Identificação de Polímeros
+        **Objetivo:** Reconhecer tipos de plásticos pelos símbolos  
+        **Materiais:** Amostras de embalagens com códigos de reciclagem
+        """)
+
+    with tab2:
+        st.markdown("""
+        ### 1. Análise de Propriedades
+        **Objetivo:** Testar densidade e resistência de materiais  
+        **Materiais:** Amostras de diferentes polímeros
+        """)
+
+    with tab3:
+        st.markdown("""
+        ### 1. Análise de Ciclo de Vida
+        **Objetivo:** Comparar impactos ambientais de materiais  
+        **Materiais:** Dados de produção e decomposição
+        """)
+
+# --- NOVO: Carregar quiz de CSV ---
+
 @st.cache_data
 def load_quiz():
-    # CSV deve ter colunas: pergunta, opcao_1, opcao_2, opcao_3, opcao_4, resposta_correta
-    df = pd.read_csv("quiz_perguntas.csv")
+    df = pd.read_csv("quiz_perguntas.csv", sep=";")
     questions = []
     for _, row in df.iterrows():
-        opcoes = [row['opcao_1'], row['opcao_2'], row['opcao_3'], row['opcao_4']]
-        correta = row['resposta_correta']
-        # índice da resposta correta para controlar a validação
-        idx_correta = opcoes.index(correta) if correta in opcoes else None
-
+        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
+        correta = str(row['resposta_correta'])
         questions.append({
             "pergunta": row['pergunta'],
             "opcoes": opcoes,
-            "resposta": idx_correta,
+            "resposta_correta": correta,
             "explicacao": f"A resposta correta é **{correta}**."
         })
     random.shuffle(questions)
     return questions
 
-# Função quiz que usa as perguntas do CSV
 def mostrar_quiz():
     st.header("🧠 Quiz de Resíduos e Polímeros")
 
@@ -63,7 +133,7 @@ def mostrar_quiz():
         selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
 
         if st.button("Confirmar", key=f"b{q_num}"):
-            if question['resposta'] is not None and selected == question['opcoes'][question['resposta']]:
+            if selected == question['resposta_correta']:
                 st.success(f"✅ Correto! {question['explicacao']}")
                 st.session_state.score += 1
             else:
@@ -94,8 +164,6 @@ def mostrar_quiz():
             st.session_state.current_question = 0
             st.session_state.score = 0
             st.experimental_rerun()
-
-# O resto do seu código fica igual...
 
 # Interface principal
 def main():
@@ -128,4 +196,3 @@ if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     main()
-
