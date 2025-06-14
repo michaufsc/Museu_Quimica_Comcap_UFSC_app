@@ -292,18 +292,18 @@ def main():
         "📚 Atividades",
         "🏛️ História do Museu",
         "🌱 Compostagem",
-        "ℹ️ Sobre",
-        "🧪 Química"
+        "🧪 Química",
+        "ℹ️ Sobre"
     ])
 
     with tab1:
-        mostrar_história()
+        mostrar_glossario()
     with tab2:
-        mostrar_glossário()
-    with tab3:
-        mostrar_química()
-    with tab4:
         mostrar_quiz()
+    with tab3:
+        mostrar_atividades()
+    with tab4:
+        mostrar_historia()
     with tab5:
         mostrar_compostagem()
     with tab6:
@@ -316,11 +316,10 @@ def main():
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 
-**Autor:** nome alinos e prof
+**Autor:** nome alunos e prof  
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
         """)
-
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
