@@ -295,6 +295,30 @@ def main():
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
     st.markdown("---")
+    
+    # Linha de logos (ajuste os caminhos das imagens)
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        st.image("https://example.com/logo_ufsc.png", width=120)  # Logo UFSC
+    with col2:
+        st.image("https://example.com/logo_comcap.png", width=120)  # Logo COMCAP
+    with col3:
+        st.image("https://example.com/logo_museu.png", width=120)  # Logo Museu
+    
+    # Restante do código atual...
+    st.markdown("---")
+    
+    # Linha de logos (ajuste os caminhos das imagens)
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        st.image("https://example.com/logo_ufsc.png", width=120)  # Logo UFSC
+    with col2:
+        st.image("https://example.com/logo_comcap.png", width=120)  # Logo COMCAP
+    with col3:
+        st.image("https://example.com/logo_museu.png", width=120)  # Logo Museu
+    
+    # Restante do código atual...
+    st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "🏛️ História do Museu",
