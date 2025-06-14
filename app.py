@@ -262,7 +262,7 @@ def main():
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 
-**Autor:** Michael Lopes  
+**Autor:** nome alinos e prof
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
         """)
