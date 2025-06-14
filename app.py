@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import re
+from PIL import Image
+import os
 
 # Configuração da página
 st.set_page_config(
@@ -8,6 +10,17 @@ st.set_page_config(
     page_icon="♻️",
     layout="wide"
 )
+
+# Pasta com as imagens (crie uma pasta 'images' no mesmo diretório do script)
+IMAGES_DIR = "images"
+
+# Função para carregar imagens
+def load_image(image_name):
+    try:
+        image_path = os.path.join(IMAGES_DIR, image_name)
+        return Image.open(image_path)
+    except:
+        return None
 
 # Função para carregar dados
 def load_data(file_path):
@@ -21,41 +34,60 @@ def load_data(file_path):
 polimeros = load_data("polimeros.csv")
 residuos = load_data("residuos.csv")
 
-# Função para formatar fórmulas químicas
-def clean_chemical_formula(formula):
-    if pd.isna(formula):
-        return ""
-    return re.sub(r'([0-9]+)', r'<sub>\1</sub>', str(formula))
+# Dicionário de imagens padrão (substitua pelos seus arquivos)
+DEFAULT_IMAGES = {
+    "PET": "pet.jpg",
+    "PEAD": "pead.jpg",
+    "PVC": "pvc.jpg",
+    "PLA": "pla.jpg",
+    # Adicione mais mapeamentos conforme necessário
+}
 
-# Função para renderizar cards de materiais
+# Função para renderizar cards com imagens
 def render_chemical_info(row):
     nome = row['Nome'] if 'Nome' in row else row['Categoria']
     sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
-    tipo = row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))
-    composicao = clean_chemical_formula(row.get('Composição Química', row.get('Composição Química', '-')))
-    reciclavel = row.get('Reciclável', row.get('Reciclável', '-'))
-    aplicacoes = row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))
-
-    card_html = f"""
-    <div style="
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px 0;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        background-color: #f8f9fa;
-    ">
-        <h3>{nome} <small>({sigla})</small></h3>
-        <p><strong>Tipo:</strong> {tipo}</p>
-        <p><strong>Composição:</strong> {composicao}</p>
-        <p><strong>Reciclabilidade:</strong> {reciclavel}</p>
-        <p><strong>Aplicações:</strong> {aplicacoes}</p>
-    </div>
-    """
-    st.markdown(card_html, unsafe_allow_html=True)
+    
+    # Tenta carregar imagem específica ou padrão
+    img = load_image(f"{sigla.lower()}.jpg") or load_image(DEFAULT_IMAGES.get(sigla, ""))
+    
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        if img:
+            st.image(img, width=150, caption=f"Exemplo de {sigla}")
+        else:
+            st.warning("Imagem não disponível")
+    
+    with col2:
+        st.markdown(f"""
+        <div style="
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            background-color: #f8f9fa;
+        ">
+            <h3>{nome} <small>({sigla})</small></h3>
+            <p><strong>Tipo:</strong> {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}</p>
+            <p><strong>Composição:</strong> {row.get('Composição Química', '-')}</p>
+            <p><strong>Reciclabilidade:</strong> {row.get('Reciclável', '-')}</p>
+            <p><strong>Aplicações:</strong> {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Interface principal
 def main():
-    st.title("♻️ Glossário Científico de Polímeros e Resíduos")
+    st.title("♻️ Glossário Visual de Polímeros e Resíduos")
+    
+    # Seção de upload de imagens (opcional)
+    with st.expander("📤 Adicionar novas imagens"):
+        uploaded_file = st.file_uploader("Enviar imagem para o glossário", type=['jpg', 'png', 'jpeg'])
+        if uploaded_file:
+            save_path = os.path.join(IMAGES_DIR, uploaded_file.name)
+            with open(save_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            st.success(f"Imagem {uploaded_file.name} salva com sucesso!")
     
     # Seleção de dataset
     dataset = st.radio(
@@ -70,8 +102,8 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro de busca - VERSÃO FINAL CORRIGIDA
-    search_term = st.text_input("Buscar por termo")
+    # Filtro de busca
+    search_term = st.text_input("🔍 Buscar por termo")
     
     if search_term:
         mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False)).any(axis=1)
@@ -80,22 +112,14 @@ def main():
         filtered_df = df
     
     # Visualização dos dados
-    tab1, tab2 = st.tabs(["📋 Tabela de Dados", "🖼️ Visualização em Cards"])
+    st.subheader("📚 Materiais")
     
-    with tab1:
-        st.dataframe(
-            filtered_df,
-            use_container_width=True,
-            height=600,
-            hide_index=True
-        )
-    
-    with tab2:
-        st.subheader("Materiais")
-        cols = st.columns(2)
-        for idx, (_, row) in enumerate(filtered_df.iterrows()):
-            with cols[idx % 2]:
-                render_chemical_info(row)
+    for _, row in filtered_df.iterrows():
+        render_chemical_info(row)
+        st.markdown("---")
 
 if __name__ == "__main__":
+    # Cria a pasta de imagens se não existir
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
     main()
