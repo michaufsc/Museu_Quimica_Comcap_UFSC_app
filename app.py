@@ -1,20 +1,15 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import base64
-from io import BytesIO
 import re
 
-# Configuração da página (removi o CSS inline para evitar problemas)
+# Configuração da página
 st.set_page_config(
     page_title="Glossário Científico de Resíduos",
     page_icon="♻️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-# Função para carregar dados sem cache (temporariamente)
+# Função para carregar dados
 def load_data(file_path):
     try:
         return pd.read_csv(file_path, sep=";", encoding='utf-8')
@@ -26,27 +21,32 @@ def load_data(file_path):
 polimeros = load_data("polimeros.csv")
 residuos = load_data("residuos.csv")
 
-# Funções auxiliares
+# Função para formatar fórmulas químicas
 def clean_chemical_formula(formula):
-    """Converte fórmulas químicas para formato com subscritos"""
     if pd.isna(formula):
         return ""
     return re.sub(r'([0-9]+)', r'<sub>\1</sub>', str(formula))
 
+# Função para renderizar cards de materiais
 def render_chemical_info(row):
-    """Renderiza card informativo para cada material"""
-    with st.container():
-        st.markdown(f"""
-        <div style="border-radius:10px;padding:15px;margin:10px 0;box-shadow:0 4px 8px rgba(0,0,0,0.1);background:#f8f9fa;">
-            <h3>{row['Nome'] if 'Nome' in row else row['Categoria']} 
-                <small>({row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']})</small>
-            </h3>
-            <p><strong>Tipo:</strong> {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}</p>
-            <p><strong>Composição:</strong> {clean_chemical_formula(row.get('Composição Química', row.get('Composição Química', '-')))</p>
-            <p><strong>Reciclabilidade:</strong> {row.get('Reciclável', row.get('Reciclável', '-'))}</p>
-            <p><strong>Aplicações:</strong> {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}</p>
-        </div>
-        """, unsafe_allow_html=True)
+    card_html = f"""
+    <div style="
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        background-color: #f8f9fa;
+    ">
+        <h3>{row['Nome'] if 'Nome' in row else row['Categoria']} 
+            <small>({row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']})</small>
+        </h3>
+        <p><strong>Tipo:</strong> {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}</p>
+        <p><strong>Composição:</strong> {clean_chemical_formula(row.get('Composição Química', row.get('Composição Química', '-')))</p>
+        <p><strong>Reciclabilidade:</strong> {row.get('Reciclável', row.get('Reciclável', '-'))}</p>
+        <p><strong>Aplicações:</strong> {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}</p>
+    </div>
+    """
+    st.markdown(card_html, unsafe_allow_html=True)
 
 # Interface principal
 def main():
@@ -65,7 +65,7 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro simples
+    # Filtro de busca
     search_term = st.text_input("Buscar por termo")
     
     # Aplicar filtro
@@ -77,19 +77,22 @@ def main():
         filtered_df = df
     
     # Visualização dos dados
-    st.dataframe(
-        filtered_df,
-        use_container_width=True,
-        height=600,
-        hide_index=True
-    )
+    tab1, tab2 = st.tabs(["📋 Tabela de Dados", "🖼️ Visualização em Cards"])
     
-    # Cards informativos
-    st.subheader("Visualização Didática")
-    cols = st.columns(2)
-    for idx, (_, row) in enumerate(filtered_df.iterrows()):
-        with cols[idx % 2]:
-            render_chemical_info(row)
+    with tab1:
+        st.dataframe(
+            filtered_df,
+            use_container_width=True,
+            height=600,
+            hide_index=True
+        )
+    
+    with tab2:
+        st.subheader("Materiais")
+        cols = st.columns(2)
+        for idx, (_, row) in enumerate(filtered_df.iterrows()):
+            with cols[idx % 2]:
+                render_chemical_info(row)
 
 if __name__ == "__main__":
     main()
