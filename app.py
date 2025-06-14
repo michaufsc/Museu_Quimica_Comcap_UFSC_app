@@ -27,8 +27,15 @@ def clean_chemical_formula(formula):
         return ""
     return re.sub(r'([0-9]+)', r'<sub>\1</sub>', str(formula))
 
-# Função para renderizar cards de materiais
+# Função para renderizar cards de materiais (VERSÃO CORRIGIDA)
 def render_chemical_info(row):
+    nome = row['Nome'] if 'Nome' in row else row['Categoria']
+    sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
+    tipo = row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))
+    composicao = clean_chemical_formula(row.get('Composição Química', row.get('Composição Química', '-')))
+    reciclavel = row.get('Reciclável', row.get('Reciclável', '-'))
+    aplicacoes = row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))
+
     card_html = f"""
     <div style="
         border-radius: 10px;
@@ -37,13 +44,11 @@ def render_chemical_info(row):
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         background-color: #f8f9fa;
     ">
-        <h3>{row['Nome'] if 'Nome' in row else row['Categoria']} 
-            <small>({row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']})</small>
-        </h3>
-        <p><strong>Tipo:</strong> {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}</p>
-        <p><strong>Composição:</strong> {clean_chemical_formula(row.get('Composição Química', row.get('Composição Química', '-')))</p>
-        <p><strong>Reciclabilidade:</strong> {row.get('Reciclável', row.get('Reciclável', '-'))}</p>
-        <p><strong>Aplicações:</strong> {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}</p>
+        <h3>{nome} <small>({sigla})</small></h3>
+        <p><strong>Tipo:</strong> {tipo}</p>
+        <p><strong>Composição:</strong> {composicao}</p>
+        <p><strong>Reciclabilidade:</strong> {reciclavel}</p>
+        <p><strong>Aplicações:</strong> {aplicacoes}</p>
     </div>
     """
     st.markdown(card_html, unsafe_allow_html=True)
@@ -65,14 +70,13 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro de busca - CORREÇÃO APLICADA AQUI
+    # Filtro de busca
     search_term = st.text_input("Buscar por termo")
     
-    # Aplicar filtro corrigido
+    # Aplicar filtro (VERSÃO SIMPLIFICADA)
     if search_term:
-        filtered_df = df[
-            df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(axis=1)
-        ]
+        mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(axis=1)
+        filtered_df = df[mask]
     else:
         filtered_df = df
     
