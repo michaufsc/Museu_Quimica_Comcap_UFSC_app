@@ -8,11 +8,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# Função para carregar dados
+# Função segura para carregar dados
 @st.cache_data
 def carregar_dados(arquivo):
     try:
-        return pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
+        df = pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
+        return df
     except Exception as e:
         st.error(f"Erro ao carregar {arquivo}: {str(e)}")
         return pd.DataFrame()
@@ -37,7 +38,7 @@ if menu == "Resíduos":
         with st.sidebar:
             st.subheader("Filtros")
             
-            # Verifica se as colunas existem
+            # Verifica e cria filtros apenas para colunas existentes
             if 'Categoria' in df.columns:
                 categorias = st.multiselect(
                     "Categoria",
@@ -62,7 +63,6 @@ if menu == "Resíduos":
                 reciclavel = st.selectbox(
                     "Reciclável",
                     options=["Todos"] + list(df["Reciclável"].unique())
-                )
             else:
                 st.warning("Coluna 'Reciclável' não encontrada")
                 reciclavel = "Todos"
@@ -70,13 +70,13 @@ if menu == "Resíduos":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if categorias:
+        if categorias and 'Categoria' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Categoria"].isin(categorias)]
         
-        if classes:
+        if classes and 'Classe ABNT' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Classe ABNT"].isin(classes)]
         
-        if reciclavel != "Todos":
+        if reciclavel != "Todos" and 'Reciclável' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
@@ -85,6 +85,8 @@ if menu == "Resíduos":
             use_container_width=True,
             height=500
         )
+    else:
+        st.error("Não foi possível carregar os dados de resíduos")
 
 # Seção de Polímeros
 elif menu == "Polímeros":
@@ -119,10 +121,10 @@ elif menu == "Polímeros":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if tipos:
+        if tipos and 'Tipo de Polimerização' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Tipo de Polimerização"].isin(tipos)]
         
-        if reciclavel != "Todos":
+        if reciclavel != "Todos" and 'Reciclável' in df.columns:
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
@@ -131,6 +133,8 @@ elif menu == "Polímeros":
             use_container_width=True,
             height=500
         )
+    else:
+        st.error("Não foi possível carregar os dados de polímeros")
 
 # Rodapé
 st.divider()
