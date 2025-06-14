@@ -27,7 +27,7 @@ def clean_chemical_formula(formula):
         return ""
     return re.sub(r'([0-9]+)', r'<sub>\1</sub>', str(formula))
 
-# Função para renderizar cards de materiais (VERSÃO CORRIGIDA)
+# Função para renderizar cards de materiais
 def render_chemical_info(row):
     nome = row['Nome'] if 'Nome' in row else row['Categoria']
     sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
@@ -70,10 +70,9 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro de busca
+    # Filtro de busca (VERSÃO CORRIGIDA)
     search_term = st.text_input("Buscar por termo")
     
-    # Aplicar filtro (VERSÃO SIMPLIFICADA)
     if search_term:
         mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(axis=1)
         filtered_df = df[mask]
