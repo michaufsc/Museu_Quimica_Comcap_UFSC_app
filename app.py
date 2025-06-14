@@ -310,8 +310,6 @@ def main():
         mostrar_quimica()
     with tab7:
         st.header("Sobre o Projeto")
-    with tab6:
-mostrar_quimica()
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
