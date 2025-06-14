@@ -1,17 +1,54 @@
-import streamlit as st
-import pandas as pd
-import random
-import os
-from PIL import Image
+def main():
+    st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
+    st.subheader("Aplicativo para educadores: Química dos resíduos")
+    st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
+    st.markdown("---")  # Mantém apenas uma divisória
+    
+    # Verificação dos arquivos (opcional - pode remover depois)
+    st.write("Arquivos encontrados:", [f for f in os.listdir() if f.startswith('logo_')])
+    
+    # Única seção de logos - versão otimizada
+    try:
+        col1, col2, col3 = st.columns([1.2, 1, 1.2])  # Proporções ajustadas
+        
+        # Logo UFSC
+        with col1:
+            if os.path.exists("logo_ufsc.png"):
+                st.image("logo_ufsc.png", width=130, use_column_width='never')
+            else:
+                st.warning("Logo UFSC não encontrado")
+        
+        # Logo COMCAP
+        with col2:
+            if os.path.exists("logo_comcap.png"):
+                st.image("logo_comcap.png", width=130, use_column_width='never')
+            else:
+                st.warning("Logo COMCAP não encontrado")
+        
+        # Logo Museu
+        with col3:
+            if os.path.exists("logo_museu.png"):
+                st.image("logo_museu.png", width=130, use_column_width='never')
+            else:
+                st.warning("Logo Museu não encontrado")
+                
+    except Exception as e:
+        st.error(f"Erro ao carregar logos: {str(e)}")
+    
+    st.markdown("---")  # Divisória antes das abas
 
-# Configuração da página
-st.set_page_config(
-    page_title="Sistema Completo de Resíduos",
-    page_icon="♻️",
-    layout="wide"
-)
-
-# Diretório de imagens
+    # Restante do código das abas (mantido igual)
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+        "🏛️ História do Museu",
+        "🏷️ Glossário",
+        "🧐 Quiz",
+        "📚 Atividades",
+        "🌱 Compostagem",
+        "🧪 Química",
+        "ℹ️ Sobre"
+    ])
+    
+    # ... (código das abas mantido igual)
 IMAGES_DIR = "imagens_materiais"
 
 # Cache para carregar dados
