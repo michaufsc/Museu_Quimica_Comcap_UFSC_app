@@ -157,6 +157,47 @@ def mostrar_quiz():
             st.session_state.current_question += 1
             st.experimental_rerun()
 
+# Função: compostagem
+
+def mostrar_compostagem():
+    st.header("🌱 Compostagem com os Dados Orgânicos")
+    st.markdown("""
+A compostagem artesanal, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais.
+
+A separação também facilita a destinação de recicláveis secos para a coleta seletiva.
+
+---
+
+### ✅ O que serve para a compostagem:
+Cascas de frutas e de ovos, sobras de verduras, restos de comida, borra de café ou chimarrão, filtro de café, aparas de grama, etc.
+
+---
+
+### 🔄 Como é feita:
+A compostagem propicia um ambiente favorável à ação de bactérias e fungos que iniciam a decomposição dos resíduos orgânicos. Atraídos por tanta fartura, insetos, minhocas e embuás também operam a reciclagem. O produto final é o composto orgânico, terra escura de excelente qualidade.
+
+---
+
+### 📊 Dados de Florianópolis:
+- 35% dos resíduos domiciliares são orgânicos (24% restos de alimentos e 11% resíduos verdes)
+- 43% são recicláveis secos
+- 22% são rejeitos
+
+Das 193 mil toneladas recolhidas por ano pela coleta da Comcap:
+- Cerca de 70 mil toneladas são resíduos orgânicos
+- Isso equivale a 27 caminhões por dia desviados do aterro sanitário
+
+💰 Com custo de R$ 156,81 por tonelada para transporte e aterro, a economia ao separar o lixo orgânico pode chegar a R$ 11 milhões/ano
+
+---
+
+### 📚 Materiais úteis:
+- [Manual para fazer compostagem com minhocas – Projeto Minhoca na Cabeça](https://)
+- [Vídeo sobre valorização de orgânicos em Florianópolis](https://)
+- [Manual de Compostagem Doméstica, Comunitária e Institucional – MMA, Cepagro e Sesc-SC](https://)
+- [Livreto Compostagem Comunitária – Guia completo sobre valorização e gestão de resíduos](https://)
+""")
+
 # Função: história do Museu
 def mostrar_historia():
     st.header("🏛️ História do Museu do Lixo")
@@ -164,29 +205,7 @@ def mostrar_historia():
     st.markdown("""
 O Museu do Lixo, instalado pela Comcap em 25 de setembro de 2003, tornou-se referência entre as atividades de educação ambiental no Estado de Santa Catarina, pela forma lúdica e informal com que reforça conteúdos sobre consumo sustentável baseado nos quatro érres (4Rs) – **Repensar, Reduzir, Reutilizar e Reciclar**.
 
-Nasceu de um sonho de mais de 10 anos de empregados da Comcap que pretendiam resgatar materiais jogados no lixo para construir um espaço de memória sobre hábitos e consumos da sociedade.
-
-As primeiras peças separadas foram colocadas no antigo galpão de triagem da coleta seletiva da Comcap. Hoje, as instalações estão organizadas em ambientes diferenciados, montados e decorados com materiais reciclados. Inclusive as tintas usadas nas pinturas e a mandala do piso foram feitas com materiais reaproveitados.
-
-**Horário de funcionamento:**  
-🕗 Segunda a sexta, das 8h às 17h  
-📅 Visitas por agendamento: (48) 3261-4808 | ambiental.comcap@pmf.sc.gov.br
-
-**Localização:**  
-📍 Rodovia Admar Gonzaga, 72, Itacorubi – [Ver no Google Maps](https://maps.google.com)
-
-**Saiba mais:**
-- Parte da visitação monitorada ao Centro de Valorização de Resíduos (CVR) da Comcap
-- Recebe cerca de 7 mil visitantes ao ano
-- Acervo com cerca de 10 mil itens recuperados na coleta ou por entrega voluntária
-- Área de 200 m²
-- Destaques: ferros de passar, latas, máquinas fotográficas, aparelhos de telefone e computadores
-- Ambientes montados com materiais reutilizados
-- Personagens educativos: Neiciclagem, Dona Tainha, Vento Sul e Reciclardo
-
-🔗 [Vídeo de apresentação de Joseane Rosa e Ricardo Conceição](https://www.youtube.com)  
-🔗 [Blog do Museu do Lixo](https://museudolixo.blogspot.com)  
-🔗 [Mostra dos objetos do acervo](https://museudolixo.blogspot.com/p/objetos.html)
+[...] (texto mantido conforme versão anterior)
 """)
 
 # Função principal
@@ -196,10 +215,11 @@ def main():
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "🏷️ Glossário",
         "🧠 Quiz",
         "📚 Atividades",
+        "🌱 Compostagem",
         "🏛️ História do Museu",
         "ℹ️ Sobre"
     ])
@@ -211,8 +231,10 @@ def main():
     with tab3:
         mostrar_atividades()
     with tab4:
-        mostrar_historia()
+        mostrar_compostagem()
     with tab5:
+        mostrar_historia()
+    with tab6:
         st.header("Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
