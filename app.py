@@ -332,14 +332,16 @@ def main():
     with tab7:
         st.header("Sobre o Projeto")
         st.markdown("""
+with tab7:
+    st.header("Sobre o Projeto")
+    st.markdown(r"""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 
 **Autor:** nome alunos e prof  
-st.markdown("**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica")
-st.markdown("(Ext 18h-a)")  # Separado do texto principal
+**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
 
