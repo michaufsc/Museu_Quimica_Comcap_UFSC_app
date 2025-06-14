@@ -288,7 +288,9 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
 
-
+# Cria as pastas automaticamente se não existirem
+os.makedirs("imagens", exist_ok=True)  # Para logos
+os.makedirs("imagens_materiais", exist_ok=True)  # Para imagens dos materiais
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
