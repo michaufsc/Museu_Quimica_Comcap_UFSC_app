@@ -194,9 +194,7 @@ As primeiras peças foram reunidas no antigo galpão de triagem da coleta seleti
 ### 📍 Localização  
 Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
-
-st.markdown("""
-### Saiba mais
+### 🔍 Saiba mais
 
 - O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap, empresa de economia mista da Prefeitura de Florianópolis.  
 - Recebe cerca de **7 mil visitantes por ano**, mediante agendamento prévio.  
