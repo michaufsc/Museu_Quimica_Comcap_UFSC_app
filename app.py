@@ -287,10 +287,6 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - 📗 [**Manual de Compostagem – MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
-
-# Cria as pastas automaticamente se não existirem
-os.makedirs("imagens", exist_ok=True)  # Para logos
-os.makedirs("imagens_materiais", exist_ok=True)  # Para imagens dos materiais
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
@@ -299,34 +295,29 @@ def main():
    # Divisória superior
     st.markdown("---")
     
-    # Container para os logos com tratamento robusto
-    with st.container():
-        cols = st.columns(2)  # 2 colunas para 2 logos
-        
-        # Mapeamento dos logos
-        logos = {
-            "UFSC": "imagens/logo_ufsc.png",
-            "Museu": "imagens/logo_museu.png"
-        }
-        
-        # Exibição dinâmica dos logos
-        for i, (nome, caminho) in enumerate(logos.items()):
-            with cols[i]:
-                try:
-                    # Verifica se o arquivo existe
-                    if os.path.exists(caminho):
-                        img = Image.open(caminho)
-                        st.image(img, width=150, use_column_width='never')
-                    else:
-                        raise FileNotFoundError(f"Arquivo {caminho} não encontrado")
-                except Exception as e:
-                    st.warning(f"Logo {nome} não carregado")
-                    # Placeholder responsivo
-                    st.image(f"https://via.placeholder.com/300x150?text={nome}", 
-                            width=150,
-                            use_column_width='auto')
+ # DEBUG: Verifique se as imagens existem (remova depois)
+    st.write("Arquivos na pasta 'imagens':", os.listdir("imagens"))
     
-    # Divisória inferior
+    # Container para os logos
+    with st.container():
+        col1, col2 = st.columns(2)
+        
+        # Logo UFSC
+        with col1:
+            try:
+                st.image("imagens/logo_ufsc.png", width=150)
+            except:
+                st.warning("Logo UFSC não encontrado")
+                st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
+        
+        # Logo Museu
+        with col2:
+            try:
+                st.image("imagens/logo_museu.png", width=150)
+            except:
+                st.warning("Logo Museu não encontrado")
+                st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
+    
     st.markdown("---")
     st.markdown("---")
 
