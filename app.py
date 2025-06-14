@@ -294,9 +294,9 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 
     st.subheader("📚 Materiais e links úteis")
     st.markdown("""
-- 📘 [**Manual de Compostagem com Minhocas – Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
+- 📘 [**Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
 - 🎥 [**Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
-- 📗 [**Manual de Compostagem – MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
+- 📗 [**Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
 # Função principal
