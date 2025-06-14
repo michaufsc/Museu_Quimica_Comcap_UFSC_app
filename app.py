@@ -296,7 +296,10 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
     st.markdown("""
 - [\U0001F4D8 **Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
 - [\U0001F3A5 **Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
-- [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC
+- [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
+- [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
+""")
+
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
