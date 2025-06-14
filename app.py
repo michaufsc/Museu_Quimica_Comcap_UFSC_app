@@ -296,32 +296,37 @@ def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
-        # Container para os logos
-    with st.container():
-        col1, col2 = st.columns([1, 1])  # Ajuste conforme necessidade
-        
-        # Logo UFSC
-        with col1:
-            try:
-                st.image("imagens/logo_ufsc.png", 
-                        width=150,  # Ajuste o tamanho
-                        use_column_width='never')  # Mantém proporção
-            
-            except Exception as e:
-                st.error(f"Erro ao carregar logo UFSC: {str(e)}")
-                st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
-        
-        # Logo Museu
-        with col2:
-            try:
-                st.image("imagens/logo_museu.png",
-                        width=150,
-                        use_column_width='never')
-            
-            except Exception as e:
-                st.error(f"Erro ao carregar logo Museu: {str(e)}")
-                st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
+   # Divisória superior
+    st.markdown("---")
     
+    # Container para os logos com tratamento robusto
+    with st.container():
+        cols = st.columns(2)  # 2 colunas para 2 logos
+        
+        # Mapeamento dos logos
+        logos = {
+            "UFSC": "imagens/logo_ufsc.png",
+            "Museu": "imagens/logo_museu.png"
+        }
+        
+        # Exibição dinâmica dos logos
+        for i, (nome, caminho) in enumerate(logos.items()):
+            with cols[i]:
+                try:
+                    # Verifica se o arquivo existe
+                    if os.path.exists(caminho):
+                        img = Image.open(caminho)
+                        st.image(img, width=150, use_column_width='never')
+                    else:
+                        raise FileNotFoundError(f"Arquivo {caminho} não encontrado")
+                except Exception as e:
+                    st.warning(f"Logo {nome} não carregado")
+                    # Placeholder responsivo
+                    st.image(f"https://via.placeholder.com/300x150?text={nome}", 
+                            width=150,
+                            use_column_width='auto')
+    
+    # Divisória inferior
     st.markdown("---")
     st.markdown("---")
 
