@@ -287,23 +287,23 @@ def main():
     st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+        "🏛️ História do Museu",
         "🏷️ Glossário",
         "🧐 Quiz",
         "📚 Atividades",
-        "🏛️ História do Museu",
         "🌱 Compostagem",
         "🧪 Química",
         "ℹ️ Sobre"
     ])
 
     with tab1:
-        mostrar_glossario()
-    with tab2:
-        mostrar_quiz()
-    with tab3:
-        mostrar_atividades()
-    with tab4:
         mostrar_historia()
+    with tab2:
+        mostrar_glossario()
+    with tab3:
+        mostrar_quiz()
+    with tab4:
+        mostrar_atividades()
     with tab5:
         mostrar_compostagem()
     with tab6:
@@ -320,6 +320,12 @@ def main():
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
         """)
+
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+    main()
+
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
