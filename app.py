@@ -293,43 +293,33 @@ def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     # ... (cabeçalho mantido igual)
     st.markdown("---")
-
-    ##############################################
-    # DEBUG - VERIFICAÇÃO DOS ARQUIVOS (REMOVA DEPOIS)
-    st.subheader("🔍 Debug - Verificação de Arquivos")
-    st.write("Diretório atual:", os.getcwd())
-    st.write("Conteúdo do diretório:", os.listdir("."))
+    st.markdown("---")
+    # Verificação dos arquivos (debug - pode remover depois)
+    st.write("Arquivos no diretório:", [f for f in os.listdir() if f.endswith(('.png', '.jpg', '.jpeg'))])
     
-    if os.path.exists("imagens"):
-        st.success("✅ Pasta 'imagens' encontrada!")
-        st.write("Arquivos em 'imagens':", os.listdir("imagens"))
-    else:
-        st.error("❌ Pasta 'imagens' NÃO encontrada!")
-    ##############################################
-
-    # Linha de logos (versão otimizada)
-    if os.path.exists("imagens"):
-        try:
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.image("imagens/logo_ufsc.png", width=120, 
-                         caption="UFSC" if os.path.exists("imagens/logo_ufsc.png") else "Não encontrado")
-            
-            with col2:
-                st.image("imagens/logo_comcap.png", width=120,
-                         caption="COMCAP" if os.path.exists("imagens/logo_comcap.png") else "Não encontrado")
-            
-            with col3:
-                st.image("imagens/logo_museu.png", width=120,
-                         caption="Museu" if os.path.exists("imagens/logo_museu.png") else "Não encontrado")
-        
-        except Exception as e:
-            st.error(f"Erro ao carregar imagens: {str(e)}")
-    else:
-        st.warning("Diretório de imagens não encontrado. Criando estrutura...")
-        os.makedirs("imagens", exist_ok=True)
-        st.info("Por favor, adicione os arquivos na pasta 'imagens' e reinicie o app.")
+    # Linha de logos modificada
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if os.path.exists("logo_ufsc.png"):
+            st.image("logo_ufsc.png", width=120)
+        else:
+            st.warning("UFSC logo não encontrado")
+    
+    with col2:
+        if os.path.exists("logo_comcap.png"):
+            st.image("logo_comcap.png", width=120)
+        else:
+            st.warning("COMCAP logo não encontrado")
+    
+    with col3:
+        if os.path.exists("logo_museu.png"):
+            st.image("logo_museu.png", width=120)
+        else:
+            st.warning("Museu logo não encontrado")
+    
+    st.markdown("---")
+    # ... (restante do código)
 
     st.markdown("---")
     # ... (restante do código)
