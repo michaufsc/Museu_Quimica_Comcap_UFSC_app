@@ -294,38 +294,6 @@ def main():
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
    # Divisória superior
     st.markdown("---")
-    
-  # Container para os logos com tratamento robusto
-with st.container():
-    col1, col2 = st.columns(2)
-
-    # Caminhos completos das imagens
-    logo_ufsc = "imagens/logo_ufsc.png"
-    logo_museu = "imagens/logo_museu.png"
-
-    # Logo UFSC
-    with col1:
-        if os.path.exists(logo_ufsc):
-            try:
-                img_ufsc = Image.open(logo_ufsc)
-                st.image(img_ufsc, width=150, caption="UFSC")
-            except:
-                st.image("https://via.placeholder.com/150x80?text=UFSC", caption="UFSC", width=150)
-        else:
-            st.image("https://via.placeholder.com/150x80?text=UFSC", caption="UFSC", width=150)
-
-    # Logo Museu
-    with col2:
-        if os.path.exists(logo_museu):
-            try:
-                img_museu = Image.open(logo_museu)
-                st.image(img_museu, width=150, caption="Museu do Lixo")
-            except:
-                st.image("https://via.placeholder.com/150x80?text=Museu", caption="Museu do Lixo", width=150)
-        else:
-            st.image("https://via.placeholder.com/150x80?text=Museu", caption="Museu do Lixo", width=150)
-
-    
     st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
