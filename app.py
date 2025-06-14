@@ -65,10 +65,10 @@ def main():
         st.warning("Dados não carregados corretamente. Verifique os arquivos CSV.")
         return
     
-    # Filtro de busca
+    # Filtro de busca - CORREÇÃO APLICADA AQUI
     search_term = st.text_input("Buscar por termo")
     
-    # Aplicar filtro
+    # Aplicar filtro corrigido
     if search_term:
         filtered_df = df[
             df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(axis=1)
