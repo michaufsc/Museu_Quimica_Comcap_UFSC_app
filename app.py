@@ -291,21 +291,48 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
-    st.subheader("Aplicativo para educadores: Química dos resíduos")
-    st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
+    # ... (cabeçalho mantido igual)
     st.markdown("---")
+
+    ##############################################
+    # DEBUG - VERIFICAÇÃO DOS ARQUIVOS (REMOVA DEPOIS)
+    st.subheader("🔍 Debug - Verificação de Arquivos")
+    st.write("Diretório atual:", os.getcwd())
+    st.write("Conteúdo do diretório:", os.listdir("."))
     
-    # Linha de logos com caminhos relativos
-    col1, col2, col3 = st.columns([1,1,1])
-    with col1:
-        st.image("imagens/logo_ufsc.png", width=120)
-    with col2:
-        st.image("imagens/logo_comcap.png", width=120)
-    with col3:
-        st.image("imagens/logo_museu.png", width=120)
-    
+    if os.path.exists("imagens"):
+        st.success("✅ Pasta 'imagens' encontrada!")
+        st.write("Arquivos em 'imagens':", os.listdir("imagens"))
+    else:
+        st.error("❌ Pasta 'imagens' NÃO encontrada!")
+    ##############################################
+
+    # Linha de logos (versão otimizada)
+    if os.path.exists("imagens"):
+        try:
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.image("imagens/logo_ufsc.png", width=120, 
+                         caption="UFSC" if os.path.exists("imagens/logo_ufsc.png") else "Não encontrado")
+            
+            with col2:
+                st.image("imagens/logo_comcap.png", width=120,
+                         caption="COMCAP" if os.path.exists("imagens/logo_comcap.png") else "Não encontrado")
+            
+            with col3:
+                st.image("imagens/logo_museu.png", width=120,
+                         caption="Museu" if os.path.exists("imagens/logo_museu.png") else "Não encontrado")
+        
+        except Exception as e:
+            st.error(f"Erro ao carregar imagens: {str(e)}")
+    else:
+        st.warning("Diretório de imagens não encontrado. Criando estrutura...")
+        os.makedirs("imagens", exist_ok=True)
+        st.info("Por favor, adicione os arquivos na pasta 'imagens' e reinicie o app.")
+
     st.markdown("---")
-    # Restante do seu código...
+    # ... (restante do código)
     
     # Linha de logos (ajuste os caminhos das imagens)
     col1, col2, col3 = st.columns([1,1,1])
