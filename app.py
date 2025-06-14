@@ -296,6 +296,33 @@ def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)*")
+        # Container para os logos
+    with st.container():
+        col1, col2 = st.columns([1, 1])  # Ajuste conforme necessidade
+        
+        # Logo UFSC
+        with col1:
+            try:
+                st.image("imagens/logo_ufsc.png", 
+                        width=150,  # Ajuste o tamanho
+                        use_column_width='never')  # Mantém proporção
+            
+            except Exception as e:
+                st.error(f"Erro ao carregar logo UFSC: {str(e)}")
+                st.image("https://via.placeholder.com/150x80?text=UFSC", width=150)
+        
+        # Logo Museu
+        with col2:
+            try:
+                st.image("imagens/logo_museu.png",
+                        width=150,
+                        use_column_width='never')
+            
+            except Exception as e:
+                st.error(f"Erro ao carregar logo Museu: {str(e)}")
+                st.image("https://via.placeholder.com/150x80?text=Museu", width=150)
+    
+    st.markdown("---")
     st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
