@@ -8,34 +8,17 @@ st.set_page_config(
     layout="wide"
 )
 
-# Função segura para carregar dados
+# Função para carregar dados com tratamento de erros
 @st.cache_data
 def carregar_dados(arquivo):
     try:
-        df = pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
-        
-        # Verifica colunas essenciais para resíduos
-        if arquivo == "residuos.csv":
-            colunas_necessarias = {'Categoria', 'Sigla ou Nome', 'Classe ABNT', 'Reciclável'}
-            if not colunas_necessarias.issubset(df.columns):
-                st.error(f"Colunas faltantes no arquivo {arquivo}. Esperado: {colunas_necessarias}")
-                return None
-        
-        # Verifica colunas essenciais para polímeros
-        elif arquivo == "polimeros.csv":
-            colunas_necessarias = {'Nome', 'Sigla', 'Tipo de Polimerização', 'Reciclável'}
-            if not colunas_necessarias.issubset(df.columns):
-                st.error(f"Colunas faltantes no arquivo {arquivo}. Esperado: {colunas_necessarias}")
-                return None
-        
-        return df
-    
+        return pd.read_csv(arquivo, encoding='utf-8', quotechar='"')
     except Exception as e:
         st.error(f"Erro ao carregar {arquivo}: {str(e)}")
-        return None
+        return pd.DataFrame()
 
 # Interface principal
-st.title("♻️ Glossário Interativo")
+st.title("♻️ Glossário Interativo - Química dos Resíduos e Polímeros")
 
 # Menu de navegação
 menu = st.sidebar.radio(
@@ -47,18 +30,14 @@ menu = st.sidebar.radio(
 if menu == "Resíduos":
     df = carregar_dados("residuos.csv")
     
-    if df is not None:
+    if not df.empty:
         st.header("Glossário de Resíduos")
         
-        # Verifica colunas antes de usar
-        colunas_disponiveis = set(df.columns)
-        
-        # Filtros (com fallback para colunas disponíveis)
+        # Filtros na sidebar
         with st.sidebar:
             st.subheader("Filtros")
             
-            # Categoria (com verificação)
-            if 'Categoria' in colunas_disponiveis:
+            if 'Categoria' in df.columns:
                 categorias = st.multiselect(
                     "Categoria",
                     options=df["Categoria"].unique(),
@@ -68,8 +47,7 @@ if menu == "Resíduos":
                 st.warning("Coluna 'Categoria' não encontrada")
                 categorias = []
             
-            # Classe ABNT (com verificação)
-            if 'Classe ABNT' in colunas_disponiveis:
+            if 'Classe ABNT' in df.columns:
                 classes = st.multiselect(
                     "Classe ABNT",
                     options=df["Classe ABNT"].unique(),
@@ -79,8 +57,7 @@ if menu == "Resíduos":
                 st.warning("Coluna 'Classe ABNT' não encontrada")
                 classes = []
             
-            # Reciclável (com verificação)
-            if 'Reciclável' in colunas_disponiveis:
+            if 'Reciclável' in df.columns:
                 reciclavel = st.selectbox(
                     "Reciclável",
                     options=["Todos"] + list(df["Reciclável"].unique())
@@ -91,13 +68,13 @@ if menu == "Resíduos":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if categorias and 'Categoria' in colunas_disponiveis:
+        if categorias:
             df_filtrado = df_filtrado[df_filtrado["Categoria"].isin(categorias)]
         
-        if classes and 'Classe ABNT' in colunas_disponiveis:
+        if classes:
             df_filtrado = df_filtrado[df_filtrado["Classe ABNT"].isin(classes)]
         
-        if reciclavel != "Todos" and 'Reciclável' in colunas_disponiveis:
+        if reciclavel != "Todos":
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
@@ -106,22 +83,21 @@ if menu == "Resíduos":
             use_container_width=True,
             height=500
         )
+    else:
+        st.error("Não foi possível carregar os dados de resíduos")
 
 # Seção de Polímeros
 elif menu == "Polímeros":
     df = carregar_dados("polimeros.csv")
     
-    if df is not None:
+    if not df.empty:
         st.header("Glossário de Polímeros")
         
-        # Verifica colunas antes de usar
-        colunas_disponiveis = set(df.columns)
-        
-        # Filtros (com fallback para colunas disponíveis)
+        # Filtros na sidebar
         with st.sidebar:
             st.subheader("Filtros")
             
-            if 'Tipo de Polimerização' in colunas_disponiveis:
+            if 'Tipo de Polimerização' in df.columns:
                 tipos = st.multiselect(
                     "Tipo de Polimerização",
                     options=df["Tipo de Polimerização"].unique(),
@@ -131,10 +107,10 @@ elif menu == "Polímeros":
                 st.warning("Coluna 'Tipo de Polimerização' não encontrada")
                 tipos = []
             
-            if 'Reciclável' in colunas_disponiveis:
+            if 'Reciclável' in df.columns:
                 reciclavel = st.selectbox(
                     "Reciclável",
-                    options=["Todos"] + list(df["Reciclável"].unique())
+                    options=["Todos"] + list(df["Reciclável"].unique()
                 )
             else:
                 st.warning("Coluna 'Reciclável' não encontrada")
@@ -143,10 +119,10 @@ elif menu == "Polímeros":
         # Aplicar filtros
         df_filtrado = df.copy()
         
-        if tipos and 'Tipo de Polimerização' in colunas_disponiveis:
+        if tipos:
             df_filtrado = df_filtrado[df_filtrado["Tipo de Polimerização"].isin(tipos)]
         
-        if reciclavel != "Todos" and 'Reciclável' in colunas_disponiveis:
+        if reciclavel != "Todos":
             df_filtrado = df_filtrado[df_filtrado["Reciclável"] == reciclavel]
         
         # Exibição dos dados
@@ -155,7 +131,9 @@ elif menu == "Polímeros":
             use_container_width=True,
             height=500
         )
+    else:
+        st.error("Não foi possível carregar os dados de polímeros")
 
-# Mensagem se nenhum dado for carregado
-if menu in ["Resíduos", "Polímeros"] and df is None:
-    st.error("Não foi possível carregar os dados. Verifique os arquivos CSV.")
+# Rodapé
+st.divider()
+st.caption("Desenvolvido para a Prefeitura - Sistema de Gestão de Resíduos")
