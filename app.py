@@ -287,18 +287,19 @@ Das **193 mil toneladas** coletadas anualmente, **70 mil toneladas** são resíd
 """)
 
     st.subheader("💰 Economia e benefícios")
-    st.markdown("""
+st.markdown("""
 Cada tonelada aterrada custa **R$ 156,81** ao município.  
 Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano**, além de reduzir impactos ambientais e melhorar a qualidade do solo urbano.
 """)
 
-    st.subheader("📚 Materiais e links úteis")
-    st.markdown("""
+st.subheader("📚 Materiais e links úteis")
+st.markdown("""
 - 📘 [**Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
 - 🎥 [**Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
 - 📗 [**Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - 📒 [**Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
+
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
