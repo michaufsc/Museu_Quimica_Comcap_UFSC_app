@@ -312,7 +312,7 @@ def main():
     with col1:
         st.image("https://example.com/logo_ufsc.png", width=120)  # Logo UFSC
     with col2:
-        st.image("https://example.com/logo_comcap.png", width=120)  # Logo COMCAP
+        st.image("https://example.com/logo_comcap", width=120)  # Logo COMCAP
     with col3:
         st.image("https://example.com/logo_museu.png", width=120)  # Logo Museu
     
