@@ -162,10 +162,22 @@ def mostrar_historia():
     st.header("🏛️ História do Museu do Lixo")
 
     st.markdown("""
-O Museu do Lixo, instalado pela Comcap em 25 de setembro de 2003, tornou-se referência entre as atividades de educação ambiental no Estado de Santa Catarina, pela forma lúdica e informal com que reforça conteúdos sobre consumo sustentável baseado nos quatro érres (4Rs) – **Repensar, Reduzir, Reutilizar e Reciclar**.
+O Museu do Lixo, instalado pela Comcap em 25 de setembro de 2003, tornou-se uma referência em educação ambiental em Santa Catarina. Sua abordagem lúdica e acessível reforça conceitos de consumo consciente com base nos quatro erres (4Rs): Repensar, Reduzir, Reutilizar e Reciclar.
 
-[...Texto reduzido para fins de visualização...]
-    """)
+O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam resgatar objetos descartados para criar um espaço de memória sobre os hábitos de consumo da sociedade.
+
+As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em ambientes temáticos, montados e decorados com materiais reaproveitados — desde as tintas das paredes até a mandala do piso, tudo foi feito com resíduos reciclados.
+
+🕓 Horário de Funcionamento
+📅 Segunda a sexta-feira
+🕗 Das 8h às 17h
+
+Visitas monitoradas devem ser agendadas:
+📞 (48) 3261-4808
+📧 ambiental.comcap@pmf.sc.gov.br
+
+📍 Localização
+Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 
 # Função: compostagem
 def mostrar_compostagem():
