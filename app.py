@@ -207,9 +207,13 @@ MAPA_IMAGENS = {
 # Carregar dados (polímeros e resíduos)
 @st.cache_data
 def load_data():
-    polimeros = pd.read_csv("polimeros.csv", sep=";")
-    residuos = pd.read_csv("residuos.csv", sep=";")
-    return polimeros, residuos
+    try:
+        polimeros = pd.read_csv("polimeros.csv", sep=";")
+        residuos = pd.read_csv("residuos.csv", sep=";")
+        return polimeros, residuos
+    except FileNotFoundError as e:
+        st.error(f"Erro ao carregar arquivos de dados: {e}")
+        return pd.DataFrame(), pd.DataFrame()
 
 
 @st.cache_data
@@ -264,16 +268,19 @@ def mostrar_glossario():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
             
-            with col1:
-                img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
-                if os.path.exists(img_path):
-                    st.image(Image.open(img_path), caption=sigla, use_column_width=True)
-                else:
-                    st.image(
-                        Image.new('RGB', (300, 200), color=(240, 240, 240)),
-                        caption=f"Imagem ilustrativa - {sigla}",
-                        use_column_width=True
-                    )
+           with col1:
+    try:
+        img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
+        if os.path.exists(img_path):
+            st.image(Image.open(img_path), caption=sigla, use_column_width=True)
+        else:
+            raise FileNotFoundError
+    except Exception as e:
+        st.image(
+            Image.new('RGB', (300, 200), color=(240, 240, 240)),
+            caption=f"Imagem não disponível - {sigla}",
+            use_column_width=True
+        )
             
             with col2:
                 st.markdown(f"""
@@ -534,3 +541,8 @@ def main():
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+        st.warning(f"Diretório de imagens {IMAGES_DIR} criado automaticamente")
+    main()
