@@ -383,37 +383,45 @@ def main():
     st.markdown("---")
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-    "🏛️ História do Museu",
-    "🏷️ Glossário",
-    "🧐 Quiz",
-    # "📚 Atividades",  <-- comente ou remova
-    "🌱 Compostagem",
-    "🧪 Química",
-    "ℹ️ Sobre"
-])
+    # Ajustado: apenas 6 abas (removida "Atividades")
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "🏛️ História do Museu",
+        "🏷️ Glossário",
+        "🧐 Quiz",
+        "🌱 Compostagem",
+        "🧪 Química",
+        "ℹ️ Sobre"
+    ])
 
-with tab1:
-    mostrar_historia()
-with tab2:
-    mostrar_glossario()
-with tab3:
-    mostrar_quiz()
-# with tab4: mostrar_atividades()  <-- comente ou remova
-with tab4:
-    mostrar_compostagem()
-with tab5:
-    mostrar_quimica()
-with tab6:
-    st.header("Sobre o Projeto")
-    st.markdown("""
+    with tab1:
+        mostrar_historia()
+
+    with tab2:
+        mostrar_glossario()
+
+    with tab3:
+        mostrar_quiz()
+
+    with tab4:
+        mostrar_compostagem()
+
+    with tab5:
+        mostrar_quimica()
+
+    with tab6:
+        st.header("Sobre o Projeto")
+        st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 """)
-    st.markdown("""
+        st.markdown("""
 **Autor:** nome alunos e prof  
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+    main()
