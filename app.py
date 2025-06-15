@@ -17,7 +17,7 @@ st.set_page_config(
 IMAGES_DIR = "imagens_materiais"
 
 # Dicionário completo de polímeros
-POLIMEROS_DATAS = {
+DADOS_ESPECIFICOS = = {
      {
     'PET': {
         'Nome Completo': 'Politereftalato de Etileno',
@@ -205,16 +205,13 @@ MAPA_IMAGENS = {
     'LDPE': 'ldpe.png'
 }
 
-# Carregar dados
+# Carregar dados (polímeros e resíduos)
 @st.cache_data
 def load_data():
-    try:
-        polimeros = pd.read_csv("polimeros.csv", sep=";")
-        residuos = pd.read_csv("residuos.csv", sep=";")
-        return polimeros, residuos
-    except FileNotFoundError as e:
-        st.error(f"Erro ao carregar arquivos: {e}")
-        return pd.DataFrame(), pd.DataFrame()
+    polimeros = pd.read_csv("polimeros.csv", sep=";")
+    residuos = pd.read_csv("residuos.csv", sep=";")
+    return polimeros, residuos
+
 
 @st.cache_data
 def load_quiz():
