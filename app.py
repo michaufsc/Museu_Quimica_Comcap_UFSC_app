@@ -237,24 +237,22 @@ def load_quiz():
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros")
     
-   # Filtros na sidebar
-with st.sidebar:
-    st.subheader("Filtros")
-    
-    tipo_filtro = st.selectbox(
-        "Tipo de Polimerização",
-        ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
-    )
+    # Filtros na sidebar
+    with st.sidebar:
+        st.subheader("Filtros")
+        
+        tipo_filtro = st.selectbox(
+            "Tipo de Polimerização",
+            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
+        )
 
-    reciclavel_filtro = st.selectbox(
-        "Reciclável",
-        ["Todos", "Sim", "Não"]
-    )
-    
-    busca = st.text_input("Buscar por nome ou sigla:")
+        reciclavel_filtro = st.selectbox(
+            "Reciclável",
+            ["Todos", "Sim", "Não"]
+        )
+        
+        busca = st.text_input("Buscar por nome ou sigla:")
 
-
-    # Restante da função permanece igual...
     # Aplicar filtros
     polimeros_filtrados = {}
     for sigla, dados in DADOS_ESPECIFICOS.items():
@@ -296,8 +294,10 @@ with st.sidebar:
                 st.markdown("### 🔍 Detalhes")
                 st.markdown(f"**Aplicações:** {dados['Aplicações']}")
                 st.markdown(f"**Descrição:** {dados['Descrição']}")
-    
+
     st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(DADOS_ESPECIFICOS)} polímeros*")
+
+    
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
