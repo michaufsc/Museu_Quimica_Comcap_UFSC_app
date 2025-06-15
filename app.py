@@ -1,16 +1,18 @@
+import streamlit as st
 import pandas as pd
 import random
-import requests
+import os
 from PIL import Image
-from io import BytesIO
-import re
-
+# -*- coding: utf-8 -*-
 # Configuração da página
 st.set_page_config(
     page_title="Sistema Completo de Resíduos",
     page_icon="♻️",
     layout="wide"
 )
+
+# Diretório de imagens
+IMAGES_DIR = "imagens_materiais"
 
 # Cache para carregar dados
 @st.cache_data
@@ -37,10 +39,20 @@ def load_quiz():
 
 polimeros, residuos = load_data()
 
-# Caminho base das imagens no GitHub (raw link)
-GITHUB_RAW_BASE = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/imagens_materiais"
-
 # Função: glossário interativo
+import streamlit as st
+import pandas as pd
+import os
+from PIL import Image
+import re
+
+IMAGES_DIR = "imagens"  # ajuste para o seu diretório
+
+import re
+
+# Caminho correto da pasta de imagens
+IMAGES_DIR = "imagens"  # ou "imagens_materiais" se for o seu caso
+
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
 
@@ -60,17 +72,15 @@ def mostrar_glossario():
     for _, row in df.iterrows():
         sigla = row.get("Sigla") or row.get("Sigla ou Nome", "-")
         sigla_img = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
-        image_url = f"{GITHUB_RAW_BASE}/{sigla_img}.png"
+        image_path = os.path.join(IMAGES_DIR, f"{sigla_img}.png")
 
-        try:
-            response = requests.get(image_url)
-            if response.status_code == 200:
-                image = Image.open(BytesIO(response.content))
-                st.image(image, use_column_width=True)
-            else:
-                st.warning(f"🔁 Imagem não encontrada: `{sigla_img}.png`")
-        except Exception as e:
-            st.error(f"Erro ao carregar imagem: {e}")
+        # DEBUG opcional:
+        # st.text(f"Procurando imagem: {image_path}")
+
+        if os.path.exists(image_path):
+            st.image(Image.open(image_path), use_column_width=True)
+        else:
+            st.warning(f"🔁 Imagem para '{sigla}' não disponível.")
 
         st.markdown(f"""
         **Nome:** {row.get('Nome', row.get('Categoria', '-'))}  
@@ -81,7 +91,6 @@ def mostrar_glossario():
         **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
         """)
         st.divider()
-
 # Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
