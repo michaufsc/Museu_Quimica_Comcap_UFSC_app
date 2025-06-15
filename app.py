@@ -6,6 +6,9 @@ import random
 import os
 from PIL import Image
 import re
+import folium
+from streamlit_folium import folium_static
+from datetime import datetime
 
 # Configuração da página
 st.set_page_config(
@@ -23,7 +26,18 @@ def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
-
+    
+# Adicione esta função para carregar os dados da coleta seletiva
+@st.cache_data
+def load_coleta_data():
+    # Carrega o arquivo CSV que você já tem
+    df = pd.read_csv("pontos_coleta.csv", encoding='utf-8-sig')
+    
+    # Processa os dados para extrair dias e horários
+    df['dias_coleta'] = df['nome'].str.extract(r'([A-Za-zÇç]+(?: e [A-Za-zÇç]+)*)')
+    df['horario'] = df['nome'].str.extract(r'(\d{1,2}h)')
+    
+    return df
 # Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
@@ -373,6 +387,124 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
 
+def mostrar_coleta_seletiva():
+    st.header("🏘️ Coleta Seletiva por Bairro")
+    
+    # Carrega os dados
+    df = load_coleta_data()
+    
+    # Sidebar com filtros
+    with st.sidebar:
+        st.subheader("Filtros")
+        bairro_selecionado = st.selectbox(
+            "Selecione um bairro:",
+            options=sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique()),
+            index=0
+        )
+        
+        tipo_selecionado = st.radio(
+            "Tipo de ponto:",
+            options=['Todos'] + list(df['tipo'].unique())
+        )
+    
+    # Filtra os dados
+    dados_filtrados = df.copy()
+    if bairro_selecionado != "Todos":
+        dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado)]
+    if tipo_selecionado != "Todos":
+        dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
+    
+    # Mostra estatísticas rápidas
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Total de Pontos", len(dados_filtrados))
+    with col2:
+        st.metric("Pontos Mapeados", len(df))
+    
+    st.markdown("---")
+    
+    # Mapa interativo
+    st.subheader("📍 Mapa de Pontos de Coleta")
+    
+    # Cria mapa centrado em Florianópolis
+    m = folium.Map(
+        location=[-27.5969, -48.5495],
+        zoom_start=12,
+        tiles='CartoDB positron'
+    )
+    
+    # Adiciona marcadores
+    for idx, row in dados_filtrados.iterrows():
+        popup_text = f"""
+        <b>{row['nome'].split('-')[0]}</b><br>
+        <b>Tipo:</b> {row['tipo']}<br>
+        <b>Dias:</b> {row.get('dias_coleta', 'Não especificado')}<br>
+        <b>Horário:</b> {row.get('horario', 'Não especificado')}
+        """
+        
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=popup_text,
+            icon=folium.Icon(
+                color='green' if row['tipo'] == 'PEV' else 'blue',
+                icon='recycle' if row['tipo'] == 'PEV' else 'trash'
+            )
+        ).add_to(m)
+    
+    # Exibe o mapa
+    folium_static(m, width=800, height=500)
+    
+    # Legenda
+    st.markdown("""
+    **Legenda:**
+    - 🟢 PEVs (Pontos de Entrega Voluntária)
+    - 🔵 Pontos de Coleta Regular
+    """)
+    
+    st.markdown("---")
+    
+    # Tabela de dados
+    st.subheader("📋 Detalhes dos Pontos")
+    st.dataframe(
+        dados_filtrados[['nome', 'tipo', 'dias_coleta', 'horario']].rename(columns={
+            'nome': 'Local',
+            'tipo': 'Tipo',
+            'dias_coleta': 'Dias de Coleta',
+            'horario': 'Horário'
+        }),
+        height=400,
+        use_container_width=True
+    )
+    
+    # Seção de informações
+    st.markdown("---")
+    st.subheader("ℹ️ Como Funciona a Coleta Seletiva")
+    
+    col_info1, col_info2 = st.columns(2)
+    
+    with col_info1:
+        st.markdown("""
+        ### ✅ Materiais Aceitos
+        - Papel, papelão e jornais
+        - Plásticos (limpos e secos)
+        - Vidros (sem tampas)
+        - Metais (latas, arames)
+        """)
+    
+    with col_info2:
+        st.markdown("""
+        ### ❌ Materiais Recusados
+        - Lixo orgânico
+        - Fraldas descartáveis
+        - Espelhos e cerâmicas
+        - Embalagens sujas
+        """)
+    
+    st.markdown("""
+    *Fonte: [Programa de Coleta Seletiva de Florianópolis](https://www.pmf.sc.gov.br/)*
+    """)
+
+
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
@@ -408,8 +540,11 @@ def main():
 
     with tab5:
         mostrar_quimica()
-
+        
     with tab6:
+    mostrar_coleta_seletiva()
+    
+    with tab7:
         st.header("Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
