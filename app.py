@@ -53,7 +53,7 @@ def mostrar_glossario():
 
     for _, row in df.iterrows():
         sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
-        image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.jpg")
+        image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.png")
         col1, col2 = st.columns([1, 3])
 
         with col1:
