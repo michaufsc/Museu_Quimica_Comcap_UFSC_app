@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
 import random
 import os
 from PIL import Image
-# -*- coding: utf-8 -*-
+import re
+
 # Configuração da página
 st.set_page_config(
     page_title="Sistema Completo de Resíduos",
@@ -11,17 +13,17 @@ st.set_page_config(
     layout="wide"
 )
 
-# Diretório de imagens
+# Caminho correto para a pasta de imagens
 IMAGES_DIR = "imagens_materiais"
 
-# Cache para carregar dados
+# Carregar dados (polímeros e resíduos)
 @st.cache_data
 def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
 
-# Cache para carregar quiz
+# Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
@@ -37,22 +39,10 @@ def load_quiz():
     random.shuffle(questions)
     return questions
 
+# Carrega os dados
 polimeros, residuos = load_data()
 
 # Função: glossário interativo
-import streamlit as st
-import pandas as pd
-import os
-from PIL import Image
-import re
-
-IMAGES_DIR = "imagens"  # ajuste para o seu diretório
-
-import re
-
-# Caminho correto da pasta de imagens
-IMAGES_DIR = "imagens"  # ou "imagens_materiais" se for o seu caso
-
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
 
@@ -74,9 +64,6 @@ def mostrar_glossario():
         sigla_img = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
         image_path = os.path.join(IMAGES_DIR, f"{sigla_img}.png")
 
-        # DEBUG opcional:
-        # st.text(f"Procurando imagem: {image_path}")
-
         if os.path.exists(image_path):
             st.image(Image.open(image_path), use_column_width=True)
         else:
@@ -91,6 +78,7 @@ def mostrar_glossario():
         **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
         """)
         st.divider()
+
 # Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
