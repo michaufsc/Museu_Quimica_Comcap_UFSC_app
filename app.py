@@ -49,6 +49,11 @@ import re
 
 IMAGES_DIR = "imagens"  # ajuste para o seu diretório
 
+import re
+
+# Caminho correto da pasta de imagens
+IMAGES_DIR = "imagens"  # ou "imagens_materiais" se for o seu caso
+
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
 
@@ -67,11 +72,14 @@ def mostrar_glossario():
 
     for _, row in df.iterrows():
         sigla = row.get("Sigla") or row.get("Sigla ou Nome", "-")
-        sigla_img = re.sub(r'[^a-z0-9]', '', sigla.lower())
+        sigla_img = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
         image_path = os.path.join(IMAGES_DIR, f"{sigla_img}.png")
 
+        # DEBUG opcional:
+        # st.text(f"Procurando imagem: {image_path}")
+
         if os.path.exists(image_path):
-            st.image(Image.open(image_path), use_column_width=True)  # Alta qualidade e responsiva
+            st.image(Image.open(image_path), use_column_width=True)
         else:
             st.warning(f"🔁 Imagem para '{sigla}' não disponível.")
 
