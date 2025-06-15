@@ -29,7 +29,7 @@ def load_data():
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
-    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/polimeros.csv"
+    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
     df = pd.read_csv(url)
     return df
 
