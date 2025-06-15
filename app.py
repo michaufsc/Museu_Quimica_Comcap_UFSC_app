@@ -225,7 +225,8 @@ def mostrar_glossario():
                 else:
                     # Imagem padrão com cor temática
                     cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
-                    img_padrao = Image.new('RGB', (300, 300), color=cor)
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200) if sigla == 'PLA' else (240, 240, 240))
+
                     
                     # Adiciona texto na imagem padrão
                     try:
