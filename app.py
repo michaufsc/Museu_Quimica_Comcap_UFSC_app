@@ -153,6 +153,139 @@ def mostrar_glossario():
                     aplicacoes = row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado'))
                     st.write(aplicacoes)
             
+            st.divider()def mostrar_glossario():
+    st.header("📖 Glossário Interativo de Polímeros e Resíduos")
+    
+    # Seleção do tipo de material
+    tipo_material = st.radio(
+        "Selecione o tipo de material:",
+        options=["Polímeros", "Resíduos"],
+        horizontal=True
+    )
+    
+    # Barra de busca
+    termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
+    
+    # Seleção do dataframe apropriado
+    df = polimeros if tipo_material == "Polímeros" else residuos
+    
+    # Dados técnicos específicos para materiais selecionados
+    DADOS_ESPECIFICOS = {
+        'PLA': {
+            'Nome': 'Ácido Polilático',
+            'Tipo de Polimerização': 'Policondensação (biodegradável)',
+            'Composição Química': 'Poliéster alifático termoplástico',
+            'Densidade': '1,24-1,27 g/cm³',
+            'Ponto de Fusão': '150-160°C',
+            'Reciclável': 'Sim (compostável industrial)',
+            'Aplicações Comuns': 'Impressão 3D, embalagens alimentícias, utensílios descartáveis, implantes médicos',
+            'Descrição': 'PLA (Ácido Polilático) é um termoplástico biodegradável derivado de fontes renováveis como amido de milho, cana-de-açúcar ou beterraba. Possui baixa toxicidade e é amplamente utilizado na fabricação de bioplásticos.'
+        },
+        'PET': {
+            'Tipo de Polimerização': 'Policondensação (termoplástico)',
+            'Densidade': '1,36 g/cm³',
+            'Ponto de Fusão': '250-260°C'
+        }
+    }
+
+    # Filtragem dos dados
+    if termo_busca:
+        mask = df.astype(str).apply(lambda col: col.str.contains(termo_busca, case=False, na=False)).any(axis=1)
+        df = df[mask]
+
+    if df.empty:
+        st.info("🔎 Nenhum resultado encontrado para sua busca.")
+        return
+
+    # Exibição dos itens
+    for _, row in df.iterrows():
+        with st.container():
+            sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
+            
+            # Atualiza os dados com informações específicas se existirem
+            row_atualizado = row.copy()
+            if sigla in DADOS_ESPECIFICOS:
+                for chave, valor in DADOS_ESPECIFICOS[sigla].items():
+                    row_atualizado[chave] = valor
+
+            col1, col2 = st.columns([1, 3], gap="medium")
+            
+            # Coluna 1 - Imagem
+            with col1:
+                nome_imagem = f"{sigla.lower()}.png"
+                caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
+                
+                if os.path.exists(caminho_imagem):
+                    st.image(
+                        Image.open(caminho_imagem),
+                        use_container_width=True,
+                        caption=f"Símbolo {sigla}"
+                    )
+                else:
+                    # Imagem padrão com cor temática
+                    cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
+                    img_padrao = Image.new('RGB', (300, 300), color=cor)
+                    
+                    # Adiciona texto na imagem padrão
+                    try:
+                        draw = ImageDraw.Draw(img_padrao)
+                        font = ImageFont.load_default()
+                        text = sigla if len(sigla) <= 4 else sigla[:4]
+                        w, h = draw.textsize(text, font=font)
+                        draw.text(((300-w)/2, (300-h)/2), text, fill="white", font=font)
+                    except:
+                        pass
+                    
+                    st.image(
+                        img_padrao,
+                        use_container_width=True,
+                        caption=f"Imagem ilustrativa - {sigla}"
+                    )
+            
+            # Coluna 2 - Informações
+            with col2:
+                st.subheader(row_atualizado.get("Nome", row_atualizado.get("Categoria", "Sem nome")))
+                
+                # Destaque para materiais especiais
+                if sigla == 'PLA':
+                    st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
+                
+                # Layout de informações
+                col_info1, col_info2 = st.columns(2)
+                
+                with col_info1:
+                    st.markdown(f"""
+                    **🔤 Sigla:**  
+                    {sigla}  
+                    
+                    **🧪 Tipo de Polimerização:**  
+                    {row_atualizado.get('Tipo de Polimerização', 'Não especificado')}  
+                    
+                    **📊 Densidade:**  
+                    {row_atualizado.get('Densidade', 'Não especificado')}
+                    """)
+                
+                with col_info2:
+                    st.markdown(f"""
+                    **🔥 Ponto de Fusão:**  
+                    {row_atualizado.get('Ponto de Fusão', 'Não especificado')}  
+                    
+                    **🔄 Reciclável:**  
+                    {row_atualizado.get('Reciclável', 'Não especificado')}  
+                    
+                    **🧪 Composição:**  
+                    {row_atualizado.get('Composição Química', 'Não especificado')}
+                    """)
+                
+                # Descrição expandível para materiais com informações adicionais
+                if sigla in DADOS_ESPECIFICOS and 'Descrição' in DADOS_ESPECIFICOS[sigla]:
+                    with st.expander("📝 Descrição Detalhada"):
+                        st.write(DADOS_ESPECIFICOS[sigla]['Descrição'])
+                
+                # Aplicações
+                with st.expander("📦 Aplicações Comuns"):
+                    st.write(row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado')))
+            
             st.divider()
 # Função: quiz interativo
 def mostrar_quiz():
