@@ -263,24 +263,53 @@ def mostrar_glossario():
             continue
         polimeros_filtrados[sigla] = dados
 
+  def mostrar_glossario():
+    st.header("📖 Glossário Interativo de Polímeros")
+    
+    # Filtros na sidebar
+    with st.sidebar:
+        st.subheader("Filtros")
+        tipo_filtro = st.selectbox(
+            "Tipo de Polimerização",
+            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
+        )
+        
+        reciclavel_filtro = st.selectbox(
+            "Reciclável",
+            ["Todos", "Sim", "Não"]
+        )
+        
+        busca = st.text_input("Buscar por nome ou sigla:")
+
+    # Aplicar filtros
+    polimeros_filtrados = {}
+    for sigla, dados in DADOS_ESPECIFICOS.items():
+        if tipo_filtro != "Todos" and dados['Tipo de Polimerização'] != tipo_filtro:
+            continue
+        if reciclavel_filtro != "Todos" and not dados['Reciclável'].startswith(reciclavel_filtro):
+            continue
+        if busca and busca.lower() not in sigla.lower() and busca.lower() not in dados['Nome Completo'].lower():
+            continue
+        polimeros_filtrados[sigla] = dados
+
     # Exibição - MODIFICADO: removido o expander aninhado
     for sigla, dados in polimeros_filtrados.items():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
-         with col1:
-    try:
-        img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
-        if os.path.exists(img_path):
-            st.image(Image.open(img_path), caption=sigla, use_column_width=True)
-        else:
-            raise FileNotFoundError
-    except Exception as e:
-        st.image(
-            Image.new('RGB', (300, 200), color=(240, 240, 240)),
-            caption=f"Imagem não disponível - {sigla}",
-            use_column_width=True
-        )
-  
+            
+            with col1:
+                try:
+                    img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
+                    if os.path.exists(img_path):
+                        st.image(Image.open(img_path), caption=sigla, use_column_width=True)
+                    else:
+                        raise FileNotFoundError
+                except Exception as e:
+                    st.image(
+                        Image.new('RGB', (300, 200), color=(240, 240, 240)),
+                        caption=f"Imagem não disponível - {sigla}",
+                        use_column_width=True
+                    )
             
             with col2:
                 st.markdown(f"""
@@ -296,7 +325,6 @@ def mostrar_glossario():
                 st.markdown(f"**Descrição:** {dados['Descrição']}")
     
     st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(DADOS_ESPECIFICOS)} polímeros*")
-
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
