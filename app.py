@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 import streamlit as st
 import pandas as pd
@@ -540,24 +539,38 @@ def main():
 
     with tab5:
         mostrar_quimica()
-        
+
     with tab6:
-    mostrar_coleta_seletiva()
-    
+        mostrar_coleta_seletiva()
+
     with tab7:
-        st.header("Sobre o Projeto")
+        st.header("🧵 Microplásticos")
+        st.markdown("Conteúdo em desenvolvimento.")
+
+    with tab8:
+        st.header("🤝 Associações de Reciclagem")
+        st.markdown("Conteúdo em desenvolvimento.")
+
+    with tab9:
+        st.header("📚 Atividades Pedagógicas")
+        st.markdown("Conteúdo em desenvolvimento.")
+
+    with tab10:
+        st.header("ℹ️ Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
-""")
-        st.markdown("""
-**Autor:** nome alunos e prof  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
+
+**Autor:** Nome dos alunos e professora responsável  
+**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Extensão 18h)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
+
+# Execução principal com verificação de pasta
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     main()
+
