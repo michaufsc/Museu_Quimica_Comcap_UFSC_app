@@ -18,7 +18,6 @@ IMAGES_DIR = "imagens_materiais"
 
 # Dicionário completo de polímeros
 DADOS_ESPECIFICOS = {
-     {
     'PET': {
         'Nome Completo': 'Politereftalato de Etileno',
         'Tipo de Polimerização': 'Policondensação',
