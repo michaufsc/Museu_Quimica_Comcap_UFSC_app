@@ -1,0 +1,19 @@
+Sigla;Nome;Código de Identificação;Tipo de Polimerização;Densidade;Ponto de Fusão;Reciclável;Aplicações Comuns;Descrição
+PET;Politereftalato de etileno;1;Policondensação;1,36 g/cm³;250-260°C;Sim;Garrafas, fibras têxteis;Polímero de condensação formado por ácido tereftálico e etilenoglicol, usado principalmente em embalagens
+PE;Polietileno;2;Adição;0,91-0,96 g/cm³;105-130°C;Sim;Embalagens, sacolas;Polímero de adição formado por moléculas de eteno, com versões de alta (PEAD) e baixa densidade (PEBD)
+PP;Polipropileno;5;Adição;0,90-0,91 g/cm³;160-170°C;Sim;Utensílios domésticos, embalagens;Polímero de adição versátil, resistente a produtos químicos e com alta rigidez
+PVC;Policloreto de vinila;3;Adição;1,38 g/cm³;100-260°C;Sim;Tubos, revestimentos;Polímero de adição contendo cloro, usado em construção civil e produtos médicos
+PS;Poliestireno;6;Adição;1,04-1,07 g/cm³;240°C;Sim;Embalagens, isolantes;Polímero de adição que pode ser expandido (EPS) para formar isopor
+PLA;Ácido polilático;7;Policondensação;1,24-1,27 g/cm³;150-160°C;Sim (compostável);Impressão 3D, embalagens;Biopolímero biodegradável derivado de fontes renováveis como milho e cana-de-açúcar
+PA;Poliamida;7;Policondensação;1,13-1,15 g/cm³;220-265°C;Sim;Têxteis, peças industriais;Conhecido como Nylon, possui alta resistência mecânica e térmica
+ABS;Acrilonitrila butadieno estireno;7;Adição;1,04-1,06 g/cm³;105°C;Sim;Peças automotivas, brinquedos;Terpolímero resistente ao impacto, combinação de três monômeros
+PTFE;Politetrafluoretileno;7;Adição;2,15-2,20 g/cm³;327°C;Não;Revestimentos antiaderentes;Conhecido como Teflon, possui alta resistência química e térmica
+PUR;Poliuretano;7;Policondensação;1,05 g/cm³;Varia;Não;Espumas, colchões;Polímero versátil usado em aplicações que vão de mobiliário a fibras elásticas
+PC;Policarbonato;7;Policondensação;1,20-1,22 g/cm³;230-260°C;Sim;Lentes, CDs, capacetes;Polímero transparente e resistente ao impacto, utilizado em eletrônicos e segurança
+PMMA;Polimetilmetacrilato;7;Adição;1,17-1,20 g/cm³;160°C;Sim;Displays, próteses dentárias;Conhecido como acrílico ou vidro acrílico, é leve, transparente e resistente
+POM;Poliacetal;7;Policondensação;1,41-1,43 g/cm³;175°C;Sim;Engrenagens, componentes mecânicos;Polímero de engenharia com alta rigidez e baixo atrito
+EVA;Etileno acetato de vinila;7;Adição;0,93 g/cm³;Varia;Sim;Solas de sapato, brinquedos;Copolímero flexível e leve, usado em calçados e artigos escolares
+PBT;Polibutileno tereftalato;7;Policondensação;1,31 g/cm³;223°C;Sim;Conectores elétricos, peças automotivas;Poliéster termoplástico resistente ao calor e à corrosão
+SAN;Estireno acrilonitrila;7;Adição;1,07-1,08 g/cm³;115-120°C;Sim;Eletrodomésticos, utensílios;Copolímero transparente com boa resistência química e térmica
+PPS;Polifenileno sulfeto;7;Policondensação;1,35 g/cm³;280-285°C;Sim;Peças eletrônicas, automotivas;Polímero de alto desempenho com resistência térmica e química excepcionais
+LDPE;Polietileno de baixa densidade;4;Adição;0,91-0,93 g/cm³;105-115°C;Sim;Filmes plásticos, sacolas;Versão flexível do PE, usada em embalagens maleáveis e revestimentos internos
