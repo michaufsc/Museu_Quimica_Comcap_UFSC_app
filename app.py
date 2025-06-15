@@ -381,8 +381,6 @@ def main():
 
     # Divisória superior
     st.markdown("---")
-    st.markdown("---")
-
     # Ajustado: apenas 6 abas (removida "Atividades")
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "🏛️ História do Museu",
