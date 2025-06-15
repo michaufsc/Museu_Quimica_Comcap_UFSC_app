@@ -154,7 +154,8 @@ def mostrar_glossario():
                     aplicacoes = row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado'))
                     st.write(aplicacoes)
 
-            st.divider()def mostrar_glossario():
+            st.divider
+            ()def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
     # Seleção do tipo de material
