@@ -47,17 +47,17 @@ polimeros, residuos = load_data()
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
-    # Mapeamento de siglas para nomes de arquivos de imagem
-    MAPA_IMAGENS = {
-        'PET': 'pet.png',
-        'PE': 'pe.png',
-        'PP': 'pp.png',
-        'PVC': 'pvc.png',
-        'PS': 'ps.png',
-        'ABS': 'abs.png',
-        'PLA': 'pla.png'
-        'PA': 'pa.png'
-    }
+  # Mapeamento de siglas para nomes de arquivos de imagem
+MAPA_IMAGENS = {
+    'PET': 'pet.png',
+    'PE': 'pe.png',
+    'PP': 'pp.png',
+    'PVC': 'pvc.png',
+    'PS': 'ps.png',
+    'ABS': 'abs.png',
+    'PLA': 'pla.png',  # Adicionei a vírgula faltante aqui
+    'PA': 'pa.png'
+}
 
     # Dados técnicos específicos para materiais selecionados
     DADOS_ESPECIFICOS = {
