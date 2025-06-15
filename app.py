@@ -56,6 +56,7 @@ def mostrar_glossario():
         'PS': 'ps.png',
         'ABS': 'abs.png',
         'PLA': 'pla.png'
+         'PA': 'pa.png'
     }
 
     # Dados técnicos específicos para materiais selecionados
