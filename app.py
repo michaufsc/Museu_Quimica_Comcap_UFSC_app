@@ -517,12 +517,10 @@ def main():
     with tab3:
         mostrar_quiz()
     with tab4:
-        mostrar_atividades()
-    with tab5:
         mostrar_compostagem()
-    with tab6:
+    with tab5:
         mostrar_quimica()
-    with tab7:
+    with tab6:
         st.header("Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
