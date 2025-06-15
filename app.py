@@ -268,7 +268,7 @@ def mostrar_glossario():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
             
-           with col1:
+  with col1:
     try:
         img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
         if os.path.exists(img_path):
@@ -499,7 +499,8 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 """)
 
 # Função principal
-# Função principal
+# [Todo o resto do código permanece igual até a função main()...]
+
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
@@ -541,6 +542,7 @@ def main():
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
+
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
