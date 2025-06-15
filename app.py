@@ -18,6 +18,7 @@ IMAGES_DIR = "imagens_materiais"
 
 # Dicionário completo de polímeros
 POLIMEROS_DATAS = {
+     {
     'PET': {
         'Nome Completo': 'Politereftalato de Etileno',
         'Tipo de Polimerização': 'Policondensação',
@@ -181,213 +182,6 @@ POLIMEROS_DATAS = {
         'Descrição': 'Versão flexível do PE'
     }
 }
-
-# Dicionário completo de polímeros (adicionar no início do código, após as imports)
-DADOS_ESPECIFICOS = {
-    'PET': {
-        'Nome Completo': 'Politereftalato de Etileno',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,36-1,38 g/cm³',
-        'Ponto de Fusão': '250-260°C',
-        'Reciclável': 'Sim (código 1)',
-        'Aplicações': 'Garrafas, fibras têxteis, embalagens',
-        'Descrição': 'Um dos plásticos mais reciclados mundialmente, derivado do petróleo'
-    },
-    'PE': {
-        'Nome Completo': 'Polietileno',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '0,91-0,96 g/cm³',
-        'Ponto de Fusão': '105-130°C',
-        'Reciclável': 'Sim (código 2)',
-        'Aplicações': 'Sacolas, embalagens, tubos',
-        'Descrição': 'Plástico mais comum, com versões de alta e baixa densidade'
-    },
-    'PP': {
-        'Nome Completo': 'Polipropileno',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '0,90-0,91 g/cm³',
-        'Ponto de Fusão': '160-170°C',
-        'Reciclável': 'Sim (código 5)',
-        'Aplicações': 'Utensílios domésticos, embalagens',
-        'Descrição': 'Versátil e resistente a produtos químicos'
-    },
-    'PVC': {
-        'Nome Completo': 'Policloreto de Vinila',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '1,38 g/cm³',
-        'Ponto de Fusão': '100-260°C',
-        'Reciclável': 'Sim (código 3)',
-        'Aplicações': 'Tubos, revestimentos, cabos',
-        'Descrição': 'Contém cloro em sua composição, requer cuidados na reciclagem'
-    },
-    'PS': {
-        'Nome Completo': 'Poliestireno',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '1,04-1,07 g/cm³',
-        'Ponto de Fusão': '240°C',
-        'Reciclável': 'Sim (código 6)',
-        'Aplicações': 'Embalagens, isolantes térmicos',
-        'Descrição': 'Conhecido como isopor quando expandido (EPS)'
-    },
-    'PLA': {
-        'Nome Completo': 'Ácido Polilático',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,24-1,27 g/cm³',
-        'Ponto de Fusão': '150-160°C',
-        'Reciclável': 'Sim (compostável)',
-        'Aplicações': 'Impressão 3D, embalagens',
-        'Descrição': 'Biopolímero derivado de fontes renováveis como milho e cana'
-    },
-    'PA': {
-        'Nome Completo': 'Poliamida',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,13-1,15 g/cm³',
-        'Ponto de Fusão': '220-265°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Têxteis, peças industriais',
-        'Descrição': 'Conhecido como Nylon, possui alta resistência mecânica'
-    },
-    'ABS': {
-        'Nome Completo': 'Acrilonitrila Butadieno Estireno',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '1,04-1,06 g/cm³',
-        'Ponto de Fusão': '105°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Brinquedos, peças automotivas',
-        'Descrição': 'Terpolímero resistente ao impacto'
-    },
-    'PTFE': {
-        'Nome Completo': 'Politetrafluoretileno',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '2,15-2,20 g/cm³',
-        'Ponto de Fusão': '327°C',
-        'Reciclável': 'Não',
-        'Aplicações': 'Revestimentos antiaderentes',
-        'Descrição': 'Conhecido como Teflon, possui alta resistência química'
-    },
-    'PUR': {
-        'Nome Completo': 'Poliuretano',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,05 g/cm³',
-        'Ponto de Fusão': 'Varia',
-        'Reciclável': 'Não',
-        'Aplicações': 'Espumas, colchões, fibras',
-        'Descrição': 'Versátil, usado de mobiliário a roupas'
-    },
-    'PC': {
-        'Nome Completo': 'Policarbonato',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,20-1,22 g/cm³',
-        'Ponto de Fusão': '230-260°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Lentes, CDs, capacetes',
-        'Descrição': 'Transparente e resistente ao impacto'
-    },
-    'PMMA': {
-        'Nome Completo': 'Polimetilmetacrilato',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '1,17-1,20 g/cm³',
-        'Ponto de Fusão': '160°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Displays, próteses',
-        'Descrição': 'Conhecido como acrílico ou vidro acrílico'
-    },
-    'POM': {
-        'Nome Completo': 'Poliacetal',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,41-1,43 g/cm³',
-        'Ponto de Fusão': '175°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Engrenagens, componentes',
-        'Descrição': 'Alta rigidez e baixo atrito'
-    },
-    'EVA': {
-        'Nome Completo': 'Etileno Acetato de Vinila',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '0,93 g/cm³',
-        'Ponto de Fusão': 'Varia',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Solas de sapato, brinquedos',
-        'Descrição': 'Copolímero flexível e leve'
-    },
-    'PBT': {
-        'Nome Completo': 'Polibutileno Tereftalato',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,31 g/cm³',
-        'Ponto de Fusão': '223°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Conectores elétricos',
-        'Descrição': 'Poliéster termoplástico resistente'
-    },
-    'SAN': {
-        'Nome Completo': 'Estireno Acrilonitrila',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '1,07-1,08 g/cm³',
-        'Ponto de Fusão': '115-120°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Eletrodomésticos',
-        'Descrição': 'Copolímero transparente'
-    },
-    'PPS': {
-        'Nome Completo': 'Polifenileno Sulfeto',
-        'Tipo de Polimerização': 'Policondensação',
-        'Densidade': '1,35 g/cm³',
-        'Ponto de Fusão': '280-285°C',
-        'Reciclável': 'Sim',
-        'Aplicações': 'Peças eletrônicas',
-        'Descrição': 'Alta resistência térmica'
-    },
-    'LDPE': {
-        'Nome Completo': 'Polietileno de Baixa Densidade',
-        'Tipo de Polimerização': 'Adição',
-        'Densidade': '0,91-0,93 g/cm³',
-        'Ponto de Fusão': '105-115°C',
-        'Reciclável': 'Sim (código 4)',
-        'Aplicações': 'Filmes plásticos',
-        'Descrição': 'Versão flexível do PE'
-    }
-}
-
-# Configuração da página
-st.set_page_config(
-    page_title="Sistema Completo de Resíduos",
-    page_icon="♻️",
-    layout="wide"
-)
-
-# Caminho correto para a pasta de imagens
-IMAGES_DIR = "imagens_materiais"
-
-# Carregar dados (polímeros e resíduos)
-@st.cache_data
-def load_data():
-    polimeros = pd.read_csv("polimeros.csv", sep=";")
-    residuos = pd.read_csv("residuos.csv", sep=";")
-    return polimeros, residuos
-
-# Carregar perguntas do quiz
-@st.cache_data
-def load_quiz():
-    df = pd.read_csv("quiz_perguntas.csv", sep=";")
-    questions = []
-    for _, row in df.iterrows():
-        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
-        questions.append({
-            "pergunta": row['pergunta'],
-            "opcoes": opcoes,
-            "resposta": int(row['resposta']),
-            "explicacao": row['explicacao']
-        })
-    random.shuffle(questions)
-    return questions
-
-# Carrega os dados
-polimeros, residuos = load_data()
-
-# Função: glossário interativo
-# Função: glossário interativo
-def mostrar_glossario():
-    st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
   # Mapeamento de siglas para nomes de arquivos de imagem
 MAPA_IMAGENS = {
@@ -411,34 +205,79 @@ MAPA_IMAGENS = {
     'LDPE': 'ldpe.png'
 }
 
+# Carregar dados
+@st.cache_data
+def load_data():
+    try:
+        polimeros = pd.read_csv("polimeros.csv", sep=";")
+        residuos = pd.read_csv("residuos.csv", sep=";")
+        return polimeros, residuos
+    except FileNotFoundError as e:
+        st.error(f"Erro ao carregar arquivos: {e}")
+        return pd.DataFrame(), pd.DataFrame()
+
+@st.cache_data
+def load_quiz():
+    try:
+        df = pd.read_csv("quiz_perguntas.csv", sep=";")
+        questions = []
+        for _, row in df.iterrows():
+            questions.append({
+                "pergunta": row['pergunta'],
+                "opcoes": [str(row[f'opcao_{i}']) for i in range(1,5)],
+                "resposta": int(row['resposta']),
+                "explicacao": row['explicacao']
+            })
+        random.shuffle(questions)
+        return questions
+    except FileNotFoundError:
+        st.error("Arquivo de quiz não encontrado!")
+        return []
+
+def mostrar_glossario():
+    st.header("📖 Glossário Interativo de Polímeros")
+    
     # Filtros na sidebar
     with st.sidebar:
         st.subheader("Filtros")
-        tipo_polimerizacao = st.selectbox(
+        tipo_filtro = st.selectbox(
             "Tipo de Polimerização",
-            ["Todos"] + list(sorted({v['Tipo de Polimerização'].split('(')[0].strip() for v in DADOS_ESPECIFICOS.values()}))
-        )
+            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in POLIMEROS_DATA.values()}))
         
-        reciclavel = st.selectbox(
+        reciclavel_filtro = st.selectbox(
             "Reciclável",
             ["Todos", "Sim", "Não"]
         )
-    
-    # Exibição dos polímeros
-    for sigla, dados in DADOS_ESPECIFICOS.items():
-        # Aplicar filtros
-        if tipo_polimerizacao != "Todos" and not dados['Tipo de Polimerização'].startswith(tipo_polimerizacao):
-            continue
-        if reciclavel != "Todos" and dados['Reciclável'] != reciclavel:
-            continue
         
+        busca = st.text_input("Buscar por nome ou sigla:")
+
+    # Aplicar filtros
+    polimeros_filtrados = {}
+    for sigla, dados in POLIMEROS_DATA.items():
+        if tipo_filtro != "Todos" and dados['Tipo de Polimerização'] != tipo_filtro:
+            continue
+        if reciclavel_filtro != "Todos" and not dados['Reciclável'].startswith(reciclavel_filtro):
+            continue
+        if busca and busca.lower() not in sigla.lower() and busca.lower() not in dados['Nome Completo'].lower():
+            continue
+        polimeros_filtrados[sigla] = dados
+
+    # Exibição
+    for sigla, dados in polimeros_filtrados.items():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
             
             with col1:
-                # Código para exibir imagem (como no original)
-                pass
-                
+                img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
+                if os.path.exists(img_path):
+                    st.image(Image.open(img_path), caption=sigla, use_column_width=True)
+                else:
+                    st.image(
+                        Image.new('RGB', (300, 200), color=(240, 240, 240)),
+                        caption=f"Imagem ilustrativa - {sigla}",
+                        use_column_width=True
+                    )
+            
             with col2:
                 st.markdown(f"""
                 **🧪 Tipo de Polimerização:** {dados['Tipo de Polimerização']}  
@@ -447,11 +286,32 @@ MAPA_IMAGENS = {
                 **♻ Reciclável:** {dados['Reciclável']}
                 """)
                 
-                with st.expander("Detalhes"):
+                with st.expander("🔍 Detalhes"):
                     st.markdown(f"**Aplicações:** {dados['Aplicações']}")
                     st.markdown(f"**Descrição:** {dados['Descrição']}")
     
-    st.markdown(f"*Total de polímeros exibidos: {len(DADOS_ESPECIFICOS)}*")
+    st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(POLIMEROS_DATA)} polímeros*")
+
+# ... (mantenha as outras funções como mostrar_quiz, mostrar_historia, etc.)
+
+def main():
+    st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
+    st.subheader("Aplicativo para educadores: Química dos resíduos")
+    
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+        "🏛️ História", "🏷️ Glossário", "🧐 Quiz", 
+        "📚 Atividades", "🌱 Compostagem", "🧪 Química", "ℹ️ Sobre"
+    ])
+
+    with tab1: mostrar_historia()
+    with tab2: mostrar_glossario()
+    with tab3: mostrar_quiz()
+    # ... (outras abas)
+
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+    main()
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
