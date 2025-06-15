@@ -240,10 +240,11 @@ def mostrar_glossario():
     # Filtros na sidebar
     with st.sidebar:
         st.subheader("Filtros")
-        tipo_filtro = st.selectbox(
-            "Tipo de Polimerização",
-            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
-        
+       tipo_filtro = st.selectbox(
+    "Tipo de Polimerização",
+    ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
+)
+
         reciclavel_filtro = st.selectbox(
             "Reciclável",
             ["Todos", "Sim", "Não"])
