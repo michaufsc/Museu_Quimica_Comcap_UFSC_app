@@ -1,1 +1,0 @@
-# glossario-quimica-residuos
