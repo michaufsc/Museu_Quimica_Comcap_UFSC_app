@@ -237,19 +237,22 @@ def load_quiz():
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros")
     
-    # Filtros na sidebar
-    with st.sidebar:
-        st.subheader("Filtros")
-       tipo_filtro = st.selectbox(
-    "Tipo de Polimerização",
-    ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
-)
+   # Filtros na sidebar
+with st.sidebar:
+    st.subheader("Filtros")
+    
+    tipo_filtro = st.selectbox(
+        "Tipo de Polimerização",
+        ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
+    )
 
-        reciclavel_filtro = st.selectbox(
-            "Reciclável",
-            ["Todos", "Sim", "Não"])
-        
-        busca = st.text_input("Buscar por nome ou sigla:")
+    reciclavel_filtro = st.selectbox(
+        "Reciclável",
+        ["Todos", "Sim", "Não"]
+    )
+    
+    busca = st.text_input("Buscar por nome ou sigla:")
+
 
     # Restante da função permanece igual...
     # Aplicar filtros
