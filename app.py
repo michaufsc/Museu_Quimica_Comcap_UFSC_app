@@ -384,29 +384,30 @@ def main():
     st.markdown("---")
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "🏛️ História do Museu",
-        "🏷️ Glossário",
-        "🧐 Quiz",
-        "📚 Atividades",
-        "🌱 Compostagem",
-        "🧪 Química",
-        "ℹ️ Sobre"
-    ])
+    "🏛️ História do Museu",
+    "🏷️ Glossário",
+    "🧐 Quiz",
+    # "📚 Atividades",  <-- comente ou remova
+    "🌱 Compostagem",
+    "🧪 Química",
+    "ℹ️ Sobre"
+])
 
-    with tab1:
-        mostrar_historia()
-    with tab2:
-        mostrar_glossario()
-    with tab3:
-        mostrar_quiz()
-    with tab4:
-        mostrar_atividades()
-    with tab5:
-        mostrar_compostagem()
-    with tab6:
-        mostrar_quimica()
-    with tab7:
-        st.header("Sobre o Projeto")
+with tab1:
+    mostrar_historia()
+with tab2:
+    mostrar_glossario()
+with tab3:
+    mostrar_quiz()
+# with tab4: mostrar_atividades()  <-- comente ou remova
+with tab4:
+    mostrar_compostagem()
+with tab5:
+    mostrar_quimica()
+with tab6:
+    st.header("Sobre o Projeto")
+    ...
+
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
