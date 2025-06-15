@@ -72,7 +72,6 @@ def mostrar_glossario():
             **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
             """)
         st.divider()
-
 # Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
