@@ -505,9 +505,9 @@ def main():
         "🏛️ História do Museu",
         "🏷️ Glossário",
         "🧐 Quiz",
-        "📚 Atividades",
-        "🌱 Compostagem",
         "🧪 Química",
+        "🌱 Compostagem",
+        "📚 Atividades",
         "ℹ️ Sobre"
     ])
 
@@ -518,10 +518,12 @@ def main():
     with tab3:
         mostrar_quiz()
     with tab4:
-        mostrar_compostagem()
-    with tab5:
         mostrar_quimica()
+    with tab5:
+        mostrar_compostagem()
     with tab6:
+        mostrar_atividades()
+    with tab7:
         st.header("Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
@@ -535,7 +537,10 @@ def main():
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
 
-if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
-    main()
+# Adicionar esta função faltante
+def mostrar_atividades():
+    st.header("📚 Atividades Educativas")
+    st.markdown("""
+    Conteúdo sobre atividades pedagógicas relacionadas a resíduos e polímeros.
+    """)
+    # Adicionar conteúdo específico aqui
