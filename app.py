@@ -46,7 +46,7 @@ polimeros, residuos = load_data()
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
-    # Mapeamento de siglas para nomes de arquivos de imagem
+    # Mapeamento de siglas para nomes de arquivos de imagem (CORRIGIDO)
     MAPA_IMAGENS = {
         'PET': 'pet.png',
         'PE': 'pe.png',
@@ -54,50 +54,23 @@ def mostrar_glossario():
         'PVC': 'pvc.png',
         'PS': 'ps.png',
         'ABS': 'abs.png',
-        'PLA': 'pla.png',
+        'PLA': 'pla.png'
         # Adicione outros materiais conforme necessário
-    # Seleção do tipo de material
+    }
+    
+    # Seleção do tipo de material (CORRIGIDO)
     tipo_material = st.radio(
         "Selecione o tipo de material:",
         options=["Polímeros", "Resíduos"],
-        horizontal=True,
-        key="glossario_tipo_material"
+        horizontal=True
     )
     
     # Barra de busca
-    termo_busca = st.text_input(
-        "🔍 Pesquisar por nome, sigla ou aplicação:",
-        key="glossario_busca"
-    )
+    termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
     
     # Seleção do dataframe apropriado
     df = polimeros if tipo_material == "Polímeros" else residuos
     
-    # Adicionando informações técnicas específicas para PET
-    if 'PET' in df['Sigla'].values:
-        pet_index = df[df['Sigla'] == 'PET'].index[0]
-        df.at[pet_index, 'Densidade'] = '1,36 g/cm³'
-        df.at[pet_index, 'Ponto de Fusão'] = '250°C - 260°C'
-        df.at[pet_index, 'Tipo de Polimerização'] = 'Policondensação (termoplástico)'
-    
-    # Filtragem dos dados
-    if termo_busca:
-        termo_busca = termo_busca.lower()
-        df = df[
-            df.apply(lambda row: 
-                any(termo_busca in str(valor).lower() 
-                    for valor in row.values), 
-                axis=1)
-        ]
-    
-    # Mensagem se não encontrar resultados
-    if df.empty:
-        st.warning("Nenhum resultado encontrado para sua busca.")
-        if termo_busca:
-            st.info("Sugestão: tente termos mais gerais ou verifique a ortografia.")
-        return
-    
-    # Exibição dos itens
     # Exibição dos itens
     for _, row in df.iterrows():
         with st.container():
@@ -106,8 +79,6 @@ def mostrar_glossario():
             # Coluna 1 - Imagem
             with col1:
                 sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
-                
-                # Verifica se existe imagem mapeada
                 nome_arquivo = MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png")
                 caminho_imagem = os.path.join(IMAGES_DIR, nome_arquivo)
                 
@@ -118,20 +89,8 @@ def mostrar_glossario():
                         caption=f"Símbolo {sigla}"
                     )
                 else:
-                    # Imagem padrão com cor diferente para cada tipo de material
-                    cor_base = (random.randint(100, 200), random.randint(100, 200), random.randint(100, 200)
-                    img_padrao = Image.new('RGB', (300, 300), color=cor_base)
-                    
-                    # Adiciona texto na imagem padrão
-                    from PIL import ImageDraw, ImageFont
-                    try:
-                        draw = ImageDraw.Draw(img_padrao)
-                        font = ImageFont.load_default()
-                        text = sigla if len(sigla) <= 4 else sigla[:4]+""
-                        draw.text((150, 150), text, fill="white", font=font, anchor="mm")
-                    except:
-                        pass
-                    
+                    # Imagem padrão
+                    img_padrao = Image.new('RGB', (300, 300), color=(240, 240, 240))
                     st.image(
                         img_padrao,
                         use_container_width=True,
@@ -142,37 +101,18 @@ def mostrar_glossario():
             with col2:
                 st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
                 
-                # Layout de informações em colunas
-                col_info1, col_info2 = st.columns(2)
+                # Layout de informações
+                st.markdown(f"""
+                **🔤 Sigla:** {sigla}  
+                **🧪 Tipo de Polimerização:** {row.get('Tipo de Polimerização', 'Não especificado')}  
+                **📊 Densidade:** {row.get('Densidade', 'Não especificado')}  
+                **🔥 Ponto de Fusão:** {row.get('Ponto de Fusão', 'Não especificado')}  
+                **🔄 Reciclável:** {row.get('Reciclável', 'Não especificado')}
+                """)
                 
-                with col_info1:
-                    st.markdown(f"""
-                    **🔤 Sigla:**  
-                    {sigla}  
-                    
-                    **🧪 Tipo de Polimerização:**  
-                    {row.get('Tipo de Polimerização', 'Não especificado')}  
-                    
-                    **📊 Densidade:**  
-                    {row.get('Densidade', 'Não especificado')}
-                    """)
-                
-                with col_info2:
-                    st.markdown(f"""
-                    **🔥 Ponto de Fusão:**  
-                    {row.get('Ponto de Fusão', 'Não especificado')}  
-                    
-                    **🔄 Reciclável:**  
-                    {row.get('Reciclável', 'Não especificado')}  
-                    
-                    **🏷️ Código de Identificação:**  
-                    {row.get('Código de Identificação', 'Não especificado')}
-                    """)
-                
-                # Aplicações com expansor
+                # Aplicações
                 with st.expander("📦 Aplicações Comuns"):
-                    aplicacoes = row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado'))
-                    st.write(aplicacoes)
+                    st.write(row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado')))
             
             st.divider()
 # Função: quiz interativo
