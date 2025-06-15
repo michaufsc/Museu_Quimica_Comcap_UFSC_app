@@ -5,8 +5,19 @@ import random
 import os
 from PIL import Image
 import re
-# Dicionário completo de polímeros (adicionar no início do código, após as imports)
-DADOS_ESPECIFICOS = {
+
+# Configuração da página
+st.set_page_config(
+    page_title="Sistema Completo de Resíduos",
+    page_icon="♻️",
+    layout="wide"
+)
+
+# Caminhos e diretórios
+IMAGES_DIR = "imagens_materiais"
+
+# Dicionário completo de polímeros
+POLIMEROS_DATAS = {
     'PET': {
         'Nome Completo': 'Politereftalato de Etileno',
         'Tipo de Polimerização': 'Policondensação',
