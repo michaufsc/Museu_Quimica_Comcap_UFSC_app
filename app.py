@@ -249,6 +249,12 @@ def mostrar_glossario():
             ["Todos", "Sim", "Não"])
         
         busca = st.text_input("Buscar por nome ou sigla:")
+        
+        reciclavel_filtro = st.selectbox(
+            "Reciclável",
+            ["Todos", "Sim", "Não"])
+        
+        busca = st.text_input("Buscar por nome ou sigla:")
 
     # Aplicar filtros
     polimeros_filtrados = {}
