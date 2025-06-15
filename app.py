@@ -375,18 +375,24 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 
 # Função principal
 def main():
+    st.set_page_config(page_title="Museu do Lixo - COMCAP", layout="wide")
+    
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
-    st.markdown("Curso de Graduação em Química-Univeridade Federal de Santa Catarina (UFSC)")
+    st.markdown("---")
 
-    # Abas do aplicativo
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    # Abas principais com novas seções
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "🏛️ História do Museu",
         "🏷️ Glossário",
         "🧐 Quiz",
         "🌱 Compostagem",
         "🧪 Química dos Polímeros",
+        "🏘️ Coleta Seletiva por Bairro",
+        "🧵 Microplásticos",
+        "🤝 Associações de Reciclagem",
+        "📚 Atividades Pedagógicas",
         "ℹ️ Sobre"
     ])
 
