@@ -243,12 +243,10 @@ def mostrar_glossario():
         tipo_filtro = st.selectbox(
             "Tipo de Polimerização",
             ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
-        )
         
         reciclavel_filtro = st.selectbox(
             "Reciclável",
-            ["Todos", "Sim", "Não"]
-        )
+            ["Todos", "Sim", "Não"])
         
         busca = st.text_input("Buscar por nome ou sigla:")
 
@@ -263,36 +261,7 @@ def mostrar_glossario():
             continue
         polimeros_filtrados[sigla] = dados
 
-  def mostrar_glossario():
-    st.header("📖 Glossário Interativo de Polímeros")
-    
-    # Filtros na sidebar
-    with st.sidebar:
-        st.subheader("Filtros")
-        tipo_filtro = st.selectbox(
-            "Tipo de Polimerização",
-            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
-        )
-        
-        reciclavel_filtro = st.selectbox(
-            "Reciclável",
-            ["Todos", "Sim", "Não"]
-        )
-        
-        busca = st.text_input("Buscar por nome ou sigla:")
-
-    # Aplicar filtros
-    polimeros_filtrados = {}
-    for sigla, dados in DADOS_ESPECIFICOS.items():
-        if tipo_filtro != "Todos" and dados['Tipo de Polimerização'] != tipo_filtro:
-            continue
-        if reciclavel_filtro != "Todos" and not dados['Reciclável'].startswith(reciclavel_filtro):
-            continue
-        if busca and busca.lower() not in sigla.lower() and busca.lower() not in dados['Nome Completo'].lower():
-            continue
-        polimeros_filtrados[sigla] = dados
-
-    # Exibição - MODIFICADO: removido o expander aninhado
+    # Exibição dos polímeros filtrados
     for sigla, dados in polimeros_filtrados.items():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
@@ -319,7 +288,6 @@ def mostrar_glossario():
                 **♻ Reciclável:** {dados['Reciclável']}
                 """)
                 
-                # MODIFICADO: Substituído o expander por markdown diretamente
                 st.markdown("### 🔍 Detalhes")
                 st.markdown(f"**Aplicações:** {dados['Aplicações']}")
                 st.markdown(f"**Descrição:** {dados['Descrição']}")
