@@ -46,6 +46,16 @@ polimeros, residuos = load_data()
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
+    # Mapeamento de siglas para nomes de arquivos de imagem
+    MAPA_IMAGENS = {
+        'PET': 'pet.png',
+        'PE': 'pe.png',
+        'PP': 'pp.png',
+        'PVC': 'pvc.png',
+        'PS': 'ps.png',
+        'ABS': 'abs.png',
+        'PLA': 'pla.png',
+        # Adicione outros materiais conforme necessário
     # Seleção do tipo de material
     tipo_material = st.radio(
         "Selecione o tipo de material:",
@@ -88,6 +98,7 @@ def mostrar_glossario():
         return
     
     # Exibição dos itens
+    # Exibição dos itens
     for _, row in df.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
@@ -95,21 +106,36 @@ def mostrar_glossario():
             # Coluna 1 - Imagem
             with col1:
                 sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
-                nome_imagem = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
-                caminho_imagem = os.path.join(IMAGES_DIR, f"{nome_imagem}.png")
+                
+                # Verifica se existe imagem mapeada
+                nome_arquivo = MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png")
+                caminho_imagem = os.path.join(IMAGES_DIR, nome_arquivo)
                 
                 if os.path.exists(caminho_imagem):
                     st.image(
                         Image.open(caminho_imagem),
                         use_container_width=True,
-                        caption=sigla
+                        caption=f"Símbolo {sigla}"
                     )
                 else:
-                    img_padrao = Image.new('RGB', (300, 300), color=(240, 240, 240))
+                    # Imagem padrão com cor diferente para cada tipo de material
+                    cor_base = (random.randint(100, 200), random.randint(100, 200), random.randint(100, 200)
+                    img_padrao = Image.new('RGB', (300, 300), color=cor_base)
+                    
+                    # Adiciona texto na imagem padrão
+                    from PIL import ImageDraw, ImageFont
+                    try:
+                        draw = ImageDraw.Draw(img_padrao)
+                        font = ImageFont.load_default()
+                        text = sigla if len(sigla) <= 4 else sigla[:4]+""
+                        draw.text((150, 150), text, fill="white", font=font, anchor="mm")
+                    except:
+                        pass
+                    
                     st.image(
                         img_padrao,
                         use_container_width=True,
-                        caption=f"Imagem não disponível para {sigla}"
+                        caption=f"Imagem ilustrativa - {sigla}"
                     )
             
             # Coluna 2 - Informações
