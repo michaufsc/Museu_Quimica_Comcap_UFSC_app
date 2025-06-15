@@ -41,37 +41,50 @@ def load_quiz():
 polimeros, residuos = load_data()
 
 # Função: glossário interativo
+import streamlit as st
+import pandas as pd
+import os
+from PIL import Image
+import re
+
+IMAGES_DIR = "imagens"  # ajuste para o seu diretório
+
 def mostrar_glossario():
     st.header("📖 Glossário Interativo")
+
     dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
     df = polimeros if dataset == "Polímeros" else residuos
+
     search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
 
     if search_term:
-        mask = df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)
+        mask = df.astype(str).apply(lambda col: col.str.contains(search_term, case=False, na=False)).any(axis=1)
         df = df[mask]
 
+    if df.empty:
+        st.info("🔎 Nenhum resultado encontrado para sua busca.")
+        return
+
     for _, row in df.iterrows():
-        sigla = row['Sigla'] if 'Sigla' in row else row['Sigla ou Nome']
-        image_path = os.path.join(IMAGES_DIR, f"{sigla.lower()}.png")
-        col1, col2 = st.columns([1, 3])
+        sigla = row.get("Sigla") or row.get("Sigla ou Nome", "-")
+        sigla_img = re.sub(r'[^a-z0-9]', '', sigla.lower())
+        image_path = os.path.join(IMAGES_DIR, f"{sigla_img}.png")
 
-        with col1:
-            if os.path.exists(image_path):
-                st.image(Image.open(image_path), width=200)
-            else:
-                st.warning("Imagem não disponível")
+        if os.path.exists(image_path):
+            st.image(Image.open(image_path), use_column_width=True)  # Alta qualidade e responsiva
+        else:
+            st.warning(f"🔁 Imagem para '{sigla}' não disponível.")
 
-        with col2:
-            st.markdown(f"""
-            **Nome:** {row.get('Nome', row.get('Categoria'))}  
-            **Sigla:** {sigla}  
-            **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
-            **Composição:** {row.get('Composição Química', '-')}  
-            **Reciclável:** {row.get('Reciclável', '-')}  
-            **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
-            """)
+        st.markdown(f"""
+        **Nome:** {row.get('Nome', row.get('Categoria', '-'))}  
+        **Sigla:** {sigla}  
+        **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
+        **Composição:** {row.get('Composição Química', '-')}  
+        **Reciclável:** {row.get('Reciclável', '-')}  
+        **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
+        """)
         st.divider()
+
 # Função: atividades pedagógicas
 def mostrar_atividades():
     st.header("📚 Atividades Pedagógicas")
