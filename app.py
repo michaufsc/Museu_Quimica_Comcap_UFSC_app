@@ -44,66 +44,105 @@ polimeros, residuos = load_data()
 
 # Função: glossário interativo
 def mostrar_glossario():
-    st.header("📖 Glossário Interativo")
-
-    dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
-    df = polimeros if dataset == "Polímeros" else residuos
-
-    search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
-
-    if search_term:
-        mask = df.astype(str).apply(lambda col: col.str.contains(search_term, case=False, na=False)).any(axis=1)
-        df = df[mask]
-
+    st.header("📖 Glossário Interativo de Polímeros e Resíduos")
+    
+    # Seleção do tipo de material
+    tipo_material = st.radio(
+        "Selecione o tipo de material:",
+        options=["Polímeros", "Resíduos"],
+        horizontal=True,
+        key="glossario_tipo_material"
+    )
+    
+    # Barra de busca
+    termo_busca = st.text_input(
+        "🔍 Pesquisar por nome, sigla ou aplicação:",
+        key="glossario_busca"
+    )
+    
+    # Seleção do dataframe apropriado
+    df = polimeros if tipo_material == "Polímeros" else residuos
+    
+    # Filtragem dos dados
+    if termo_busca:
+        termo_busca = termo_busca.lower()
+        df = df[
+            df.apply(lambda row: 
+                any(termo_busca in str(valor).lower() 
+                    for valor in row.values), 
+                axis=1)
+        ]
+    
+    # Mensagem se não encontrar resultados
     if df.empty:
-        st.info("🔎 Nenhum resultado encontrado para sua busca.")
+        st.warning("Nenhum resultado encontrado para sua busca.")
+        if termo_busca:
+            st.info("Sugestão: tente termos mais gerais ou verifique a ortografia.")
         return
-
+    
+    # Exibição dos itens
     for _, row in df.iterrows():
-        sigla = row.get("Sigla") or row.get("Sigla ou Nome", "-")
-        sigla_img = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
-        image_path = os.path.join(IMAGES_DIR, f"{sigla_img}.png")
-
-        if os.path.exists(image_path):
-            st.image(Image.open(image_path), use_column_width=True)
-        else:
-            st.warning(f"🔁 Imagem para '{sigla}' não disponível.")
-
-        st.markdown(f"""
-        **Nome:** {row.get('Nome', row.get('Categoria', '-'))}  
-        **Sigla:** {sigla}  
-        **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
-        **Composição:** {row.get('Composição Química', '-')}  
-        **Reciclável:** {row.get('Reciclável', '-')}  
-        **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
-        """)
-        st.divider()
-
-# Função: atividades pedagógicas
-def mostrar_atividades():
-    st.header("📚 Atividades Pedagógicas")
-    tab1, tab2, tab3 = st.tabs(["Fundamental", "Médio", "Superior"])
-
-    with tab1:
-        st.markdown("""
-        ### 1. Identificação de Polímeros  
-        **Objetivo:** Reconhecer tipos de plásticos pelos símbolos  
-        **Materiais:** Amostras de embalagens com códigos de reciclagem
-        """)
-
-    with tab2:
-        st.markdown("""
-        ### 1. Análise de Propriedades  
-        **Objetivo:** Testar densidade e resistência de materiais  
-        **Materiais:** Amostras de diferentes polímeros
-        """)
-
-    with tab3:
-        st.markdown("""
-        ### 1. Análise de Ciclo de Vida  
-        **Objetivo:** Comparar impactos ambientais de materiais  
-        **Materiais:** Dados de produção e decomposição
-        """)
+        with st.container():
+            col1, col2 = st.columns([1, 3], gap="medium")
+            
+            # Coluna 1 - Imagem
+            with col1:
+                sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
+                nome_imagem = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
+                caminho_imagem = os.path.join(IMAGES_DIR, f"{nome_imagem}.png")
+                
+                if os.path.exists(caminho_imagem):
+                    st.image(
+                        Image.open(caminho_imagem),
+                        use_container_width=True,
+                        caption=sigla
+                    )
+                else:
+                    # Imagem padrão quando não encontrada
+                    img_padrao = Image.new('RGB', (300, 300), color=(240, 240, 240))
+                    st.image(
+                        img_padrao,
+                        use_container_width=True,
+                        caption=f"Imagem não disponível para {sigla}"
+                    )
+            
+            # Coluna 2 - Informações
+            with col2:
+                st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
+                
+                # Criando um layout organizado com colunas internas
+                col_info1, col_info2 = st.columns(2)
+                
+                with col_info1:
+                    st.markdown(f"""
+                    **🔤 Sigla:**  
+                    {sigla}  
+                    
+                    **🧪 Composição:**  
+                    {row.get('Composição Química', 'Não especificado')}  
+                    
+                    **🔄 Reciclável:**  
+                    {row.get('Reciclável', 'Não especificado')}
+                    """)
+                
+                with col_info2:
+                    st.markdown(f"""
+                    **📌 Tipo:**  
+                    {row.get('Tipo de Polimerização', row.get('Classe ABNT', 'Não especificado'))}  
+                    
+                    **📊 Densidade:**  
+                    {row.get('Densidade', 'Não especificado')}  
+                    
+                    **🔥 Ponto de Fusão:**  
+                    {row.get('Ponto de Fusão', 'Não especificado')}
+                    """)
+                
+                # Aplicações com expansor para economizar espaço
+                with st.expander("📦 Aplicações Comuns"):
+                    aplicacoes = row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado'))
+                    st.write(aplicacoes)
+            
+            st.divider()
 
 # Função: quiz interativo
 def mostrar_quiz():
