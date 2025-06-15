@@ -374,8 +374,6 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 """)
 
 # Função principal
-import streamlit as st
-
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
