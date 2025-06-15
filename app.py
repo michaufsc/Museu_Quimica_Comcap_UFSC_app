@@ -421,5 +421,6 @@ def main():
 
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)More actions
+        os.makedirs(IMAGES_DIR)
     main()
+
