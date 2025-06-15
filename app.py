@@ -91,6 +91,89 @@ def mostrar_glossario():
         **Reciclável:** {row.get('Reciclável', '-')}  
         **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
         """)
+        st.dividerimport streamlit as st
+import pandas as pd
+import random
+import requests
+from PIL import Image
+from io import BytesIO
+import re
+
+# Configuração da página
+st.set_page_config(
+    page_title="Sistema Completo de Resíduos",
+    page_icon="♻️",
+    layout="wide"
+)
+
+# Cache para carregar dados
+@st.cache_data
+def load_data():
+    polimeros = pd.read_csv("polimeros.csv", sep=";")
+    residuos = pd.read_csv("residuos.csv", sep=";")
+    return polimeros, residuos
+
+# Cache para carregar quiz
+@st.cache_data
+def load_quiz():
+    df = pd.read_csv("quiz_perguntas.csv", sep=";")
+    questions = []
+    for _, row in df.iterrows():
+        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
+        questions.append({
+            "pergunta": row['pergunta'],
+            "opcoes": opcoes,
+            "resposta": int(row['resposta']),
+            "explicacao": row['explicacao']
+        })
+    random.shuffle(questions)
+    return questions
+
+polimeros, residuos = load_data()
+
+# Caminho base das imagens no GitHub (raw link)
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/imagens_materiais"
+
+# Função: glossário interativo
+def mostrar_glossario():
+    st.header("📖 Glossário Interativo")
+
+    dataset = st.radio("Selecione a base de dados:", ["Polímeros", "Resíduos"], horizontal=True)
+    df = polimeros if dataset == "Polímeros" else residuos
+
+    search_term = st.text_input("🔍 Buscar por termo, sigla ou aplicação:")
+
+    if search_term:
+        mask = df.astype(str).apply(lambda col: col.str.contains(search_term, case=False, na=False)).any(axis=1)
+        df = df[mask]
+
+    if df.empty:
+        st.info("🔎 Nenhum resultado encontrado para sua busca.")
+        return
+
+    for _, row in df.iterrows():
+        sigla = row.get("Sigla") or row.get("Sigla ou Nome", "-")
+        sigla_img = re.sub(r'[^a-z0-9]', '', str(sigla).lower())
+        image_url = f"{GITHUB_RAW_BASE}/{sigla_img}.png"
+
+        try:
+            response = requests.get(image_url)
+            if response.status_code == 200:
+                image = Image.open(BytesIO(response.content))
+                st.image(image, use_column_width=True)
+            else:
+                st.warning(f"🔁 Imagem não encontrada: `{sigla_img}.png`")
+        except Exception as e:
+            st.error(f"Erro ao carregar imagem: {e}")
+
+        st.markdown(f"""
+        **Nome:** {row.get('Nome', row.get('Categoria', '-'))}  
+        **Sigla:** {sigla}  
+        **Tipo:** {row.get('Tipo de Polimerização', row.get('Classe ABNT', '-'))}  
+        **Composição:** {row.get('Composição Química', '-')}  
+        **Reciclável:** {row.get('Reciclável', '-')}  
+        **Aplicações:** {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', '-'))}
+        """)
         st.divider()
 
 # Função: atividades pedagógicas
