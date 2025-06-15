@@ -239,6 +239,7 @@ def mostrar_glossario():
         tipo_filtro = st.selectbox(
             "Tipo de Polimerização",
             ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in POLIMEROS_DATA.values()}))
+        )  # Faltava este parêntese
         
         reciclavel_filtro = st.selectbox(
             "Reciclável",
@@ -287,8 +288,6 @@ def mostrar_glossario():
                     st.markdown(f"**Descrição:** {dados['Descrição']}")
     
     st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(POLIMEROS_DATA)} polímeros*")
-
-# ... (mantenha as outras funções como mostrar_quiz, mostrar_historia, etc.)
 
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
