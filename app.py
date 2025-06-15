@@ -5,6 +5,337 @@ import random
 import os
 from PIL import Image
 import re
+# Dicionário completo de polímeros (adicionar no início do código, após as imports)
+DADOS_ESPECIFICOS = {
+    'PET': {
+        'Nome Completo': 'Politereftalato de Etileno',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,36-1,38 g/cm³',
+        'Ponto de Fusão': '250-260°C',
+        'Reciclável': 'Sim (código 1)',
+        'Aplicações': 'Garrafas, fibras têxteis, embalagens',
+        'Descrição': 'Um dos plásticos mais reciclados mundialmente, derivado do petróleo'
+    },
+    'PE': {
+        'Nome Completo': 'Polietileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,91-0,96 g/cm³',
+        'Ponto de Fusão': '105-130°C',
+        'Reciclável': 'Sim (código 2)',
+        'Aplicações': 'Sacolas, embalagens, tubos',
+        'Descrição': 'Plástico mais comum, com versões de alta e baixa densidade'
+    },
+    'PP': {
+        'Nome Completo': 'Polipropileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,90-0,91 g/cm³',
+        'Ponto de Fusão': '160-170°C',
+        'Reciclável': 'Sim (código 5)',
+        'Aplicações': 'Utensílios domésticos, embalagens',
+        'Descrição': 'Versátil e resistente a produtos químicos'
+    },
+    'PVC': {
+        'Nome Completo': 'Policloreto de Vinila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,38 g/cm³',
+        'Ponto de Fusão': '100-260°C',
+        'Reciclável': 'Sim (código 3)',
+        'Aplicações': 'Tubos, revestimentos, cabos',
+        'Descrição': 'Contém cloro em sua composição, requer cuidados na reciclagem'
+    },
+    'PS': {
+        'Nome Completo': 'Poliestireno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,04-1,07 g/cm³',
+        'Ponto de Fusão': '240°C',
+        'Reciclável': 'Sim (código 6)',
+        'Aplicações': 'Embalagens, isolantes térmicos',
+        'Descrição': 'Conhecido como isopor quando expandido (EPS)'
+    },
+    'PLA': {
+        'Nome Completo': 'Ácido Polilático',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,24-1,27 g/cm³',
+        'Ponto de Fusão': '150-160°C',
+        'Reciclável': 'Sim (compostável)',
+        'Aplicações': 'Impressão 3D, embalagens',
+        'Descrição': 'Biopolímero derivado de fontes renováveis como milho e cana'
+    },
+    'PA': {
+        'Nome Completo': 'Poliamida',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,13-1,15 g/cm³',
+        'Ponto de Fusão': '220-265°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Têxteis, peças industriais',
+        'Descrição': 'Conhecido como Nylon, possui alta resistência mecânica'
+    },
+    'ABS': {
+        'Nome Completo': 'Acrilonitrila Butadieno Estireno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,04-1,06 g/cm³',
+        'Ponto de Fusão': '105°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Brinquedos, peças automotivas',
+        'Descrição': 'Terpolímero resistente ao impacto'
+    },
+    'PTFE': {
+        'Nome Completo': 'Politetrafluoretileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '2,15-2,20 g/cm³',
+        'Ponto de Fusão': '327°C',
+        'Reciclável': 'Não',
+        'Aplicações': 'Revestimentos antiaderentes',
+        'Descrição': 'Conhecido como Teflon, possui alta resistência química'
+    },
+    'PUR': {
+        'Nome Completo': 'Poliuretano',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,05 g/cm³',
+        'Ponto de Fusão': 'Varia',
+        'Reciclável': 'Não',
+        'Aplicações': 'Espumas, colchões, fibras',
+        'Descrição': 'Versátil, usado de mobiliário a roupas'
+    },
+    'PC': {
+        'Nome Completo': 'Policarbonato',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,20-1,22 g/cm³',
+        'Ponto de Fusão': '230-260°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Lentes, CDs, capacetes',
+        'Descrição': 'Transparente e resistente ao impacto'
+    },
+    'PMMA': {
+        'Nome Completo': 'Polimetilmetacrilato',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,17-1,20 g/cm³',
+        'Ponto de Fusão': '160°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Displays, próteses',
+        'Descrição': 'Conhecido como acrílico ou vidro acrílico'
+    },
+    'POM': {
+        'Nome Completo': 'Poliacetal',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,41-1,43 g/cm³',
+        'Ponto de Fusão': '175°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Engrenagens, componentes',
+        'Descrição': 'Alta rigidez e baixo atrito'
+    },
+    'EVA': {
+        'Nome Completo': 'Etileno Acetato de Vinila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,93 g/cm³',
+        'Ponto de Fusão': 'Varia',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Solas de sapato, brinquedos',
+        'Descrição': 'Copolímero flexível e leve'
+    },
+    'PBT': {
+        'Nome Completo': 'Polibutileno Tereftalato',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,31 g/cm³',
+        'Ponto de Fusão': '223°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Conectores elétricos',
+        'Descrição': 'Poliéster termoplástico resistente'
+    },
+    'SAN': {
+        'Nome Completo': 'Estireno Acrilonitrila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,07-1,08 g/cm³',
+        'Ponto de Fusão': '115-120°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Eletrodomésticos',
+        'Descrição': 'Copolímero transparente'
+    },
+    'PPS': {
+        'Nome Completo': 'Polifenileno Sulfeto',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,35 g/cm³',
+        'Ponto de Fusão': '280-285°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Peças eletrônicas',
+        'Descrição': 'Alta resistência térmica'
+    },
+    'LDPE': {
+        'Nome Completo': 'Polietileno de Baixa Densidade',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,91-0,93 g/cm³',
+        'Ponto de Fusão': '105-115°C',
+        'Reciclável': 'Sim (código 4)',
+        'Aplicações': 'Filmes plásticos',
+        'Descrição': 'Versão flexível do PE'
+    }
+}
+
+# Dicionário completo de polímeros (adicionar no início do código, após as imports)
+DADOS_ESPECIFICOS = {
+    'PET': {
+        'Nome Completo': 'Politereftalato de Etileno',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,36-1,38 g/cm³',
+        'Ponto de Fusão': '250-260°C',
+        'Reciclável': 'Sim (código 1)',
+        'Aplicações': 'Garrafas, fibras têxteis, embalagens',
+        'Descrição': 'Um dos plásticos mais reciclados mundialmente, derivado do petróleo'
+    },
+    'PE': {
+        'Nome Completo': 'Polietileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,91-0,96 g/cm³',
+        'Ponto de Fusão': '105-130°C',
+        'Reciclável': 'Sim (código 2)',
+        'Aplicações': 'Sacolas, embalagens, tubos',
+        'Descrição': 'Plástico mais comum, com versões de alta e baixa densidade'
+    },
+    'PP': {
+        'Nome Completo': 'Polipropileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,90-0,91 g/cm³',
+        'Ponto de Fusão': '160-170°C',
+        'Reciclável': 'Sim (código 5)',
+        'Aplicações': 'Utensílios domésticos, embalagens',
+        'Descrição': 'Versátil e resistente a produtos químicos'
+    },
+    'PVC': {
+        'Nome Completo': 'Policloreto de Vinila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,38 g/cm³',
+        'Ponto de Fusão': '100-260°C',
+        'Reciclável': 'Sim (código 3)',
+        'Aplicações': 'Tubos, revestimentos, cabos',
+        'Descrição': 'Contém cloro em sua composição, requer cuidados na reciclagem'
+    },
+    'PS': {
+        'Nome Completo': 'Poliestireno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,04-1,07 g/cm³',
+        'Ponto de Fusão': '240°C',
+        'Reciclável': 'Sim (código 6)',
+        'Aplicações': 'Embalagens, isolantes térmicos',
+        'Descrição': 'Conhecido como isopor quando expandido (EPS)'
+    },
+    'PLA': {
+        'Nome Completo': 'Ácido Polilático',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,24-1,27 g/cm³',
+        'Ponto de Fusão': '150-160°C',
+        'Reciclável': 'Sim (compostável)',
+        'Aplicações': 'Impressão 3D, embalagens',
+        'Descrição': 'Biopolímero derivado de fontes renováveis como milho e cana'
+    },
+    'PA': {
+        'Nome Completo': 'Poliamida',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,13-1,15 g/cm³',
+        'Ponto de Fusão': '220-265°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Têxteis, peças industriais',
+        'Descrição': 'Conhecido como Nylon, possui alta resistência mecânica'
+    },
+    'ABS': {
+        'Nome Completo': 'Acrilonitrila Butadieno Estireno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,04-1,06 g/cm³',
+        'Ponto de Fusão': '105°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Brinquedos, peças automotivas',
+        'Descrição': 'Terpolímero resistente ao impacto'
+    },
+    'PTFE': {
+        'Nome Completo': 'Politetrafluoretileno',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '2,15-2,20 g/cm³',
+        'Ponto de Fusão': '327°C',
+        'Reciclável': 'Não',
+        'Aplicações': 'Revestimentos antiaderentes',
+        'Descrição': 'Conhecido como Teflon, possui alta resistência química'
+    },
+    'PUR': {
+        'Nome Completo': 'Poliuretano',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,05 g/cm³',
+        'Ponto de Fusão': 'Varia',
+        'Reciclável': 'Não',
+        'Aplicações': 'Espumas, colchões, fibras',
+        'Descrição': 'Versátil, usado de mobiliário a roupas'
+    },
+    'PC': {
+        'Nome Completo': 'Policarbonato',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,20-1,22 g/cm³',
+        'Ponto de Fusão': '230-260°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Lentes, CDs, capacetes',
+        'Descrição': 'Transparente e resistente ao impacto'
+    },
+    'PMMA': {
+        'Nome Completo': 'Polimetilmetacrilato',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,17-1,20 g/cm³',
+        'Ponto de Fusão': '160°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Displays, próteses',
+        'Descrição': 'Conhecido como acrílico ou vidro acrílico'
+    },
+    'POM': {
+        'Nome Completo': 'Poliacetal',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,41-1,43 g/cm³',
+        'Ponto de Fusão': '175°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Engrenagens, componentes',
+        'Descrição': 'Alta rigidez e baixo atrito'
+    },
+    'EVA': {
+        'Nome Completo': 'Etileno Acetato de Vinila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,93 g/cm³',
+        'Ponto de Fusão': 'Varia',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Solas de sapato, brinquedos',
+        'Descrição': 'Copolímero flexível e leve'
+    },
+    'PBT': {
+        'Nome Completo': 'Polibutileno Tereftalato',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,31 g/cm³',
+        'Ponto de Fusão': '223°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Conectores elétricos',
+        'Descrição': 'Poliéster termoplástico resistente'
+    },
+    'SAN': {
+        'Nome Completo': 'Estireno Acrilonitrila',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '1,07-1,08 g/cm³',
+        'Ponto de Fusão': '115-120°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Eletrodomésticos',
+        'Descrição': 'Copolímero transparente'
+    },
+    'PPS': {
+        'Nome Completo': 'Polifenileno Sulfeto',
+        'Tipo de Polimerização': 'Policondensação',
+        'Densidade': '1,35 g/cm³',
+        'Ponto de Fusão': '280-285°C',
+        'Reciclável': 'Sim',
+        'Aplicações': 'Peças eletrônicas',
+        'Descrição': 'Alta resistência térmica'
+    },
+    'LDPE': {
+        'Nome Completo': 'Polietileno de Baixa Densidade',
+        'Tipo de Polimerização': 'Adição',
+        'Densidade': '0,91-0,93 g/cm³',
+        'Ponto de Fusão': '105-115°C',
+        'Reciclável': 'Sim (código 4)',
+        'Aplicações': 'Filmes plásticos',
+        'Descrição': 'Versão flexível do PE'
+    }
+}
 
 # Configuração da página
 st.set_page_config(
@@ -55,130 +386,61 @@ MAPA_IMAGENS = {
     'PVC': 'pvc.png',
     'PS': 'ps.png',
     'ABS': 'abs.png',
-    'PLA': 'pla.png',  # Adicionei a vírgula faltante aqui
-    'PA': 'pa.png'
+    'PLA': 'pla.png',
+    'PA': 'pa.png',
+    'PTFE': 'ptfe.png',
+    'PUR': 'pur.png',
+    'PC': 'pc.png',
+    'PMMA': 'pmma.png',
+    'POM': 'pom.png',
+    'EVA': 'eva.png',
+    'PBT': 'pbt.png',
+    'SAN': 'san.png',
+    'PPS': 'pps.png',
+    'LDPE': 'ldpe.png'
 }
 
-    # Dados técnicos específicos para materiais selecionados
-    DADOS_ESPECIFICOS = {
-        'PLA': {
-            'Tipo de Polimerização': 'Policondensação (biodegradável)',
-            'Densidade': '1,24-1,27 g/cm³',
-            'Ponto de Fusão': '150-160°C',
-            'Reciclável': 'Sim (compostável industrial)',
-            'Aplicações Comuns': 'Impressão 3D, embalagens alimentícias, utensílios descartáveis, implantes médicos',
-            'Descrição': 'PLA (Ácido Polilático) é um termoplástico biodegradável derivado de fontes renováveis como amido de milho, cana-de-açúcar ou beterraba. Possui baixa toxicidade e é amplamente utilizado na fabricação de bioplásticos.'
-        },
-        'PET': {
-            'Tipo de Polimerização': 'Policondensação (termoplástico)',
-            'Densidade': '1,36 g/cm³',
-            'Ponto de Fusão': '250-260°C'
-        }
-    }
-
-    # Seleção do tipo de material
-    tipo_material = st.radio(
-        "Selecione o tipo de material:",
-        options=["Polímeros", "Resíduos"],
-        horizontal=True
-    )
+    # Filtros na sidebar
+    with st.sidebar:
+        st.subheader("Filtros")
+        tipo_polimerizacao = st.selectbox(
+            "Tipo de Polimerização",
+            ["Todos"] + list(sorted({v['Tipo de Polimerização'].split('(')[0].strip() for v in DADOS_ESPECIFICOS.values()}))
+        )
+        
+        reciclavel = st.selectbox(
+            "Reciclável",
+            ["Todos", "Sim", "Não"]
+        )
     
-    # Barra de busca
-    termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
-    
-    # Seleção do dataframe apropriado
-    df = polimeros if tipo_material == "Polímeros" else residuos
-    
-    # Filtragem dos dados
-    if termo_busca:
-        mask = df.astype(str).apply(lambda col: col.str.contains(termo_busca, case=False, na=False)).any(axis=1)
-        df = df[mask]
-
-    if df.empty:
-        st.info("🔎 Nenhum resultado encontrado para sua busca.")
-        return
-
-    # Exibição dos itens
-    for _, row in df.iterrows():
-        with st.container():
-            sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
+    # Exibição dos polímeros
+    for sigla, dados in DADOS_ESPECIFICOS.items():
+        # Aplicar filtros
+        if tipo_polimerizacao != "Todos" and not dados['Tipo de Polimerização'].startswith(tipo_polimerizacao):
+            continue
+        if reciclavel != "Todos" and dados['Reciclável'] != reciclavel:
+            continue
+        
+        with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
+            col1, col2 = st.columns([1, 3])
             
-            # Atualiza os dados com informações específicas se existirem
-            dados_material = DADOS_ESPECIFICOS.get(sigla, {})
-            row_atualizado = row.copy()
-            for chave, valor in dados_material.items():
-                row_atualizado[chave] = valor
-
-            col1, col2 = st.columns([1, 3], gap="medium")
-            
-            # Coluna 1 - Imagem
             with col1:
-                nome_arquivo = MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png")
-                caminho_imagem = os.path.join(IMAGES_DIR, nome_arquivo)
+                # Código para exibir imagem (como no original)
+                pass
                 
-                if os.path.exists(caminho_imagem):
-                    st.image(
-                        Image.open(caminho_imagem),
-                        use_container_width=True,
-                        caption=f"Símbolo {sigla}"
-                    )
-                else:
-                    # CORREÇÃO APLICADA AQUI - Fechando corretamente os parênteses
-                    cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
-                    img_padrao = Image.new('RGB', (300, 300), color=cor)
-                    
-                    st.image(
-                        img_padrao,
-                        use_container_width=True,
-                        caption=f"Imagem ilustrativa - {sigla}"
-                    )
-            
-            # Coluna 2 - Informações
             with col2:
-                st.subheader(row_atualizado.get("Nome", row_atualizado.get("Categoria", "Sem nome")))
+                st.markdown(f"""
+                **🧪 Tipo de Polimerização:** {dados['Tipo de Polimerização']}  
+                **⚖ Densidade:** {dados['Densidade']}  
+                **🔥 Ponto de Fusão:** {dados['Ponto de Fusão']}  
+                **♻ Reciclável:** {dados['Reciclável']}
+                """)
                 
-                # Destaque especial para materiais biodegradáveis
-                if sigla == 'PLA':
-                    st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
-                
-                # Layout de informações
-                col_info1, col_info2 = st.columns(2)
-                
-                with col_info1:
-                    st.markdown(f"""
-                    **🔤 Sigla:**  
-                    {sigla}  
-                    
-                    **🧪 Tipo de Polimerização:**  
-                    {row_atualizado.get('Tipo de Polimerização', 'Não especificado')}  
-                    
-                    **📊 Densidade:**  
-                    {row_atualizado.get('Densidade', 'Não especificado')}
-                    """)
-                
-                with col_info2:
-                    st.markdown(f"""
-                    **🔥 Ponto de Fusão:**  
-                    {row_atualizado.get('Ponto de Fusão', 'Não especificado')}  
-                    
-                    **🔄 Reciclável:**  
-                    {row_atualizado.get('Reciclável', 'Não especificado')}  
-                    
-                    **🏷️ Código de Identificação:**  
-                    {row_atualizado.get('Código de Identificação', 'Não especificado')}
-                    """)
-                
-                # Descrição expandível para materiais com informações adicionais
-                if sigla in DADOS_ESPECIFICOS and 'Descrição' in DADOS_ESPECIFICOS[sigla]:
-                    with st.expander("📝 Descrição Detalhada"):
-                        st.write(DADOS_ESPECIFICOS[sigla]['Descrição'])
-                
-                # Aplicações com expansor
-                with st.expander("📦 Aplicações Comuns"):
-                    aplicacoes = row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado'))
-                    st.write(aplicacoes)
-            
-            st.divider()
+                with st.expander("Detalhes"):
+                    st.markdown(f"**Aplicações:** {dados['Aplicações']}")
+                    st.markdown(f"**Descrição:** {dados['Descrição']}")
+    
+    st.markdown(f"*Total de polímeros exibidos: {len(DADOS_ESPECIFICOS)}*")
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
