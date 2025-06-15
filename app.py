@@ -289,24 +289,6 @@ def mostrar_glossario():
     
     st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(POLIMEROS_DATA)} polímeros*")
 
-def main():
-    st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
-    st.subheader("Aplicativo para educadores: Química dos resíduos")
-    
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "🏛️ História", "🏷️ Glossário", "🧐 Quiz", 
-        "📚 Atividades", "🌱 Compostagem", "🧪 Química", "ℹ️ Sobre"
-    ])
-
-    with tab1: mostrar_historia()
-    with tab2: mostrar_glossario()
-    with tab3: mostrar_quiz()
-    # ... (outras abas)
-
-if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
-    main()
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
