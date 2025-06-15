@@ -406,22 +406,14 @@ with tab5:
     mostrar_quimica()
 with tab6:
     st.header("Sobre o Projeto")
-    ...
-
-        st.markdown("""
+    st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 """)
-        st.markdown("""
+    st.markdown("""
 **Autor:** nome alunos e prof  
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
-
-if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
-    main()
-
