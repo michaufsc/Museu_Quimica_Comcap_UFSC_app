@@ -43,9 +43,38 @@ def load_quiz():
 polimeros, residuos = load_data()
 
 # Função: glossário interativo
+# Função: glossário interativo
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
+    # Mapeamento de siglas para nomes de arquivos de imagem
+    MAPA_IMAGENS = {
+        'PET': 'pet.png',
+        'PE': 'pe.png',
+        'PP': 'pp.png',
+        'PVC': 'pvc.png',
+        'PS': 'ps.png',
+        'ABS': 'abs.png',
+        'PLA': 'pla.png'
+    }
+
+    # Dados técnicos específicos para materiais selecionados
+    DADOS_ESPECIFICOS = {
+        'PLA': {
+            'Tipo de Polimerização': 'Policondensação (biodegradável)',
+            'Densidade': '1,24-1,27 g/cm³',
+            'Ponto de Fusão': '150-160°C',
+            'Reciclável': 'Sim (compostável industrial)',
+            'Aplicações Comuns': 'Impressão 3D, embalagens alimentícias, utensílios descartáveis, implantes médicos',
+            'Descrição': 'PLA (Ácido Polilático) é um termoplástico biodegradável derivado de fontes renováveis como amido de milho, cana-de-açúcar ou beterraba. Possui baixa toxicidade e é amplamente utilizado na fabricação de bioplásticos.'
+        },
+        'PET': {
+            'Tipo de Polimerização': 'Policondensação (termoplástico)',
+            'Densidade': '1,36 g/cm³',
+            'Ponto de Fusão': '250-260°C'
+        }
+    }
+
     # Seleção do tipo de material
     tipo_material = st.radio(
         "Selecione o tipo de material:",
@@ -59,19 +88,6 @@ def mostrar_glossario():
     # Seleção do dataframe apropriado
     df = polimeros if tipo_material == "Polímeros" else residuos
     
-    # Dados técnicos específicos
-    DADOS_ESPECIFICOS = {
-        'PLA': {
-            'Nome': 'Ácido Polilático',
-            'Tipo de Polimerização': 'Policondensação (biodegradável)',
-            'Densidade': '1,24-1,27 g/cm³',
-            'Ponto de Fusão': '150-160°C',
-            'Reciclável': 'Sim (compostável industrial)',
-            'Aplicações Comuns': 'Impressão 3D, embalagens alimentícias, utensílios descartáveis, implantes médicos',
-            'Descrição': 'PLA (Ácido Polilático) é um termoplástico biodegradável derivado de fontes renováveis como amido de milho, cana-de-açúcar ou beterraba. Possui baixa toxicidade e é amplamente utilizado na fabricação de bioplásticos.'
-        }
-    }
-
     # Filtragem dos dados
     if termo_busca:
         mask = df.astype(str).apply(lambda col: col.str.contains(termo_busca, case=False, na=False)).any(axis=1)
@@ -86,18 +102,18 @@ def mostrar_glossario():
         with st.container():
             sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
             
-            # Atualiza os dados com informações específicas
+            # Atualiza os dados com informações específicas se existirem
+            dados_material = DADOS_ESPECIFICOS.get(sigla, {})
             row_atualizado = row.copy()
-            if sigla in DADOS_ESPECIFICOS:
-                for chave, valor in DADOS_ESPECIFICOS[sigla].items():
-                    row_atualizado[chave] = valor
+            for chave, valor in dados_material.items():
+                row_atualizado[chave] = valor
 
             col1, col2 = st.columns([1, 3], gap="medium")
             
             # Coluna 1 - Imagem
             with col1:
-                nome_imagem = f"{sigla.lower()}.png"
-                caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
+                nome_arquivo = MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png")
+                caminho_imagem = os.path.join(IMAGES_DIR, nome_arquivo)
                 
                 if os.path.exists(caminho_imagem):
                     st.image(
@@ -106,18 +122,9 @@ def mostrar_glossario():
                         caption=f"Símbolo {sigla}"
                     )
                 else:
-                    # CORREÇÃO APLICADA AQUI
-                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200) if sigla == 'PLA' else (240, 240, 240))
-                    
-                    # Adiciona texto na imagem
-                    try:
-                        draw = ImageDraw.Draw(img_padrao)
-                        font = ImageFont.load_default()
-                        text = sigla if len(sigla) <= 4 else sigla[:4]
-                        w, h = draw.textsize(text, font=font)
-                        draw.text(((300-w)/2, (300-h)/2), text, fill="white", font=font)
-                    except:
-                        pass
+                    # CORREÇÃO APLICADA AQUI - Fechando corretamente os parênteses
+                    cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
+                    img_padrao = Image.new('RGB', (300, 300), color=cor)
                     
                     st.image(
                         img_padrao,
@@ -125,7 +132,52 @@ def mostrar_glossario():
                         caption=f"Imagem ilustrativa - {sigla}"
                     )
             
-            # [...] (restante do código da função)
+            # Coluna 2 - Informações
+            with col2:
+                st.subheader(row_atualizado.get("Nome", row_atualizado.get("Categoria", "Sem nome")))
+                
+                # Destaque especial para materiais biodegradáveis
+                if sigla == 'PLA':
+                    st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
+                
+                # Layout de informações
+                col_info1, col_info2 = st.columns(2)
+                
+                with col_info1:
+                    st.markdown(f"""
+                    **🔤 Sigla:**  
+                    {sigla}  
+                    
+                    **🧪 Tipo de Polimerização:**  
+                    {row_atualizado.get('Tipo de Polimerização', 'Não especificado')}  
+                    
+                    **📊 Densidade:**  
+                    {row_atualizado.get('Densidade', 'Não especificado')}
+                    """)
+                
+                with col_info2:
+                    st.markdown(f"""
+                    **🔥 Ponto de Fusão:**  
+                    {row_atualizado.get('Ponto de Fusão', 'Não especificado')}  
+                    
+                    **🔄 Reciclável:**  
+                    {row_atualizado.get('Reciclável', 'Não especificado')}  
+                    
+                    **🏷️ Código de Identificação:**  
+                    {row_atualizado.get('Código de Identificação', 'Não especificado')}
+                    """)
+                
+                # Descrição expandível para materiais com informações adicionais
+                if sigla in DADOS_ESPECIFICOS and 'Descrição' in DADOS_ESPECIFICOS[sigla]:
+                    with st.expander("📝 Descrição Detalhada"):
+                        st.write(DADOS_ESPECIFICOS[sigla]['Descrição'])
+                
+                # Aplicações com expansor
+                with st.expander("📦 Aplicações Comuns"):
+                    aplicacoes = row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado'))
+                    st.write(aplicacoes)
+            
+            st.divider()
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
