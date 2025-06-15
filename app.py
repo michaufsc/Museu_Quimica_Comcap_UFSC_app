@@ -525,6 +525,7 @@ def main():
     with tab6:
         mostrar_coleta_seletiva()
 
+
     with tab7:
         st.header("🧵 Microplásticos")
         st.markdown("Conteúdo em desenvolvimento.")
