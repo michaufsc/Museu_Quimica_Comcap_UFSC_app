@@ -267,8 +267,7 @@ def mostrar_glossario():
     for sigla, dados in polimeros_filtrados.items():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
-            
-  with col1:
+         with col1:
     try:
         img_path = os.path.join(IMAGES_DIR, MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png"))
         if os.path.exists(img_path):
@@ -281,6 +280,7 @@ def mostrar_glossario():
             caption=f"Imagem não disponível - {sigla}",
             use_column_width=True
         )
+  
             
             with col2:
                 st.markdown(f"""
