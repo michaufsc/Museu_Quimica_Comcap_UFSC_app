@@ -381,85 +381,74 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
+import streamlit as st
+import pandas as pd
+import folium
+from streamlit_folium import folium_static
 
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
-    
-    # Carrega os dados
+
+    # Carrega os dados do GitHub
     df = load_coleta_data()
-    
+
     # Sidebar com filtros
     with st.sidebar:
-        st.subheader("Filtros")
-        bairro_selecionado = st.selectbox(
-            "Selecione um bairro:",
-            options=sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique()),
-            index=0
-        )
-        
-        tipo_selecionado = st.radio(
-            "Tipo de ponto:",
-            options=['Todos'] + list(df['tipo'].unique())
-        )
-    
-    # Filtra os dados
+        st.subheader("🔎 Filtros")
+        bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
+        bairro_selecionado = st.selectbox("Selecione um bairro:", options=["Todos"] + bairros)
+
+        tipos_disponiveis = list(df['tipo'].unique())
+        tipo_selecionado = st.radio("Tipo de ponto:", options=["Todos"] + tipos_disponiveis)
+
+    # Filtro por bairro
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
-        dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado)]
+        dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False)]
+
+    # Filtro por tipo
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
-    
-    # Mostra estatísticas rápidas
+
+    # Estatísticas rápidas
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("Total de Pontos", len(dados_filtrados))
+        st.metric("Pontos exibidos", len(dados_filtrados))
     with col2:
-        st.metric("Pontos Mapeados", len(df))
-    
+        st.metric("Total no banco", len(df))
+
     st.markdown("---")
-    
-    # Mapa interativo
     st.subheader("📍 Mapa de Pontos de Coleta")
-    
-    # Cria mapa centrado em Florianópolis
-    m = folium.Map(
-        location=[-27.5969, -48.5495],
-        zoom_start=12,
-        tiles='CartoDB positron'
-    )
-    
-    # Adiciona marcadores
-    for idx, row in dados_filtrados.iterrows():
-        popup_text = f"""
-        <b>{row['nome'].split('-')[0]}</b><br>
+
+    # Mapa com marcadores
+    m = folium.Map(location=[-27.5969, -48.5495], zoom_start=12, tiles="CartoDB positron")
+
+    for _, row in dados_filtrados.iterrows():
+        popup = f"""
+        <b>{row['nome']}</b><br>
         <b>Tipo:</b> {row['tipo']}<br>
-        <b>Dias:</b> {row.get('dias_coleta', 'Não especificado')}<br>
-        <b>Horário:</b> {row.get('horario', 'Não especificado')}
+        <b>Dias:</b> {row.get('dias_coleta', 'Não informado')}<br>
+        <b>Horário:</b> {row.get('horario', 'Não informado')}
         """
-        
         folium.Marker(
             location=[row['latitude'], row['longitude']],
-            popup=popup_text,
-            icon=folium.Icon(
-                color='green' if row['tipo'] == 'PEV' else 'blue',
-                icon='recycle' if row['tipo'] == 'PEV' else 'trash'
-            )
+            popup=popup,
+            icon=folium.Icon(color='green' if row['tipo'] == 'PEV' else 'blue', icon='recycle' if row['tipo'] == 'PEV' else 'trash')
         ).add_to(m)
-    
-    # Exibe o mapa
+
     folium_static(m, width=800, height=500)
-    
+
     # Legenda
     st.markdown("""
-    **Legenda:**
-    - 🟢 PEVs (Pontos de Entrega Voluntária)
-    - 🔵 Pontos de Coleta Regular
+    **Legenda:**  
+    🟢 PEVs (Pontos de Entrega Voluntária)  
+    🔵 Pontos de Coleta Regular
     """)
-    
+
+    # Tabela
     st.markdown("---")
-    
-    # Tabela de dados
     st.subheader("📋 Detalhes dos Pontos")
+
     st.dataframe(
         dados_filtrados[['nome', 'tipo', 'dias_coleta', 'horario']].rename(columns={
             'nome': 'Local',
@@ -470,34 +459,31 @@ def mostrar_coleta_seletiva():
         height=400,
         use_container_width=True
     )
-    
-    # Seção de informações
+
+    # Informações educativas
     st.markdown("---")
     st.subheader("ℹ️ Como Funciona a Coleta Seletiva")
-    
-    col_info1, col_info2 = st.columns(2)
-    
-    with col_info1:
+    col1, col2 = st.columns(2)
+
+    with col1:
         st.markdown("""
         ### ✅ Materiais Aceitos
-        - Papel, papelão e jornais
-        - Plásticos (limpos e secos)
-        - Vidros (sem tampas)
+        - Papel, papelão e jornais  
+        - Plásticos (limpos e secos)  
+        - Vidros (sem tampas)  
         - Metais (latas, arames)
         """)
-    
-    with col_info2:
+
+    with col2:
         st.markdown("""
         ### ❌ Materiais Recusados
-        - Lixo orgânico
-        - Fraldas descartáveis
-        - Espelhos e cerâmicas
+        - Lixo orgânico  
+        - Fraldas descartáveis  
+        - Espelhos e cerâmicas  
         - Embalagens sujas
         """)
-    
-    st.markdown("""
-    *Fonte: [Programa de Coleta Seletiva de Florianópolis](https://www.pmf.sc.gov.br/)*
-    """)
+
+    st.markdown("*Fonte: [Programa de Coleta Seletiva de Florianópolis](https://www.pmf.sc.gov.br/)*")
 
 
 # Função principal
