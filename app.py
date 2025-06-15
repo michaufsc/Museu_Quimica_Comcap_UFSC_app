@@ -525,18 +525,17 @@ def main():
     with tab6:
         mostrar_coleta_seletiva()
 
-
     with tab7:
         st.header("🧵 Microplásticos")
-        st.markdown("Conteúdo em desenvolvimento.")
+        st.markdown("Conteúdo sobre microplásticos ainda será adicionado.")
 
     with tab8:
         st.header("🤝 Associações de Reciclagem")
-        st.markdown("Conteúdo em desenvolvimento.")
+        st.markdown("Conteúdo sobre cooperativas e associações será adicionado aqui.")
 
     with tab9:
         st.header("📚 Atividades Pedagógicas")
-        st.markdown("Conteúdo em desenvolvimento.")
+        st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
 
     with tab10:
         st.header("ℹ️ Sobre o Projeto")
@@ -545,13 +544,14 @@ def main():
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
-
-**Autor:** Nome dos alunos e professora responsável  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Extensão 18h)  
+""")
+        st.markdown("""
+**Autor:** nome dos alunos e professora  
+**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
 
-# Execução principal com verificação de pasta
+# Execução do app
 if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
