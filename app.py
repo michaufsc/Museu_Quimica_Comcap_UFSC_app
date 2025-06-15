@@ -46,7 +46,7 @@ polimeros, residuos = load_data()
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
     
-    # Mapeamento de siglas para nomes de arquivos de imagem (CORRIGIDO)
+    # Mapeamento de siglas para nomes de arquivos de imagem
     MAPA_IMAGENS = {
         'PET': 'pet.png',
         'PE': 'pe.png',
@@ -55,30 +55,42 @@ def mostrar_glossario():
         'PS': 'ps.png',
         'ABS': 'abs.png',
         'PLA': 'pla.png'
-        # Adicione outros materiais conforme necessário
     }
-    
-    # Seleção do tipo de material (CORRIGIDO)
-    tipo_material = st.radio(
-        "Selecione o tipo de material:",
-        options=["Polímeros", "Resíduos"],
-        horizontal=True
-    )
-    
-    # Barra de busca
-    termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
-    
-    # Seleção do dataframe apropriado
-    df = polimeros if tipo_material == "Polímeros" else residuos
-    
+
+    # Dados técnicos específicos para materiais selecionados
+    DADOS_ESPECIFICOS = {
+        'PLA': {
+            'Tipo de Polimerização': 'Policondensação (biodegradável)',
+            'Densidade': '1,24-1,27 g/cm³',
+            'Ponto de Fusão': '150-160°C',
+            'Reciclável': 'Sim (compostável industrial)',
+            'Aplicações Comuns': 'Impressão 3D, embalagens alimentícias, utensílios descartáveis, implantes médicos',
+            'Descrição': 'PLA (Ácido Polilático) é um termoplástico biodegradável derivado de fontes renováveis como amido de milho, cana-de-açúcar ou beterraba. Possui baixa toxicidade e é amplamente utilizado na fabricação de bioplásticos.'
+        },
+        'PET': {
+            'Tipo de Polimerização': 'Policondensação (termoplástico)',
+            'Densidade': '1,36 g/cm³',
+            'Ponto de Fusão': '250-260°C'
+        }
+    }
+
+    # [...] (código anterior mantido até a exibição dos itens)
+
     # Exibição dos itens
     for _, row in df.iterrows():
         with st.container():
+            sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
+            
+            # Atualiza os dados com informações específicas se existirem
+            dados_material = DADOS_ESPECIFICOS.get(sigla, {})
+            row_atualizado = row.copy()
+            for chave, valor in dados_material.items():
+                row_atualizado[chave] = valor
+
             col1, col2 = st.columns([1, 3], gap="medium")
             
             # Coluna 1 - Imagem
             with col1:
-                sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
                 nome_arquivo = MAPA_IMAGENS.get(sigla, f"{sigla.lower()}.png")
                 caminho_imagem = os.path.join(IMAGES_DIR, nome_arquivo)
                 
@@ -89,8 +101,7 @@ def mostrar_glossario():
                         caption=f"Símbolo {sigla}"
                     )
                 else:
-                    # Imagem padrão
-                    img_padrao = Image.new('RGB', (300, 300), color=(240, 240, 240))
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
                     st.image(
                         img_padrao,
                         use_container_width=True,
@@ -99,20 +110,48 @@ def mostrar_glossario():
             
             # Coluna 2 - Informações
             with col2:
-                st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
+                st.subheader(row_atualizado.get("Nome", row_atualizado.get("Categoria", "Sem nome")))
+                
+                # Destaque especial para materiais biodegradáveis
+                if sigla == 'PLA':
+                    st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
                 
                 # Layout de informações
-                st.markdown(f"""
-                **🔤 Sigla:** {sigla}  
-                **🧪 Tipo de Polimerização:** {row.get('Tipo de Polimerização', 'Não especificado')}  
-                **📊 Densidade:** {row.get('Densidade', 'Não especificado')}  
-                **🔥 Ponto de Fusão:** {row.get('Ponto de Fusão', 'Não especificado')}  
-                **🔄 Reciclável:** {row.get('Reciclável', 'Não especificado')}
-                """)
+                col_info1, col_info2 = st.columns(2)
                 
-                # Aplicações
+                with col_info1:
+                    st.markdown(f"""
+                    **🔤 Sigla:**  
+                    {sigla}  
+                    
+                    **🧪 Tipo de Polimerização:**  
+                    {row_atualizado.get('Tipo de Polimerização', 'Não especificado')}  
+                    
+                    **📊 Densidade:**  
+                    {row_atualizado.get('Densidade', 'Não especificado')}
+                    """)
+                
+                with col_info2:
+                    st.markdown(f"""
+                    **🔥 Ponto de Fusão:**  
+                    {row_atualizado.get('Ponto de Fusão', 'Não especificado')}  
+                    
+                    **🔄 Reciclável:**  
+                    {row_atualizado.get('Reciclável', 'Não especificado')}  
+                    
+                    **🏷️ Código de Identificação:**  
+                    {row_atualizado.get('Código de Identificação', 'Não especificado')}
+                    """)
+                
+                # Descrição expandível para materiais com informações adicionais
+                if sigla in DADOS_ESPECIFICOS and 'Descrição' in DADOS_ESPECIFICOS[sigla]:
+                    with st.expander("📝 Descrição Detalhada"):
+                        st.write(DADOS_ESPECIFICOS[sigla]['Descrição'])
+                
+                # Aplicações com expansor
                 with st.expander("📦 Aplicações Comuns"):
-                    st.write(row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado')))
+                    aplicacoes = row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado'))
+                    st.write(aplicacoes)
             
             st.divider()
 # Função: quiz interativo
