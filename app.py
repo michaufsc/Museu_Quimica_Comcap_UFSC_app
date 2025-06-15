@@ -492,6 +492,7 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 """)
 
 # Função principal
+# Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
@@ -501,13 +502,12 @@ def main():
     st.markdown("---")
     st.markdown("---")
 
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "🏛️ História do Museu",
         "🏷️ Glossário",
         "🧐 Quiz",
         "🧪 Química",
         "🌱 Compostagem",
-        "📚 Atividades",
         "ℹ️ Sobre"
     ])
 
@@ -522,8 +522,6 @@ def main():
     with tab5:
         mostrar_compostagem()
     with tab6:
-        mostrar_atividades()
-    with tab7:
         st.header("Sobre o Projeto")
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
@@ -536,11 +534,3 @@ def main():
 **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
 **Instituição:** Universidade Federal de Santa Catarina (UFSC)
 """)
-
-# Adicionar esta função faltante
-def mostrar_atividades():
-    st.header("📚 Atividades Educativas")
-    st.markdown("""
-    Conteúdo sobre atividades pedagógicas relacionadas a resíduos e polímeros.
-    """)
-    # Adicionar conteúdo específico aqui
