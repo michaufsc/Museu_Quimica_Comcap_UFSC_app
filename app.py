@@ -29,14 +29,10 @@ def load_data():
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
-    # Carrega o arquivo CSV que você já tem
-    df = pd.read_csv("pontos_coleta.csv", encoding='utf-8-sig')
-    
-    # Processa os dados para extrair dias e horários
-    df['dias_coleta'] = df['nome'].str.extract(r'([A-Za-zÇç]+(?: e [A-Za-zÇç]+)*)')
-    df['horario'] = df['nome'].str.extract(r'(\d{1,2}h)')
-    
+    url = "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/coleta_seletiva.csv"
+    df = pd.read_csv(url)
     return df
+
 # Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
