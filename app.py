@@ -17,7 +17,7 @@ st.set_page_config(
 IMAGES_DIR = "imagens_materiais"
 
 # Dicionário completo de polímeros
-POLIMEROS_DATA = {
+DADOS_ESPECIFICOS = {
     'PET': {
         'Nome Completo': 'Politereftalato de Etileno',
         'Tipo de Polimerização': 'Policondensação',
@@ -238,8 +238,8 @@ def mostrar_glossario():
         st.subheader("Filtros")
         tipo_filtro = st.selectbox(
             "Tipo de Polimerização",
-            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in POLIMEROS_DATA.values()}))
-        )  # Faltava este parêntese
+            ["Todos"] + list(sorted({v['Tipo de Polimerização'] for v in DADOS_ESPECIFICOS.values()}))
+        )
         
         reciclavel_filtro = st.selectbox(
             "Reciclável",
@@ -250,7 +250,7 @@ def mostrar_glossario():
 
     # Aplicar filtros
     polimeros_filtrados = {}
-    for sigla, dados in POLIMEROS_DATA.items():
+    for sigla, dados in DADOS_ESPECIFICOS.items():
         if tipo_filtro != "Todos" and dados['Tipo de Polimerização'] != tipo_filtro:
             continue
         if reciclavel_filtro != "Todos" and not dados['Reciclável'].startswith(reciclavel_filtro):
@@ -259,7 +259,7 @@ def mostrar_glossario():
             continue
         polimeros_filtrados[sigla] = dados
 
-    # Exibição
+    # Exibição - MODIFICADO: removido o expander aninhado
     for sigla, dados in polimeros_filtrados.items():
         with st.expander(f"{sigla} - {dados['Nome Completo']}", expanded=False):
             col1, col2 = st.columns([1, 3])
@@ -283,11 +283,12 @@ def mostrar_glossario():
                 **♻ Reciclável:** {dados['Reciclável']}
                 """)
                 
-                with st.expander("🔍 Detalhes"):
-                    st.markdown(f"**Aplicações:** {dados['Aplicações']}")
-                    st.markdown(f"**Descrição:** {dados['Descrição']}")
+                # MODIFICADO: Substituído o expander por markdown diretamente
+                st.markdown("### 🔍 Detalhes")
+                st.markdown(f"**Aplicações:** {dados['Aplicações']}")
+                st.markdown(f"**Descrição:** {dados['Descrição']}")
     
-    st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(POLIMEROS_DATA)} polímeros*")
+    st.markdown(f"*Mostrando {len(polimeros_filtrados)} de {len(DADOS_ESPECIFICOS)} polímeros*")
 
 # Função: quiz interativo
 def mostrar_quiz():
