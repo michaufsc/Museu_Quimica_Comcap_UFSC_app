@@ -63,6 +63,13 @@ def mostrar_glossario():
     # Seleção do dataframe apropriado
     df = polimeros if tipo_material == "Polímeros" else residuos
     
+    # Adicionando informações técnicas específicas para PET
+    if 'PET' in df['Sigla'].values:
+        pet_index = df[df['Sigla'] == 'PET'].index[0]
+        df.at[pet_index, 'Densidade'] = '1,36 g/cm³'
+        df.at[pet_index, 'Ponto de Fusão'] = '250°C - 260°C'
+        df.at[pet_index, 'Tipo de Polimerização'] = 'Policondensação (termoplástico)'
+    
     # Filtragem dos dados
     if termo_busca:
         termo_busca = termo_busca.lower()
@@ -98,7 +105,6 @@ def mostrar_glossario():
                         caption=sigla
                     )
                 else:
-                    # Imagem padrão quando não encontrada
                     img_padrao = Image.new('RGB', (300, 300), color=(240, 240, 240))
                     st.image(
                         img_padrao,
@@ -110,7 +116,7 @@ def mostrar_glossario():
             with col2:
                 st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
                 
-                # Criando um layout organizado com colunas internas
+                # Layout de informações em colunas
                 col_info1, col_info2 = st.columns(2)
                 
                 with col_info1:
@@ -118,32 +124,31 @@ def mostrar_glossario():
                     **🔤 Sigla:**  
                     {sigla}  
                     
-                    **🧪 Composição:**  
-                    {row.get('Composição Química', 'Não especificado')}  
+                    **🧪 Tipo de Polimerização:**  
+                    {row.get('Tipo de Polimerização', 'Não especificado')}  
                     
-                    **🔄 Reciclável:**  
-                    {row.get('Reciclável', 'Não especificado')}
+                    **📊 Densidade:**  
+                    {row.get('Densidade', 'Não especificado')}
                     """)
                 
                 with col_info2:
                     st.markdown(f"""
-                    **📌 Tipo:**  
-                    {row.get('Tipo de Polimerização', row.get('Classe ABNT', 'Não especificado'))}  
-                    
-                    **📊 Densidade:**  
-                    {row.get('Densidade', 'Não especificado')}  
-                    
                     **🔥 Ponto de Fusão:**  
-                    {row.get('Ponto de Fusão', 'Não especificado')}
+                    {row.get('Ponto de Fusão', 'Não especificado')}  
+                    
+                    **🔄 Reciclável:**  
+                    {row.get('Reciclável', 'Não especificado')}  
+                    
+                    **🏷️ Código de Identificação:**  
+                    {row.get('Código de Identificação', 'Não especificado')}
                     """)
                 
-                # Aplicações com expansor para economizar espaço
+                # Aplicações com expansor
                 with st.expander("📦 Aplicações Comuns"):
                     aplicacoes = row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado'))
                     st.write(aplicacoes)
             
             st.divider()
-
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
