@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 import streamlit as st
-import pandas as pd
+import pandas as pdMore actions
 import random
 import os
 from PIL import Image
@@ -8,7 +7,6 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
 
 # Configuração da página
 st.set_page_config(
@@ -382,18 +380,39 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
+#função mapa
+def mostrar_mapa_coleta():
+    st.header("🗺️ Mapa Completo dos Pontos de Coleta Seletiva")
+
+    df_coleta = load_coleta_data()
+
+    # Verificação básica
+    if 'latitude' not in df_coleta.columns or 'longitude' not in df_coleta.columns:
+        st.error("Os dados não possuem colunas 'latitude' e 'longitude'")
+        return
+
+    # Centro do mapa
+    centro_lat = df_coleta['latitude'].mean()
+    centro_lon = df_coleta['longitude'].mean()
+
+    # Criação do mapa
+    mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=12)
+
+    for _, row in df_coleta.iterrows():
+        popup_text = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=popup_text,
+            icon=folium.Icon(color="green", icon="recycle", prefix='fa')
+        ).add_to(mapa)
+
+    folium_static(mapa)
+
 # coleta seletiva
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
-    
-    df = load_coleta_data()
 
-    # Garante que as colunas de latitude e longitude são numéricas
-    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-    
-    # Remove linhas com coordenadas inválidas
-    df = df.dropna(subset=['latitude', 'longitude'])
+    df = load_coleta_data()
 
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
@@ -402,40 +421,120 @@ def mostrar_coleta_seletiva():
 
         tipos = ["Todos"] + list(df['tipo'].dropna().unique())
         tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
-        
+
     # Aplica os filtros
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
-    
+
+    # Mostra a tabela
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    # Mostra o mapa apenas se houver pontos válidos
-    if not dados_filtrados.empty:
-        try:
-            # Calcula o centro apenas com valores numéricos válidos
-            centro_lat = dados_filtrados['latitude'].mean()
-            centro_lon = dados_filtrados['longitude'].mean()
-            
-            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
+    # Mostra o mapa (se houver dados com latitude e longitude)
+    if not dados_filtrados.empty and 'latitude' in dados_filtrados.columns and 'longitude' in dados_filtrados.columns:
+        centro_lat = dados_filtrados['latitude'].mean()
+        centro_lon = dados_filtrados['longitude'].mean()
 
-            for _, row in dados_filtrados.iterrows():
-                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-                folium.Marker(
-                    location=[row['latitude'], row['longitude']],
-                    popup=popup,
-                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-                ).add_to(mapa)
+        mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-            st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
-            folium_static(mapa)
-        except Exception as e:
-            st.error(f"Erro ao gerar o mapa: {str(e)}")
+        for _, row in dados_filtrados.iterrows():
+            popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+            folium.Marker(
+                location=[row['latitude'], row['longitude']],
+                popup=popup,
+                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+            ).add_to(mapa)
+
+        st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
+        folium_static(mapa)
     else:
-        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+        st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+
+
+# Aba: Microplásticos
+
+def mostrar_microplasticos():
+    st.header("🧩 Microplásticos – Um Problema Invisível nos Mares")
+
+    st.markdown("""
+    ### ♻️ Microplásticos: o que são e por que devemos nos preocupar?
+
+    Florianópolis é famosa por suas mais de 100 praias, mas por trás da paisagem deslumbrante há um problema invisível que ameaça a vida marinha e a saúde humana: **os microplásticos**.
+
+    ---
+
+    ### 🔎 O que são microplásticos?
+
+    Microplásticos são fragmentos de plástico com menos de 5 milímetros, muitas vezes invisíveis a olho nu.
+
+    Eles se dividem em dois tipos:
+
+    - **Primários**: fabricados intencionalmente nesse tamanho, como microesferas usadas em cosméticos, pastas de dente e produtos de limpeza.
+    - **Secundários**: formados pela fragmentação de plásticos maiores devido ao sol, chuva, vento, ondas e ação de organismos.
+
+    Esses fragmentos acabam nos oceanos e podem permanecer por **décadas no ambiente**, acumulando-se em praias, sedimentos e até na água potável.
+
+    ---
+
+    ### ⚗️ A Química contra a poluição invisível
+
+    A Química nos permite **detectar, identificar e compreender** os efeitos dos microplásticos:
+
+    - Técnicas como **espectroscopia FTIR e Raman** identificam o tipo de polímero presente nas partículas.
+    - Substâncias tóxicas como **bisfenol A (BPA)** e **ftalatos**, presentes nos plásticos, podem se desprender e agir como **disruptores endócrinos**, afetando o sistema hormonal de animais e humanos.
+    - A combinação de análises físico-químicas com estudos biológicos permite avaliar os **efeitos toxicológicos em diferentes espécies.**
+
+    ---
+
+    ### 🐠 Impactos nos oceanos e na vida marinha
+
+    Animais marinhos frequentemente ingerem microplásticos por engano, levando a:
+
+    - Dificuldade de digestão e absorção de nutrientes;
+    - Inflamações e bloqueios intestinais;
+    - Acúmulo de substâncias tóxicas nos tecidos.
+
+    Os efeitos não param por aí: os microplásticos **sobem na cadeia alimentar**, chegando até peixes e frutos do mar consumidos por humanos — um risco silencioso, mas real.
+
+    ---
+
+    ### 🌍 O caso de Florianópolis
+
+    Com suas mais de 100 praias e alto consumo de frutos do mar, **Florianópolis está diretamente exposta à contaminação por microplásticos.** A limpeza inadequada das praias, o descarte incorreto de lixo e o turismo intenso aumentam o risco da poluição plástica marinha.
+
+    Estudos já identificaram a presença de microplásticos em:
+    - Praias urbanas e remotas da ilha;
+    - Ostras, mexilhões e peixes vendidos em mercados locais;
+    - Sedimentos de rios que deságuam no mar.
+
+    ---
+
+    ### ✅ O que você pode fazer?
+
+    #### Como cidadão:
+    - Evite produtos com microesferas plásticas.
+    - Reduza o uso de plástico descartável.
+    - Participe de limpezas de praia e separe seu lixo corretamente.
+
+    #### Como estudante, professor ou pesquisador:
+    - Incentive a pesquisa sobre alternativas sustentáveis.
+    - Estimule debates nas escolas sobre consumo consciente e química ambiental.
+    - Divulgue ações de preservação dos oceanos e fontes de poluição invisível.
+
+    ---
+
+    ### 📚 Referências
+
+    1. Rezende, L. T. et al. *Microplásticos: ocorrência ambiental e desafios analíticos*. **Química Nova**, 2022. [https://www.scielo.br/j/qn/a/VJ58TBjHVqDZsvWLckcFbTQ](https://www.scielo.br/j/qn/a/VJ58TBjHVqDZsvWLckcFbTQ)
+    2. Dawson, A. L. et al. (2023). *Microplastics: A new contaminant in the environment*. **Frontiers in Environmental Science**, [PMC9914693](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9914693/)
+    3. ISO/TR 21960:2020. *Plastics — Environmental aspects — State of knowledge and methodologies*.
+    4. Browne, M. A. et al. (2011). *Accumulation of microplastic on shorelines worldwide: sources and sinks*. **Environmental Science & Technology**.
+    5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
+    6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
+    """)
 
 
 # Função principal
@@ -480,6 +579,7 @@ def main():
     with tab7:
         st.header("🧵 Microplásticos")
         st.markdown("Conteúdo sobre microplásticos ainda será adicionado.")
+    mostrar_microplasticos()
 
     with tab8:
         st.header("🤝 Associações de Reciclagem")
