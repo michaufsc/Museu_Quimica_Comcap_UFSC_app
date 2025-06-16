@@ -444,12 +444,17 @@ def mostrar_coleta_seletiva():
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
+    # ✅ Garante que latitude e longitude são numéricas e remove inválidas
+    dados_filtrados['latitude'] = pd.to_numeric(dados_filtrados['latitude'], errors='coerce')
+    dados_filtrados['longitude'] = pd.to_numeric(dados_filtrados['longitude'], errors='coerce')
+    dados_filtrados = dados_filtrados.dropna(subset=['latitude', 'longitude'])
+
     # Mostra a tabela
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
     # Mostra o mapa (se houver dados com latitude e longitude)
-    if not dados_filtrados.empty and 'latitude' in dados_filtrados.columns and 'longitude' in dados_filtrados.columns:
+    if not dados_filtrados.empty:
         centro_lat = dados_filtrados['latitude'].mean()
         centro_lon = dados_filtrados['longitude'].mean()
 
@@ -467,6 +472,7 @@ def mostrar_coleta_seletiva():
         folium_static(mapa)
     else:
         st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+
 
 
 # Aba: Microplásticos
