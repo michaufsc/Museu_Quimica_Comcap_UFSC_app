@@ -387,8 +387,6 @@ def mostrar_coleta_seletiva():
     
 
     df = load_coleta_data()
-
-    with st.expander("Filtros - clique para abrir/fechar"):
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
