@@ -8,6 +8,7 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+from PIL import Image, ImageDraw, ImageFont
 
 # Configuração da página
 st.set_page_config(
@@ -384,18 +385,13 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 # coleta seletiva
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
-    
-
     df = load_coleta_data()
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
         bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
-
-        tipos = ["Todos"] + list(df['tipo'].unique())
         tipos = ["Todos"] + list(df['tipo'].dropna().unique())
         tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
-        
 
     # Aplica os filtros
     dados_filtrados = df.copy()
