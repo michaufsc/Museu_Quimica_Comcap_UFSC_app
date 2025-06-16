@@ -8,6 +8,7 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+from PIL import ImageDraw, ImageFont
 
 # Configuração da página
 st.set_page_config(
