@@ -381,28 +381,20 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
+# coleta seletiva
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
     
     df = load_coleta_data()
 
-    with st.expander("Filtros"):
+    with st.expander("Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
-        
-        bairro_selecionado = st.selectbox(
-            "Selecione um bairro:",
-            options=bairros,
-            index=0
-        )
+        bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
         
         tipos = ["Todos"] + list(df['tipo'].unique())
-        tipo_selecionado = st.radio(
-            "Tipo de ponto:",
-            options=tipos,
-            horizontal=True
-        )
-    
+        tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
+        
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado)]
@@ -411,31 +403,6 @@ def mostrar_coleta_seletiva():
     
     st.markdown(f"### Resultados: {len(dados_filtrados)} pontos encontrados")
     st.dataframe(dados_filtrados.reset_index(drop=True))
-
-    # Informações educativas
-    st.markdown("---")
-    st.subheader("ℹ️ Como Funciona a Coleta Seletiva")
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        ### ✅ Materiais Aceitos
-        - Papel, papelão e jornais  
-        - Plásticos (limpos e secos)  
-        - Vidros (sem tampas)  
-        - Metais (latas, arames)
-        """)
-
-    with col2:
-        st.markdown("""
-        ### ❌ Materiais Recusados
-        - Lixo orgânico  
-        - Fraldas descartáveis  
-        - Espelhos e cerâmicas  
-        - Embalagens sujas
-        """)
-
-    st.markdown("*Fonte: [Programa de Coleta Seletiva de Florianópolis](https://www.pmf.sc.gov.br/)*")
 
 
 # Função principal
