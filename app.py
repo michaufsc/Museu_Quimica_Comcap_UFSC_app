@@ -441,6 +441,21 @@ def mostrar_coleta_seletiva():
 
     df = load_coleta_data()
 
+    # Verificação e conversão segura das coordenadas
+    def safe_convert(coord):
+        try:
+            if isinstance(coord, str):
+                coord = coord.replace(',', '.')
+            return float(coord)
+        except (ValueError, TypeError):
+            return None
+
+    df['latitude'] = df['latitude'].apply(safe_convert)
+    df['longitude'] = df['longitude'].apply(safe_convert)
+    
+    # Remove linhas com coordenadas inválidas
+    df = df.dropna(subset=['latitude', 'longitude'])
+
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
@@ -455,42 +470,31 @@ def mostrar_coleta_seletiva():
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
-    # Substituir vírgula decimal por ponto, se existir
-    dados_filtrados['latitude'] = dados_filtrados['latitude'].astype(str).str.replace(',', '.')
-    dados_filtrados['longitude'] = dados_filtrados['longitude'].astype(str).str.replace(',', '.')
-
-    # Converter para numérico, valores inválidos virarão NaN
-    dados_filtrados['latitude'] = pd.to_numeric(dados_filtrados['latitude'], errors='coerce')
-    dados_filtrados['longitude'] = pd.to_numeric(dados_filtrados['longitude'], errors='coerce')
-
-    # Remove linhas sem lat/lon válidas
-    dados_filtrados = dados_filtrados.dropna(subset=['latitude', 'longitude'])
-
-    # Garantir que as colunas são float
-    dados_filtrados['latitude'] = dados_filtrados['latitude'].astype(float)
-    dados_filtrados['longitude'] = dados_filtrados['longitude'].astype(float)
-
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
     if not dados_filtrados.empty:
-        centro_lat = dados_filtrados['latitude'].mean()
-        centro_lon = dados_filtrados['longitude'].mean()
+        # Verifica se temos coordenadas válidas antes de calcular a média
+        if dados_filtrados['latitude'].notna().any() and dados_filtrados['longitude'].notna().any():
+            centro_lat = dados_filtrados['latitude'].mean()
+            centro_lon = dados_filtrados['longitude'].mean()
 
-        mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
+            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-        for _, row in dados_filtrados.iterrows():
-            popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-            folium.Marker(
-                location=[row['latitude'], row['longitude']],
-                popup=popup,
-                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-            ).add_to(mapa)
+            for _, row in dados_filtrados.iterrows():
+                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+                folium.Marker(
+                    location=[row['latitude'], row['longitude']],
+                    popup=popup,
+                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+                ).add_to(mapa)
 
-        st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
-        folium_static(mapa)
+            st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
+            folium_static(mapa)
+        else:
+            st.warning("Coordenadas inválidas para exibir no mapa.")
     else:
-        st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
 
 
 # Aba: Microplásticos
