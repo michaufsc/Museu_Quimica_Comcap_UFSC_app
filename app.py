@@ -7,8 +7,15 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+
 # Caminho correto para a pasta de imagens
-IMAGES_DIR = "imagens_materiais"
+IMAGES_POLIMEROS_DIR = "imagens_polimeros"
+IMAGES_RESIDUOS_DIR = "imagens_residuos"
+
+def normalizar_nome(nome: str) -> str:
+    """Transforma o nome em lowercase, substitui espaços e caracteres especiais para nome de arquivo."""
+    return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace("/", "_").replace(";", "").replace("-", "_")
+    
 # Configuração da página
 st.set_page_config(
     page_title="Química para reciclagem e limpeza dos oceanos",
@@ -125,81 +132,63 @@ def load_cooperativas():
     return df
 
 #mostrar glossário
-def mostrar_glossario(polimeros, residuos):
-    st.header("📖 Glossário Completo de Polímeros")
+def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
+    st.header("🧪 Glossário Completo de Polímeros")
 
     for _, row in polimeros.iterrows():
         with st.container():
-            sigla = row.get("Sigla", "SEM_SIGLA")
-
             col1, col2 = st.columns([1, 3], gap="medium")
 
-            # Coluna 1 - Imagem
             with col1:
-                nome_imagem = f"{sigla.lower()}.png"
-                caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
+                nome_imagem = normalizar_nome(row['Sigla']) + ".png"
+                caminho_imagem = os.path.join(IMAGES_POLIMEROS_DIR, nome_imagem)
 
                 if os.path.exists(caminho_imagem):
-                    st.image(
-                        Image.open(caminho_imagem),
-                        use_container_width=True,
-                        caption=f"Símbolo {sigla}"
-                    )
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{row['Nome']}")
                 else:
-                    # Imagem padrão sem texto ou com sigla
-                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"Imagem ilustrativa - {sigla}")
+                    img_padrao = Image.new('RGB', (300, 300), color=(220, 220, 255))
+                    st.image(img_padrao, use_container_width=True, caption=f"{row['Nome']}")
 
-            # Coluna 2 - Informações (com descrição visível direto)
             with col2:
-                st.subheader(f"{row.get('Nome', 'Sem nome')} ({sigla})")
-
-                st.markdown(f"**Código de Identificação:** {row.get('Código de Identificação', 'Não especificado')}")
-                st.markdown(f"**Tipo de Polimerização:** {row.get('Tipo de Polimerização', 'Não especificado')}")
-                st.markdown(f"**Densidade:** {row.get('Densidade', 'Não especificado')}")
-                st.markdown(f"**Ponto de Fusão:** {row.get('Ponto de Fusão', 'Não especificado')}")
-                st.markdown(f"**Reciclável:** {row.get('Reciclável', 'Não especificado')}")
-                st.markdown(f"**Aplicações Comuns:** {row.get('Aplicações Comuns', 'Não especificado')}")
-                st.markdown(f"**Descrição:** {row.get('Descrição', 'Não especificado')}")
+                st.subheader(f"{row['Sigla']} - {row['Nome']}")
+                st.markdown(f"**Código:** {row['Código de Identificação']}")
+                st.markdown(f"**Tipo de Polimerização:** {row['Tipo de Polimerização']}")
+                st.markdown(f"**Densidade:** {row['Densidade']}")
+                st.markdown(f"**Ponto de Fusão:** {row['Ponto de Fusão']}")
+                st.markdown(f"**Reciclável:** {row['Reciclável']}")
+                st.markdown(f"**Aplicações Comuns:** {row['Aplicações Comuns']}")
+                st.markdown(f"**Descrição:** {row['Descrição']}")
 
         st.divider()
 
-    st.header("📖 Glossário Completo de Resíduos")
+def mostrar_glossario_residuos(residuos: pd.DataFrame):
+    st.header("♻️ Glossário Completo de Resíduos")
 
     for _, row in residuos.iterrows():
         with st.container():
-            sigla = row.get("Sigla", "SEM_SIGLA")
-
             col1, col2 = st.columns([1, 3], gap="medium")
 
-            # Coluna 1 - Imagem
             with col1:
-                nome_imagem = f"{sigla.lower()}.png"
-                caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
+                nome_imagem = normalizar_nome(row['Subtipo']) + ".png"
+                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
 
                 if os.path.exists(caminho_imagem):
-                    st.image(
-                        Image.open(caminho_imagem),
-                        use_container_width=True,
-                        caption=f"Símbolo {sigla}"
-                    )
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{row['Subtipo']}")
                 else:
-                    img_padrao = Image.new('RGB', (300, 300), color=(230, 200, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"Imagem ilustrativa - {sigla}")
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
+                    st.image(img_padrao, use_container_width=True, caption=f"{row['Subtipo']}")
 
-            # Coluna 2 - Informações (com descrição visível direto)
             with col2:
-                st.subheader(f"{row.get('Nome', 'Sem nome')} ({sigla})")
-
-                st.markdown(f"**Código de Identificação:** {row.get('Código de Identificação', 'Não especificado')}")
-                st.markdown(f"**Tipo:** {row.get('Tipo', 'Não especificado')}")
-                st.markdown(f"**Composição:** {row.get('Composição', 'Não especificado')}")
-                st.markdown(f"**Características:** {row.get('Características', 'Não especificado')}")
-                st.markdown(f"**Reciclável:** {row.get('Reciclável', 'Não especificado')}")
-                st.markdown(f"**Destino Final:** {row.get('Destino Final', 'Não especificado')}")
-                st.markdown(f"**Descrição:** {row.get('Descrição', 'Não especificado')}")
+                st.subheader(f"{row['Tipo']} - {row['Subtipo']}")
+                st.markdown(f"**Código:** {row['Código']}")
+                st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
+                st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
+                st.markdown(f"**Reciclável:** {row['Reciclável']}")
+                st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
+                st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
 
         st.divider()
+
 
 
 
