@@ -704,6 +704,6 @@ def main():
 
 # Execução do app
 if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
+    os.makedirs(IMAGES_POLIMEROS_DIR, exist_ok=True)
+    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
     main()
