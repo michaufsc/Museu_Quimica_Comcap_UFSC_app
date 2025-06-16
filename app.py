@@ -57,34 +57,59 @@ def load_coleta_data():
     df = pd.read_csv(url)
     return df
 
-# Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
     try:
-        df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8')
+        # Verifica se o arquivo existe
+        if not os.path.exists("quiz_perguntas.csv"):
+            st.error("Arquivo quiz_perguntas.csv não encontrado no diretório")
+            return []
+
+        # Tenta ler com encoding UTF-8 primeiro, depois Latin-1 como fallback
+        try:
+            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8')
+        except UnicodeDecodeError:
+            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='latin1')
         
-        # Verifica apenas as colunas essenciais
+        # Remove espaços em branco dos nomes das colunas
+        df.columns = df.columns.str.strip()
+        
+        # Verifica colunas obrigatórias
         required_cols = ['pergunta', 'opcao_1', 'opcao_2', 'opcao_3', 'opcao_4', 'resposta', 'explicacao']
-        for col in required_cols:
-            if col not in df.columns:
-                st.error(f"Coluna obrigatória faltando: {col}")
-                return []
+        missing_cols = [col for col in required_cols if col not in df.columns]
+        
+        if missing_cols:
+            st.error(f"Colunas obrigatórias faltando: {', '.join(missing_cols)}")
+            return []
 
         questions = []
         for _, row in df.iterrows():
-            questions.append({
-                "pergunta": str(row['pergunta']),
-                "opcoes": [
-                    str(row['opcao_1']),
-                    str(row['opcao_2']),
-                    str(row['opcao_3']),
-                    str(row['opcao_4'])
-                ],
-                "resposta": int(row['resposta']),
-                "explicacao": str(row['explicacao'])
-                # Removemos a referência à imagem
-            })
+            try:
+                # Garante que a resposta seja numérica (1-4)
+                resposta = int(row['resposta'])
+                if not 1 <= resposta <= 4:
+                    st.warning(f"Resposta inválida (deve ser 1-4): {resposta}")
+                    continue
+                    
+                questions.append({
+                    "pergunta": str(row['pergunta']).strip(),
+                    "opcoes": [
+                        str(row['opcao_1']).strip(),
+                        str(row['opcao_2']).strip(),
+                        str(row['opcao_3']).strip(),
+                        str(row['opcao_4']).strip()
+                    ],
+                    "resposta": resposta,
+                    "explicacao": str(row['explicacao']).strip()
+                })
+            except Exception as e:
+                st.warning(f"Erro ao processar linha: {e}")
+                continue
                 
+        if not questions:
+            st.error("Nenhuma pergunta válida foi carregada")
+            return []
+            
         random.shuffle(questions)
         return questions
         
