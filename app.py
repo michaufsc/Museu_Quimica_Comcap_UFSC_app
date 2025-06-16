@@ -124,37 +124,14 @@ def load_cooperativas():
 
     return df
 
-def mostrar_glossario(polimeros: pd.DataFrame, residuos: pd.DataFrame):
-    st.header("📖 Glossário Interativo de Polímeros e Resíduos")
+#mostrar glossário
+def mostrar_glossario(polimeros, residuos):
+    st.header("📖 Glossário Completo de Polímeros")
 
-    # Seleção do tipo de material
-    tipo_material = st.radio(
-        "Selecione o tipo de material:",
-        options=["Polímeros", "Resíduos"],
-        horizontal=True
-    )
-
-    # Barra de busca por qualquer termo
-    termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
-
-    # Escolha do dataframe com base na seleção
-    df = polimeros if tipo_material == "Polímeros" else residuos
-
-    # Filtragem pelo termo de busca (case-insensitive, em todas as colunas)
-    if termo_busca:
-        mask = df.apply(lambda col: col.astype(str).str.contains(termo_busca, case=False, na=False)).any(axis=1)
-        df = df[mask]
-
-    if df.empty:
-        st.info("🔎 Nenhum resultado encontrado para sua busca.")
-        return
-
-    # Exibição dos itens
-    for _, row in df.iterrows():
+    for _, row in polimeros.iterrows():
         with st.container():
-            sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
+            sigla = row.get("Sigla", "SEM_SIGLA")
 
-            # Colunas para layout: imagem à esquerda, infos à direita
             col1, col2 = st.columns([1, 3], gap="medium")
 
             # Coluna 1 - Imagem
@@ -169,66 +146,58 @@ def mostrar_glossario(polimeros: pd.DataFrame, residuos: pd.DataFrame):
                         caption=f"Símbolo {sigla}"
                     )
                 else:
-                    # Imagem padrão com sigla centralizada
-                    cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
-                    img_padrao = Image.new('RGB', (300, 300), color=cor)
-                    try:
-                        draw = ImageDraw.Draw(img_padrao)
-                        font = ImageFont.load_default()
-                        text = sigla if len(sigla) <= 4 else sigla[:4]
-                        w, h = draw.textsize(text, font=font)
-                        draw.text(((300 - w) / 2, (300 - h) / 2), text, fill="black", font=font)
-                    except Exception:
-                        pass
-                    st.image(
-                        img_padrao,
-                        use_container_width=True,
-                        caption=f"Imagem ilustrativa - {sigla}"
-                    )
+                    # Imagem padrão sem texto ou com sigla
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
+                    st.image(img_padrao, use_container_width=True, caption=f"Imagem ilustrativa - {sigla}")
 
-            # Coluna 2 - Informações técnicas
+            # Coluna 2 - Informações (com descrição visível direto)
             with col2:
-                st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
+                st.subheader(f"{row.get('Nome', 'Sem nome')} ({sigla})")
 
-                # Mensagem especial para PLA (se quiser)
-                if sigla == 'PLA':
-                    st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
+                st.markdown(f"**Código de Identificação:** {row.get('Código de Identificação', 'Não especificado')}")
+                st.markdown(f"**Tipo de Polimerização:** {row.get('Tipo de Polimerização', 'Não especificado')}")
+                st.markdown(f"**Densidade:** {row.get('Densidade', 'Não especificado')}")
+                st.markdown(f"**Ponto de Fusão:** {row.get('Ponto de Fusão', 'Não especificado')}")
+                st.markdown(f"**Reciclável:** {row.get('Reciclável', 'Não especificado')}")
+                st.markdown(f"**Aplicações Comuns:** {row.get('Aplicações Comuns', 'Não especificado')}")
+                st.markdown(f"**Descrição:** {row.get('Descrição', 'Não especificado')}")
 
-                # Duas colunas para detalhamento
-                col_info1, col_info2 = st.columns(2)
+        st.divider()
 
-                with col_info1:
-                    st.markdown(f"""
-                    **🔤 Sigla:**  
-                    {sigla}  
+    st.header("📖 Glossário Completo de Resíduos")
 
-                    **🧪 Tipo de Polimerização:**  
-                    {row.get('Tipo de Polimerização', 'Não especificado')}  
+    for _, row in residuos.iterrows():
+        with st.container():
+            sigla = row.get("Sigla", "SEM_SIGLA")
 
-                    **📊 Densidade:**  
-                    {row.get('Densidade', 'Não especificado')}
+            col1, col2 = st.columns([1, 3], gap="medium")
 
-                    **♻️ Reciclável:**  
-                    {row.get('Reciclável', 'Não especificado')}
-                    """)
+            # Coluna 1 - Imagem
+            with col1:
+                nome_imagem = f"{sigla.lower()}.png"
+                caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
 
-                with col_info2:
-                    st.markdown(f"""
-                    **🔥 Ponto de Fusão:**  
-                    {row.get('Ponto de Fusão', 'Não especificado')}  
+                if os.path.exists(caminho_imagem):
+                    st.image(
+                        Image.open(caminho_imagem),
+                        use_container_width=True,
+                        caption=f"Símbolo {sigla}"
+                    )
+                else:
+                    img_padrao = Image.new('RGB', (300, 300), color=(230, 200, 200))
+                    st.image(img_padrao, use_container_width=True, caption=f"Imagem ilustrativa - {sigla}")
 
-                    **🧩 Código de Identificação:**  
-                    {row.get('Código de Identificação', 'Não especificado')}
+            # Coluna 2 - Informações (com descrição visível direto)
+            with col2:
+                st.subheader(f"{row.get('Nome', 'Sem nome')} ({sigla})")
 
-                    **🛠️ Aplicações Comuns:**  
-                    {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado'))}
-                    """)
-
-                # Descrição detalhada em um expander
-                descricao = row.get('Descrição', None)
-                if descricao:
-                    with st.expander("📝 Descrição Detalhada"):
-                        st.write(descricao)
+                st.markdown(f"**Código de Identificação:** {row.get('Código de Identificação', 'Não especificado')}")
+                st.markdown(f"**Tipo:** {row.get('Tipo', 'Não especificado')}")
+                st.markdown(f"**Composição:** {row.get('Composição', 'Não especificado')}")
+                st.markdown(f"**Características:** {row.get('Características', 'Não especificado')}")
+                st.markdown(f"**Reciclável:** {row.get('Reciclável', 'Não especificado')}")
+                st.markdown(f"**Destino Final:** {row.get('Destino Final', 'Não especificado')}")
+                st.markdown(f"**Descrição:** {row.get('Descrição', 'Não especificado')}")
 
         st.divider()
 
