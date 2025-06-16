@@ -254,8 +254,7 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
             st.divider()
             
         except Exception as e:
-            st.error(f"Erro ao exibir resíduo: {str(e)}")
-        
+            st.error(f"Erro ao exibir resíduo: {str(e)}")😊
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("♻️ Quiz Interativo - Museu do Lixo COMCAP")
