@@ -78,22 +78,28 @@ def load_quiz():
 @st.cache_data
 def load_data():
     try:
-        # Carrega os dados com tratamento de encoding e espaços
-        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8')
+        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8')
         
-        # Remove espaços dos nomes das colunas
-        polimeros.columns = polimeros.columns.str.strip()
-        residuos.columns = residuos.columns.str.strip()
+        # Verifica colunas obrigatórias
+        colunas_polimeros = ['Sigla', 'Nome', 'Código de Identificação']
+        colunas_residuos = ['Tipo', 'Subtipo', 'Código']
         
+        for col in colunas_polimeros:
+            if col not in polimeros.columns:
+                raise ValueError(f"Coluna '{col}' não encontrada em polimeros.csv")
+        
+        for col in colunas_residuos:
+            if col not in residuos.columns:
+                raise ValueError(f"Coluna '{col}' não encontrada em residuos.csv")
+                
         return polimeros, residuos
+        
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios em caso de erro
+        return pd.DataFrame(), pd.DataFrame()
 
 # Função para carregar o CSV com as cooperativas
-import pandas as pd
-
 def load_cooperativas():
     """
     Carrega os dados das cooperativas de reciclagem.
@@ -201,59 +207,54 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
-    # Verifica se os arquivos existem
-    required_files = ["polimeros.csv", "residuos.csv"]
-    for file in required_files:
-        if not os.path.exists(file):
-            st.error(f"Arquivo necessário não encontrado: {file}")
-            return  # Encerra a execução se algum arquivo estiver faltando
-    
-    # Carrega os dados
-    polimeros, residuos = load_data()
-    
-    # Verifica se os DataFrames foram carregados corretamente
-    if polimeros.empty or residuos.empty:
-        st.error("Não foi possível carregar os dados. Verifique os arquivos CSV.")
-        return
-    # Verifica as colunas disponíveis (para debug)
-    st.write("Colunas disponíveis:", residuos.columns.tolist())
+
+    # Verifica colunas obrigatórias
+    colunas_necessarias = ['Tipo', 'Subtipo', 'Código']
+    for col in colunas_necessarias:
+        if col not in residuos.columns:
+            st.error(f"Coluna obrigatória não encontrada: {col}")
+            return
 
     for _, row in residuos.iterrows():
-        with st.container():
-            col1, col2 = st.columns([1, 3], gap="medium")
+        try:
+            with st.container():
+                col1, col2 = st.columns([1, 3], gap="medium")
 
-            with col1:
-                # Acesso seguro às colunas
-                tipo = str(row.get('Tipo', 'Resíduo')).strip()
-                subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
-                
-                nome_imagem = normalizar_nome(subtipo) + ".png"
-                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
+                with col1:
+                    # Acesso seguro às colunas
+                    tipo = str(row.get('Tipo', 'Resíduo')).strip()
+                    subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
+                    
+                    nome_imagem = normalizar_nome(subtipo) + ".png"
+                    caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
 
-                if os.path.exists(caminho_imagem):
-                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
-                else:
-                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
+                    if os.path.exists(caminho_imagem):
+                        st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
+                    else:
+                        img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
+                        st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
 
-            with col2:
-                st.subheader(f"{tipo} - {subtipo}")
-                
-                # Adiciona todas as colunas disponíveis dinamicamente
-                campos = {
-                    'Código': row.get('Código', ''),
-                    'Exemplos Comuns': row.get('Exemplos Comuns', ''),
-                    'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
-                    'Reciclável': row.get('Reciclável', ''),
-                    'Rota de Tratamento': row.get('Rota de Tratamento', ''),
-                    'Descrição Técnica': row.get('Descrição Técnica', '')
-                }
-                
-                for campo, valor in campos.items():
-                    if valor:  # Só mostra se tiver valor
-                        st.markdown(f"**{campo}:** {valor}")
+                with col2:
+                    st.subheader(f"{tipo} - {subtipo}")
+                    
+                    # Adiciona todas as colunas disponíveis dinamicamente
+                    campos = {
+                        'Código': row.get('Código', ''),
+                        'Exemplos Comuns': row.get('Exemplos Comuns', ''),
+                        'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
+                        'Reciclável': row.get('Reciclável', ''),
+                        'Rota de Tratamento': row.get('Rota de Tratamento', ''),
+                        'Descrição Técnica': row.get('Descrição Técnica', '')
+                    }
+                    
+                    for campo, valor in campos.items():
+                        if pd.notna(valor):  # Verifica se não é NaN
+                            st.markdown(f"**{campo}:** {valor}")
 
-        st.divider()
+            st.divider()
+            
+        except Exception as e:
+            st.error(f"Erro ao exibir resíduo: {str(e)}")
         
 # Função: quiz interativo
 def mostrar_quiz():
