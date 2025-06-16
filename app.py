@@ -12,6 +12,11 @@ from datetime import datetime
 IMAGES_POLIMEROS_DIR = "imagens_polimeros"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 
+# Cria as pastas de imagem se não existirem
+os.makedirs(IMAGES_POLIMEROS_DIR, exist_ok=True)
+os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
+
+
 def normalizar_nome(nome: str) -> str:
     """Transforma o nome em lowercase, substitui espaços e caracteres especiais para nome de arquivo."""
     return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace("/", "_").replace(";", "").replace("-", "_")
