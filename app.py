@@ -107,7 +107,14 @@ def load_cooperativas():
             "descricao": "Valoriza a inclusão social e sustentabilidade."
         }
     ]
-    
+    # Garantir que latitude e longitude sejam float válidos
+df['latitude'] = df['latitude'].astype(str).str.replace(',', '.').astype(float)
+df['longitude'] = df['longitude'].astype(str).str.replace(',', '.').astype(float)
+
+# Eliminar valores faltantes ou inválidos
+df = df.dropna(subset=['latitude', 'longitude'])
+df = df[(df['latitude'].between(-90, 0)) & (df['longitude'].between(-90, -30))]  # Região de Floripa
+
     return pd.DataFrame(data)
 
 # Função: glossário interativo
