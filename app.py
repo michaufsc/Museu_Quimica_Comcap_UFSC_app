@@ -17,9 +17,24 @@ os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
 os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
 
 
-def normalizar_nome(nome: str) -> str:
-    """Transforma o nome em lowercase, substitui espaços e caracteres especiais para nome de arquivo."""
-    return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace("/", "_").replace(";", "").replace("-", "_")
+# Função para normalizar nomes (exemplo simples)
+def normalizar_nome(nome):
+    return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace(".", "").replace(",", "")
+
+# Função para mostrar imagens com fallback
+def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
+    caminho_imagem = os.path.join(caminho_dir, nome_imagem)
+    if os.path.exists(caminho_imagem):
+        try:
+            img = Image.open(caminho_imagem)
+            st.image(img, use_container_width=True, caption=legenda)
+        except:
+            img_padrao = Image.new('RGB', (300, 300), color=cor_fundo)
+            st.image(img_padrao, use_container_width=True, caption=legenda)
+    else:
+        img_padrao = Image.new('RGB', (300, 300), color=cor_fundo)
+        st.image(img_padrao, use_container_width=True, caption=legenda)
+
     
 # Configuração da página
 st.set_page_config(
@@ -169,20 +184,18 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
 
+    if 'Subtipo' not in residuos.columns:
+        st.error("A coluna 'Subtipo' não está presente no DataFrame de resíduos.")
+        return
+
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                subtipo = str(row['Subtipo']).split('(')[0].strip()  # Remove números entre parênteses
+                subtipo = str(row['Subtipo']).split('(')[0].strip()  # Limpa o subtipo
                 nome_imagem = normalizar_nome(subtipo) + ".png"
-                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
-
-                if os.path.exists(caminho_imagem):
-                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
-                else:
-                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
+                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, subtipo, (200, 230, 200))
 
             with col2:
                 st.subheader(f"{row['Tipo']} - {subtipo}")
@@ -192,6 +205,9 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                 st.markdown(f"**Reciclável:** {row['Reciclável']}")
                 st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
                 st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
+
+        st.markdown("---")
+
 
         st.divider()
 
