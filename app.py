@@ -641,6 +641,9 @@ def mostrar_cooperativas():
 
 # Função principal
 def main():
+     # Carregar dados dos glossários
+    polimeros = pd.read_csv("polimeros.csv", sep=";")
+    residuos = pd.read_csv("residuos.csv", sep=";")
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
