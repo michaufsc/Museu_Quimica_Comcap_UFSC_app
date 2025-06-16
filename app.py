@@ -31,8 +31,10 @@ def load_data():
 def load_coleta_data():
     url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
     df = pd.read_csv(url)
+    # Se quiser testar localmente:
+    # df = pd.read_csv("pontos_coleta.csv")
     return df
-
+    
 # Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
@@ -473,7 +475,32 @@ def mostrar_coleta_seletiva():
     else:
         st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
 
+# Função que cria e exibe o mapa
+def mostrar_mapa_coleta():
+    st.subheader("🗺️ Pontos de Coleta Seletiva")
+    df = load_coleta_data()
+    if df.empty:
+        st.warning("Nenhum ponto de coleta disponível.")
+        return
 
+    lat_media = df['latitude'].mean()
+    lon_media = df['longitude'].mean()
+    mapa = folium.Map(location=[lat_media, lon_media], zoom_start=12)
+
+    for _, row in df.iterrows():
+        popup_content = f"""
+        <strong>{row['nome']}</strong><br>
+        Tipo: {row['tipo']}<br>
+        {row['detalhes']}<br>
+        Horários: {row['horarios']}
+        """
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=folium.Popup(popup_content, max_width=300),
+            icon=folium.Icon(color='green', icon='trash', prefix='fa')
+        ).add_to(mapa)
+
+    folium_static(mapa)
 
 # Aba: Microplásticos
 
