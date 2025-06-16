@@ -124,12 +124,6 @@ def load_cooperativas():
 
     return df
 
-import os
-from PIL import Image, ImageDraw, ImageFont
-import streamlit as st
-
-IMAGES_DIR = "imagens_materiais"  # pasta onde ficam as imagens
-
 def mostrar_glossario(polimeros, residuos):
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
 
