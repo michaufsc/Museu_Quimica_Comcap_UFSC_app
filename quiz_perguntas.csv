@@ -1,21 +1,21 @@
-pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao
-Qual é o símbolo da reciclagem universal?;♳ PET;♴ PEAD;♻️ RECICLAGEM;♶ PP;2;O símbolo ♻️ representa a reciclagem universal.
-Qual tipo de resíduo é considerado lixo orgânico?;Vidro;Restos de alimentos;Plástico;Papel;1;Resíduos orgânicos são restos de alimentos e materiais biodegradáveis.
-O que é a coleta seletiva?;Separação dos resíduos por tipo para reciclagem;Queima de lixo;Coleta de todos os resíduos juntos;Descarte em rios;0;Coleta seletiva facilita a reciclagem e evita contaminação.
-Qual a função do símbolo ♶?;Simbolizar alumínio;Indicar lixo tóxico;Representar o polipropileno;Identificar vidro;2;♶ é o símbolo do polipropileno, usado em embalagens rígidas.
-Qual cor representa os recipientes para vidro na coleta seletiva?;Vermelho;Azul;Verde;Amarelo;2;O verde é usado para coleta de vidro.
-Como deve ser descartado o óleo de cozinha usado?;Na pia;No vaso sanitário;Em recipientes para reciclagem;No lixo comum;2;Óleo deve ser recolhido para reciclagem e evitar poluição da água.
-Qual é o principal problema do descarte inadequado de resíduos?;Economia de espaço;Geração de energia;Contaminação do solo e da água;Aumento da reciclagem;2;Descarte inadequado causa sérios danos ambientais.
-Qual símbolo representa o PVC (policloreto de vinila)?;♴ PEAD;♸ PVC;♳ PET;♶ PP;1;♸ indica PVC, usado em tubos e conexões.
-O que é compostagem?;Queima de resíduos;Processo de decomposição de resíduos orgânicos;Reciclagem de plástico;Descarte em aterro;1;Compostagem transforma resíduos orgânicos em adubo natural.
-Qual é o impacto do plástico no meio ambiente?;É biodegradável;Demora para se decompor e polui;Ajuda na fertilização;Não tem impacto;1;Plástico demora muito para decompor e causa poluição.
-Qual é a cor da coleta seletiva para papel e papelão?;Azul;Vermelho;Verde;Amarelo;0;O azul é usado para papel e papelão.
-Qual símbolo indica materiais compostos ou outros plásticos?;♹ Outros;♶ PP;♳ PET;♴ PEAD;0;♹ indica outros plásticos não especificados.
-Qual órgão fiscaliza a gestão de resíduos no Brasil?;IBAMA;INMETRO;ANVISA;Petrobras;0;O IBAMA é responsável pela fiscalização ambiental.
-O que deve ser feito com resíduos hospitalares?;Queimar em casa;Descarte controlado e tratamento especial;Jogar no lixo comum;Reciclar;1;Resíduos hospitalares exigem tratamento especial para evitar contaminação.
-Qual é a principal vantagem da reciclagem?;Aumenta custos;Reduz o volume de resíduos e economiza recursos naturais;Polui mais;Aumenta o lixo;1;Reciclagem ajuda a conservar o meio ambiente.
-Qual símbolo representa o polietileno de alta densidade?;♷ PS;♴ PEAD;♶ PP;♳ PET;1;♴ é o símbolo do PEAD, comum em frascos e embalagens.
-Qual é a importância da educação ambiental na gestão de resíduos?;Conscientizar para reduzir o lixo;Incentivar descarte irregular;Aumentar produção de lixo;Nenhuma;0;Educação ambiental promove práticas sustentáveis e redução do lixo.
-Qual símbolo indica o plástico PVC?;♸ PVC;♷ PS;♴ PEAD;♳ PET;0;♸ representa o PVC.
-O que são resíduos recicláveis?;Resíduos tóxicos;Materiais que podem ser transformados em novos produtos;Resíduos hospitalares;Resíduos orgânicos;1;Recicláveis são materiais reaproveitados na cadeia produtiva.
-Qual símbolo representa o PET (polietileno tereftalato)?;♳ PET;♶ PP;♴ PEAD;♷ PS;0;♳ é o símbolo do PET, usado em garrafas e embalagens.
+pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao;imagem
+Qual símbolo identifica plásticos PET?;[1] PET;[2] PEAD;[3] PVC;[4] PS;1;O número 1 dentro do triângulo de setas identifica o PET;simbolos/pet.png
+Qual resíduo demora MAIS para decompor?;Jornal;Fralda descartável;Casca de banana;Folha de papel;2;Fraldas podem levar 400-500 anos;;
+Onde descartar lâmpadas fluorescentes?;Lixo comum;Coleta seletiva;PEV;Compostagem;3;Pontos de Entrega Voluntária (PEV) para resíduos perigosos;;
+Qual o principal objetivo educativo do Museu do Lixo?;Mostrar arte moderna;Ensinar sobre os 4Rs;Expor objetos valiosos;Promover marcas sustentáveis;2;O museu ensina sobre consumo consciente baseado nos 4Rs;museu/educacao.jpg
+Como os microplásticos entram na cadeia alimentar?;Água contaminada;Respiração;Contato com a pele;Todos anteriores;4;Microplásticos são ingeridos por animais marinhos;microplasticos.jpg
+Qual equipamento é mais necessário para cooperativas?;Computadores;Prensas hidráulicas;Móveis;Ar-condicionado;2;Prensas compactam materiais e otimizam espaço;;
+Por que lavar garrafas PET antes de reciclar?;Evitar contaminação;Exigência legal;Facilitar transporte;Mudar sua cor;1;Resíduos orgânicos prejudicam o processo;;
+Em que ano foi fundado o Museu do Lixo?;1998;2003;2010;2015;2;Inaugurado em 25/09/2003 pela COMCAP;museu/exterior.jpg
+O que são microplásticos?;Plásticos biodegradáveis;Partículas <5mm;Plásticos industriais;Novos polímeros;2;Definidos como partículas menores que 5mm;;
+Qual técnica identifica polímeros?;Espectroscopia Raman;Titulação;Destilação;Cromatografia;1;Espectroscopia é método não-destrutivo;;
+Qual personagem educativo do Museu?;Capitão Planeta;Dona Tainha;Super-Homem;Homem-Aranha;2;Dona Tainha é personagem criado pelo museu;museu/dona_tainha.jpg
+Qual NÃO deve ir para a compostagem?;Borras de café;Cascas de ovo;Restos de carne;Folhas secas;3;Carnes atraem animais e causam mau cheiro;;
+Qual porcentagem do lixo é orgânico?;15%;35%;55%;75%;2;Cerca de 35% são restos de alimentos;;
+Como agendar visita ao Museu do Lixo?;Email;Telefone;Site;Todos anteriores;4;Contato: (48) 3261-4808 ou ambiental.comcap@pmf.sc.gov.br;;
+Qual plástico libera HCl quando queimado?;PET;PEAD;PVC;PS;3;PVC libera ácido clorídrico (HCl);;
+O que é logística reversa?;Devolução de embalagens;Coleta seletiva;Compostagem;Incineração;1;Sistema de retorno de produtos após o uso;;
+Qual material compõe a mandala do museu?;Mármore;Cacos de vidro;Tampinhas plásticas;Folhas secas;3;Feita com tampinhas plásticas recicladas;museu/mandala.jpg
+Qual temperatura ideal para compostagem?;0-10°C;15-25°C;40-60°C;70-90°C;3;40-60°C acelera decomposição e mata patógenos;;
+Qual símbolo indica não reciclável?;Triângulo riscado;Quadrado vermelho;Círculo preto;Losango amarelo;1;Triângulo com X indica não reciclável;simbolos/nao_reciclavel.png
+Quantos itens tem o acervo do Museu?;1.000;5.000;10.000;50.000;3;Cerca de 10 mil itens catalogados;;
