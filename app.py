@@ -43,13 +43,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Carregar dados (polímeros e resíduos)
-@st.cache_data
-def load_data():
-    polimeros = pd.read_csv("polimeros.csv", sep=";")
-    residuos = pd.read_csv("residuos.csv", sep=";")
-    return polimeros, residuos
-
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
