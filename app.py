@@ -80,7 +80,43 @@ def load_cooperativas():
         st.error(f"Erro ao carregar dados: {str(e)}")
         # Dados de fallback com suas informações
         return pd.DataFrame([
+            {def load_cooperativas():
+    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
+    
+    try:
+        # Adicione o parâmetro encoding='utf-8' e delimiter=','
+        df = pd.read_csv(url, encoding='utf-8', delimiter=',')
+        
+        # Verifique se as colunas foram lidas corretamente
+        st.write("Colunas detectadas:", df.columns.tolist())
+        
+        # Renomeia colunas se necessário (caso estejam com problemas)
+        df = df.rename(columns={
+            'oednerçononome': 'nome',
+            'endereço': 'endereco',
+            'lat': 'latitude',
+            'long': 'longitude',
+            'descrição': 'descricao'
+        })
+        
+        # Processamento normal continua...
+        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+        return df.dropna(subset=['latitude', 'longitude'])
+        
+    except Exception as e:
+        st.error(f"Erro ao ler arquivo: {str(e)}")
+        # Fallback com dados manuais
+        return pd.DataFrame([
             {
+                "nome": "ACMR",
+                "endereco": "Rua João Pio Duarte Silva, 150",
+                "latitude": -27.5942,
+                "longitude": -48.5478,
+                "descricao": "Maior associação de reciclagem"
+            }
+            # Adicione mais entradas se necessário
+        ])
                 "nome": "Associação de Catadores de Materiais Recicláveis de Florianópolis (ACMR)",
                 "endereco": "Rua João Pio Duarte Silva, 150",
                 "latitude": -27.5942,
