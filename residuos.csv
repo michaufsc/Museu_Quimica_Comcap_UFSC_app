@@ -1,20 +1,19 @@
-Tipo;Subtipo;Código;Exemplos Comuns;Tempo de Decomposição;Reciclável;Rota de Tratamento;Descrição Técnica
-Plástico;PET;01;Garrafas de refrigerante, embalagens de óleo;450 anos;Sim;Coleta seletiva, reciclagem mecânica;Plástico termoplástico leve e resistente. Deve ser limpo antes da reciclagem. Altamente reciclável.
-Plástico;PEAD;02;Frascos de shampoo, embalagens de produtos de limpeza;100-500 anos;Sim;Reciclagem mecânica;Polietileno de alta densidade, rígido, com boa resistência química. Muito reciclado no Brasil.
-Plástico;PVC;03;Canos, tubos, embalagens de cosméticos;Mais de 100 anos;Sim (com restrições);Reciclagem química ou reaproveitamento;Polímero com aditivos que dificultam a reciclagem. Requer separação cuidadosa.
-Plástico;Plástico filme (PEBD, etc.);04;Sacolas, filmes plásticos, embalagens flexíveis;100-200 anos;Sim (limitado);Coleta seletiva especializada;Baixa densidade e difícil de reciclar em usinas convencionais.
-Papel;Papel branco;21;Folhas A4, cadernos, impressos;3 a 6 meses;Sim;Reciclagem mecânica;Fibra de celulose pura, de alta qualidade para reciclagem.
-Papel;Papelão;22;Caixas, embalagens;6 meses;Sim;Prensagem e reciclagem;Papel grosso com boa resistência estrutural. Muito utilizado em embalagens.
-Papel;Papel plastificado ou sujo;23;Guardanapos usados, papéis encerados;Indeterminado;Não;Aterro sanitário;Contaminação por gordura ou mistura com plástico inviabiliza a reciclagem.
-Metal;Alumínio;31;Latas de refrigerante, tampas de iogurte;200 a 500 anos;Sim;Reciclagem por fundição;Material 100% reciclável, sem perda de qualidade. Alta valorização.
-Metal;Aço;32;Latas de alimentos, pregos, parafusos;100 anos;Sim;Fundição em siderurgia;Pode conter revestimento (ex: flandres) e ser separado por ímãs.
-Vidro;Transparente;41;Garrafas, potes, copos;Tempo indeterminado;Sim;Reciclagem por fusão;100% reciclável, mas deve ser separado por cor e estar limpo.
-Vidro;Espelho e temperado;42;Espelhos, janelas, box;Não se decompõe;Não;Aterro ou reaproveitamento artesanal;Contêm metais ou compostos que inviabilizam a fusão tradicional.
-Orgânico;Restos de alimentos;51;Cascas de frutas, arroz, vegetais;15 dias a 6 meses;Não (mas compostável);Compostagem doméstica ou industrial;Decomposição natural que gera adubo. Alta geração nos domicílios.
-Orgânico;Jardinagem;52;Folhas, galhos, podas;1 mês a 1 ano;Não (mas compostável);Compostagem, trituração;Usado para composto ou cobertura morta em agricultura.
-Rejeito;Contaminado;61;Fraldas, absorventes, papéis higiênicos;100-400 anos;Não;Aterro sanitário;Resíduos sem possibilidade de reciclagem, destinados ao aterro.
-Rejeito;Vidro quebrado, cerâmica;62;Louças, porcelana, vidro plano;Indeterminado;Não;Aterro sanitário;Materiais quebradiços não fundem como vidro reciclável comum.
-Perigoso;Eletrônicos;71;Celulares, pilhas, baterias;Mais de 1.000 anos;Sim (em PEVs);Logística reversa;Contêm metais pesados e devem ser destinados a pontos específicos de coleta.
-Perigoso;Hospitalar;72;Agulhas, seringas, curativos;Indeterminado;Não;Incinerador licenciado;Necessita tratamento térmico e acondicionamento especial.
-Perigoso;Químico doméstico;73;Solventes, tintas, pesticidas;Indeterminado;Não;Coleta especializada e incineração;Altamente poluentes. Devem ir para ecopontos ou coleta específica.
-
+Tipo;Código;Exemplos Comuns;Tempo de Decomposição;Reciclável;Rota de Tratamento;Descrição Técnica
+Plástico;01;Garrafas de refrigerante, embalagens de óleo;450 anos;Sim;Coleta seletiva, reciclagem mecânica;Plástico termoplástico leve e resistente. Deve ser limpo antes da reciclagem. Altamente reciclável.
+Plástico;02;Frascos de shampoo, embalagens de produtos de limpeza;100-500 anos;Sim;Reciclagem mecânica;Polietileno de alta densidade, rígido, com boa resistência química. Muito reciclado no Brasil.
+Plástico;03;Canos, tubos, embalagens de cosméticos;Mais de 100 anos;Sim (com restrições);Reciclagem química ou reaproveitamento;Polímero com aditivos que dificultam a reciclagem. Requer separação cuidadosa.
+Plástico;04;Sacolas, filmes plásticos, embalagens flexíveis;100-200 anos;Sim (limitado);Coleta seletiva especializada;Baixa densidade e difícil de reciclar em usinas convencionais.
+Papel;21;Folhas A4, cadernos, impressos;3 a 6 meses;Sim;Reciclagem mecânica;Fibra de celulose pura, de alta qualidade para reciclagem.
+Papel;22;Caixas, embalagens;6 meses;Sim;Prensagem e reciclagem;Papel grosso com boa resistência estrutural. Muito utilizado em embalagens.
+Papel;23;Guardanapos usados, papéis encerados;Indeterminado;Não;Aterro sanitário;Contaminação por gordura ou mistura com plástico inviabiliza a reciclagem.
+Metal;31;Latas de refrigerante, tampas de iogurte;200 a 500 anos;Sim;Reciclagem por fundição;Material 100% reciclável, sem perda de qualidade. Alta valorização.
+Metal;32;Latas de alimentos, pregos, parafusos;100 anos;Sim;Fundição em siderurgia;Pode conter revestimento (ex: flandres) e ser separado por ímãs.
+Vidro;41;Garrafas, potes, copos;Tempo indeterminado;Sim;Reciclagem por fusão;100% reciclável, mas deve ser separado por cor e estar limpo.
+Vidro;42;Espelhos, janelas, box;Não se decompõe;Não;Aterro ou reaproveitamento artesanal;Contêm metais ou compostos que inviabilizam a fusão tradicional.
+Orgânico;51;Cascas de frutas, arroz, vegetais;15 dias a 6 meses;Não (mas compostável);Compostagem doméstica ou industrial;Decomposição natural que gera adubo. Alta geração nos domicílios.
+Orgânico;52;Folhas, galhos, podas;1 mês a 1 ano;Não (mas compostável);Compostagem, trituração;Usado para composto ou cobertura morta em agricultura.
+Rejeito;61;Fraldas, absorventes, papéis higiênicos;100-400 anos;Não;Aterro sanitário;Resíduos sem possibilidade de reciclagem, destinados ao aterro.
+Rejeito;62;Louças, porcelana, vidro plano;Indeterminado;Não;Aterro sanitário;Materiais quebradiços não fundem como vidro reciclável comum.
+Perigoso;71;Celulares, pilhas, baterias;Mais de 1.000 anos;Sim (em PEVs);Logística reversa;Contêm metais pesados e devem ser destinados a pontos específicos de coleta.
+Perigoso;72;Agulhas, seringas, curativos;Indeterminado;Não;Incinerador licenciado;Necessita tratamento térmico e acondicionamento especial.
+Perigoso;73;Solventes, tintas, pesticidas;Indeterminado;Não;Coleta especializada e incineração;Altamente poluentes. Devem ir para ecopontos ou coleta específica.
