@@ -44,13 +44,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Carregar dados (polímeros e resíduos)
-@st.cache_data
-def load_data():
-    polimeros = pd.read_csv("polimeros.csv", sep=";")
-    residuos = pd.read_csv("residuos.csv", sep=";")
-    return polimeros, residuos
-
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
@@ -81,23 +74,23 @@ def load_data():
         polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8')
         residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8')
         
-        # Verifica colunas obrigatórias
-        colunas_polimeros = ['Sigla', 'Nome', 'Código de Identificação']
-        colunas_residuos = ['Tipo', 'Subtipo', 'Código']
+        # Verificação de colunas
+        required_polimeros = ['Sigla', 'Nome', 'Código de Identificação']
+        required_residuos = ['Tipo', 'Subtipo', 'Código']
         
-        for col in colunas_polimeros:
+        for col in required_polimeros:
             if col not in polimeros.columns:
-                raise ValueError(f"Coluna '{col}' não encontrada em polimeros.csv")
-        
-        for col in colunas_residuos:
+                raise ValueError(f"Coluna '{col}' faltando em polimeros.csv")
+                
+        for col in required_residuos:
             if col not in residuos.columns:
-                raise ValueError(f"Coluna '{col}' não encontrada em residuos.csv")
+                raise ValueError(f"Coluna '{col}' faltando em residuos.csv")
                 
         return polimeros, residuos
         
     except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame(), pd.DataFrame()
+        st.error(f"Falha ao carregar dados: {str(e)}")
+        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios
 
 # Função para carregar o CSV com as cooperativas
 def load_cooperativas():
@@ -202,8 +195,6 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
 
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
-    
-    # Verifica se o DataFrame está vazio
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
