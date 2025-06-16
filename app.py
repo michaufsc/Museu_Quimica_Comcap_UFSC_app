@@ -604,7 +604,9 @@ def mostrar_microplasticos():
     5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
     6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
     """)
-  def mostrar_cooperativas():
+
+#função coperativas
+def mostrar_cooperativas():
     st.header("♻️ Cooperativas de Reciclagem de Florianópolis")
 
     st.markdown("""
@@ -625,19 +627,15 @@ def mostrar_microplasticos():
     - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. [Artigo](https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086)
     """)
 
-    # Carregar dados
     df = load_cooperativas()
 
-    # Layout com abas
     tab_lista, tab_mapa = st.tabs(["📋 Lista de Cooperativas", "🗺️ Mapa"])
 
     with tab_lista:
         st.subheader("Cooperativas Cadastradas")
 
-        # Campo de busca
         busca = st.text_input("Pesquisar cooperativas:", placeholder="Digite nome ou endereço")
 
-        # Filtro
         if busca:
             df_filtrado = df[
                 df['nome'].str.contains(busca, case=False, na=False) |
@@ -646,7 +644,6 @@ def mostrar_microplasticos():
         else:
             df_filtrado = df.copy()
 
-        # Tabela com dados
         st.dataframe(
             df_filtrado.rename(columns={
                 'nome': 'Cooperativa',
@@ -661,14 +658,12 @@ def mostrar_microplasticos():
     with tab_mapa:
         st.subheader("Localização das Cooperativas")
 
-        # Criar o mapa
         mapa = folium.Map(
             location=[df['latitude'].mean(), df['longitude'].mean()],
             zoom_start=13,
             tiles="cartodbpositron"
         )
 
-        # Marcadores
         for _, row in df.iterrows():
             folium.Marker(
                 location=[row['latitude'], row['longitude']],
@@ -682,10 +677,7 @@ def mostrar_microplasticos():
                 icon=folium.Icon(color="green", icon="recycle", prefix="fa")
             ).add_to(mapa)
 
-        # Mostrar o mapa no Streamlit
         folium_static(mapa, width=700, height=500)
-
-        # Legenda
         st.caption("📍 Clique nos marcadores para ver detalhes")
  
 
