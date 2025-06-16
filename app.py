@@ -498,8 +498,7 @@ def main():
 """)
 
 # Execução do app
-if __name__ == "__main__":More actions
+if __name__ == "__main__":
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     main()
-~
