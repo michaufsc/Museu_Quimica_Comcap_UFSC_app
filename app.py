@@ -53,16 +53,18 @@ polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
 def load_cooperativas():
-    # URL do arquivo CSV no GitHub (use o link raw)
-    url = "https://https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/cooperativas.csv"  # Substitua pelo seu link real
+    # URL do arquivo CSV no GitHub (substitua pelo seu link real)
+    url = "https://raw.githubusercontent.com/seu_usuario/seu_repositorio/main/cooperativas.csv"
     
-    # Carregar os dados
     try:
         df = pd.read_csv(url)
-        return df
+        # Converter coordenadas para numérico (caso venham como string)
+        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+        return df.dropna(subset=['latitude', 'longitude'])
     except Exception as e:
-        st.error(f"Erro ao carregar dados: {e}")
-        return pd.DataFrame()  # Retorna DataFrame vazio em caso de erro
+        st.error(f"Erro ao carregar dados das cooperativas: {str(e)}")
+        return pd.DataFrame(columns=['nome', 'endereco', 'latitude', 'longitude', 'descricao'])
 
 # Função: glossário interativo
 def mostrar_glossario():
