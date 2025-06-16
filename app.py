@@ -51,6 +51,11 @@ def load_quiz():
 # Carrega os dados
 polimeros, residuos = load_data()
 
+# Função para carregar o CSV com as cooperativas
+def load_cooperativas():
+    # Ajuste o caminho do arquivo CSV conforme sua estrutura
+    return pd.read_csv("cooperativas_florianopolis.csv")
+
 # Função: glossário interativo
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
@@ -535,7 +540,50 @@ def mostrar_microplasticos():
     5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
     6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
     """)
+def mostrar_cooperativas():
+    st.header("♻️ Cooperativas de Reciclagem de Florianópolis")
 
+    st.markdown("""
+    As cooperativas de reciclagem em Florianópolis exercem um papel essencial na gestão dos resíduos sólidos urbanos, contribuindo para a sustentabilidade ambiental, inclusão social e geração de trabalho digno para catadores e cooperados. Estas organizações funcionam a partir de princípios democráticos e autogestionários, promovendo o protagonismo dos trabalhadores no processo produtivo e na tomada de decisões.
+
+    ### Governança e Organização
+
+    A governança das cooperativas é pautada na participação coletiva, que fortalece a autonomia dos cooperados e a gestão compartilhada dos recursos. Apesar disso, enfrentam desafios estruturais como limitações de infraestrutura, falta de equipamentos e veículos próprios, além da necessidade de capacitação em áreas administrativas e de segurança no trabalho.
+
+    ### Desafios
+
+    Dentre os principais desafios estão a precariedade na infraestrutura física, dificuldade em acessar linhas de crédito e financiamentos específicos, além da falta de políticas públicas integradas que fortaleçam o setor. A valorização social e institucional destas cooperativas é fundamental para garantir sua sustentabilidade econômica, social e ambiental.
+
+    ### Importância das Cooperativas
+
+    Além do impacto ambiental positivo, as cooperativas contribuem para a economia circular e a redução de resíduos enviados a aterros sanitários. O trabalho coletivo gera renda e promove a inclusão social de grupos vulneráveis, reforçando a importância da participação cidadã na gestão dos resíduos sólidos.
+
+    ### Referências
+
+    - CARRION, C. L. G.; MARTINS, D. T. M.; et al. Cooperativismo e inclusão social: um estudo das cooperativas de catadores de resíduos sólidos em Florianópolis. *Repositório UFSC*, 2022. Disponível em: https://repositorio.ufsc.br/handle/123456789/192872. Acesso em: 16 jun. 2025.
+
+    - PREFEITURA MUNICIPAL DE FLORIANÓPOLIS. *Plano Municipal de Gestão Integrada de Resíduos Sólidos*. Florianópolis: PMF, 2022. Disponível em: https://www.pmf.sc.gov.br/arquivos/documentos/pdf/24_06_2022_15.28.44.a6b5dac659782748068dd07d94d5c782.pdf. Acesso em: 16 jun. 2025.
+
+    - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
+    """)
+
+    # Carregar dados do CSV
+    df = load_cooperativas()
+
+    # Criar mapa centralizado na região das cooperativas
+    mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
+
+    # Adicionar marcadores ao mapa
+    for _, row in df.iterrows():
+        popup_html = f"<b>{row['nome']}</b><br>{row['endereco']}<br>{row['descricao']}"
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=popup_html,
+            icon=folium.Icon(color='green', icon='recycle', prefix='fa')
+        ).add_to(mapa)
+
+    # Mostrar o mapa com streamlit-folium
+    folium_static(mapa, width=700, height=500)
 
 # Função principal
 def main():
@@ -577,7 +625,6 @@ def main():
         mostrar_coleta_seletiva()
 
     with tab7:
-    mostrar_microplasticos()
         mostrar_microplasticos()
 
     with tab8:
@@ -593,7 +640,7 @@ def main():
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
-- Dados técnicos baseados em normas ABNT  
+- Dados técnicos baseados em normas ABNT  More actions
 - Integrado com atividades pedagógicas  
 """)
         st.markdown("""
@@ -603,7 +650,7 @@ def main():
 """)
 
 # Execução do app
-if __name__ == "__main__":More actions
-    if not os.path.exists(IMAGES_DIR):
+if __name__ == "__main__":
+    if not os.path.exists(IMAGES_DIR):More actions
         os.makedirs(IMAGES_DIR)
     main()
