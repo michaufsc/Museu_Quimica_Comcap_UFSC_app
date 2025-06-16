@@ -190,57 +190,47 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
 
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
+    
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
 
-    # Verifica colunas obrigatórias
-    colunas_necessarias = ['Tipo', 'Subtipo', 'Código']
-    for col in colunas_necessarias:
-        if col not in residuos.columns:
-            st.error(f"Coluna obrigatória não encontrada: {col}")
-            return
-
-    for _, row in residuos.iterrows():
-        try:
-            with st.container():
-                col1, col2 = st.columns([1, 3], gap="medium")
-
+    # Agrupa por Tipo para melhor organização
+    tipos = residuos['Tipo'].unique()
+    
+    for tipo in tipos:
+        st.subheader(f"📌 {tipo}")
+        df_tipo = residuos[residuos['Tipo'] == tipo]
+        
+        for _, row in df_tipo.iterrows():
+            with st.expander(f"{row['Tipo']} - Código {row['Código']}"):
+                col1, col2 = st.columns([1, 3])
+                
                 with col1:
-                    # Acesso seguro às colunas
-                    tipo = str(row.get('Tipo', 'Resíduo')).strip()
-                    subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
-                    
-                    nome_imagem = normalizar_nome(subtipo) + ".png"
+                    # Gera nome da imagem baseado no código
+                    nome_imagem = f"residuo_{row['Código']}.png"
                     caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
-
+                    
                     if os.path.exists(caminho_imagem):
-                        st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
+                        st.image(Image.open(caminho_imagem), 
+                                use_container_width=True, 
+                                caption=f"Código {row['Código']}")
                     else:
                         img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                        st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
+                        st.image(img_padrao, 
+                               use_container_width=True, 
+                               caption=f"Código {row['Código']}")
 
                 with col2:
-                    st.subheader(f"{tipo} - {subtipo}")
-                    
-                    # Adiciona todas as colunas disponíveis dinamicamente
-                    campos = {
-                        'Código': row.get('Código', ''),
-                        'Exemplos Comuns': row.get('Exemplos Comuns', ''),
-                        'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
-                        'Reciclável': row.get('Reciclável', ''),
-                        'Rota de Tratamento': row.get('Rota de Tratamento', ''),
-                        'Descrição Técnica': row.get('Descrição Técnica', '')
-                    }
-                    
-                    for campo, valor in campos.items():
-                        if pd.notna(valor):  # Verifica se não é NaN
-                            st.markdown(f"**{campo}:** {valor}")
-
-            st.divider()
+                    st.markdown(f"**Código:** {row['Código']}")
+                    st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
+                    st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
+                    st.markdown(f"**Reciclável:** {row['Reciclável']}")
+                    st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
+                    st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
             
-        except Exception as e:
-            st.error(f"Erro ao exibir resíduo: {str(e)}")
+            st.divider()
+
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("♻️ Quiz Interativo - Museu do Lixo COMCAP")
