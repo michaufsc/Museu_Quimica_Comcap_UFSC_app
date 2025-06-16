@@ -630,7 +630,8 @@ def mostrar_cooperativas():
 
     - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
     """)
-     # Carregar dados
+
+    # Carregar dados
     df = load_cooperativas()
     
     # Layout em abas
@@ -651,7 +652,7 @@ def mostrar_cooperativas():
         else:
             df_filtrado = df.copy()
         
-        # Mostrar tabela - CORREÇÃO AQUI
+        # Mostrar tabela - CORREÇÃO AQUI (FECHAMENTO DO PARÊNTESE ADICIONADO)
         st.dataframe(
             df_filtrado.rename(columns={
                 'nome': 'Cooperativa',
@@ -691,30 +692,7 @@ def mostrar_cooperativas():
         
         # Legenda
         st.caption("📍 Clique nos marcadores para ver detalhes")
-Mudanças realizadas:
-Corrigi o fechamento do st.dataframe() movendo o parêntese final para depois do parâmetro height
-
-Verifiquei o balanceamento de todos os parênteses na função
-
-Mantive a indentação consistente
-
-Dicas para evitar esses erros:
-Use um editor de código com realce de sintaxe (VS Code, PyCharm)
-
-Ative a exiberação de linhas e pareamentos de parênteses
-
-Verifique sempre que:
-
-Cada ( tem seu )
-
-Cada { tem seu }
-
-Cada [ tem seu ]
-
-O restante do seu código parece estar correto. Esta correção específica deve resolver o erro de sintaxe que você está enfrentando.
-
-New chat
-
+ 
 
 # Função principal
 def main():
