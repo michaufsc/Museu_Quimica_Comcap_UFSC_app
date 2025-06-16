@@ -9,11 +9,11 @@ from streamlit_folium import folium_static
 from datetime import datetime
 
 # Caminho correto para a pasta de imagens
-IMAGES_MATERIAISS_DIR = "imagens_materiais"
+IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 
 # Cria as pastas de imagem se não existirem
-os.makedirs(IMAGES_MAATERIAIS_DIR, exist_ok=True)
+os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
 os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
 
 
