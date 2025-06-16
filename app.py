@@ -779,14 +779,39 @@ def mostrar_cooperativas():
  
 
 # Função principal
-# Função principal
 def main():
+    # Configuração inicial da página
+    st.set_page_config(
+        page_title="Química para reciclagem e limpeza dos oceanos",
+        page_icon="♻️",
+        layout="wide"
+    )
+
+    # Cabeçalho principal
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
     st.markdown("---")
 
-    # Abas principais com novas seções
+    # Carrega todos os dados necessários
+    try:
+        polimeros, residuos = load_data()
+        df_coleta = load_coleta_data()
+        cooperativas = load_cooperativas()
+        
+        # Verificação básica dos dados
+        if polimeros.empty or residuos.empty:
+            st.error("Erro ao carregar dados principais. Verifique os arquivos 'polimeros.csv' e 'residuos.csv'")
+            return
+            
+        if df_coleta.empty:
+            st.warning("Dados de coleta seletiva não disponíveis")
+            
+    except Exception as e:
+        st.error(f"Falha crítica ao carregar dados: {str(e)}")
+        return
+
+    # Criação das abas
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "🏛️ História do Museu",
         "🏷️ Glossário",
@@ -796,10 +821,11 @@ def main():
         "🏘️ Coleta Seletiva por Bairro",
         "🧵 Microplásticos",
         "🤝 Associações de Reciclagem",
-        "📚 Atividades Pedagógicas",
+        "📚 Atividades Pedagógicas", 
         "ℹ️ Sobre"
     ])
 
+    # Conteúdo de cada aba
     with tab1:
         mostrar_historia()
 
@@ -826,24 +852,71 @@ def main():
 
     with tab9:
         st.header("📚 Atividades Pedagógicas")
-        st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
+        st.markdown("""
+        ### Sugestões de atividades educativas:
+        
+        1. **Caça aos Resíduos**  
+           - Objetivo: Identificar tipos de resíduos no ambiente escolar  
+           - Materiais: Luvas, sacolas biodegradáveis, fichas de catalogação  
+        
+        2. **Experimento com Polímeros**  
+           - Demonstrar diferenças entre plásticos com testes de densidade  
+        
+        3. **Visita Virtual ao Museu do Lixo**  
+           - Roteiro guiado com questionário de observação  
+        
+        4. **Oficina de Compostagem**  
+           - Montar minhocário escolar e acompanhar processo  
+        """)
 
     with tab10:
         st.header("ℹ️ Sobre o Projeto")
-        st.markdown("""
-**Glossário Interativo de Resíduos e Polímeros**  
-- Desenvolvido para educação ambiental  
-- Dados técnicos baseados em normas ABNT  
-- Integrado com atividades pedagógicas  
-""")
-        st.markdown("""
-**Autor:** nome dos alunos e professora  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
-**Instituição:** Universidade Federal de Santa Catarina (UFSC)
-""")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            ### Objetivos
+            - Promover educação ambiental através da química
+            - Facilitar a identificação de materiais recicláveis
+            - Conectar teoria científica com práticas sustentáveis
+            
+            ### Tecnologias Utilizadas
+            - Python + Streamlit para interface
+            - Pandas para gestão de dados
+            - Folium para mapas interativos
+            """)
+            
+        with col2:
+            st.markdown("""
+            ### Equipe
+            **Orientadora**:  
+            Profª. Drª. [Nome da Professora]
+            
+            **Desenvolvedores**:  
+            - [Nome do Aluno 1]  
+            - [Nome do Aluno 2]
+            
+            **Instituição**:  
+            Universidade Federal de Santa Catarina (UFSC)
+            
+            **Disciplina**:  
+            Prática de Ensino em Espaços de Divulgação Científica
+            """)
+        
+        st.markdown("---")
+        st.markdown("📧 Contato: projetoreciclagem@example.com")
+        st.markdown("🌐 [Site do Museu do Lixo](https://www.pmf.sc.gov.br/entidades/comcap/)")
 
-# Execução do app
+    # Rodapé
+    st.markdown("---")
+    st.caption("© 2023 UFSC - Desenvolvido para fins educacionais")
+
+
 if __name__ == "__main__":
+    # Garante que as pastas de imagens existam
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
-    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
+    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True) 
+    os.makedirs(IMAGES_DIR, exist_ok=True)
+    
+    # Executa o app
     main()
