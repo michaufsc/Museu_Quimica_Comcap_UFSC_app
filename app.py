@@ -1,5 +1,5 @@
 import streamlit as st
-import pandas as pdMore actions
+import pandas as pd
 import random
 import os
 from PIL import Image
@@ -577,9 +577,8 @@ def main():
         mostrar_coleta_seletiva()
 
     with tab7:
-        st.header("🧵 Microplásticos")
-        st.markdown("Conteúdo sobre microplásticos ainda será adicionado.")
     mostrar_microplasticos()
+        mostrar_microplasticos()
 
     with tab8:
         st.header("🤝 Associações de Reciclagem")
@@ -604,7 +603,7 @@ def main():
 """)
 
 # Execução do app
-if __name__ == "__main__":
+if __name__ == "__main__":More actions
     if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     main()
