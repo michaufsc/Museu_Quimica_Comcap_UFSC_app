@@ -756,7 +756,7 @@ def main():
 """)
 
 # Execução do app
-if __name__ == "__main__":More actions
+if __name__ == "__main__":
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
     os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
     main()
