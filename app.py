@@ -701,7 +701,7 @@ def main():
         mostrar_historia()
 
     with tab2:
-        mostrar_glossario()
+        mostrar_glossario(polimeros, residuos)
 
     with tab3:
         mostrar_quiz()
