@@ -11,10 +11,11 @@ from datetime import datetime
 # Caminho correto para a pasta de imagens
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
-
+IMAGES_DIR = "imagens"
 # Cria as pastas de imagem se não existirem
 os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
 os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
+os.makedirs(IMAGES_DIR, exist_ok=True)
 
 
 # Função para normalizar nomes (exemplo simples)
@@ -63,16 +64,16 @@ def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
     questions = []
     for _, row in df.iterrows():
-        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
         questions.append({
             "pergunta": row['pergunta'],
-            "opcoes": opcoes,
+            "opcoes": [row['opcao_1'], row['opcao_2'], row['opcao_3'], row['opcao_4']],
             "resposta": int(row['resposta']),
-            "explicacao": row['explicacao']
+            "explicacao": row['explicacao'],
+            "imagem": os.path.join(IMAGES_DIR, row['imagem']) if pd.notna(row['imagem']) else None
         })
     random.shuffle(questions)
     return questions
-
+    
 # Carrega os dados
 @st.cache_data
 def load_data():
@@ -256,72 +257,152 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
         
 # Função: quiz interativo
 def mostrar_quiz():
-    st.header("🧐 Quiz de Resíduos e Polímeros")
-
-    # Inicializa o estado do quiz
-    if 'questions' not in st.session_state:
-        st.session_state.questions = load_quiz()
-        st.session_state.current_question = 0
-        st.session_state.score = 0
-
-    questions = st.session_state.questions
-    q_num = st.session_state.current_question
-
-    # Se terminou o quiz
-    if q_num >= len(questions):
-        score = st.session_state.score
-        total = len(questions)
-        percentual = score / total
-        st.balloons()
-        st.success(f"🎯 Pontuação Final: {score}/{total}")
-
-        if percentual == 1:
-            st.info("🌟 Excelente! Você acertou tudo!")
-        elif percentual >= 0.75:
-            st.info("👏 Muito bom! Você tem um bom domínio do conteúdo.")
-        elif percentual >= 0.5:
-            st.warning("🔍 Razoável, mas vale revisar os materiais.")
-        else:
-            st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
-
-        if st.button("🔄 Refazer Quiz"):
-            for key in list(st.session_state.keys()):
-                if key.startswith("q") or key.startswith("b") or key.startswith("respondido") or key.startswith("correta"):
-                    del st.session_state[key]
-            del st.session_state.questions
-            del st.session_state.current_question
-            del st.session_state.score
+    st.header("♻️ Quiz Interativo - Museu do Lixo COMCAP")
+    st.markdown("Teste seus conhecimentos sobre reciclagem, polímeros e sustentabilidade!")
+    
+    # Inicializa o estado da sessão
+    if 'quiz' not in st.session_state:
+        st.session_state.quiz = {
+            'questions': load_quiz(),
+            'current_question': 0,
+            'score': 0,
+            'answered': False,
+            'selected_option': None,
+            'show_results': False
+        }
+    
+    questions = st.session_state.quiz['questions']
+    current_q = st.session_state.quiz['current_question']
+    
+    # Verifica se terminou o quiz
+    if st.session_state.quiz['show_results'] or current_q >= len(questions):
+        mostrar_resultado_final()
         return
+    
+    # Mostra progresso
+    mostrar_barra_progresso(current_q, len(questions))
+    
+    # Obtém a pergunta atual
+    question = questions[current_q]
+    
+    # Layout da pergunta
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        st.subheader(f"Pergunta {current_q + 1}/{len(questions)}")
+        st.markdown(f"#### {question['pergunta']}")
+        
+        # Mostra opções como botões
+        selected = None
+        for i, opcao in enumerate(question['opcoes']):
+            if st.button(opcao, 
+                         key=f"op_{current_q}_{i}",
+                         disabled=st.session_state.quiz['answered'],
+                         use_container_width=True):
+                selected = i
+                st.session_state.quiz['selected_option'] = i
+                st.session_state.quiz['answered'] = True
+    
+    with col2:
+        # Mostra imagem se existir
+        if question.get('imagem') and os.path.exists(question['imagem']):
+            try:
+                st.image(
+                    question['imagem'],
+                    caption="Imagem referente à pergunta",
+                    use_column_width=True,
+                    output_format="auto"
+                )
+            except Exception as e:
+                st.warning(f"Não foi possível carregar a imagem: {str(e)}")
+        elif question.get('imagem'):
+            st.warning("Imagem não encontrada")
+    
+    # Se já respondeu, mostra feedback
+    if st.session_state.quiz['answered']:
+        mostrar_feedback(question)
+        
+        # Botão para próxima pergunta
+        if st.button("Próxima Pergunta →", 
+                    key=f"next_{current_q}",
+                    type="primary"):
+            avancar_quiz()
 
-    # Exibe a pergunta atual
-    question = questions[q_num]
-    st.progress((q_num + 1) / len(questions))
-    st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
-    st.markdown(f"**{question['pergunta']}**")
+def mostrar_barra_progresso(atual, total):
+    progresso = (atual + 1) / total
+    st.progress(progresso)
+    st.caption(f"Progresso: {atual + 1} de {total} perguntas")
 
-    # Widget de escolha
-    selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
+def mostrar_feedback(question):
+    st.markdown("---")
+    selected = st.session_state.quiz['selected_option']
+    correct = selected == question['resposta']
+    
+    if correct:
+        st.success("✅ **Correto!** " + question['explicacao'])
+        st.balloons()
+    else:
+        st.error(f"❌ **Ops!** A resposta correta é: **{question['opcoes'][question['resposta']]}**")
+        st.info("💡 **Explicação:** " + question['explicacao'])
+    
+    # Mostra link para mais informações quando relevante
+    if "Museu do Lixo" in question['pergunta']:
+        st.markdown("[🔍 Saiba mais sobre o Museu](https://www.pmf.sc.gov.br/entidades/comcap/)")
 
-    # Botão de confirmar
-    if f"respondido_{q_num}" not in st.session_state:
-        if st.button("✅ Confirmar", key=f"b{q_num}"):
-            st.session_state[f"respondido_{q_num}"] = True
-            correta = selected == question['opcoes'][question['resposta']]
-            st.session_state[f"correta_{q_num}"] = correta
-            if correta:
-                st.session_state.score += 1
+def avancar_quiz():
+    # Atualiza pontuação se acertou
+    questions = st.session_state.quiz['questions']
+    current_q = st.session_state.quiz['current_question']
+    selected = st.session_state.quiz['selected_option']
+    
+    if selected == questions[current_q]['resposta']:
+        st.session_state.quiz['score'] += 1
+    
+    # Prepara próximo estado
+    st.session_state.quiz['current_question'] += 1
+    st.session_state.quiz['answered'] = False
+    st.session_state.quiz['selected_option'] = None
+    
+    # Verifica se terminou
+    if st.session_state.quiz['current_question'] >= len(questions):
+        st.session_state.quiz['show_results'] = True
 
-    # Mostra resultado e botão próxima
-    if st.session_state.get(f"respondido_{q_num}", False):
-        correta = st.session_state[f"correta_{q_num}"]
-        if correta:
-            st.success(f"✅ Correto! {question['explicacao']}")
-        else:
-            st.error(f"❌ Errado. {question['explicacao']}")
-
-        if st.button("➡️ Próxima pergunta"):
-            st.session_state.current_question += 1
-
+def mostrar_resultado_final():
+    score = st.session_state.quiz['score']
+    total = len(st.session_state.quiz['questions'])
+    
+    st.success(f"## 🎯 Resultado Final: {score}/{total}")
+    
+    # Feedback personalizado
+    if score == total:
+        st.balloons()
+        st.markdown("""
+        ### 🌟 Excelente! Você é um expert em reciclagem!
+        *Parabéns! Seu conhecimento sobre resíduos e sustentabilidade é impressionante.*
+        """)
+    elif score >= total * 0.75:
+        st.markdown("""
+        ### 👏 Muito bom!
+        *Você tem um ótimo entendimento do assunto! Continue aprendendo.*
+        """)
+    else:
+        st.markdown("""
+        ### 📚 Continue explorando!
+        *Visite o glossário para melhorar seu conhecimento sobre reciclagem.*
+        """)
+    
+    # Botão para reiniciar
+    if st.button("🔄 Refazer Quiz", type="primary"):
+        for key in list(st.session_state.keys()):
+            if key.startswith('quiz'):
+                del st.session_state[key]
+        st.rerun()
+    
+    # Links úteis
+    st.markdown("---")
+    st.markdown("### 📚 Para aprender mais:")
+    st.page_link("app.py", label="Visitar Glossário", icon="📖")
+    st.page_link("https://www.pmf.sc.gov.br/entidades/comcap/", label="Site do Museu do Lixo", icon="🏛️")
 
 # Função: história do Museu
 def mostrar_historia():
