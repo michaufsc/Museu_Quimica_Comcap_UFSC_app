@@ -51,77 +51,64 @@ polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
 def load_cooperativas():
-    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
+    """
+    Carrega os dados das cooperativas de reciclagem
+    Retorna um DataFrame com: nome, endereco, latitude, longitude, descricao
+    """
+    # Dados diretamente no código (substitua pela sua URL se preferir)
+    data = [
+        {
+            "nome": "Associação de Catadores de Materiais Recicláveis de Florianópolis (ACMR)",
+            "endereco": "Rua João Pio Duarte Silva, 150",
+            "latitude": -27.5942,
+            "longitude": -48.5478,
+            "descricao": "Maior associação, responsável pela triagem e comercialização dos recicláveis."
+        },
+        {
+            "nome": "Associação dos Catadores de Materiais Recicláveis do bairro Capoeiras",
+            "endereco": "Av. Mauro Ramos, 820",
+            "latitude": -27.5945,
+            "longitude": -48.5450,
+            "descricao": "Foco na inclusão social e sustentabilidade ambiental."
+        },
+        {
+            "nome": "Associação dos Catadores de Materiais Recicláveis do bairro Estreito",
+            "endereco": "Rua Henrique Meyer, 300",
+            "latitude": -27.6000,
+            "longitude": -48.5330,
+            "descricao": "Promove trabalho digno e educação ambiental."
+        },
+        {
+            "nome": "Cooperativa de Reciclagem e Trabalho de Florianópolis (COOPERTFLOR)",
+            "endereco": "Rua Des. Pedro Silva, 200",
+            "latitude": -27.5950,
+            "longitude": -48.5400,
+            "descricao": "Atua com triagem e comercialização, valorizando o trabalho dos catadores."
+        },
+        {
+            "nome": "Associação de Catadores de Materiais Recicláveis do bairro Itacorubi",
+            "endereco": "Rua Henrique Veras, 180",
+            "latitude": -27.5930,
+            "longitude": -48.5600,
+            "descricao": "Promove ações de reciclagem e conscientização ambiental."
+        },
+        {
+            "nome": "Associação dos Catadores de Materiais Recicláveis do bairro Saco Grande",
+            "endereco": "Rua Deputado Antônio Edu Vieira, 250",
+            "latitude": -27.6005,
+            "longitude": -48.5405,
+            "descricao": "Organiza cooperativa para melhorar as condições de trabalho."
+        },
+        {
+            "nome": "Cooperativa de Catadores de Florianópolis (COOPERCAT)",
+            "endereco": "Rua José Maria Tavares, 100",
+            "latitude": -27.5960,
+            "longitude": -48.5450,
+            "descricao": "Valoriza a inclusão social e sustentabilidade."
+        }
+    ]
     
-    try:
-        # Tenta carregar com diferentes delimitadores e encodings
-        try:
-            df = pd.read_csv(url, encoding='utf-8', delimiter=',')
-        except:
-            df = pd.read_csv(url, encoding='latin1', delimiter=';')
-        
-        # Verificação das colunas necessárias
-        required_columns = ['nome', 'endereco', 'latitude', 'longitude', 'descricao']
-        missing_columns = [col for col in required_columns if col not in df.columns]
-        
-        if missing_columns:
-            st.error(f"Colunas faltantes no arquivo: {', '.join(missing_columns)}")
-            # Tenta mapear colunas alternativas
-            column_mapping = {
-                'nome': ['Nome', 'Cooperativa', 'name'],
-                'endereco': ['Endereço', 'Address', 'local'],
-                'latitude': ['Lat', 'lat'],
-                'longitude': ['Lon', 'Long', 'lng', 'long'],
-                'descricao': ['Descrição', 'Description', 'info']
-            }
-            
-            for target_col in missing_columns:
-                for possible_col in column_mapping[target_col]:
-                    if possible_col in df.columns:
-                        df[target_col] = df[possible_col]
-                        break
-            
-            # Verifica se ainda faltam colunas essenciais
-            missing_essential = [col for col in ['nome', 'latitude', 'longitude'] if col not in df.columns]
-            if missing_essential:
-                raise ValueError(f"Colunas essenciais faltantes: {', '.join(missing_essential)}")
-        
-        # Converte coordenadas para numérico
-        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-        
-        # Remove linhas com coordenadas inválidas
-        df = df.dropna(subset=['latitude', 'longitude'])
-        
-        # Preenche descrição vazia
-        if 'descricao' in df.columns:
-            df['descricao'] = df['descricao'].fillna('Informação não disponível')
-        else:
-            df['descricao'] = 'Informação não disponível'
-            
-        return df
-        
-    except Exception as e:
-        st.error(f"Erro ao carregar dados das cooperativas: {str(e)}")
-        st.info("Carregando dados de exemplo...")
-        
-        # Dados de fallback
-        return pd.DataFrame([
-            {
-                "nome": "ACMR",
-                "endereco": "Rua João Pio Duarte Silva, 150",
-                "latitude": -27.5942,
-                "longitude": -48.5478,
-                "descricao": "Maior associação de reciclagem"
-            },
-            {
-                "nome": "COOPERTFLOR", 
-                "endereco": "Rua Des. Pedro Silva, 200",
-                "latitude": -27.5950,
-                "longitude": -48.5400,
-                "descricao": "Cooperativa especializada"
-            }
-        ])
+    return pd.DataFrame(data)
 
 # Função: glossário interativo
 def mostrar_glossario():
@@ -643,43 +630,67 @@ def mostrar_cooperativas():
 
     - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
     """)
-
-    # Carregar dados
+# Carregar dados
     df = load_cooperativas()
     
-    if df.empty:
-        st.warning("Não foi possível carregar os dados das cooperativas.")
-        return
-
-    # Mostrar tabela resumida
-    st.subheader("Cooperativas Cadastradas")
-    st.dataframe(df[['nome', 'endereco']].rename(
-        columns={'nome': 'Nome', 'endereco': 'Endereço'}),
-        hide_index=True,
-        use_container_width=True
-    )
-
-    # Criar mapa
-    st.subheader("Localização no Mapa")
-    mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
-
-    # Adicionar marcadores
-    for _, row in df.iterrows():
-        popup_html = f"""
-        <div style="width: 250px;">
-            <h4>{row['nome']}</h4>
-            <p><b>Endereço:</b> {row['endereco']}</p>
-            <p><b>Atuação:</b> {row['descricao']}</p>
-        </div>
-        """
-        folium.Marker(
-            location=[row['latitude'], row['longitude']],
-            popup=folium.Popup(popup_html, max_width=300),
-            icon=folium.Icon(color='green', icon='recycle', prefix='fa')
-        ).add_to(mapa)
-
-    folium_static(mapa, width=700, height=500)
-
+    # Layout em abas
+    tab_lista, tab_mapa = st.tabs(["📋 Lista de Cooperativas", "🗺️ Mapa"])
+    
+    with tab_lista:
+        st.subheader("Cooperativas Cadastradas")
+        
+        # Filtro de busca
+        busca = st.text_input("Pesquisar cooperativas:", placeholder="Digite nome ou endereço")
+        
+        # Aplicar filtro
+        if busca:
+            df_filtrado = df[
+                df['nome'].str.contains(busca, case=False) | 
+                df['endereco'].str.contains(busca, case=False)
+            ]
+        else:
+            df_filtrado = df.copy()
+        
+        # Mostrar tabela
+        st.dataframe(
+            df_filtrado.rename(columns={
+                'nome': 'Cooperativa',
+                'endereco': 'Endereço',
+                'descricao': 'Descrição'
+            }),
+            hide_index=True,
+            use_container_width=True,
+            height=min(400, 45 * len(df_filtrado) + 45)
+    
+    with tab_mapa:
+        st.subheader("Localização das Cooperativas")
+        
+        # Criar mapa centralizado
+        mapa = folium.Map(
+            location=[df['latitude'].mean(), df['longitude'].mean()],
+            zoom_start=13,
+            tiles="cartodbpositron"
+        )
+        
+        # Adicionar marcadores
+        for _, row in df.iterrows():
+            folium.Marker(
+                location=[row['latitude'], row['longitude']],
+                popup=f"""
+                <div style='width:250px'>
+                    <h4>{row['nome']}</h4>
+                    <p><b>Endereço:</b> {row['endereco']}</p>
+                    <p><b>Atuação:</b> {row['descricao']}</p>
+                </div>
+                """,
+                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+            ).add_to(mapa)
+        
+        # Exibir mapa
+        folium_static(mapa, width=700, height=500)
+        
+        # Legenda
+        st.caption("📍 Clique nos marcadores para ver detalhes")
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
