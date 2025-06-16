@@ -50,12 +50,15 @@ def load_quiz():
 polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
+import pandas as pd
+
 def load_cooperativas():
     """
-    Carrega os dados das cooperativas de reciclagem
-    Retorna um DataFrame com: nome, endereco, latitude, longitude, descricao
+    Carrega os dados das cooperativas de reciclagem.
+    Retorna um DataFrame com: nome, endereco, latitude, longitude, descricao.
     """
-    # Dados diretamente no código (substitua pela sua URL se preferir)
+
+    # Dados diretamente no código
     data = [
         {
             "nome": "Associação de Catadores de Materiais Recicláveis de Florianópolis (ACMR)",
@@ -107,15 +110,19 @@ def load_cooperativas():
             "descricao": "Valoriza a inclusão social e sustentabilidade."
         }
     ]
+
+    # Criar DataFrame
+    df = pd.DataFrame(data)
+
     # Garantir que latitude e longitude sejam float válidos
-df['latitude'] = df['latitude'].astype(str).str.replace(',', '.').astype(float)
-df['longitude'] = df['longitude'].astype(str).str.replace(',', '.').astype(float)
+    df['latitude'] = df['latitude'].astype(str).str.replace(',', '.').astype(float)
+    df['longitude'] = df['longitude'].astype(str).str.replace(',', '.').astype(float)
 
-# Eliminar valores faltantes ou inválidos
-df = df.dropna(subset=['latitude', 'longitude'])
-df = df[(df['latitude'].between(-90, 0)) & (df['longitude'].between(-90, -30))]  # Região de Floripa
+    # Eliminar valores faltantes ou inválidos
+    df = df.dropna(subset=['latitude', 'longitude'])
+    df = df[(df['latitude'].between(-90, 0)) & (df['longitude'].between(-90, -30))]
 
-    return pd.DataFrame(data)
+    return df
 
 # Função: glossário interativo
 def mostrar_glossario():
