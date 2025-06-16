@@ -200,7 +200,20 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
-
+    # Verifica se os arquivos existem
+    required_files = ["polimeros.csv", "residuos.csv"]
+    for file in required_files:
+        if not os.path.exists(file):
+            st.error(f"Arquivo necessário não encontrado: {file}")
+            return  # Encerra a execução se algum arquivo estiver faltando
+    
+    # Carrega os dados
+    polimeros, residuos = load_data()
+    
+    # Verifica se os DataFrames foram carregados corretamente
+    if polimeros.empty or residuos.empty:
+        st.error("Não foi possível carregar os dados. Verifique os arquivos CSV.")
+        return
     # Verifica as colunas disponíveis (para debug)
     st.write("Colunas disponíveis:", residuos.columns.tolist())
 
@@ -240,14 +253,7 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                         st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
-
-def mostrar_glossario(polimeros, residuos):
-    mostrar_glossario_polimeros(polimeros)
-    st.markdown("---")
-    mostrar_glossario_residuos(residuos)
-
-
-
+        
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
