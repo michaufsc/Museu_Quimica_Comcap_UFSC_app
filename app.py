@@ -174,17 +174,18 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                nome_imagem = normalizar_nome(row['Subtipo']) + ".png"
+                subtipo = str(row['Subtipo']).split('(')[0].strip()  # Remove números entre parênteses
+                nome_imagem = normalizar_nome(subtipo) + ".png"
                 caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
 
                 if os.path.exists(caminho_imagem):
-                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{row['Subtipo']}")
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
                 else:
                     img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"{row['Subtipo']}")
+                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
 
             with col2:
-                st.subheader(f"{row['Tipo']} - {row['Subtipo']}")
+                st.subheader(f"{row['Tipo']} - {subtipo}")
                 st.markdown(f"**Código:** {row['Código']}")
                 st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
                 st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
