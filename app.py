@@ -52,10 +52,19 @@ def load_quiz():
 # Carrega os dados
 polimeros, residuos = load_data()
 
-# Função para carregar o CSV com as cooperativas
+# Função para carregar dados CSV (adaptar o caminho para seu arquivo)
 def load_cooperativas():
-    # Ajuste o caminho do arquivo CSV conforme sua estrutura
-    return pd.read_csv("cooperativas_florianopolis.csv")
+    # Exemplo: arquivo CSV com colunas: nome, endereco, descricao, latitude, longitude
+    # Se decimal for vírgula, usa decimal=','
+    df = pd.read_csv("cooperativas.csv", decimal=',')
+    
+    # Converter latitude e longitude para numérico, forçando erros a NaN
+    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+    
+    # Remover linhas com dados inválidos de latitude/longitude
+    df = df.dropna(subset=['latitude', 'longitude'])
+    return df
 
 # Função: glossário interativo
 def mostrar_glossario():
@@ -568,13 +577,14 @@ def mostrar_cooperativas():
     - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
     """)
 
-    # Carregar dados do CSV
     df = load_cooperativas()
 
-    # Criar mapa centralizado na região das cooperativas
-    mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
+    # Criar mapa centralizado nas coordenadas médias das cooperativas
+    centro_lat = df['latitude'].mean()
+    centro_lon = df['longitude'].mean()
+    mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-    # Adicionar marcadores ao mapa
+    # Adicionar marcadores
     for _, row in df.iterrows():
         popup_html = f"<b>{row['nome']}</b><br>{row['endereco']}<br>{row['descricao']}"
         folium.Marker(
@@ -583,7 +593,6 @@ def mostrar_cooperativas():
             icon=folium.Icon(color='green', icon='recycle', prefix='fa')
         ).add_to(mapa)
 
-    # Mostrar o mapa com streamlit-folium
     folium_static(mapa, width=700, height=500)
 
 # Função principal
