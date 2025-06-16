@@ -180,25 +180,22 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
                 st.markdown(f"**Descrição:** {row['Descrição']}")
 
         st.divider()
-
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
 
-    if 'Subtipo' not in residuos.columns:
-        st.error("A coluna 'Subtipo' não está presente no DataFrame de resíduos.")
-        return
-
+    # Removemos o check da coluna 'Subtipo' porque ela não existe mais
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                subtipo = str(row['Subtipo']).split('(')[0].strip()  # Limpa o subtipo
-                nome_imagem = normalizar_nome(subtipo) + ".png"
-                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, subtipo, (200, 230, 200))
+                # Como não temos mais 'Subtipo', vamos usar 'Tipo' para nomear a imagem
+                tipo = str(row['Tipo']).strip()
+                nome_imagem = normalizar_nome(tipo) + ".png"
+                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, tipo, (200, 230, 200))
 
             with col2:
-                st.subheader(f"{row['Tipo']} - {subtipo}")
+                st.subheader(f"{row['Tipo']}")
                 st.markdown(f"**Código:** {row['Código']}")
                 st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
                 st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
@@ -207,6 +204,7 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                 st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
 
         st.markdown("---")
+
 
 
         st.divider()
