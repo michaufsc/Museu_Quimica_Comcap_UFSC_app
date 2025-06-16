@@ -211,22 +211,6 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                # Usando 'Tipo' para nomear a imagem
-                tipo = str(row.get('Tipo', 'Resíduo')).strip()
-                nome_imagem = normalizar_nome(tipo) + ".png"
-                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, tipo, (200, 230, 200))
-
-            with col2:
-                st.subheader(f"{tipo}")
-                st.markdown(f"**Código:** {row.get('Código', '')}")
-                st.markdown(f"**Exemplos Comuns:** {row.get('Exemplos Comuns', '')}")
-                st.markdown(f"**Tempo de Decomposição:** {row.get('Tempo de Decomposição', '')}")
-                st.markdown(f"**Reciclável:** {row.get('Reciclável', '')}")
-                st.markdown(f"**Rota de Tratamento:** {row.get('Rota de Tratamento', '')}")
-                st.markdown(f"**Descrição Técnica:** {row.get('Descrição Técnica', '')}")
-
-        st.markdown("---")
-        
                 # Acesso seguro às colunas
                 tipo = str(row.get('Tipo', 'Resíduo')).strip()
                 subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
@@ -258,7 +242,6 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                         st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
-
 def mostrar_glossario(polimeros, residuos):
     mostrar_glossario_polimeros(polimeros)
     st.markdown("---")
