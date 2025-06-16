@@ -50,32 +50,61 @@ def load_quiz():
 polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
-# Função para carregar o CSV com as cooperativas - VERSÃO CORRIGIDA
 def load_cooperativas():
     url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
     
     try:
-        # Carrega com tratamento de encoding e delimitador
-        df = pd.read_csv(url, encoding='utf-8', delimiter=',')
+        # Tenta carregar com diferentes delimitadores e encodings
+        try:
+            df = pd.read_csv(url, encoding='utf-8', delimiter=',')
+        except:
+            df = pd.read_csv(url, encoding='latin1', delimiter=';')
         
-        # Debug: mostra as colunas detectadas
-        st.write("Colunas detectadas:", df.columns.tolist())
-        
-        # Verificação das colunas
+        # Verificação das colunas necessárias
         required_columns = ['nome', 'endereco', 'latitude', 'longitude', 'descricao']
-        if not all(col in df.columns for col in required_columns):
-            st.error("Arquivo CSV não contém todas as colunas necessárias")
-            return pd.DataFrame(columns=required_columns)
+        missing_columns = [col for col in required_columns if col not in df.columns]
         
-        # Processamento dos dados
+        if missing_columns:
+            st.error(f"Colunas faltantes no arquivo: {', '.join(missing_columns)}")
+            # Tenta mapear colunas alternativas
+            column_mapping = {
+                'nome': ['Nome', 'Cooperativa', 'name'],
+                'endereco': ['Endereço', 'Address', 'local'],
+                'latitude': ['Lat', 'lat'],
+                'longitude': ['Lon', 'Long', 'lng', 'long'],
+                'descricao': ['Descrição', 'Description', 'info']
+            }
+            
+            for target_col in missing_columns:
+                for possible_col in column_mapping[target_col]:
+                    if possible_col in df.columns:
+                        df[target_col] = df[possible_col]
+                        break
+            
+            # Verifica se ainda faltam colunas essenciais
+            missing_essential = [col for col in ['nome', 'latitude', 'longitude'] if col not in df.columns]
+            if missing_essential:
+                raise ValueError(f"Colunas essenciais faltantes: {', '.join(missing_essential)}")
+        
+        # Converte coordenadas para numérico
         df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
         df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+        
+        # Remove linhas com coordenadas inválidas
         df = df.dropna(subset=['latitude', 'longitude'])
         
+        # Preenche descrição vazia
+        if 'descricao' in df.columns:
+            df['descricao'] = df['descricao'].fillna('Informação não disponível')
+        else:
+            df['descricao'] = 'Informação não disponível'
+            
         return df
         
     except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
+        st.error(f"Erro ao carregar dados das cooperativas: {str(e)}")
+        st.info("Carregando dados de exemplo...")
+        
         # Dados de fallback
         return pd.DataFrame([
             {
