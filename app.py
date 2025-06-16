@@ -381,6 +381,34 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 - [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
 - [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
 """)
+#função mapa
+def mostrar_mapa_coleta():
+    st.header("🗺️ Mapa Completo dos Pontos de Coleta Seletiva")
+
+    df_coleta = load_coleta_data()
+
+    # Verificação básica
+    if 'latitude' not in df_coleta.columns or 'longitude' not in df_coleta.columns:
+        st.error("Os dados não possuem colunas 'latitude' e 'longitude'")
+        return
+
+    # Centro do mapa
+    centro_lat = df_coleta['latitude'].mean()
+    centro_lon = df_coleta['longitude'].mean()
+
+    # Criação do mapa
+    mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=12)
+
+    for _, row in df_coleta.iterrows():
+        popup_text = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+        folium.Marker(
+            location=[row['latitude'], row['longitude']],
+            popup=popup_text,
+            icon=folium.Icon(color="green", icon="recycle", prefix='fa')
+        ).add_to(mapa)
+
+    folium_static(mapa)
+
 # coleta seletiva
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
@@ -425,6 +453,7 @@ def mostrar_coleta_seletiva():
         folium_static(mapa)
     else:
         st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+
 
 
 # Função principal
