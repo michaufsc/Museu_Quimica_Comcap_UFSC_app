@@ -604,55 +604,49 @@ def mostrar_microplasticos():
     5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
     6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
     """)
-    def mostrar_cooperativas():
+  def mostrar_cooperativas():
     st.header("♻️ Cooperativas de Reciclagem de Florianópolis")
 
     st.markdown("""
     As cooperativas de reciclagem em Florianópolis exercem um papel essencial na gestão dos resíduos sólidos urbanos, contribuindo para a sustentabilidade ambiental, inclusão social e geração de trabalho digno para catadores e cooperados. Estas organizações funcionam a partir de princípios democráticos e autogestionários, promovendo o protagonismo dos trabalhadores no processo produtivo e na tomada de decisões.
 
     ### Governança e Organização
-
     A governança das cooperativas é pautada na participação coletiva, que fortalece a autonomia dos cooperados e a gestão compartilhada dos recursos. Apesar disso, enfrentam desafios estruturais como limitações de infraestrutura, falta de equipamentos e veículos próprios, além da necessidade de capacitação em áreas administrativas e de segurança no trabalho.
 
     ### Desafios
-
     Dentre os principais desafios estão a precariedade na infraestrutura física, dificuldade em acessar linhas de crédito e financiamentos específicos, além da falta de políticas públicas integradas que fortaleçam o setor. A valorização social e institucional destas cooperativas é fundamental para garantir sua sustentabilidade econômica, social e ambiental.
 
     ### Importância das Cooperativas
-
     Além do impacto ambiental positivo, as cooperativas contribuem para a economia circular e a redução de resíduos enviados a aterros sanitários. O trabalho coletivo gera renda e promove a inclusão social de grupos vulneráveis, reforçando a importância da participação cidadã na gestão dos resíduos sólidos.
 
     ### Referências
-
-    - CARRION, C. L. G.; MARTINS, D. T. M.; et al. Cooperativismo e inclusão social: um estudo das cooperativas de catadores de resíduos sólidos em Florianópolis. *Repositório UFSC*, 2022. Disponível em: https://repositorio.ufsc.br/handle/123456789/192872. Acesso em: 16 jun. 2025.
-
-    - PREFEITURA MUNICIPAL DE FLORIANÓPOLIS. *Plano Municipal de Gestão Integrada de Resíduos Sólidos*. Florianópolis: PMF, 2022. Disponível em: https://www.pmf.sc.gov.br/arquivos/documentos/pdf/24_06_2022_15.28.44.a6b5dac659782748068dd07d94d5c782.pdf. Acesso em: 16 jun. 2025.
-
-    - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
+    - CARRION, C. L. G.; MARTINS, D. T. M.; et al. Cooperativismo e inclusão social: um estudo das cooperativas de catadores de resíduos sólidos em Florianópolis. *Repositório UFSC*, 2022. [Link](https://repositorio.ufsc.br/handle/123456789/192872)
+    - PREFEITURA MUNICIPAL DE FLORIANÓPOLIS. *Plano Municipal de Gestão Integrada de Resíduos Sólidos*. Florianópolis: PMF, 2022. [PDF](https://www.pmf.sc.gov.br/arquivos/documentos/pdf/24_06_2022_15.28.44.a6b5dac659782748068dd07d94d5c782.pdf)
+    - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. [Artigo](https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086)
     """)
 
     # Carregar dados
     df = load_cooperativas()
-    
-    # Layout em abas
+
+    # Layout com abas
     tab_lista, tab_mapa = st.tabs(["📋 Lista de Cooperativas", "🗺️ Mapa"])
-    
+
     with tab_lista:
         st.subheader("Cooperativas Cadastradas")
-        
-        # Filtro de busca
+
+        # Campo de busca
         busca = st.text_input("Pesquisar cooperativas:", placeholder="Digite nome ou endereço")
-        
-        # Aplicar filtro
+
+        # Filtro
         if busca:
             df_filtrado = df[
-                df['nome'].str.contains(busca, case=False) | 
-                df['endereco'].str.contains(busca, case=False)
+                df['nome'].str.contains(busca, case=False, na=False) |
+                df['endereco'].str.contains(busca, case=False, na=False)
             ]
         else:
             df_filtrado = df.copy()
-        
-        # Mostrar tabela - CORREÇÃO APLICADA AQUI (parêntese adicionado)
+
+        # Tabela com dados
         st.dataframe(
             df_filtrado.rename(columns={
                 'nome': 'Cooperativa',
@@ -662,35 +656,35 @@ def mostrar_microplasticos():
             hide_index=True,
             use_container_width=True,
             height=min(400, 45 * len(df_filtrado) + 45)
-        )  # <- Este parêntese estava faltando
-    
+        )
+
     with tab_mapa:
         st.subheader("Localização das Cooperativas")
-        
-        # Criar mapa centralizado
+
+        # Criar o mapa
         mapa = folium.Map(
             location=[df['latitude'].mean(), df['longitude'].mean()],
             zoom_start=13,
             tiles="cartodbpositron"
         )
-        
-        # Adicionar marcadores
+
+        # Marcadores
         for _, row in df.iterrows():
             folium.Marker(
                 location=[row['latitude'], row['longitude']],
-                popup=f"""
-                <div style='width:250px'>
-                    <h4>{row['nome']}</h4>
-                    <p><b>Endereço:</b> {row['endereco']}</p>
-                    <p><b>Atuação:</b> {row['descricao']}</p>
-                </div>
-                """,
+                popup=folium.Popup(f"""
+                    <div style='width:250px'>
+                        <h4>{row['nome']}</h4>
+                        <p><b>Endereço:</b> {row['endereco']}</p>
+                        <p><b>Atuação:</b> {row['descricao']}</p>
+                    </div>
+                """, max_width=300),
                 icon=folium.Icon(color="green", icon="recycle", prefix="fa")
             ).add_to(mapa)
-        
-        # Exibir mapa
+
+        # Mostrar o mapa no Streamlit
         folium_static(mapa, width=700, height=500)
-        
+
         # Legenda
         st.caption("📍 Clique nos marcadores para ver detalhes")
  
