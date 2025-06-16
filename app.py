@@ -7,7 +7,8 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
-# Configuração da página
+
+# Configuração da página DEVE vir primeiro
 st.set_page_config(
     page_title="Química para reciclagem e limpeza dos oceanos",
     page_icon="♻️",
@@ -18,11 +19,6 @@ st.set_page_config(
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 IMAGES_DIR = "imagens"
-# Cria as pastas de imagem se não existirem
-os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
-os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
-os.makedirs(IMAGES_DIR, exist_ok=True)
-
 
 # Função para normalizar nomes (exemplo simples)
 def normalizar_nome(nome):
