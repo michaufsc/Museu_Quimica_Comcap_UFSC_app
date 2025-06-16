@@ -74,7 +74,21 @@ def load_quiz():
     return questions
 
 # Carrega os dados
-polimeros, residuos = load_data()
+@st.cache_data
+def load_data():
+    try:
+        # Carrega os dados com tratamento de encoding e espaços
+        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        
+        # Remove espaços dos nomes das colunas
+        polimeros.columns = polimeros.columns.str.strip()
+        residuos.columns = residuos.columns.str.strip()
+        
+        return polimeros, residuos
+    except Exception as e:
+        st.error(f"Erro ao carregar dados: {str(e)}")
+        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios em caso de erro
 
 # Função para carregar o CSV com as cooperativas
 import pandas as pd
@@ -179,33 +193,51 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
                 st.markdown(f"**Aplicações Comuns:** {row['Aplicações Comuns']}")
                 st.markdown(f"**Descrição:** {row['Descrição']}")
 
-        st.divider()
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
+    
+    # Verifica se o DataFrame está vazio
+    if residuos.empty:
+        st.warning("Nenhum dado de resíduos disponível.")
+        return
 
-    # Removemos o check da coluna 'Subtipo' porque ela não existe mais
+    # Verifica as colunas disponíveis (para debug)
+    st.write("Colunas disponíveis:", residuos.columns.tolist())
+
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                # Como não temos mais 'Subtipo', vamos usar 'Tipo' para nomear a imagem
-                tipo = str(row['Tipo']).strip()
-                nome_imagem = normalizar_nome(tipo) + ".png"
-                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, tipo, (200, 230, 200))
+                # Acesso seguro às colunas
+                tipo = str(row.get('Tipo', 'Resíduo')).strip()
+                subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
+                
+                nome_imagem = normalizar_nome(subtipo) + ".png"
+                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
+
+                if os.path.exists(caminho_imagem):
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
+                else:
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
+                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
 
             with col2:
-                st.subheader(f"{row['Tipo']}")
-                st.markdown(f"**Código:** {row['Código']}")
-                st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
-                st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
-                st.markdown(f"**Reciclável:** {row['Reciclável']}")
-                st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
-                st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
-
-        st.markdown("---")
-
-
+                st.subheader(f"{tipo} - {subtipo}")
+                
+                # Adiciona todas as colunas disponíveis dinamicamente
+                campos = {
+                    'Código': row.get('Código', ''),
+                    'Exemplos Comuns': row.get('Exemplos Comuns', ''),
+                    'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
+                    'Reciclável': row.get('Reciclável', ''),
+                    'Rota de Tratamento': row.get('Rota de Tratamento', ''),
+                    'Descrição Técnica': row.get('Descrição Técnica', '')
+                }
+                
+                for campo, valor in campos.items():
+                    if valor:  # Só mostra se tiver valor
+                        st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
 
