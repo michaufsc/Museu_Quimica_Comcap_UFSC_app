@@ -579,6 +579,13 @@ def mostrar_cooperativas():
 
     df = load_cooperativas()
 
+    # Garantir que latitude e longitude sejam numéricas
+    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+
+    # Remover linhas com valores inválidos (NaN)
+    df = df.dropna(subset=['latitude', 'longitude'])
+
     # Criar mapa centralizado nas coordenadas médias das cooperativas
     centro_lat = df['latitude'].mean()
     centro_lon = df['longitude'].mean()
@@ -594,6 +601,7 @@ def mostrar_cooperativas():
         ).add_to(mapa)
 
     folium_static(mapa, width=700, height=500)
+
 
 # Função principal
 def main():
