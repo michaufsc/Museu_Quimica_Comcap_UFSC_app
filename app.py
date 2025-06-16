@@ -7,16 +7,14 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
-
+# Caminho correto para a pasta de imagens
+IMAGES_DIR = "imagens_materiais"
 # Configuração da página
 st.set_page_config(
-    page_title="Sistema Completo de Resíduos",
+    page_title="Química para reciclagem e limpeza dos oceanos",
     page_icon="♻️",
     layout="wide"
 )
-
-# Caminho correto para a pasta de imagens
-IMAGES_DIR = "imagens_materiais"
 
 # Carregar dados (polímeros e resíduos)
 @st.cache_data
