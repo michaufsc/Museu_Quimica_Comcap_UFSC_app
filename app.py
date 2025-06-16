@@ -124,46 +124,44 @@ def load_cooperativas():
 
     return df
 
-def mostrar_glossario(polimeros, residuos):
+def mostrar_glossario(polimeros: pd.DataFrame, residuos: pd.DataFrame):
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
 
+    # Seleção do tipo de material
     tipo_material = st.radio(
         "Selecione o tipo de material:",
         options=["Polímeros", "Resíduos"],
         horizontal=True
     )
 
+    # Barra de busca por qualquer termo
     termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
 
-    # Seleciona o DataFrame correto
+    # Escolha do dataframe com base na seleção
     df = polimeros if tipo_material == "Polímeros" else residuos
 
-    # Filtra o DataFrame conforme termo de busca
+    # Filtragem pelo termo de busca (case-insensitive, em todas as colunas)
     if termo_busca:
-        mask = df.astype(str).apply(lambda col: col.str.contains(termo_busca, case=False, na=False)).any(axis=1)
+        mask = df.apply(lambda col: col.astype(str).str.contains(termo_busca, case=False, na=False)).any(axis=1)
         df = df[mask]
 
     if df.empty:
         st.info("🔎 Nenhum resultado encontrado para sua busca.")
         return
 
+    # Exibição dos itens
     for _, row in df.iterrows():
         with st.container():
-            # Obtem sigla de forma segura
-            sigla = None
-            for col_sigla in ["Sigla", "Sigla ou Nome", "Tipo", "Tipo de Material"]:
-                if col_sigla in row and pd.notna(row[col_sigla]):
-                    sigla = str(row[col_sigla]).strip()
-                    break
-            if not sigla:
-                sigla = "SEM_SIGLA"
+            sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
 
-            # Imagem
+            # Colunas para layout: imagem à esquerda, infos à direita
             col1, col2 = st.columns([1, 3], gap="medium")
 
+            # Coluna 1 - Imagem
             with col1:
                 nome_imagem = f"{sigla.lower()}.png"
                 caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
+
                 if os.path.exists(caminho_imagem):
                     st.image(
                         Image.open(caminho_imagem),
@@ -171,75 +169,70 @@ def mostrar_glossario(polimeros, residuos):
                         caption=f"Símbolo {sigla}"
                     )
                 else:
-                    cor = (200, 230, 200) if sigla.upper() == 'PLA' else (240, 240, 240)
+                    # Imagem padrão com sigla centralizada
+                    cor = (200, 230, 200) if sigla == 'PLA' else (240, 240, 240)
                     img_padrao = Image.new('RGB', (300, 300), color=cor)
                     try:
                         draw = ImageDraw.Draw(img_padrao)
                         font = ImageFont.load_default()
                         text = sigla if len(sigla) <= 4 else sigla[:4]
                         w, h = draw.textsize(text, font=font)
-                        draw.text(((300 - w) / 2, (300 - h) / 2), text, fill="white", font=font)
+                        draw.text(((300 - w) / 2, (300 - h) / 2), text, fill="black", font=font)
                     except Exception:
                         pass
-                    st.image(img_padrao, use_container_width=True, caption=f"Imagem ilustrativa - {sigla}")
+                    st.image(
+                        img_padrao,
+                        use_container_width=True,
+                        caption=f"Imagem ilustrativa - {sigla}"
+                    )
 
+            # Coluna 2 - Informações técnicas
             with col2:
-                # Nome ou descrição principal
-                nome = None
-                for col_nome in ["Nome", "Categoria", "Subtipo", "Descrição", "Tipo"]:
-                    if col_nome in row and pd.notna(row[col_nome]):
-                        nome = str(row[col_nome])
-                        break
-                if not nome:
-                    nome = "Sem nome"
+                st.subheader(row.get("Nome", row.get("Categoria", "Sem nome")))
 
-                st.subheader(nome)
-
-                # Destaque biodegradável para PLA (exemplo)
-                if sigla.upper() == "PLA":
+                # Mensagem especial para PLA (se quiser)
+                if sigla == 'PLA':
                     st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
 
-                # Informações gerais - adaptar colunas conforme o CSV
+                # Duas colunas para detalhamento
                 col_info1, col_info2 = st.columns(2)
 
                 with col_info1:
-                    st.markdown(f"**🔤 Sigla:**  {sigla}")
-                    if 'Código' in row and pd.notna(row['Código']):
-                        st.markdown(f"**🆔 Código:**  {row['Código']}")
-                    if 'Tipo de Polimerização' in row and pd.notna(row['Tipo de Polimerização']):
-                        st.markdown(f"**🧪 Tipo de Polimerização:**  {row['Tipo de Polimerização']}")
-                    elif 'Subtipo' in row and pd.notna(row['Subtipo']):
-                        st.markdown(f"**🧪 Subtipo:**  {row['Subtipo']}")
-                    if 'Densidade' in row and pd.notna(row['Densidade']):
-                        st.markdown(f"**📊 Densidade:**  {row['Densidade']}")
-                    if 'Tempo de Decomposição' in row and pd.notna(row['Tempo de Decomposição']):
-                        st.markdown(f"**⏳ Tempo de Decomposição:**  {row['Tempo de Decomposição']}")
+                    st.markdown(f"""
+                    **🔤 Sigla:**  
+                    {sigla}  
+
+                    **🧪 Tipo de Polimerização:**  
+                    {row.get('Tipo de Polimerização', 'Não especificado')}  
+
+                    **📊 Densidade:**  
+                    {row.get('Densidade', 'Não especificado')}
+
+                    **♻️ Reciclável:**  
+                    {row.get('Reciclável', 'Não especificado')}
+                    """)
 
                 with col_info2:
-                    if 'Ponto de Fusão' in row and pd.notna(row['Ponto de Fusão']):
-                        st.markdown(f"**🔥 Ponto de Fusão:**  {row['Ponto de Fusão']}")
-                    if 'Reciclável' in row and pd.notna(row['Reciclável']):
-                        st.markdown(f"**🔄 Reciclável:**  {row['Reciclável']}")
-                    if 'Rota de Tratamento' in row and pd.notna(row['Rota de Tratamento']):
-                        st.markdown(f"**♻️ Rota de Tratamento:**  {row['Rota de Tratamento']}")
-                    if 'Composição Química' in row and pd.notna(row['Composição Química']):
-                        st.markdown(f"**🧪 Composição:**  {row['Composição Química']}")
+                    st.markdown(f"""
+                    **🔥 Ponto de Fusão:**  
+                    {row.get('Ponto de Fusão', 'Não especificado')}  
 
-                # Expansores para descrição detalhada e aplicações comuns (caso existam)
-                if 'Descrição' in row and pd.notna(row['Descrição']):
+                    **🧩 Código de Identificação:**  
+                    {row.get('Código de Identificação', 'Não especificado')}
+
+                    **🛠️ Aplicações Comuns:**  
+                    {row.get('Aplicações Comuns', row.get('Aplicações ou Exemplos', 'Não especificado'))}
+                    """)
+
+                # Descrição detalhada em um expander
+                descricao = row.get('Descrição', None)
+                if descricao:
                     with st.expander("📝 Descrição Detalhada"):
-                        st.write(row['Descrição'])
-
-                if 'Aplicações Comuns' in row and pd.notna(row['Aplicações Comuns']):
-                    with st.expander("📦 Aplicações Comuns"):
-                        st.write(row['Aplicações Comuns'])
-
-                # Para resíduos, pode ter campo Exemplos Comuns
-                if tipo_material == "Resíduos" and 'Exemplos Comuns' in row and pd.notna(row['Exemplos Comuns']):
-                    with st.expander("📋 Exemplos Comuns"):
-                        st.write(row['Exemplos Comuns'])
+                        st.write(descricao)
 
         st.divider()
+
+
 
 # Função: quiz interativo
 def mostrar_quiz():
