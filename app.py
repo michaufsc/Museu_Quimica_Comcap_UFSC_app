@@ -8,19 +8,18 @@ import folium
 from streamlit_folium import folium_static
 from datetime import datetime
 
-# Configuração da página DEVE vir primeiro
-st.set_page_config(
-    page_title="Química para reciclagem e limpeza dos oceanos",
-    page_icon="♻️",
-    layout="wide"
-)
-
 # Caminho correto para a pasta de imagens
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
-IMAGES_DIR = "imagens"
 
-# Função para normalizar nomes
+IMAGES_DIR = "imagens"
+# Cria as pastas de imagem se não existirem
+os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
+os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
+os.makedirs(IMAGES_DIR, exist_ok=True)
+
+
+# Função para normalizar nomes (exemplo simples)
 def normalizar_nome(nome):
     return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace(".", "").replace(",", "")
 
@@ -38,7 +37,21 @@ def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
         img_padrao = Image.new('RGB', (300, 300), color=cor_fundo)
         st.image(img_padrao, use_container_width=True, caption=legenda)
 
-    
+
+# Configuração da página
+st.set_page_config(
+    page_title="Química para reciclagem e limpeza dos oceanos",
+    page_icon="♻️",
+    layout="wide"
+)
+
+# Carregar dados (polímeros e resíduos)
+@st.cache_data
+def load_data():
+    polimeros = pd.read_csv("polimeros.csv", sep=";")
+    residuos = pd.read_csv("residuos.csv", sep=";")
+    return polimeros, residuos
+
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
@@ -52,42 +65,40 @@ def load_quiz():
     df = pd.read_csv("quiz_perguntas.csv", sep=";")
     questions = []
     for _, row in df.iterrows():
+        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
         questions.append({
             "pergunta": row['pergunta'],
+            "opcoes": opcoes,
             "opcoes": [row['opcao_1'], row['opcao_2'], row['opcao_3'], row['opcao_4']],
             "resposta": int(row['resposta']),
+            "explicacao": row['explicacao']
             "explicacao": row['explicacao'],
             "imagem": os.path.join(IMAGES_DIR, row['imagem']) if pd.notna(row['imagem']) else None
         })
     random.shuffle(questions)
     return questions
+
     
 # Carrega os dados
 @st.cache_data
 def load_data():
     try:
-        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8')
-        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8')
-        
-        # Verificação de colunas
-        required_polimeros = ['Sigla', 'Nome', 'Código de Identificação']
-        required_residuos = ['Tipo', 'Subtipo', 'Código']
-        
-        for col in required_polimeros:
-            if col not in polimeros.columns:
-                raise ValueError(f"Coluna '{col}' faltando em polimeros.csv")
-                
-        for col in required_residuos:
-            if col not in residuos.columns:
-                raise ValueError(f"Coluna '{col}' faltando em residuos.csv")
-                
+        # Carrega os dados com tratamento de encoding e espaços
+        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+
+        # Remove espaços dos nomes das colunas
+        polimeros.columns = polimeros.columns.str.strip()
+        residuos.columns = residuos.columns.str.strip()
+
         return polimeros, residuos
-        
     except Exception as e:
-        st.error(f"Falha ao carregar dados: {str(e)}")
-        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios
+        st.error(f"Erro ao carregar dados: {str(e)}")
+        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios em caso de erro
 
 # Função para carregar o CSV com as cooperativas
+import pandas as pd
+
 def load_cooperativas():
     """
     Carrega os dados das cooperativas de reciclagem.
@@ -190,49 +201,102 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
 
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
-    
+
+    # Verifica se o DataFrame está vazio
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
+    # Verifica se os arquivos existem
+    required_files = ["polimeros.csv", "residuos.csv"]
+    for file in required_files:
+        if not os.path.exists(file):
+            st.error(f"Arquivo necessário não encontrado: {file}")
+            return  # Encerra a execução se algum arquivo estiver faltando
 
-    # Agrupa por Tipo para melhor organização
-    tipos = residuos['Tipo'].unique()
-    
-    for tipo in tipos:
-        st.subheader(f"📌 {tipo}")
-        df_tipo = residuos[residuos['Tipo'] == tipo]
-        
-        for _, row in df_tipo.iterrows():
-            with st.expander(f"{row['Tipo']} - Código {row['Código']}"):
-                col1, col2 = st.columns([1, 3])
-                
-                with col1:
-                    # Gera nome da imagem baseado no código
-                    nome_imagem = f"residuo_{row['Código']}.png"
-                    caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
-                    
-                    if os.path.exists(caminho_imagem):
-                        st.image(Image.open(caminho_imagem), 
-                                use_container_width=True, 
-                                caption=f"Código {row['Código']}")
-                    else:
-                        img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                        st.image(img_padrao, 
-                               use_container_width=True, 
-                               caption=f"Código {row['Código']}")
+    # Carrega os dados
+    polimeros, residuos = load_data()
 
-                with col2:
-                    st.markdown(f"**Código:** {row['Código']}")
-                    st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
-                    st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
-                    st.markdown(f"**Reciclável:** {row['Reciclável']}")
-                    st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
-                    st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
-            
-            st.divider()
+    # Verifica se os DataFrames foram carregados corretamente
+    if polimeros.empty or residuos.empty:
+        st.error("Não foi possível carregar os dados. Verifique os arquivos CSV.")
+        return
+    # Verifica as colunas disponíveis (para debug)
+    st.write("Colunas disponíveis:", residuos.columns.tolist())
+
+    for _, row in residuos.iterrows():
+        with st.container():
+            col1, col2 = st.columns([1, 3], gap="medium")
+
+            with col1:
+                # Acesso seguro às colunas
+                tipo = str(row.get('Tipo', 'Resíduo')).strip()
+                subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
+
+                nome_imagem = normalizar_nome(subtipo) + ".png"
+                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
+
+                if os.path.exists(caminho_imagem):
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
+                else:
+                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
+                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
+
+            with col2:
+                st.subheader(f"{tipo} - {subtipo}")
+
+                # Adiciona todas as colunas disponíveis dinamicamente
+                campos = {
+                    'Código': row.get('Código', ''),
+                    'Exemplos Comuns': row.get('Exemplos Comuns', ''),
+                    'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
+                    'Reciclável': row.get('Reciclável', ''),
+                    'Rota de Tratamento': row.get('Rota de Tratamento', ''),
+                    'Descrição Técnica': row.get('Descrição Técnica', '')
+                }
+
+                for campo, valor in campos.items():
+                    if valor:  # Só mostra se tiver valor
+                        st.markdown(f"**{campo}:** {valor}")
+
+        st.divider()
 
 # Função: quiz interativo
 def mostrar_quiz():
+    st.header("🧐 Quiz de Resíduos e Polímeros")
+
+    # Inicializa o estado do quiz
+    if 'questions' not in st.session_state:
+        st.session_state.questions = load_quiz()
+        st.session_state.current_question = 0
+        st.session_state.score = 0
+
+    questions = st.session_state.questions
+    q_num = st.session_state.current_question
+
+    # Se terminou o quiz
+    if q_num >= len(questions):
+        score = st.session_state.score
+        total = len(questions)
+        percentual = score / total
+        st.balloons()
+        st.success(f"🎯 Pontuação Final: {score}/{total}")
+
+        if percentual == 1:
+            st.info("🌟 Excelente! Você acertou tudo!")
+        elif percentual >= 0.75:
+            st.info("👏 Muito bom! Você tem um bom domínio do conteúdo.")
+        elif percentual >= 0.5:
+            st.warning("🔍 Razoável, mas vale revisar os materiais.")
+        else:
+            st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
+
+        if st.button("🔄 Refazer Quiz"):
+            for key in list(st.session_state.keys()):
+                if key.startswith("q") or key.startswith("b") or key.startswith("respondido") or key.startswith("correta"):
+                    del st.session_state[key]
+            del st.session_state.questions
+            del st.session_state.current_question
+            del st.session_state.score
     st.header("♻️ Quiz Interativo - Museu do Lixo COMCAP")
     st.markdown("Teste seus conhecimentos sobre reciclagem, polímeros e sustentabilidade!")
     
@@ -342,6 +406,35 @@ def avancar_quiz():
     # Verifica se terminou
     if st.session_state.quiz['current_question'] >= len(questions):
         st.session_state.quiz['show_results'] = True
+
+    # Exibe a pergunta atual
+    question = questions[q_num]
+    st.progress((q_num + 1) / len(questions))
+    st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
+    st.markdown(f"**{question['pergunta']}**")
+
+    # Widget de escolha
+    selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
+
+    # Botão de confirmar
+    if f"respondido_{q_num}" not in st.session_state:
+        if st.button("✅ Confirmar", key=f"b{q_num}"):
+            st.session_state[f"respondido_{q_num}"] = True
+            correta = selected == question['opcoes'][question['resposta']]
+            st.session_state[f"correta_{q_num}"] = correta
+            if correta:
+                st.session_state.score += 1
+
+    # Mostra resultado e botão próxima
+    if st.session_state.get(f"respondido_{q_num}", False):
+        correta = st.session_state[f"correta_{q_num}"]
+        if correta:
+            st.success(f"✅ Correto! {question['explicacao']}")
+        else:
+            st.error(f"❌ Errado. {question['explicacao']}")
+
+        if st.button("➡️ Próxima pergunta"):
+            st.session_state.current_question += 1
 
 def mostrar_resultado_final():
     score = st.session_state.quiz['score']
@@ -548,7 +641,7 @@ def mostrar_coleta_seletiva():
     # Verifica e converte as colunas de latitude e longitude para numéricas
     df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
     df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-    
+
     # Remove linhas com coordenadas inválidas
     df = df.dropna(subset=['latitude', 'longitude'])
 
@@ -576,7 +669,7 @@ def mostrar_coleta_seletiva():
         try:
             centro_lat = dados_filtrados['latitude'].mean()
             centro_lon = dados_filtrados['longitude'].mean()
-            
+
             mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
             for _, row in dados_filtrados.iterrows():
@@ -751,37 +844,17 @@ def mostrar_cooperativas():
 
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
- 
+
 
 # Função principal
+# Função principal
 def main():
-    # Cabeçalho principal
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
-    st.markdown("Curso de Graduação em Química- Universiidade Federal de Santa Catarina - UFSC")
+    st.markdown("---")
 
-    # Carrega todos os dados necessários
-    try:
-        polimeros, residuos = load_data()
-        if polimeros.empty or residuos.empty:
-            st.error("Dados principais não puderam ser carregados. Verifique os arquivos CSV.")
-            return
-        cooperativas = load_cooperativas()
-        
-        # Verificação básica dos dados
-        if polimeros.empty or residuos.empty:
-            st.error("Erro ao carregar dados principais. Verifique os arquivos 'polimeros.csv' e 'residuos.csv'")
-            return
-            
-        if df_coleta.empty:
-            st.warning("Dados de coleta seletiva não disponíveis")
-            
-    except Exception as e:
-        st.error(f"Falha crítica ao carregar dados: {str(e)}")
-        return
-
-    # Criação das abas
+    # Abas principais com novas seções
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "🏛️ História do Museu",
         "🏷️ Glossário",
@@ -790,21 +863,16 @@ def main():
         "🧪 Química dos Polímeros",
         "🏘️ Coleta Seletiva por Bairro",
         "🧵 Microplásticos",
-        "🤝 Cooperativas de Reciclagem",
-        "📚 Atividades Pedagógicas", 
+        "🤝 Associações de Reciclagem",
+        "📚 Atividades Pedagógicas",
         "ℹ️ Sobre"
     ])
 
-    # Conteúdo de cada aba
     with tab1:
         mostrar_historia()
 
-  with tab2:  # ← AQUI É ONDE VOCÊ DEVE FAZER A SUBSTITUIÇÃO
-        st.subheader("Polímeros")  # Adiciona um subtítulo
-        mostrar_glossario_polimeros(polimeros)  # Mostra glossário de polímeros
-        
-        st.subheader("Resíduos")  # Adiciona outro subtítulo
-        mostrar_glossario_residuos(residuos)  # Mostra glossário de resíduos
+    with tab2:
+        mostrar_glossario(polimeros, residuos)
 
     with tab3:
         mostrar_quiz()
@@ -826,71 +894,24 @@ def main():
 
     with tab9:
         st.header("📚 Atividades Pedagógicas")
-        st.markdown("""
-        ### Sugestões de atividades educativas:
-        
-        1. **Caça aos Resíduos**  
-           - Objetivo: Identificar tipos de resíduos no ambiente escolar  
-           - Materiais: Luvas, sacolas biodegradáveis, fichas de catalogação  
-        
-        2. **Experimento com Polímeros**  
-           - Demonstrar diferenças entre plásticos com testes de densidade  
-        
-        3. **Visita Virtual ao Museu do Lixo**  
-           - Roteiro guiado com questionário de observação  
-        
-        4. **Oficina de Compostagem**  
-           - Montar minhocário escolar e acompanhar processo  
-        """)
+        st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
 
     with tab10:
         st.header("ℹ️ Sobre o Projeto")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            ### Objetivos
-            - Promover educação ambiental através da química
-            - Facilitar a identificação de materiais recicláveis
-            - Conectar teoria científica com práticas sustentáveis
-            
-            ### Tecnologias Utilizadas
-            - Python + Streamlit para interface
-            - Pandas para gestão de dados
-            - Folium para mapas interativos
-            """)
-            
-        with col2:
-            st.markdown("""
-            ### Equipe
-            **Orientadora**:  
-            Profª. Drª. [Nome da Professora]
-            
-            **Desenvolvedores**:  
-            - [Nome do Aluno 1]  
-            - [Nome do Aluno 2]
-            
-            **Instituição**:  
-            Universidade Federal de Santa Catarina (UFSC)
-            
-            **Disciplina**:  
-            Prática de Ensino em Espaços de Divulgação Científica
-            """)
-        
-        st.markdown("---")
-        st.markdown("📧 Contato: projetoreciclagem@example.com")
-        st.markdown("🌐 [Site do Museu do Lixo](https://www.pmf.sc.gov.br/entidades/comcap/)")
+        st.markdown("""
+**Glossário Interativo de Resíduos e Polímeros**  
+- Desenvolvido para educação ambiental  
+- Dados técnicos baseados em normas ABNT  More actions
+- Integrado com atividades pedagógicas  
+""")
+        st.markdown("""
+**Autor:** nome dos alunos e professora  
+**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
+**Instituição:** Universidade Federal de Santa Catarina (UFSC)
+""")
 
-    # Rodapé
-    st.markdown("---")
-    st.caption("© 2023 UFSC - Desenvolvido para fins educacionais")
-
-
+# Execução do app
 if __name__ == "__main__":
-    # Garante que as pastas de imagens existam
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
-    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True) 
-    os.makedirs(IMAGES_DIR, exist_ok=True)
-    
-    # Executa o app
+    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
     main()
