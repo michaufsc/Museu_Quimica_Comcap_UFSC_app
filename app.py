@@ -604,7 +604,7 @@ def mostrar_microplasticos():
     5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
     6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
     """)
-def mostrar_cooperativas():
+    def mostrar_cooperativas():
     st.header("♻️ Cooperativas de Reciclagem de Florianópolis")
 
     st.markdown("""
@@ -652,7 +652,7 @@ def mostrar_cooperativas():
         else:
             df_filtrado = df.copy()
         
-        # Mostrar tabela - CORREÇÃO AQUI (FECHAMENTO DO PARÊNTESE ADICIONADO)
+        # Mostrar tabela - CORREÇÃO APLICADA AQUI (parêntese adicionado)
         st.dataframe(
             df_filtrado.rename(columns={
                 'nome': 'Cooperativa',
@@ -662,6 +662,7 @@ def mostrar_cooperativas():
             hide_index=True,
             use_container_width=True,
             height=min(400, 45 * len(df_filtrado) + 45)
+        )  # <- Este parêntese estava faltando
     
     with tab_mapa:
         st.subheader("Localização das Cooperativas")
