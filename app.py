@@ -578,7 +578,7 @@ def main():
         mostrar_coleta_seletiva()
 
     with tab7:
-    mostrar_microplasticos()
+        mostrar_microplasticos()
 
     with tab8:
         st.header("🤝 Associações de Reciclagem")
