@@ -623,9 +623,6 @@ def mostrar_cooperativas():
 
     folium_static(mapa, width=700, height=500)
 
-# Configuração da página
-st.set_page_config(page_title="Cooperativas de Reciclagem - Florianópolis", layout="wide")
-
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
