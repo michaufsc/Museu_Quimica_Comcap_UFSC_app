@@ -784,9 +784,11 @@ def main():
     st.markdown("---")
 
     # Carrega todos os dados necessários
-    try:
+     try:
         polimeros, residuos = load_data()
-        df_coleta = load_coleta_data()
+        if polimeros.empty or residuos.empty:
+            st.error("Dados principais não puderam ser carregados. Verifique os arquivos CSV.")
+            return
         cooperativas = load_cooperativas()
         
         # Verificação básica dos dados
