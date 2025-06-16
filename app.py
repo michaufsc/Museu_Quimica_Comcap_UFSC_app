@@ -419,6 +419,13 @@ def mostrar_coleta_seletiva():
 
     df = load_coleta_data()
 
+    # Verifica e converte as colunas de latitude e longitude para numéricas
+    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+    
+    # Remove linhas com coordenadas inválidas
+    df = df.dropna(subset=['latitude', 'longitude'])
+
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
@@ -438,25 +445,28 @@ def mostrar_coleta_seletiva():
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    # Mostra o mapa (se houver dados com latitude e longitude)
-    if not dados_filtrados.empty and 'latitude' in dados_filtrados.columns and 'longitude' in dados_filtrados.columns:
-        centro_lat = dados_filtrados['latitude'].mean()
-        centro_lon = dados_filtrados['longitude'].mean()
+    # Mostra o mapa (se houver dados com latitude e longitude válidas)
+    if not dados_filtrados.empty:
+        try:
+            centro_lat = dados_filtrados['latitude'].mean()
+            centro_lon = dados_filtrados['longitude'].mean()
+            
+            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-        mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
+            for _, row in dados_filtrados.iterrows():
+                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+                folium.Marker(
+                    location=[row['latitude'], row['longitude']],
+                    popup=popup,
+                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+                ).add_to(mapa)
 
-        for _, row in dados_filtrados.iterrows():
-            popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-            folium.Marker(
-                location=[row['latitude'], row['longitude']],
-                popup=popup,
-                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-            ).add_to(mapa)
-
-        st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
-        folium_static(mapa)
+            st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
+            folium_static(mapa)
+        except Exception as e:
+            st.warning(f"Não foi possível exibir o mapa: {str(e)}")
     else:
-        st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
 
 
 # Aba: Microplásticos
