@@ -640,10 +640,8 @@ def mostrar_cooperativas():
  
 
 # Função principal
+# Função principal
 def main():
-     # Carregar dados dos glossários
-    polimeros = pd.read_csv("polimeros.csv", sep=";")
-    residuos = pd.read_csv("residuos.csv", sep=";")
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
@@ -696,7 +694,7 @@ def main():
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
-- Dados técnicos baseados em normas ABNT  More actions
+- Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 """)
         st.markdown("""
