@@ -440,23 +440,30 @@ def mostrar_coleta_seletiva():
         tipos = ["Todos"] + list(df['tipo'].dropna().unique())
         tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
 
-    # Aplica os filtros
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
-    # ✅ Garante que latitude e longitude são numéricas e remove inválidas
+    # Substituir vírgula decimal por ponto, se existir
+    dados_filtrados['latitude'] = dados_filtrados['latitude'].astype(str).str.replace(',', '.')
+    dados_filtrados['longitude'] = dados_filtrados['longitude'].astype(str).str.replace(',', '.')
+
+    # Converter para numérico, valores inválidos virarão NaN
     dados_filtrados['latitude'] = pd.to_numeric(dados_filtrados['latitude'], errors='coerce')
     dados_filtrados['longitude'] = pd.to_numeric(dados_filtrados['longitude'], errors='coerce')
+
+    # Remove linhas sem lat/lon válidas
     dados_filtrados = dados_filtrados.dropna(subset=['latitude', 'longitude'])
 
-    # Mostra a tabela
+    # Garantir que as colunas são float
+    dados_filtrados['latitude'] = dados_filtrados['latitude'].astype(float)
+    dados_filtrados['longitude'] = dados_filtrados['longitude'].astype(float)
+
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    # Mostra o mapa (se houver dados com latitude e longitude)
     if not dados_filtrados.empty:
         centro_lat = dados_filtrados['latitude'].mean()
         centro_lon = dados_filtrados['longitude'].mean()
@@ -476,32 +483,6 @@ def mostrar_coleta_seletiva():
     else:
         st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
 
-# Função que cria e exibe o mapa
-def mostrar_mapa_coleta():
-    st.subheader("🗺️ Pontos de Coleta Seletiva")
-    df = load_coleta_data()
-    if df.empty:
-        st.warning("Nenhum ponto de coleta disponível.")
-        return
-
-    lat_media = df['latitude'].mean()
-    lon_media = df['longitude'].mean()
-    mapa = folium.Map(location=[lat_media, lon_media], zoom_start=12)
-
-    for _, row in df.iterrows():
-        popup_content = f"""
-        <strong>{row['nome']}</strong><br>
-        Tipo: {row['tipo']}<br>
-        {row['detalhes']}<br>
-        Horários: {row['horarios']}
-        """
-        folium.Marker(
-            location=[row['latitude'], row['longitude']],
-            popup=folium.Popup(popup_content, max_width=300),
-            icon=folium.Icon(color='green', icon='trash', prefix='fa')
-        ).add_to(mapa)
-
-    folium_static(mapa)
 
 # Aba: Microplásticos
 
