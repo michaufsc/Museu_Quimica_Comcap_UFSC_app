@@ -585,23 +585,44 @@ def mostrar_cooperativas():
     - OLIVEIRA, R. F.; SILVA, M. S. Gestão ambiental e desafios das cooperativas de reciclagem. *Revista Gestão Ambiental*, v. 14, n. 2, p. 115-130, 2021. Disponível em: https://portaldeperiodicos.animaeducacao.com.br/index.php/gestao_ambiental/article/view/3908/3086. Acesso em: 16 jun. 2025.
     """)
 
-    # Carregar dados do CSV
+    # Carregar dados
     df = load_cooperativas()
+    
+    if df.empty:
+        st.warning("Não foi possível carregar os dados das cooperativas.")
+        return
 
-    # Criar mapa centralizado na região das cooperativas
+    # Mostrar tabela resumida
+    st.subheader("Cooperativas Cadastradas")
+    st.dataframe(df[['nome', 'endereco']].rename(
+        columns={'nome': 'Nome', 'endereco': 'Endereço'}),
+        hide_index=True,
+        use_container_width=True
+    )
+
+    # Criar mapa
+    st.subheader("Localização no Mapa")
     mapa = folium.Map(location=[-27.59, -48.54], zoom_start=13)
 
-    # Adicionar marcadores ao mapa
+    # Adicionar marcadores
     for _, row in df.iterrows():
-        popup_html = f"<b>{row['nome']}</b><br>{row['endereco']}<br>{row['descricao']}"
+        popup_html = f"""
+        <div style="width: 250px;">
+            <h4>{row['nome']}</h4>
+            <p><b>Endereço:</b> {row['endereco']}</p>
+            <p><b>Atuação:</b> {row['descricao']}</p>
+        </div>
+        """
         folium.Marker(
             location=[row['latitude'], row['longitude']],
-            popup=popup_html,
+            popup=folium.Popup(popup_html, max_width=300),
             icon=folium.Icon(color='green', icon='recycle', prefix='fa')
         ).add_to(mapa)
 
-    # Mostrar o mapa com streamlit-folium
     folium_static(mapa, width=700, height=500)
+
+# Configuração da página
+st.set_page_config(page_title="Cooperativas de Reciclagem - Florianópolis", layout="wide")
 
 # Função principal
 def main():
