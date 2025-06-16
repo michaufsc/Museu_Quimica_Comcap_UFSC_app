@@ -651,6 +651,6 @@ def main():
 
 # Execução do app
 if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):More actions
+    if not os.path.exists(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     main()
