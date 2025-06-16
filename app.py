@@ -8,7 +8,6 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
-from PIL import ImageDraw, ImageFont
 
 # Configuração da página
 st.set_page_config(
@@ -26,25 +25,14 @@ def load_data():
     polimeros = pd.read_csv("polimeros.csv", sep=";")
     residuos = pd.read_csv("residuos.csv", sep=";")
     return polimeros, residuos
-    
+
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
-    try:
-        df = pd.read_csv("pontos_coleta.csv")
-        
-        # Verifica colunas obrigatórias
-        required_cols = ['nome', 'endereco', 'tipo', 'latitude', 'longitude']
-        if not all(col in df.columns for col in required_cols):
-            st.error("Arquivo CSV não contém todas as colunas necessárias")
-            return pd.DataFrame(columns=required_cols)
-            
-        return df
-        
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame(columns=required_cols)
-    
+    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
+    df = pd.read_csv(url)
+    return df
+
 # Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
@@ -69,11 +57,11 @@ def load_cooperativas():
     # Exemplo: arquivo CSV com colunas: nome, endereco, descricao, latitude, longitude
     # Se decimal for vírgula, usa decimal=','
     df = pd.read_csv("cooperativas.csv", decimal=',')
-    
+
     # Converter latitude e longitude para numérico, forçando erros a NaN
     df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
     df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-    
+
     # Remover linhas com dados inválidos de latitude/longitude
     df = df.dropna(subset=['latitude', 'longitude'])
     return df
@@ -81,20 +69,20 @@ def load_cooperativas():
 # Função: glossário interativo
 def mostrar_glossario():
     st.header("📖 Glossário Interativo de Polímeros e Resíduos")
-    
+
     # Seleção do tipo de material
     tipo_material = st.radio(
         "Selecione o tipo de material:",
         options=["Polímeros", "Resíduos"],
         horizontal=True
     )
-    
+
     # Barra de busca
     termo_busca = st.text_input("🔍 Pesquisar por nome, sigla ou aplicação:")
-    
+
     # Seleção do dataframe apropriado
     df = polimeros if tipo_material == "Polímeros" else residuos
-    
+
     # Dados técnicos específicos para materiais selecionados
     DADOS_ESPECIFICOS = {
         'PLA': {
@@ -127,7 +115,7 @@ def mostrar_glossario():
     for _, row in df.iterrows():
         with st.container():
             sigla = row.get("Sigla", row.get("Sigla ou Nome", "SEM_SIGLA"))
-            
+
             # Atualiza os dados com informações específicas se existirem
             row_atualizado = row.copy()
             if sigla in DADOS_ESPECIFICOS:
@@ -135,12 +123,12 @@ def mostrar_glossario():
                     row_atualizado[chave] = valor
 
             col1, col2 = st.columns([1, 3], gap="medium")
-            
+
             # Coluna 1 - Imagem
             with col1:
                 nome_imagem = f"{sigla.lower()}.png"
                 caminho_imagem = os.path.join(IMAGES_DIR, nome_imagem)
-                
+
                 if os.path.exists(caminho_imagem):
                     st.image(
                         Image.open(caminho_imagem),
@@ -165,16 +153,16 @@ def mostrar_glossario():
                         use_container_width=True,
                         caption=f"Imagem ilustrativa - {sigla}"
                     )
-            
+
             # Coluna 2 - Informações
             with col2:
                 st.subheader(row_atualizado.get("Nome", row_atualizado.get("Categoria", "Sem nome")))
-                
+
                 if sigla == 'PLA':
                     st.success("♻️ MATERIAL BIODEGRADÁVEL E RENOVÁVEL")
-                
+
                 col_info1, col_info2 = st.columns(2)
-                
+
                 with col_info1:
                     st.markdown(f"""
                     **🔤 Sigla:**  
@@ -186,7 +174,7 @@ def mostrar_glossario():
                     **📊 Densidade:**  
                     {row_atualizado.get('Densidade', 'Não especificado')}
                     """)
-                
+
                 with col_info2:
                     st.markdown(f"""
                     **🔥 Ponto de Fusão:**  
@@ -198,11 +186,11 @@ def mostrar_glossario():
                     **🧪 Composição:**  
                     {row_atualizado.get('Composição Química', 'Não especificado')}
                     """)
-                
+
                 if sigla in DADOS_ESPECIFICOS and 'Descrição' in DADOS_ESPECIFICOS[sigla]:
                     with st.expander("📝 Descrição Detalhada"):
                         st.write(DADOS_ESPECIFICOS[sigla]['Descrição'])
-                
+
                 with st.expander("📦 Aplicações Comuns"):
                     st.write(row_atualizado.get('Aplicações Comuns', row_atualizado.get('Aplicações ou Exemplos', 'Não especificado')))
 
@@ -441,60 +429,44 @@ def mostrar_coleta_seletiva():
 
     df = load_coleta_data()
 
-    # Verificação e conversão segura das coordenadas
-    def safe_convert(coord):
-        try:
-            if isinstance(coord, str):
-                coord = coord.replace(',', '.')
-            return float(coord)
-        except (ValueError, TypeError):
-            return None
-
-    df['latitude'] = df['latitude'].apply(safe_convert)
-    df['longitude'] = df['longitude'].apply(safe_convert)
-    
-    # Remove linhas com coordenadas inválidas
-    df = df.dropna(subset=['latitude', 'longitude'])
-
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
         bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
-        
+
         tipos = ["Todos"] + list(df['tipo'].dropna().unique())
         tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
 
+    # Aplica os filtros
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
+    # Mostra a tabela
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    if not dados_filtrados.empty:
-        # Verifica se temos coordenadas válidas antes de calcular a média
-        if dados_filtrados['latitude'].notna().any() and dados_filtrados['longitude'].notna().any():
-            centro_lat = dados_filtrados['latitude'].mean()
-            centro_lon = dados_filtrados['longitude'].mean()
+    # Mostra o mapa (se houver dados com latitude e longitude)
+    if not dados_filtrados.empty and 'latitude' in dados_filtrados.columns and 'longitude' in dados_filtrados.columns:
+        centro_lat = dados_filtrados['latitude'].mean()
+        centro_lon = dados_filtrados['longitude'].mean()
 
-            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
+        mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-            for _, row in dados_filtrados.iterrows():
-                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-                folium.Marker(
-                    location=[row['latitude'], row['longitude']],
-                    popup=popup,
-                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-                ).add_to(mapa)
+        for _, row in dados_filtrados.iterrows():
+            popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+            folium.Marker(
+                location=[row['latitude'], row['longitude']],
+                popup=popup,
+                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+            ).add_to(mapa)
 
-            st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
-            folium_static(mapa)
-        else:
-            st.warning("Coordenadas inválidas para exibir no mapa.")
+        st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
+        folium_static(mapa)
     else:
-        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+        st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
 
 
 # Aba: Microplásticos
@@ -696,7 +668,6 @@ def main():
 
 # Execução do app
 if __name__ == "__main__":
-    if not os.path.exists(IMAGES_DIR):
+    if not os.path.exists(IMAGES_DIR):More actions
         os.makedirs(IMAGES_DIR)
     main()
-
