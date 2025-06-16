@@ -270,70 +270,125 @@ def mostrar_glossario(polimeros, residuos):
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
-
-    # Inicializa o estado do quiz
+    
+    # Inicializa o estado do quiz se necessário
     if 'questions' not in st.session_state:
-        st.session_state.questions = load_quiz()
-        st.session_state.current_question = 0
-        st.session_state.score = 0
-
-    questions = st.session_state.questions
-    q_num = st.session_state.current_question
-
-    # Se terminou o quiz
-    if q_num >= len(questions):
-        score = st.session_state.score
-        total = len(questions)
-        percentual = score / total
-        st.balloons()
-        st.success(f"🎯 Pontuação Final: {score}/{total}")
-
-        if percentual == 1:
-            st.info("🌟 Excelente! Você acertou tudo!")
-        elif percentual >= 0.75:
-            st.info("👏 Muito bom! Você tem um bom domínio do conteúdo.")
-        elif percentual >= 0.5:
-            st.warning("🔍 Razoável, mas vale revisar os materiais.")
-        else:
-            st.error("📚 Vamos estudar mais um pouco? Explore o glossário!")
-
-        if st.button("🔄 Refazer Quiz"):
-            for key in list(st.session_state.keys()):
-                if key.startswith("q") or key.startswith("b") or key.startswith("respondido") or key.startswith("correta"):
-                    del st.session_state[key]
-            del st.session_state.questions
-            del st.session_state.current_question
-            del st.session_state.score
+        questions = load_quiz()
+        if not questions:
+            st.error("Não foi possível carregar as perguntas do quiz. Verifique o arquivo quiz_perguntas.csv")
+            return
+        st.session_state.update({
+            'questions': questions,
+            'current_question': 0,
+            'score': 0,
+            'quiz_complete': False
+        })
+    
+    # Se o quiz foi completado, mostra resultados
+    if st.session_state.get('quiz_complete', False):
+        mostrar_resultado_final()
         return
+    
+    # Obtém a pergunta atual
+    question = st.session_state.questions[st.session_state.current_question]
+    
+    # Mostra progresso e pergunta
+    mostrar_barra_progresso()
+    mostrar_pergunta(question)
+    
+    # Processa resposta do usuário
+    processar_resposta(question)
 
-    # Exibe a pergunta atual
-    question = questions[q_num]
-    st.progress((q_num + 1) / len(questions))
-    st.subheader(f"Pergunta {q_num + 1} de {len(questions)}")
+def mostrar_barra_progresso():
+    progresso = (st.session_state.current_question + 1) / len(st.session_state.questions)
+    st.progress(progresso)
+    st.caption(f"Progresso: {st.session_state.current_question + 1} de {len(st.session_state.questions)} perguntas")
+
+def mostrar_pergunta(question):
+    st.subheader(f"Pergunta {st.session_state.current_question + 1} de {len(st.session_state.questions)}")
     st.markdown(f"**{question['pergunta']}**")
+    
+    # Mostra opções como botões para melhor usabilidade
+    for i, opcao in enumerate(question['opcoes']):
+        if st.button(opcao, key=f"op_{st.session_state.current_question}_{i}"):
+            st.session_state.selected_option = i
+            verificar_resposta(question, i)
 
-    # Widget de escolha
-    selected = st.radio("Escolha uma alternativa:", question['opcoes'], key=f"q{q_num}")
-
-    # Botão de confirmar
-    if f"respondido_{q_num}" not in st.session_state:
-        if st.button("✅ Confirmar", key=f"b{q_num}"):
-            st.session_state[f"respondido_{q_num}"] = True
-            correta = selected == question['opcoes'][question['resposta']]
-            st.session_state[f"correta_{q_num}"] = correta
-            if correta:
-                st.session_state.score += 1
-
-    # Mostra resultado e botão próxima
-    if st.session_state.get(f"respondido_{q_num}", False):
-        correta = st.session_state[f"correta_{q_num}"]
-        if correta:
+def processar_resposta(question):
+    if 'selected_option' in st.session_state:
+        # Mostra feedback
+        if st.session_state.selected_option == question['resposta'] - 1:  # -1 porque as opções são 1-4
             st.success(f"✅ Correto! {question['explicacao']}")
+            st.session_state.score += 1
         else:
-            st.error(f"❌ Errado. {question['explicacao']}")
+            resposta_correta = question['opcoes'][question['resposta'] - 1]
+            st.error(f"❌ Errado. A resposta correta é: {resposta_correta}. {question['explicacao']}")
+        
+        # Botão para próxima pergunta
+        if st.button("➡️ Próxima pergunta", type="primary"):
+            avancar_quiz()
 
-        if st.button("➡️ Próxima pergunta"):
-            st.session_state.current_question += 1
+def verificar_resposta(question, selected_index):
+    st.session_state.resposta_verificada = True
+    if selected_index == question['resposta'] - 1:
+        st.session_state.score += 1
+
+def avancar_quiz():
+    st.session_state.current_question += 1
+    if st.session_state.current_question >= len(st.session_state.questions):
+        st.session_state.quiz_complete = True
+    else:
+        # Limpa estado para próxima pergunta
+        if 'selected_option' in st.session_state:
+            del st.session_state.selected_option
+        if 'resposta_verificada' in st.session_state:
+            del st.session_state.resposta_verificada
+    st.rerun()
+
+def mostrar_resultado_final():
+    score = st.session_state.score
+    total = len(st.session_state.questions)
+    percentual = score / total
+    
+    st.balloons()
+    st.success(f"## 🎯 Pontuação Final: {score}/{total} ({percentual:.0%})")
+    
+    # Feedback personalizado
+    if percentual == 1:
+        st.info("""
+        ### 🌟 Excelente! Você é um expert em reciclagem!
+        *Parabéns! Seu conhecimento sobre resíduos e sustentabilidade é impressionante.*
+        """)
+    elif percentual >= 0.75:
+        st.info("""
+        ### 👏 Muito bom!
+        *Você tem um ótimo entendimento do assunto! Continue aprendendo.*
+        """)
+    elif percentual >= 0.5:
+        st.warning("""
+        ### 📚 Bom trabalho!
+        *Você está no caminho certo, mas pode melhorar ainda mais!*
+        """)
+    else:
+        st.error("""
+        ### 📖 Continue estudando!
+        *Visite o glossário para melhorar seu conhecimento sobre reciclagem.*
+        """)
+    
+    # Botão para reiniciar
+    if st.button("🔄 Refazer Quiz", type="primary"):
+        resetar_quiz()
+        st.rerun()
+
+def resetar_quiz():
+    # Limpa todo o estado relacionado ao quiz
+    for key in list(st.session_state.keys()):
+        if key.startswith(('q', 'b', 'respondido', 'correta', 'selected', 'resposta')):
+            del st.session_state[key]
+    del st.session_state.questions
+    del st.session_state.current_question
+    del st.session_state.score
+    del st.session_state.quiz_complete
 
 
 # Função: história do Museu
