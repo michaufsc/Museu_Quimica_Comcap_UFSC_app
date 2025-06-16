@@ -51,18 +51,51 @@ polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
 def load_cooperativas():
-    # URL do arquivo CSV no GitHub (substitua pelo seu link real)
-    url = "https://raw.githubusercontent.com/seu_usuario/seu_repositorio/main/cooperativas.csv"
+    # URL do seu arquivo CSV no GitHub
+    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
     
     try:
+        # Carrega os dados diretamente do GitHub
         df = pd.read_csv(url)
-        # Converter coordenadas para numérico (caso venham como string)
+        
+        # Verificação das colunas
+        required_columns = ['nome', 'endereco', 'latitude', 'longitude', 'descricao']
+        if not all(col in df.columns for col in required_columns):
+            st.error("Arquivo CSV não contém todas as colunas necessárias")
+            return pd.DataFrame(columns=required_columns)
+        
+        # Processamento dos dados
         df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
         df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-        return df.dropna(subset=['latitude', 'longitude'])
+        
+        # Remove linhas com coordenadas inválidas
+        df = df.dropna(subset=['latitude', 'longitude'])
+        
+        # Ordena por nome (opcional)
+        df = df.sort_values('nome')
+        
+        return df
+    
     except Exception as e:
-        st.error(f"Erro ao carregar dados das cooperativas: {str(e)}")
-        return pd.DataFrame(columns=['nome', 'endereco', 'latitude', 'longitude', 'descricao'])
+        st.error(f"Erro ao carregar dados: {str(e)}")
+        # Dados de fallback com suas informações
+        return pd.DataFrame([
+            {
+                "nome": "Associação de Catadores de Materiais Recicláveis de Florianópolis (ACMR)",
+                "endereco": "Rua João Pio Duarte Silva, 150",
+                "latitude": -27.5942,
+                "longitude": -48.5478,
+                "descricao": "Maior associação, responsável pela triagem e comercialização dos recicláveis."
+            },
+            {
+                "nome": "Cooperativa de Reciclagem e Trabalho de Florianópolis (COOPERTFLOR)",
+                "endereco": "Rua Des. Pedro Silva, 200",
+                "latitude": -27.5950,
+                "longitude": -48.5400,
+                "descricao": "Atua com triagem e comercialização, valorizando o trabalho dos catadores."
+            }
+            # Adicione outros registros conforme necessário
+        ])
 
 # Função: glossário interativo
 def mostrar_glossario():
