@@ -50,13 +50,16 @@ def load_quiz():
 polimeros, residuos = load_data()
 
 # Função para carregar o CSV com as cooperativas
+# Função para carregar o CSV com as cooperativas - VERSÃO CORRIGIDA
 def load_cooperativas():
-    # URL do seu arquivo CSV no GitHub
     url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
     
     try:
-        # Carrega os dados diretamente do GitHub
-        df = pd.read_csv(url)
+        # Carrega com tratamento de encoding e delimitador
+        df = pd.read_csv(url, encoding='utf-8', delimiter=',')
+        
+        # Debug: mostra as colunas detectadas
+        st.write("Colunas detectadas:", df.columns.tolist())
         
         # Verificação das colunas
         required_columns = ['nome', 'endereco', 'latitude', 'longitude', 'descricao']
@@ -67,46 +70,13 @@ def load_cooperativas():
         # Processamento dos dados
         df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
         df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-        
-        # Remove linhas com coordenadas inválidas
         df = df.dropna(subset=['latitude', 'longitude'])
         
-        # Ordena por nome (opcional)
-        df = df.sort_values('nome')
-        
         return df
-    
+        
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
-        # Dados de fallback com suas informações
-        return pd.DataFrame([
-            {def load_cooperativas():
-    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/main/cooperativas.csv"
-    
-    try:
-        # Adicione o parâmetro encoding='utf-8' e delimiter=','
-        df = pd.read_csv(url, encoding='utf-8', delimiter=',')
-        
-        # Verifique se as colunas foram lidas corretamente
-        st.write("Colunas detectadas:", df.columns.tolist())
-        
-        # Renomeia colunas se necessário (caso estejam com problemas)
-        df = df.rename(columns={
-            'oednerçononome': 'nome',
-            'endereço': 'endereco',
-            'lat': 'latitude',
-            'long': 'longitude',
-            'descrição': 'descricao'
-        })
-        
-        # Processamento normal continua...
-        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-        return df.dropna(subset=['latitude', 'longitude'])
-        
-    except Exception as e:
-        st.error(f"Erro ao ler arquivo: {str(e)}")
-        # Fallback com dados manuais
+        # Dados de fallback
         return pd.DataFrame([
             {
                 "nome": "ACMR",
@@ -114,23 +84,14 @@ def load_cooperativas():
                 "latitude": -27.5942,
                 "longitude": -48.5478,
                 "descricao": "Maior associação de reciclagem"
-            }
-            # Adicione mais entradas se necessário
-        ])
-                "nome": "Associação de Catadores de Materiais Recicláveis de Florianópolis (ACMR)",
-                "endereco": "Rua João Pio Duarte Silva, 150",
-                "latitude": -27.5942,
-                "longitude": -48.5478,
-                "descricao": "Maior associação, responsável pela triagem e comercialização dos recicláveis."
             },
             {
-                "nome": "Cooperativa de Reciclagem e Trabalho de Florianópolis (COOPERTFLOR)",
+                "nome": "COOPERTFLOR", 
                 "endereco": "Rua Des. Pedro Silva, 200",
                 "latitude": -27.5950,
                 "longitude": -48.5400,
-                "descricao": "Atua com triagem e comercialização, valorizando o trabalho dos catadores."
+                "descricao": "Cooperativa especializada"
             }
-            # Adicione outros registros conforme necessário
         ])
 
 # Função: glossário interativo
