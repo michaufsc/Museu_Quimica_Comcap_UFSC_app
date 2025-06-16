@@ -62,32 +62,63 @@ def load_quiz():
     try:
         # Verifica se o arquivo existe
         if not os.path.exists("quiz_perguntas.csv"):
-            st.error("Arquivo quiz_perguntas.csv não encontrado no diretório")
+            st.error("Arquivo quiz_perguntas.csv não encontrado")
             return []
 
-        # Tenta ler com encoding UTF-8 primeiro, depois Latin-1 como fallback
+        # Tenta detectar automaticamente o formato
         try:
-            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8')
-        except UnicodeDecodeError:
-            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='latin1')
+            # Primeira tentativa com delimitador ;
+            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8', on_bad_lines='warn')
+        except:
+            try:
+                # Segunda tentativa com delimitador , (vírgula)
+                df = pd.read_csv("quiz_perguntas.csv", sep=",", encoding='utf-8', on_bad_lines='warn')
+            except:
+                # Terceira tentativa com encoding alternativo
+                df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='latin1', on_bad_lines='warn')
+
+        # Verifica se o DataFrame foi criado corretamente
+        if df.empty:
+            st.error("O arquivo está vazio ou não pôde ser lido")
+            return []
+
+        # Padroniza os nomes das colunas
+        df.columns = df.columns.str.strip().str.lower()
         
-        # Remove espaços em branco dos nomes das colunas
-        df.columns = df.columns.str.strip()
-        
+        # Mapeamento de colunas alternativas
+        column_mapping = {
+            'pergunta': ['pergunta', 'question', 'pregunta'],
+            'opcao_1': ['opcao_1', 'opção 1', 'option1', 'alternativa_a'],
+            'opcao_2': ['opcao_2', 'opção 2', 'option2', 'alternativa_b'],
+            'opcao_3': ['opcao_3', 'opção 3', 'option3', 'alternativa_c'],
+            'opcao_4': ['opcao_4', 'opção 4', 'option4', 'alternativa_d'],
+            'resposta': ['resposta', 'answer', 'correct'],
+            'explicacao': ['explicacao', 'explicação', 'explanation']
+        }
+
+        # Renomeia colunas para nomes padrão
+        for standard_name, alternatives in column_mapping.items():
+            for alt in alternatives:
+                if alt in df.columns:
+                    df.rename(columns={alt: standard_name}, inplace=True)
+                    break
+
         # Verifica colunas obrigatórias
         required_cols = ['pergunta', 'opcao_1', 'opcao_2', 'opcao_3', 'opcao_4', 'resposta', 'explicacao']
         missing_cols = [col for col in required_cols if col not in df.columns]
         
         if missing_cols:
             st.error(f"Colunas obrigatórias faltando: {', '.join(missing_cols)}")
+            st.write("Colunas encontradas:", list(df.columns))
             return []
 
+        # Processa as perguntas
         questions = []
         for _, row in df.iterrows():
             try:
-                # Garante que a resposta seja numérica (1-4)
-                resposta = int(row['resposta'])
-                if not 1 <= resposta <= 4:
+                # Converte resposta para número (1-4)
+                resposta = int(float(str(row['resposta']).strip()))
+                if resposta not in [1, 2, 3, 4]:
                     st.warning(f"Resposta inválida (deve ser 1-4): {resposta}")
                     continue
                     
@@ -99,7 +130,7 @@ def load_quiz():
                         str(row['opcao_3']).strip(),
                         str(row['opcao_4']).strip()
                     ],
-                    "resposta": resposta,
+                    "resposta": resposta - 1,  # Convertendo para índice 0-3
                     "explicacao": str(row['explicacao']).strip()
                 })
             except Exception as e:
@@ -114,8 +145,9 @@ def load_quiz():
         return questions
         
     except Exception as e:
-        st.error(f"Falha ao carregar quiz: {str(e)}")
+        st.error(f"Falha crítica ao carregar quiz: {str(e)}")
         return []
+        
 # Carrega os dados
 polimeros, residuos = load_data()
 @st.cache_data
