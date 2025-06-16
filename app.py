@@ -60,19 +60,37 @@ def load_coleta_data():
 # Carregar perguntas do quiz
 @st.cache_data
 def load_quiz():
-    df = pd.read_csv("quiz_perguntas.csv", sep=";")
-    questions = []
-    for _, row in df.iterrows():
-        opcoes = [str(row['opcao_1']), str(row['opcao_2']), str(row['opcao_3']), str(row['opcao_4'])]
-        questions.append({
-            "pergunta": row['pergunta'],
-            "opcoes": opcoes,
-            "resposta": int(row['resposta']),
-            "explicacao": row['explicacao']
-        })
-    random.shuffle(questions)
-    return questions
+    try:
+        df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8')
+        
+        # Verifica apenas as colunas essenciais
+        required_cols = ['pergunta', 'opcao_1', 'opcao_2', 'opcao_3', 'opcao_4', 'resposta', 'explicacao']
+        for col in required_cols:
+            if col not in df.columns:
+                st.error(f"Coluna obrigatória faltando: {col}")
+                return []
 
+        questions = []
+        for _, row in df.iterrows():
+            questions.append({
+                "pergunta": str(row['pergunta']),
+                "opcoes": [
+                    str(row['opcao_1']),
+                    str(row['opcao_2']),
+                    str(row['opcao_3']),
+                    str(row['opcao_4'])
+                ],
+                "resposta": int(row['resposta']),
+                "explicacao": str(row['explicacao'])
+                # Removemos a referência à imagem
+            })
+                
+        random.shuffle(questions)
+        return questions
+        
+    except Exception as e:
+        st.error(f"Falha ao carregar quiz: {str(e)}")
+        return []
 # Carrega os dados
 polimeros, residuos = load_data()
 @st.cache_data
