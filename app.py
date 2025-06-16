@@ -30,11 +30,20 @@ def load_data():
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
-    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
-    df = pd.read_csv(url)
-    # Se quiser testar localmente:
-    # df = pd.read_csv("pontos_coleta.csv")
-    return df
+    try:
+        df = pd.read_csv("pontos_coleta.csv")
+        
+        # Verifica colunas obrigatórias
+        required_cols = ['nome', 'endereco', 'tipo', 'latitude', 'longitude']
+        if not all(col in df.columns for col in required_cols):
+            st.error("Arquivo CSV não contém todas as colunas necessárias")
+            return pd.DataFrame(columns=required_cols)
+            
+        return df
+        
+    except Exception as e:
+        st.error(f"Erro ao carregar dados: {str(e)}")
+        return pd.DataFrame(columns=required_cols)
     
 # Carregar perguntas do quiz
 @st.cache_data
