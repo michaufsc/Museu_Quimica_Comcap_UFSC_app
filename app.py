@@ -385,47 +385,57 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 # coleta seletiva
 def mostrar_coleta_seletiva():
     st.header("🏘️ Coleta Seletiva por Bairro")
+    
     df = load_coleta_data()
+
+    # Garante que as colunas de latitude e longitude são numéricas
+    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+    
+    # Remove linhas com coordenadas inválidas
+    df = df.dropna(subset=['latitude', 'longitude'])
+
     with st.expander("📋 Filtros - clique para abrir/fechar"):
         bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
         bairros.insert(0, "Todos")
         bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
+
         tipos = ["Todos"] + list(df['tipo'].dropna().unique())
         tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
-
+        
     # Aplica os filtros
     dados_filtrados = df.copy()
     if bairro_selecionado != "Todos":
-        dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado)]
         dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
     if tipo_selecionado != "Todos":
         dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
     
-    st.markdown(f"### Resultados: {len(dados_filtrados)} pontos encontrados")
-
-    # Mostra a tabela
     st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
     st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    # Mostra o mapa (se houver dados com latitude e longitude)
-    if not dados_filtrados.empty and 'latitude' in dados_filtrados.columns and 'longitude' in dados_filtrados.columns:
-        centro_lat = dados_filtrados['latitude'].mean()
-        centro_lon = dados_filtrados['longitude'].mean()
+    # Mostra o mapa apenas se houver pontos válidos
+    if not dados_filtrados.empty:
+        try:
+            # Calcula o centro apenas com valores numéricos válidos
+            centro_lat = dados_filtrados['latitude'].mean()
+            centro_lon = dados_filtrados['longitude'].mean()
+            
+            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
 
-        mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
+            for _, row in dados_filtrados.iterrows():
+                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
+                folium.Marker(
+                    location=[row['latitude'], row['longitude']],
+                    popup=popup,
+                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
+                ).add_to(mapa)
 
-        for _, row in dados_filtrados.iterrows():
-            popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-            folium.Marker(
-                location=[row['latitude'], row['longitude']],
-                popup=popup,
-                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-            ).add_to(mapa)
-
-        st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
-        folium_static(mapa)
+            st.markdown("### 🗺️ Mapa dos Pontos Filtrados")
+            folium_static(mapa)
+        except Exception as e:
+            st.error(f"Erro ao gerar o mapa: {str(e)}")
     else:
-        st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
+        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
 
 
 # Função principal
