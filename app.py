@@ -602,7 +602,7 @@ def main():
         "🧪 Química dos Polímeros",
         "🏘️ Coleta Seletiva por Bairro",
         "🧵 Microplásticos",
-        "🤝 Associações de Reciclagem",
+        "🤝 Cooperativas de Reciclagem",
         "📚 Atividades Pedagógicas",
         "ℹ️ Sobre"
     ])
@@ -629,8 +629,7 @@ def main():
         mostrar_microplasticos()
 
     with tab8:
-        st.header("🤝 Associações de Reciclagem")
-        st.markdown("Conteúdo sobre cooperativas e associações será adicionado aqui.")
+        mostrar_cooperativas()
 
     with tab9:
         st.header("📚 Atividades Pedagógicas")
