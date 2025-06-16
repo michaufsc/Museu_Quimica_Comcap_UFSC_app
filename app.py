@@ -799,8 +799,12 @@ def main():
     with tab1:
         mostrar_historia()
 
-    with tab2:
-        mostrar_glossario(polimeros, residuos)
+  with tab2:  # ← AQUI É ONDE VOCÊ DEVE FAZER A SUBSTITUIÇÃO
+        st.subheader("Polímeros")  # Adiciona um subtítulo
+        mostrar_glossario_polimeros(polimeros)  # Mostra glossário de polímeros
+        
+        st.subheader("Resíduos")  # Adiciona outro subtítulo
+        mostrar_glossario_residuos(residuos)  # Mostra glossário de resíduos
 
     with tab3:
         mostrar_quiz()
