@@ -455,6 +455,88 @@ def mostrar_coleta_seletiva():
         st.warning("Nenhum ponto com coordenadas para exibir no mapa.")
 
 
+# Aba: Microplásticos
+
+def mostrar_microplasticos():
+    st.header("🧩 Microplásticos – Um Problema Invisível nos Mares")
+
+    st.markdown("""
+    ### ♻️ Microplásticos: o que são e por que devemos nos preocupar?
+
+    Florianópolis é famosa por suas mais de 100 praias, mas por trás da paisagem deslumbrante há um problema invisível que ameaça a vida marinha e a saúde humana: **os microplásticos**.
+
+    ---
+
+    ### 🔎 O que são microplásticos?
+
+    Microplásticos são fragmentos de plástico com menos de 5 milímetros, muitas vezes invisíveis a olho nu.
+
+    Eles se dividem em dois tipos:
+
+    - **Primários**: fabricados intencionalmente nesse tamanho, como microesferas usadas em cosméticos, pastas de dente e produtos de limpeza.
+    - **Secundários**: formados pela fragmentação de plásticos maiores devido ao sol, chuva, vento, ondas e ação de organismos.
+
+    Esses fragmentos acabam nos oceanos e podem permanecer por **décadas no ambiente**, acumulando-se em praias, sedimentos e até na água potável.
+
+    ---
+
+    ### ⚗️ A Química contra a poluição invisível
+
+    A Química nos permite **detectar, identificar e compreender** os efeitos dos microplásticos:
+
+    - Técnicas como **espectroscopia FTIR e Raman** identificam o tipo de polímero presente nas partículas.
+    - Substâncias tóxicas como **bisfenol A (BPA)** e **ftalatos**, presentes nos plásticos, podem se desprender e agir como **disruptores endócrinos**, afetando o sistema hormonal de animais e humanos.
+    - A combinação de análises físico-químicas com estudos biológicos permite avaliar os **efeitos toxicológicos em diferentes espécies.**
+
+    ---
+
+    ### 🐠 Impactos nos oceanos e na vida marinha
+
+    Animais marinhos frequentemente ingerem microplásticos por engano, levando a:
+
+    - Dificuldade de digestão e absorção de nutrientes;
+    - Inflamações e bloqueios intestinais;
+    - Acúmulo de substâncias tóxicas nos tecidos.
+
+    Os efeitos não param por aí: os microplásticos **sobem na cadeia alimentar**, chegando até peixes e frutos do mar consumidos por humanos — um risco silencioso, mas real.
+
+    ---
+
+    ### 🌍 O caso de Florianópolis
+
+    Com suas mais de 100 praias e alto consumo de frutos do mar, **Florianópolis está diretamente exposta à contaminação por microplásticos.** A limpeza inadequada das praias, o descarte incorreto de lixo e o turismo intenso aumentam o risco da poluição plástica marinha.
+
+    Estudos já identificaram a presença de microplásticos em:
+    - Praias urbanas e remotas da ilha;
+    - Ostras, mexilhões e peixes vendidos em mercados locais;
+    - Sedimentos de rios que deságuam no mar.
+
+    ---
+
+    ### ✅ O que você pode fazer?
+
+    #### Como cidadão:
+    - Evite produtos com microesferas plásticas.
+    - Reduza o uso de plástico descartável.
+    - Participe de limpezas de praia e separe seu lixo corretamente.
+
+    #### Como estudante, professor ou pesquisador:
+    - Incentive a pesquisa sobre alternativas sustentáveis.
+    - Estimule debates nas escolas sobre consumo consciente e química ambiental.
+    - Divulgue ações de preservação dos oceanos e fontes de poluição invisível.
+
+    ---
+
+    ### 📚 Referências
+
+    1. Rezende, L. T. et al. *Microplásticos: ocorrência ambiental e desafios analíticos*. **Química Nova**, 2022. [https://www.scielo.br/j/qn/a/VJ58TBjHVqDZsvWLckcFbTQ](https://www.scielo.br/j/qn/a/VJ58TBjHVqDZsvWLckcFbTQ)
+    2. Dawson, A. L. et al. (2023). *Microplastics: A new contaminant in the environment*. **Frontiers in Environmental Science**, [PMC9914693](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9914693/)
+    3. ISO/TR 21960:2020. *Plastics — Environmental aspects — State of knowledge and methodologies*.
+    4. Browne, M. A. et al. (2011). *Accumulation of microplastic on shorelines worldwide: sources and sinks*. **Environmental Science & Technology**.
+    5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
+    6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
+    """)
+
 
 # Função principal
 def main():
