@@ -206,27 +206,27 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
     # Verifica as colunas disponíveis (para debug)
     st.write("Colunas disponíveis:", residuos.columns.tolist())
 
-    # Removemos o check da coluna 'Subtipo' porque ela não existe mais
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                # Como não temos mais 'Subtipo', vamos usar 'Tipo' para nomear a imagem
-                tipo = str(row['Tipo']).strip()
+                # Usando 'Tipo' para nomear a imagem
+                tipo = str(row.get('Tipo', 'Resíduo')).strip()
                 nome_imagem = normalizar_nome(tipo) + ".png"
                 mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, tipo, (200, 230, 200))
 
             with col2:
-                st.subheader(f"{row['Tipo']}")
-                st.markdown(f"**Código:** {row['Código']}")
-                st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
-                st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
-                st.markdown(f"**Reciclável:** {row['Reciclável']}")
-                st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
-                st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
+                st.subheader(f"{tipo}")
+                st.markdown(f"**Código:** {row.get('Código', '')}")
+                st.markdown(f"**Exemplos Comuns:** {row.get('Exemplos Comuns', '')}")
+                st.markdown(f"**Tempo de Decomposição:** {row.get('Tempo de Decomposição', '')}")
+                st.markdown(f"**Reciclável:** {row.get('Reciclável', '')}")
+                st.markdown(f"**Rota de Tratamento:** {row.get('Rota de Tratamento', '')}")
+                st.markdown(f"**Descrição Técnica:** {row.get('Descrição Técnica', '')}")
 
         st.markdown("---")
+        
                 # Acesso seguro às colunas
                 tipo = str(row.get('Tipo', 'Resíduo')).strip()
                 subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
