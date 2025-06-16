@@ -7,6 +7,12 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+# Configuração da página
+st.set_page_config(
+    page_title="Química para reciclagem e limpeza dos oceanos",
+    page_icon="♻️",
+    layout="wide"
+)
 
 # Caminho correto para a pasta de imagens
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
@@ -37,13 +43,6 @@ def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
         st.image(img_padrao, use_container_width=True, caption=legenda)
 
     
-# Configuração da página
-st.set_page_config(
-    page_title="Química para reciclagem e limpeza dos oceanos",
-    page_icon="♻️",
-    layout="wide"
-)
-
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
