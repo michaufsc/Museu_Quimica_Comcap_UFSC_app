@@ -12,11 +12,9 @@ from datetime import datetime
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 
-IMAGES_DIR = "imagens"
 # Cria as pastas de imagem se não existirem
 os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
 os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
-os.makedirs(IMAGES_DIR, exist_ok=True)
 
 
 # Função para normalizar nomes (exemplo simples)
@@ -69,28 +67,25 @@ def load_quiz():
         questions.append({
             "pergunta": row['pergunta'],
             "opcoes": opcoes,
-            "opcoes": [row['opcao_1'], row['opcao_2'], row['opcao_3'], row['opcao_4']],
             "resposta": int(row['resposta']),
             "explicacao": row['explicacao']
-            "explicacao": row['explicacao'],
-            "imagem": os.path.join(IMAGES_DIR, row['imagem']) if pd.notna(row['imagem']) else None
         })
     random.shuffle(questions)
     return questions
 
-    
 # Carrega os dados
+polimeros, residuos = load_data()
 @st.cache_data
 def load_data():
     try:
         # Carrega os dados com tratamento de encoding e espaços
         polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
         residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-
+        
         # Remove espaços dos nomes das colunas
         polimeros.columns = polimeros.columns.str.strip()
         residuos.columns = residuos.columns.str.strip()
-
+        
         return polimeros, residuos
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
@@ -199,39 +194,43 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
                 st.markdown(f"**Aplicações Comuns:** {row['Aplicações Comuns']}")
                 st.markdown(f"**Descrição:** {row['Descrição']}")
 
+        st.divider()
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
-
+    
     # Verifica se o DataFrame está vazio
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
-    # Verifica se os arquivos existem
-    required_files = ["polimeros.csv", "residuos.csv"]
-    for file in required_files:
-        if not os.path.exists(file):
-            st.error(f"Arquivo necessário não encontrado: {file}")
-            return  # Encerra a execução se algum arquivo estiver faltando
 
-    # Carrega os dados
-    polimeros, residuos = load_data()
-
-    # Verifica se os DataFrames foram carregados corretamente
-    if polimeros.empty or residuos.empty:
-        st.error("Não foi possível carregar os dados. Verifique os arquivos CSV.")
-        return
     # Verifica as colunas disponíveis (para debug)
     st.write("Colunas disponíveis:", residuos.columns.tolist())
 
+    # Removemos o check da coluna 'Subtipo' porque ela não existe mais
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
+                # Como não temos mais 'Subtipo', vamos usar 'Tipo' para nomear a imagem
+                tipo = str(row['Tipo']).strip()
+                nome_imagem = normalizar_nome(tipo) + ".png"
+                mostrar_imagem_com_fallback(nome_imagem, IMAGES_RESIDUOS_DIR, tipo, (200, 230, 200))
+
+            with col2:
+                st.subheader(f"{row['Tipo']}")
+                st.markdown(f"**Código:** {row['Código']}")
+                st.markdown(f"**Exemplos Comuns:** {row['Exemplos Comuns']}")
+                st.markdown(f"**Tempo de Decomposição:** {row['Tempo de Decomposição']}")
+                st.markdown(f"**Reciclável:** {row['Reciclável']}")
+                st.markdown(f"**Rota de Tratamento:** {row['Rota de Tratamento']}")
+                st.markdown(f"**Descrição Técnica:** {row['Descrição Técnica']}")
+
+        st.markdown("---")
                 # Acesso seguro às colunas
                 tipo = str(row.get('Tipo', 'Resíduo')).strip()
                 subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
-
+                
                 nome_imagem = normalizar_nome(subtipo) + ".png"
                 caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
 
@@ -243,7 +242,7 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
 
             with col2:
                 st.subheader(f"{tipo} - {subtipo}")
-
+                
                 # Adiciona todas as colunas disponíveis dinamicamente
                 campos = {
                     'Código': row.get('Código', ''),
@@ -253,12 +252,19 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                     'Rota de Tratamento': row.get('Rota de Tratamento', ''),
                     'Descrição Técnica': row.get('Descrição Técnica', '')
                 }
-
+                
                 for campo, valor in campos.items():
                     if valor:  # Só mostra se tiver valor
                         st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
+
+def mostrar_glossario(polimeros, residuos):
+    mostrar_glossario_polimeros(polimeros)
+    st.markdown("---")
+    mostrar_glossario_residuos(residuos)
+
+
 
 # Função: quiz interativo
 def mostrar_quiz():
@@ -297,115 +303,7 @@ def mostrar_quiz():
             del st.session_state.questions
             del st.session_state.current_question
             del st.session_state.score
-    st.header("♻️ Quiz Interativo - Museu do Lixo COMCAP")
-    st.markdown("Teste seus conhecimentos sobre reciclagem, polímeros e sustentabilidade!")
-    
-    # Inicializa o estado da sessão
-    if 'quiz' not in st.session_state:
-        st.session_state.quiz = {
-            'questions': load_quiz(),
-            'current_question': 0,
-            'score': 0,
-            'answered': False,
-            'selected_option': None,
-            'show_results': False
-        }
-    
-    questions = st.session_state.quiz['questions']
-    current_q = st.session_state.quiz['current_question']
-    
-    # Verifica se terminou o quiz
-    if st.session_state.quiz['show_results'] or current_q >= len(questions):
-        mostrar_resultado_final()
         return
-    
-    # Mostra progresso
-    mostrar_barra_progresso(current_q, len(questions))
-    
-    # Obtém a pergunta atual
-    question = questions[current_q]
-    
-    # Layout da pergunta
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
-        st.subheader(f"Pergunta {current_q + 1}/{len(questions)}")
-        st.markdown(f"#### {question['pergunta']}")
-        
-        # Mostra opções como botões
-        selected = None
-        for i, opcao in enumerate(question['opcoes']):
-            if st.button(opcao, 
-                         key=f"op_{current_q}_{i}",
-                         disabled=st.session_state.quiz['answered'],
-                         use_container_width=True):
-                selected = i
-                st.session_state.quiz['selected_option'] = i
-                st.session_state.quiz['answered'] = True
-    
-    with col2:
-        # Mostra imagem se existir
-        if question.get('imagem') and os.path.exists(question['imagem']):
-            try:
-                st.image(
-                    question['imagem'],
-                    caption="Imagem referente à pergunta",
-                    use_column_width=True,
-                    output_format="auto"
-                )
-            except Exception as e:
-                st.warning(f"Não foi possível carregar a imagem: {str(e)}")
-        elif question.get('imagem'):
-            st.warning("Imagem não encontrada")
-    
-    # Se já respondeu, mostra feedback
-    if st.session_state.quiz['answered']:
-        mostrar_feedback(question)
-        
-        # Botão para próxima pergunta
-        if st.button("Próxima Pergunta →", 
-                    key=f"next_{current_q}",
-                    type="primary"):
-            avancar_quiz()
-
-def mostrar_barra_progresso(atual, total):
-    progresso = (atual + 1) / total
-    st.progress(progresso)
-    st.caption(f"Progresso: {atual + 1} de {total} perguntas")
-
-def mostrar_feedback(question):
-    st.markdown("---")
-    selected = st.session_state.quiz['selected_option']
-    correct = selected == question['resposta']
-    
-    if correct:
-        st.success("✅ **Correto!** " + question['explicacao'])
-        st.balloons()
-    else:
-        st.error(f"❌ **Ops!** A resposta correta é: **{question['opcoes'][question['resposta']]}**")
-        st.info("💡 **Explicação:** " + question['explicacao'])
-    
-    # Mostra link para mais informações quando relevante
-    if "Museu do Lixo" in question['pergunta']:
-        st.markdown("[🔍 Saiba mais sobre o Museu](https://www.pmf.sc.gov.br/entidades/comcap/)")
-
-def avancar_quiz():
-    # Atualiza pontuação se acertou
-    questions = st.session_state.quiz['questions']
-    current_q = st.session_state.quiz['current_question']
-    selected = st.session_state.quiz['selected_option']
-    
-    if selected == questions[current_q]['resposta']:
-        st.session_state.quiz['score'] += 1
-    
-    # Prepara próximo estado
-    st.session_state.quiz['current_question'] += 1
-    st.session_state.quiz['answered'] = False
-    st.session_state.quiz['selected_option'] = None
-    
-    # Verifica se terminou
-    if st.session_state.quiz['current_question'] >= len(questions):
-        st.session_state.quiz['show_results'] = True
 
     # Exibe a pergunta atual
     question = questions[q_num]
@@ -436,42 +334,6 @@ def avancar_quiz():
         if st.button("➡️ Próxima pergunta"):
             st.session_state.current_question += 1
 
-def mostrar_resultado_final():
-    score = st.session_state.quiz['score']
-    total = len(st.session_state.quiz['questions'])
-    
-    st.success(f"## 🎯 Resultado Final: {score}/{total}")
-    
-    # Feedback personalizado
-    if score == total:
-        st.balloons()
-        st.markdown("""
-        ### 🌟 Excelente! Você é um expert em reciclagem!
-        *Parabéns! Seu conhecimento sobre resíduos e sustentabilidade é impressionante.*
-        """)
-    elif score >= total * 0.75:
-        st.markdown("""
-        ### 👏 Muito bom!
-        *Você tem um ótimo entendimento do assunto! Continue aprendendo.*
-        """)
-    else:
-        st.markdown("""
-        ### 📚 Continue explorando!
-        *Visite o glossário para melhorar seu conhecimento sobre reciclagem.*
-        """)
-    
-    # Botão para reiniciar
-    if st.button("🔄 Refazer Quiz", type="primary"):
-        for key in list(st.session_state.keys()):
-            if key.startswith('quiz'):
-                del st.session_state[key]
-        st.rerun()
-    
-    # Links úteis
-    st.markdown("---")
-    st.markdown("### 📚 Para aprender mais:")
-    st.page_link("app.py", label="Visitar Glossário", icon="📖")
-    st.page_link("https://www.pmf.sc.gov.br/entidades/comcap/", label="Site do Museu do Lixo", icon="🏛️")
 
 # Função: história do Museu
 def mostrar_historia():
@@ -901,7 +763,7 @@ def main():
         st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
-- Dados técnicos baseados em normas ABNT  More actions
+- Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 """)
         st.markdown("""
@@ -911,7 +773,7 @@ def main():
 """)
 
 # Execução do app
-if __name__ == "__main__":
+if __name__ == "__main__":More actions
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
     os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
     main()
