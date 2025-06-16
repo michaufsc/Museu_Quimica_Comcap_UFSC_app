@@ -770,18 +770,11 @@ def mostrar_cooperativas():
 
 # Função principal
 def main():
-    # Configuração inicial da página
-    st.set_page_config(
-        page_title="Química para reciclagem e limpeza dos oceanos",
-        page_icon="♻️",
-        layout="wide"
-    )
-
     # Cabeçalho principal
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
     st.subheader("Aplicativo para educadores: Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
-    st.markdown("---")
+    st.markdown("Curso de Graduação em Química- Universiidade Federal de Santa Catarina - UFSC")
 
     # Carrega todos os dados necessários
     try:
