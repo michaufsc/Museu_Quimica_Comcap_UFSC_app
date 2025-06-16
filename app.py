@@ -20,7 +20,7 @@ IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 IMAGES_DIR = "imagens"
 
-# Função para normalizar nomes (exemplo simples)
+# Função para normalizar nomes
 def normalizar_nome(nome):
     return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace(".", "").replace(",", "")
 
@@ -800,7 +800,7 @@ def main():
         "🧪 Química dos Polímeros",
         "🏘️ Coleta Seletiva por Bairro",
         "🧵 Microplásticos",
-        "🤝 Associações de Reciclagem",
+        "🤝 Cooperativas de Reciclagem",
         "📚 Atividades Pedagógicas", 
         "ℹ️ Sobre"
     ])
