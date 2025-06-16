@@ -194,6 +194,10 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
 
         st.divider()
 
+def mostrar_glossario(polimeros, residuos):
+    mostrar_glossario_polimeros(polimeros)
+    st.markdown("---")
+    mostrar_glossario_residuos(residuos)
 
 
 
