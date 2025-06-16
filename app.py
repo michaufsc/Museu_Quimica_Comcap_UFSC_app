@@ -661,7 +661,7 @@ def mostrar_cooperativas():
             hide_index=True,
             use_container_width=True,
             height=min(400, 45 * len(df_filtrado) + 45)
-    
+            }
     with tab_mapa:
         st.subheader("Localização das Cooperativas")
         
