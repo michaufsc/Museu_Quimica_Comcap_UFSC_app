@@ -9,11 +9,11 @@ from streamlit_folium import folium_static
 from datetime import datetime
 
 # Caminho correto para a pasta de imagens
-IMAGES_POLIMEROS_DIR = "imagens_polimeros"
+IMAGES_MATERIAISS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 
 # Cria as pastas de imagem se não existirem
-os.makedirs(IMAGES_POLIMEROS_DIR, exist_ok=True)
+os.makedirs(IMAGES_MAATERIAIS_DIR, exist_ok=True)
 os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
 
 
@@ -146,7 +146,7 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
 
             with col1:
                 nome_imagem = normalizar_nome(row['Sigla']) + ".png"
-                caminho_imagem = os.path.join(IMAGES_POLIMEROS_DIR, nome_imagem)
+                caminho_imagem = os.path.join(IMAGES_MATERIAIS_DIR, nome_imagem)
 
                 if os.path.exists(caminho_imagem):
                     st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{row['Nome']}")
@@ -709,6 +709,6 @@ def main():
 
 # Execução do app
 if __name__ == "__main__":
-    os.makedirs(IMAGES_POLIMEROS_DIR, exist_ok=True)
+    os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
     os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
     main()
