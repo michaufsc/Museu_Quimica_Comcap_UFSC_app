@@ -829,8 +829,6 @@ def mostrar_cooperativas():
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
 
-
-# Função principal
 # Função principal
 def main():
     st.header("Museu do Lixo - COMCAP Florianópolis ♻️")
@@ -863,7 +861,7 @@ def main():
 
     with tab4:
         mostrar_compostagem()
-
+0
     with tab5:
         mostrar_quimica()
 
