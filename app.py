@@ -485,7 +485,7 @@ Eles podem ser classificados em:
 
 Estão presentes em embalagens, roupas, componentes eletrônicos, materiais médicos e muito mais!
     """)
- st.image("imagens_residuos/polimeros_naturais.jpg", 
+ st.image("imagens_residuos/polo.jpg", 
              caption="Exemplos de polímeros naturais presentes em plantas, animais e alimentos.Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**, que se ligam entre si formando longas cadeias.  
 Essas cadeias podem ser **lineares**, **ramificadas** ou **reticuladas**, influenciando as propriedades do material.", 
              use_column_width=True)
