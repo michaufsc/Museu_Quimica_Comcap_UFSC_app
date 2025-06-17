@@ -1009,19 +1009,37 @@ def main():
         st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
 
     with tab10:
-        st.header("ℹ️ Sobre o Projeto")
-        st.markdown("""
+    st.header("ℹ️ Sobre o Projeto")
+st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
 - Dados técnicos baseados em normas ABNT  
 - Integrado com atividades pedagógicas  
 """)
-        st.markdown("""
-**Autor:** nome dos alunos e professora  
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
-**Instituição:** Universidade Federal de Santa Catarina (UFSC)
-""")
 
+st.markdown("""
+**Equipe:**  
+👨‍🎓 Michael Anderson da Luz Lopes  
+👨‍🎓 Carlos Rossoni Neto  
+👨‍🎓 Imbali Sanhá Fiaré  
+👩‍🏫 Professora Anelisa Maria Regiani  
+
+**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
+**Curso:** Graduação em Química  
+**Instituição:** Universidade Federal de Santa Catarina (UFSC)  
+
+**Ferramentas utilizadas:**  
+<code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20"/> GitHub</code>  
+<code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20"/> Python</code>  
+<code><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="20"/> Streamlit</code>  
+""", unsafe_allow_html=True)
+
+st.markdown("""
+**Objetivos:**  
+🔹 Promover conscientização sobre gestão de resíduos  
+🔹 Facilitar a identificação de polímeros  
+🔹 Integrar conhecimentos químicos com educação ambiental  
+""")
 # Execução do app
 if __name__ == "__main__":
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
