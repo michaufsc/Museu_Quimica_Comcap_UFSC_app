@@ -488,7 +488,7 @@ Estão presentes em embalagens, roupas, componentes eletrônicos, materiais méd
     """)
 
     # Exibe a imagem (sem legenda)
-    st.image("imagens_residuos/polo.png", use_column_width=True)
+    st.image("imagens_residuos/polo.png", use_container_width=True)
 
     st.markdown("""
 Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**, que se ligam entre si formando longas cadeias.  
