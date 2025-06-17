@@ -821,43 +821,40 @@ def main():
     # Abas principais com novas seções
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "🏛️ História do Museu",
-        "🏷️ Glossário",
-        "🧐 Quiz",
-        "🌱 Compostagem",
-        "🧪 Química dos Polímeros",
+        "🧪 Química dos Plásticos (Polímeros)",
+        "🏷️ Tipos de Plásticos",
+         "🧵 Microplásticos",
         "🏘️ Coleta Seletiva por Bairro",
-        "🧵 Microplásticos",
-        "🤝 Associações de Reciclagem",
+        "🤝 Cooperativass de Reciclagem",
+        "🌱 Compostagem",
+        "🧐 Quiz",
         "📚 Atividades Pedagógicas",
         "ℹ️ Sobre"
     ])
 
     with tab1:
         mostrar_historia()
-
+        
     with tab2:
-        mostrar_glossario_polimeros(polimeros)
-        mostrar_glossario_residuos(residuos)
-
-
+        mostrar_quimica()
+    
     with tab3:
-        mostrar_quiz()
-
+        mostrar_glossario_polimeros(polimeros)
+        
     with tab4:
-        mostrar_compostagem()
+        mostrar_microplasticos()
         
     with tab5:
-        mostrar_quimica()
-
-    with tab6:
         mostrar_coleta_seletiva()
-
-    with tab7:
-        mostrar_microplasticos()
-
-    with tab8:
+        
+    with tab6:
         mostrar_cooperativas()
-
+   
+    with tab7:
+        mostrar_compostagem()
+        
+    with tab3:
+        mostrar_quiz()
     with tab9:
         st.header("📚 Atividades Pedagógicas")
         st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
