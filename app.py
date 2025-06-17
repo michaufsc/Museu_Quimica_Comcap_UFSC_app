@@ -628,8 +628,6 @@ def mostrar_quimica():
     4. Participação em cooperativas
     """)
 # Função: compostagem
-import streamlit as st
-
 def mostrar_compostagem():
     st.header("🌱 Compostagem como Método Adequado ao Tratamento de Resíduos Sólidos Orgânicos Urbanos")
 
