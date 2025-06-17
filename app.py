@@ -545,6 +545,7 @@ Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos*
     """)
 
 
+
 # Função: compostagem
 def mostrar_compostagem():
     st.header("🌱 Compostagem com Resíduos Orgânicos")
