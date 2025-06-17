@@ -506,8 +506,9 @@ São produzidos por organismos vivos e têm papel fundamental na biologia e na i
 - **Quitina** – encontrada no exoesqueleto de crustáceos e insetos  
 - **Proteínas** (como colágeno, queratina, seda) – polímeros de aminoácidos com funções estruturais e metabólicas  
 - **Borracha natural (látex)** – extraída da seringueira, utilizada em pneus, luvas, etc.
+""")
 
-st.markdown("""
+    st.markdown("""
 ### 🏭 Polímeros Sintéticos
 
 São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fontes renováveis, por meio de reações químicas como **adição** e **condensação**.
@@ -525,9 +526,10 @@ São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fon
 Esses materiais são amplamente utilizados devido a seu **baixo custo**, **resistência**, **leveza** e **versatilidade**.
 """)
 
-st.image("imagens_residuos/tipos.png", use_container_width=True)
+    st.image("imagens_residuos/tipos.png", use_container_width=True)
 
-st.markdown("---"
+    st.markdown("""
+---
 ### 🔥 Termoplásticos: características
 
 Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos**, que se amolecem quando aquecidos e endurecem ao esfriar, podendo ser moldados repetidamente.
