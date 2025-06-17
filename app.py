@@ -628,6 +628,7 @@ def mostrar_quimica():
     4. Participação em cooperativas
     """)
 # Função: compostagem
+
 def mostrar_compostagem():
     st.header("🌱 Compostagem como Método Adequado ao Tratamento de Resíduos Sólidos Orgânicos Urbanos")
 
@@ -662,11 +663,11 @@ def mostrar_compostagem():
     with col1:
         st.image("imagens_residuos/leira.png", 
                 caption="Modelo de leira estática com cobertura vegetal",
-                use_column_width=True)
+                use_container_width=True)
     with col2:
         st.image("imagens_residuos/metodo_ufsc.png", 
                 caption="Etapas do processo de compostagem – Método UFSC",
-                use_column_width=True)
+                use_container_width=True)
 
     st.markdown("""
     **Locais de aplicação em Florianópolis:**
@@ -712,10 +713,6 @@ def mostrar_compostagem():
     *"Compostar é transformar lixo em vida, fechando o ciclo da natureza na cidade."*
     """)
     st.markdown("✂️ **Dica prática**: Use serragem ou podas trituradas para equilibrar a umidade nas leiras!")
-
-# Para executar o app
-if __name__ == "__main__":
-    mostrar_compostagem()
 
 #função mapa
 def mostrar_mapa_coleta():
