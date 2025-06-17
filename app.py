@@ -543,7 +543,151 @@ Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos*
 - Fácil coloração e moldagem
 - Baixo custo de produção
     """)
+    st.markdown("""
+---
+### ♻️ Polímeros e a Gestão de Resíduos Sólidos
 
+A relação entre os polímeros e os resíduos sólidos é um dos maiores desafios ambientais da atualidade. Vamos explorar:
+
+## 🔄 Ciclo de Vida dos Polímeros Plásticos
+
+1. **Extração**: Obtenção do petróleo ou matérias-primas renováveis  
+2. **Refino**: Produção dos monômeros básicos (etileno, propileno, etc.)  
+3. **Polimerização**: Criação das macromoléculas em reatores químicos  
+4. **Aditivação**: Inclusão de plastificantes, corantes e estabilizantes  
+5. **Processamento**: Moldagem por injeção, extrusão ou sopro  
+6. **Consumo**: Vida útil variando de minutos (embalagens) a décadas (tubulações)  
+7. **Descarte**: Fase crítica que determina o impacto ambiental  
+""")
+
+    st.image("imagens_residuos/ciclo_vida.png", use_column_width=True, 
+             caption="Figura 1. Ciclo completo dos materiais poliméricos - da produção ao descarte")
+
+    st.markdown("""
+---
+## 📊 Composição dos Resíduos Plásticos
+
+Os polímeros representam aproximadamente 13% da massa total do lixo urbano, com a seguinte distribuição:
+""")
+
+    st.image("imagens_residuos/reci.png", use_column_width=True,
+             caption="Figura 2. Tipos de polímeros mais encontrados no fluxo de resíduos (dados ABIPET 2023)")
+
+    st.markdown("""
+**Características por tipo de polímero:**
+
+| Sigla | Nome Completo            | Aplicações Típicas          | Taxa de Reciclagem |
+|-------|--------------------------|----------------------------|-------------------|
+| PET   | Polietileno Tereftalato  | Garrafas, fibras têxteis   | 55%               |
+| PEAD  | Polietileno Alta Densidade | Embalagens rígidas        | 30%               |
+| PEBD  | Polietileno Baixa Densidade | Sacolas, filmes          | 18%               |
+| PP    | Polipropileno            | Tampas, autopeças          | 25%               |
+| PS    | Poliestireno             | Isopor, copos descartáveis | 12%               |
+| PVC   | Policloreto de Vinila    | Tubos, revestimentos       | <5%               |
+
+## ⚙️ Tecnologias de Reciclagem
+
+### 1. Reciclagem Mecânica (Processo Convencional)
+""")
+
+    st.image("imagens_residuos/mec.png", use_column_width=True,
+             caption="Figura 3. Fluxograma detalhado do processo de reciclagem mecânica")
+
+    st.markdown("""
+**Principais etapas do processo:**
+1. **Triagem**: Separação manual ou automatizada por tipo de polímero e cor  
+2. **Fragmentação**: Moagem em moinhos de facas até obter flocos de 5-10mm  
+3. **Lavagem**: Remoção de contaminantes em tanques com água + detergentes  
+4. **Separação**: Por densidade (flotação) ou processos eletrostáticos  
+5. **Secagem**: Centrifugação + secagem térmica (60-80°C)  
+6. **Extrusão**: Fusão a 150-300°C conforme o polímero  
+7. **Filtragem**: Remoção de impurezas com filtros de malha fina  
+8. **Granulação**: Resfriamento e corte em pellets de 3-5mm  
+
+**Aplicações típicas do material reciclado:**
+- Novas embalagens não-alimentícias  
+- Componentes automotivos  
+- Fibras para vestuário e carpetes  
+- Tubulações para construção civil  
+
+### 2. Reciclagem Química (Processos Avançados)
+
+**Técnicas em desenvolvimento:**
+
+**Pirólise Catalítica:**
+- Temperatura: 400-600°C  
+- Catalisadores: zeólitas, sílica-alumina  
+- Produtos: óleo pirolítico (70%), gás (20%), resíduo (10%)  
+
+**Hidrogenação:**
+- Condições: 300-450°C, 70-150 bar de H₂  
+- Vantagem: remove contaminantes como cloro  
+- Aplicação: tratamento de PVC e PET contaminado  
+
+**Glicólise (para PET):**
+- Reagente: etilenoglicol em excesso  
+- Temperatura: 190-220°C  
+- Rendimento: até 95% de monômeros recuperados  
+
+### 3. Valorização Energética
+
+**Parâmetros operacionais:**
+- Temperatura mínima: 850°C (para evitar dioxinas)  
+- Tempo de residência: >2 segundos  
+- Sistemas de limpeza de gases: filtros de manga + lavadores  
+
+**Eficiência energética:**
+- Poder calorífico: 25-40 MJ/kg (comparável ao carvão)  
+- 1 tonelada de plástico = energia para 5 residências/dia  
+
+---
+## 🌿 Biopolímeros: Solução Emergente
+
+**Comparativo técnico:**
+
+| Parâmetro          | PLA (Ácido Polilático) | PET Convencional |
+|--------------------|-----------------------|------------------|
+| Temperatura de processamento | 170-200°C       | 250-300°C        |
+| Resistência à tração | 50-70 MPa         | 55-80 MPa        |
+| Permeabilidade a O₂ | Alta               | Baixa            |
+| Temperatura de deformação | 55-60°C       | 70-80°C          |
+| Biodegradabilidade | 6-24 meses (industrial) | 450+ anos     |
+
+**Desafios tecnológicos:**
+- Sensibilidade à umidade durante processamento  
+- Compatibilização com infraestrutura existente  
+- Custo de produção ainda elevado  
+
+---
+## ♻️ Boas Práticas na Cadeia de Valor
+
+**Para indústrias:**
+- Projetar embalagens monomaterial  
+- Eliminar pigmentos escuros (dificultam reciclagem)  
+- Adotar sistemas de depósito e retorno  
+
+**Para municípios:**
+- Implantar coleta seletiva eficiente  
+- Criar centros de triagem mecanizados  
+- Estabelecer parcerias com cooperativas  
+
+**Para cidadãos:**
+1. Lavar embalagens antes do descarte  
+2. Separar tampas de garrafas (materiais diferentes)  
+3. Comprimir embalagens para reduzir volume  
+4. Verificar símbolos de reciclabilidade  
+5. Preferir produtos com conteúdo reciclado  
+
+---
+## 🔮 Tendências Futuras
+
+1. **Química Verde**: Catalisadores enzimáticos para despolimerização  
+2. **Blockchain**: Rastreabilidade de materiais na cadeia de reciclagem  
+3. **Inteligência Artificial**: Sistemas avançados de triagem automatizada  
+4. **Economia Circular**: Modelos de negócio baseados em reúso químico  
+5. **Nanotecnologia**: Aditivos para melhorar propriedades de reciclados  
+
+""")
 
 
 # Função: compostagem
