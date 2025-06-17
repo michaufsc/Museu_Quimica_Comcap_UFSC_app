@@ -1009,7 +1009,7 @@ def main():
         st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
 
     with tab10:
-    st.header("ℹ️ Sobre o Projeto")
+        st.header("ℹ️ Sobre o Projeto")
 st.markdown("""
 **Glossário Interativo de Resíduos e Polímeros**  
 - Desenvolvido para educação ambiental  
