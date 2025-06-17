@@ -632,7 +632,8 @@ def mostrar_compostagem():
     st.header("🌱 Compostagem com Resíduos Orgânicos")
 
     st.markdown("""
-A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais. Além disso, a separação correta dos resíduos facilita a destinação dos recicláveis secos para a coleta seletiva.
+A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais.  
+Além disso, a separação correta dos resíduos facilita a destinação dos recicláveis secos para a coleta seletiva.
 """)
 
     st.subheader("✅ O que pode ir para a compostagem:")
@@ -655,9 +656,36 @@ A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, tra
 
     st.subheader("🧪 Como funciona a compostagem")
     st.markdown("""
-A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica. Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico**, uma terra escura, fértil e rica em nutrientes.
+A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica.  
+Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico**, uma terra escura, fértil e rica em nutrientes.
 
 Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajudando a regenerar o solo e fechar o ciclo dos alimentos.
+""")
+
+    st.subheader("🧬 Método UFSC de Compostagem Termofílica")
+
+    st.markdown("""
+O **Método UFSC de Compostagem com Aeração Passiva** foi desenvolvido pelo **professor Paul Richard Momsen Miller**, da **Universidade Federal de Santa Catarina (UFSC)**, referência nacional em engenharia ambiental e manejo sustentável de resíduos.
+
+Esse método utiliza **leiras estáticas cobertas**, construídas com camadas de resíduos úmidos (como restos de alimentos) e materiais secos (como folhas e serragem). O sistema promove:
+- **Aeração natural**, sem necessidade de máquinas
+- **Altas temperaturas** (fase termofílica), que eliminam patógenos
+- Produção de **biofertilizante líquido** (chorume tratado)
+- Um composto orgânico estável e livre de odores
+
+Com duração média de **120 dias**, é eficiente, de baixo custo, e pode ser replicado em escolas, hortas comunitárias, pátios municipais e condomínios.
+""")
+
+    st.image("imagens_residuos/leira.png", caption="Modelo de leira estática com cobertura vegetal", use_container_width=True)
+    st.image("imagens_residuos/metodo_ufsc.png", caption="Etapas do processo de compostagem – Método UFSC", use_container_width=True)
+
+    st.markdown("""
+Esse método é utilizado em diversos locais da Grande Florianópolis, como:
+- Campus da UFSC (Pátio de Compostagem)
+- SESC Cacupé  
+- Fundação Serte  
+- Hortas escolares e comunitárias  
+- Projetos da COMCAP em parceria com a sociedade civil
 """)
 
     st.subheader("📊 Dados de Florianópolis")
@@ -679,11 +707,12 @@ Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano
 
     st.subheader("📚 Materiais e links úteis")
     st.markdown("""
-- [\U0001F4D8 **Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça**](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
-- [\U0001F3A5 **Vídeo sobre valorização dos orgânicos em Florianópolis**](https://www.youtube.com/watch?v=xyz)  
-- [\U0001F4D7 **Manual de Compostagem: MMA, Cepagro, SESC-SC**](https://www.mma.gov.br)  
-- [\U0001F4D2 **Livreto: Compostagem Comunitária – Guia Completo**](https://compostagemcomunitaria.com.br)
+- [📘 Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
+- [🎥 Vídeo sobre valorização dos orgânicos em Florianópolis](https://www.youtube.com/watch?v=xyz)  
+- [📗 Manual de Compostagem: MMA, Cepagro, SESC-SC](https://www.mma.gov.br)  
+- [📒 Livreto: Compostagem Comunitária – Guia Completo](https://compostagemcomunitaria.com.br)
 """)
+
 #função mapa
 def mostrar_mapa_coleta():
     st.header("🗺️ Mapa Completo dos Pontos de Coleta Seletiva")
