@@ -628,90 +628,96 @@ def mostrar_quimica():
     4. Participação em cooperativas
     """)
 # Função: compostagem
+import streamlit as st
+
 def mostrar_compostagem():
-    st.header("🌱 Compostagem com Resíduos Orgânicos")
+    st.header("🌱 Compostagem como Método Adequado ao Tratamento de Resíduos Sólidos Orgânicos Urbanos")
+
+    with st.expander("📌 Resumo", expanded=True):
+        st.markdown("""
+        A compostagem da fração orgânica dos resíduos sólidos urbanos é uma solução eficiente, econômica e sustentável, 
+        alinhada à Política Nacional de Resíduos Sólidos (Lei 12.305/2010). Em Florianópolis, o método de **leira estática 
+        com aeração passiva** (Método UFSC) tem demonstrado excelentes resultados, processando cerca de **2 mil toneladas/ano** 
+        de matéria orgânica e gerando composto de alta qualidade para uso em hortas escolares e ajardinamento público.
+        """)
+
+    st.subheader("✅ Benefícios da Compostagem")
+    st.markdown("""
+    - **Redução de custos**: Economia de R$ 100 mil/ano comparado ao aterro sanitário
+    - **Qualidade do composto**: Rico em nutrientes (carbono, nitrogênio, fósforo) e livre de patógenos
+    - **Sustentabilidade**: Fecha o ciclo dos resíduos, evitando aterrar recursos naturais
+    - **Educação ambiental**: Promove conscientização e participação comunitária
+    """)
+
+    st.subheader("🧪 Método UFSC de Compostagem Termofílica")
+    st.markdown("""
+    Desenvolvido pelo **professor Paul Richard Momsen Miller (UFSC)**, o método utiliza:
+    - **Leiras estáticas** (2,5m x 35m x 2m) com camadas de resíduos úmidos (restos de alimentos) e secos (podas trituradas)
+    - **Aeração passiva**: Sem revolvimento mecânico, apenas ventilação natural
+    - **Fases do processo**:
+      1. **Termofílica** (45-75°C): Elimina patógenos e acelera decomposição
+      2. **Maturação** (120 dias): Produz húmus estável e biofertilizante líquido
+    """)
+
+    # Container para as imagens lado a lado
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("imagens_residuos/leira.png", 
+                caption="Modelo de leira estática com cobertura vegetal",
+                use_column_width=True)
+    with col2:
+        st.image("imagens_residuos/metodo_ufsc.png", 
+                caption="Etapas do processo de compostagem – Método UFSC",
+                use_column_width=True)
 
     st.markdown("""
-A **compostagem artesanal**, por meio da reciclagem de resíduos orgânicos, traz de volta à cidade a beleza e o equilíbrio das paisagens naturais.  
-Além disso, a separação correta dos resíduos facilita a destinação dos recicláveis secos para a coleta seletiva.
-""")
+    **Locais de aplicação em Florianópolis:**
+    - Campus da UFSC (Pátio de Compostagem)
+    - SESC Cacupé
+    - Fundação Serte
+    - Hortas escolares e comunitárias
+    - Projetos da COMCAP em parceria com a sociedade civil
+    """)
 
-    st.subheader("✅ O que pode ir para a compostagem:")
+    st.subheader("📊 Dados Relevantes")
+    
+    with st.expander("Composição dos Resíduos no Brasil (ABRELPE, 2012)"):
+        st.table({
+            "Material": ["Matéria Orgânica", "Plásticos", "Papel/Papelão", "Outros"],
+            "Participação (%)": ["51,4", "13,5", "13,1", "22,0"]
+        })
+    
     st.markdown("""
-- Frutas, legumes e verduras  
-- Cascas de ovos  
-- Borra de café com filtro  
-- Folhas secas e grama  
-- Serragem e palha  
-- Restos de poda triturados
-""")
+    **Florianópolis (2013):**
+    - 11.755 toneladas/ano coletadas seletivamente (7% do total)
+    - 70 mil toneladas/ano de resíduos orgânicos potencialmente compostáveis
+    """)
 
-    st.subheader("❌ O que NÃO pode ir para a compostagem:")
+    st.subheader("💡 Como Implementar na Sua Cidade?")
     st.markdown("""
-- Carnes, laticínios e peixes  
-- Excrementos de animais domésticos  
-- Óleos, gorduras e produtos químicos  
-- Itens sanitários ou plásticos
-""")
+    1. **Segregação na fonte**: Separação doméstica de orgânicos
+    2. **Coleta especializada**: Transporte dedicado para resíduos compostáveis
+    3. **Pátios de compostagem**: Estruturas simples com leiras estáticas
+    4. **Parcerias**: Envolvimento de universidades, ONGs e cooperativas
+    """)
 
-    st.subheader("🧪 Como funciona a compostagem")
+    st.subheader("📚 Materiais Complementares")
     st.markdown("""
-A compostagem cria um ambiente propício à ação de **bactérias e fungos** que decompõem a matéria orgânica.  
-Também participam do processo **minhocas, insetos e embuás**, transformando os resíduos em um **composto orgânico**, uma terra escura, fértil e rica em nutrientes.
+    - [📘 Manual de Compostagem Doméstica](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/) - Cepagro
+    - [📗 Compostagem Comunitária: Passo a Passo](https://compostagemcomunitaria.com.br)
+    - [🎥 Vídeo Educativo: Método UFSC](https://www.youtube.com)
+    - [📄 Política Nacional de Resíduos Sólidos](http://www.planalto.gov.br/ccivil_03/_ato2007-2010/2010/lei/l12305.htm)
+    """)
 
-Esse composto pode ser usado em hortas, vasos, jardins e áreas públicas, ajudando a regenerar o solo e fechar o ciclo dos alimentos.
-""")
-
-    st.subheader("🧬 Método UFSC de Compostagem Termofílica")
-
+    st.markdown("---")
     st.markdown("""
-O **Método UFSC de Compostagem com Aeração Passiva** foi desenvolvido pelo **professor Paul Richard Momsen Miller**, da **Universidade Federal de Santa Catarina (UFSC)**, referência nacional em engenharia ambiental e manejo sustentável de resíduos.
+    *"Compostar é transformar lixo em vida, fechando o ciclo da natureza na cidade."*
+    """)
+    st.markdown("✂️ **Dica prática**: Use serragem ou podas trituradas para equilibrar a umidade nas leiras!")
 
-Esse método utiliza **leiras estáticas cobertas**, construídas com camadas de resíduos úmidos (como restos de alimentos) e materiais secos (como folhas e serragem). O sistema promove:
-- **Aeração natural**, sem necessidade de máquinas
-- **Altas temperaturas** (fase termofílica), que eliminam patógenos
-- Produção de **biofertilizante líquido** (chorume tratado)
-- Um composto orgânico estável e livre de odores
-
-Com duração média de **120 dias**, é eficiente, de baixo custo, e pode ser replicado em escolas, hortas comunitárias, pátios municipais e condomínios.
-""")
-
-    st.image("imagens_residuos/leira.png", caption="Modelo de leira estática com cobertura vegetal", use_container_width=True)
-    st.image("imagens_residuos/metodo_ufsc.png", caption="Etapas do processo de compostagem – Método UFSC", use_container_width=True)
-
-    st.markdown("""
-Esse método é utilizado em diversos locais da Grande Florianópolis, como:
-- Campus da UFSC (Pátio de Compostagem)
-- SESC Cacupé  
-- Fundação Serte  
-- Hortas escolares e comunitárias  
-- Projetos da COMCAP em parceria com a sociedade civil
-""")
-
-    st.subheader("📊 Dados de Florianópolis")
-    st.markdown("""
-- **35%** dos resíduos domiciliares são orgânicos  
-  - 24%: restos de alimentos  
-  - 11%: resíduos verdes (podas, folhas, jardinagem)  
-- **43%** são recicláveis secos  
-- **22%** são rejeitos (lixo não reciclável)
-
-Das **193 mil toneladas** coletadas anualmente, **70 mil toneladas** são resíduos orgânicos. Separando-os na fonte, evitaríamos o envio de **27 caminhões de lixo por dia** ao aterro de Biguaçu.
-""")
-
-    st.subheader("💰 Economia e benefícios")
-    st.markdown("""
-Cada tonelada aterrada custa **R$ 156,81** ao município.  
-Com compostagem, Florianópolis poderia economizar até **R$ 11 milhões por ano**, além de reduzir impactos ambientais e melhorar a qualidade do solo urbano.
-""")
-
-    st.subheader("📚 Materiais e links úteis")
-    st.markdown("""
-- [📘 Manual de Compostagem com Minhocas: Projeto Minhoca na Cabeça](https://cepagroagroecologia.wordpress.com/minhoca-na-cabeca/)  
-- [🎥 Vídeo sobre valorização dos orgânicos em Florianópolis](https://www.youtube.com/watch?v=xyz)  
-- [📗 Manual de Compostagem: MMA, Cepagro, SESC-SC](https://www.mma.gov.br)  
-- [📒 Livreto: Compostagem Comunitária – Guia Completo](https://compostagemcomunitaria.com.br)
-""")
+# Para executar o app
+if __name__ == "__main__":
+    mostrar_compostagem()
 
 #função mapa
 def mostrar_mapa_coleta():
