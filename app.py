@@ -35,13 +35,29 @@ def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
         img_padrao = Image.new('RGB', (300, 300), color=cor_fundo)
         st.image(img_padrao, use_container_width=True, caption=legenda)
 
+# Função para carregar dados polimeros e residuos
+@st.cache_data
+def load_data():
+    try:
+        # Carrega dados de polímeros
+        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8')
+        polimeros = polimeros.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        polimeros.columns = polimeros.columns.str.strip()
+        
+        # Carrega dados de resíduos
+        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8')
+        residuos = residuos.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        residuos.columns = residuos.columns.str.strip()
+        
+        return polimeros, residuos
+        
+    except FileNotFoundError:
+        st.error("Arquivo não encontrado. Verifique se polimeros.csv e residuos.csv existem.")
+        return pd.DataFrame(), pd.DataFrame()
+    except Exception as e:
+        st.error(f"Erro ao carregar dados: {str(e)}")
+        return pd.DataFrame(), pd.DataFrame()
 
-# Configuração da página
-st.set_page_config(
-    page_title="Química para reciclagem e limpeza dos oceanos",
-    page_icon="♻️",
-    layout="wide"
-)
 
 # Adicione esta função para carregar os dados da coleta seletiva
 @st.cache_data
@@ -49,7 +65,7 @@ def load_coleta_data():
     url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
     df = pd.read_csv(url)
     return df
-
+# Adicione esta função para carregar os dados do quiz
 @st.cache_data
 def load_quiz():
     try:
@@ -141,26 +157,7 @@ def load_quiz():
         st.error(f"Falha crítica ao carregar quiz: {str(e)}")
         return []
         
-# Carrega os dados
-polimeros, residuos = load_data()
-@st.cache_data
-def load_data():
-    try:
-        # Carrega os dados com tratamento de encoding e espaços
-        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8').apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        
-        # Remove espaços dos nomes das colunas
-        polimeros.columns = polimeros.columns.str.strip()
-        residuos.columns = residuos.columns.str.strip()
-        
-        return polimeros, residuos
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame(), pd.DataFrame()  # Retorna DataFrames vazios em caso de erro
-
-# Função para carregar o CSV com as cooperativas
-import pandas as pd
+# Adicione esta função para carregar os dados das cooperativas
 
 def load_cooperativas():
     """
