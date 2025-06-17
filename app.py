@@ -486,7 +486,6 @@ Eles podem ser classificados em:
 
 Estão presentes em embalagens, roupas, componentes eletrônicos, materiais médicos e muito mais!
     """)
-
     # Exibe a imagem (sem legenda)
    st.image("imagens_residuos/polo.png", use_column_width=True)
     st.markdown("""
