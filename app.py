@@ -478,11 +478,22 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 def mostrar_quimica():
     st.header("🧪 Ciência dos Polímeros e Sustentabilidade")
 
-    # Função segura para carregar imagens
+    # Função robusta para carregar imagens
     def carregar_imagem(nome_arquivo):
         try:
-            caminho = os.path.join("imagens_residuos", nome_arquivo)
-            return Image.open(caminho)
+            # Verifica todos os possíveis caminhos
+            caminhos_teste = [
+                os.path.join("imagens_residuos", nome_arquivo),
+                os.path.join("app/imagens_residuos", nome_arquivo),
+                os.path.join("/mount/src/glossario-quimica-residuos/imagens_residuos", nome_arquivo),
+                nome_arquivo  # Tenta no diretório atual como último recurso
+            ]
+            
+            for caminho in caminhos_teste:
+                if os.path.exists(caminho):
+                    return Image.open(caminho)
+            
+            raise FileNotFoundError(f"Imagem não encontrada em nenhum dos caminhos testados: {nome_arquivo}")
         except Exception as e:
             st.error(f"Erro ao carregar imagem {nome_arquivo}: {str(e)}")
             return None
@@ -498,7 +509,7 @@ def mostrar_quimica():
     
     polo_img = carregar_imagem("polo.png")
     if polo_img:
-        st.image(polo_img, use_column_width=True, 
+        st.image(polo_img, use_container_width=True, 
                 caption="Estrutura molecular de polímeros sintéticos típicos")
 
     # Seção 2: Classificação
@@ -526,7 +537,7 @@ def mostrar_quimica():
 
     tipos_img = carregar_imagem("tipos.png")
     if tipos_img:
-        st.image(tipos_img, use_column_width=True,
+        st.image(tipos_img, use_container_width=True,
                 caption="Aplicações comerciais dos principais polímeros")
 
     # Seção 3: Gestão de Resíduos
@@ -540,7 +551,7 @@ def mostrar_quimica():
     with tab1:
         reci_img = carregar_imagem("reci.png")
         if reci_img:
-            st.image(reci_img, use_column_width=True,
+            st.image(reci_img, use_container_width=True,
                     caption="Distribuição dos polímeros em resíduos urbanos")
         st.markdown("""
         **Dados de Reciclagem (Brasil):**
@@ -553,7 +564,7 @@ def mostrar_quimica():
     with tab2:
         mec_img = carregar_imagem("mec.png")
         if mec_img:
-            st.image(mec_img, use_column_width=True,
+            st.image(mec_img, use_container_width=True,
                     caption="Fluxograma de reciclagem mecânica")
         st.markdown("""
         **Parâmetros Operacionais:**
@@ -567,7 +578,7 @@ def mostrar_quimica():
     with tab3:
         ciclo_img = carregar_imagem("ciclo_vida.png")
         if ciclo_img:
-            st.image(ciclo_img, use_column_width=True,
+            st.image(ciclo_img, use_container_width=True,
                     caption="Tecnologias emergentes no ciclo de vida")
         st.markdown("""
         **Tendências:**
@@ -577,8 +588,7 @@ def mostrar_quimica():
         4. Sistemas IA para triagem
         """)
 
-    # Restante do código permanece igual...
-     # Seção 4: Tabelas Comparativas
+    # Seção 4: Tabelas Comparativas
     st.markdown("""
     ---
     ## 📊 Propriedades Comparativas
