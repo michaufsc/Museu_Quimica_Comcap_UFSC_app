@@ -476,37 +476,114 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
 #função química 
 def mostrar_quimica():
-    st.header("🧪 Química dos Polímeros e Reciclagem")
+    st.header("🧪 O que são Polímeros?")
+    st.markdown("""
+Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**.  
+Eles podem ser classificados em:
+- 🟢 **Naturais** – ocorrem na natureza (ex: celulose, amido, proteínas)  
+- 🧪 **Sintéticos** – fabricados pelo ser humano a partir do petróleo e outras fontes  
+
+Estão presentes em embalagens, roupas, componentes eletrônicos, materiais médicos e muito mais!
+    """)
+ st.image("imagens_residuos/polimeros_naturais.jpg", 
+             caption="Exemplos de polímeros naturais presentes em plantas, animais e alimentos.Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**, que se ligam entre si formando longas cadeias.  
+Essas cadeias podem ser **lineares**, **ramificadas** ou **reticuladas**, influenciando as propriedades do material.", 
+             use_column_width=True)
+             
+    st.markdown("""
+Os polímeros podem ser divididos em duas grandes categorias:
+---
+
+### 🌱 Polímeros Naturais
+
+São produzidos por organismos vivos e têm papel fundamental na biologia e na indústria de base renovável.
+
+**Exemplos:**
+
+- **Celulose** – principal componente das paredes celulares de plantas; usada na produção de papel, algodão e tecidos
+- **Amido** – reserva energética de vegetais como milho, batata e mandioca
+- **Quitina** – encontrada no exoesqueleto de crustáceos e insetos
+- **Proteínas** (como colágeno, queratina, seda) – polímeros de aminoácidos com funções estruturais e metabólicas
+- **Borracha natural (látex)** – extraída da seringueira, utilizada em pneus, luvas, etc.
+
+    """)
+
+    st.image("imagens_residuos/polimeros_naturais.jpg", 
+             caption="Exemplos de polímeros naturais presentes em plantas, animais e alimentos.", 
+             use_column_width=True)
 
     st.markdown("""
-    Os **polímeros** são macromoléculas formadas por unidades repetitivas chamadas monômeros. Eles podem ser naturais, como a celulose, ou sintéticos, como:
-    - Polietileno (PE)
-    - Polipropileno (PP)
-    - Poli(tereftalato de etileno) (PET)
-    - Poli(cloreto de vinila) (PVC)
-    - Poliestireno (PS)
+---
 
-    Os **termoplásticos**, como PE, PP, PET, PVC e PS, possuem as seguintes características:
-    - Moldáveis a quente
-    - Baixa densidade
-    - Boa aparência
-    - Isolantes térmico e elétrico
-    - Resistentes ao impacto
-    - Baixo custo
+### 🏭 Polímeros Sintéticos
 
-    No Brasil, o consumo de termoplásticos tem crescido significativamente. Por exemplo, o PET apresentou um aumento de mais de **2.200%** na última década.
+São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fontes renováveis, por meio de reações químicas como **adição** e **condensação**.
 
-    A **separação automatizada** de polímeros é realizada com base na diferença de densidade, utilizando tanques de flotação ou hidrociclones para:
-    - PE
-    - PP
-    - PS
-    - PVC
-    - PET
+**Principais exemplos de polímeros sintéticos:**
 
-    A **reciclagem** desses materiais envolve tecnologias mecânicas e químicas, além da recuperação de energia a partir de resíduos plásticos.
+- **Polietileno (PE)** – sacolas, frascos e filmes plásticos  
+- **Polipropileno (PP)** – tampas, embalagens, seringas  
+- **Poli(tereftalato de etileno) (PET)** – garrafas, fibras de poliéster  
+- **Policloreto de vinila (PVC)** – tubos, pisos, cortinas  
+- **Poliestireno (PS)** – copos descartáveis, isopor (EPS)  
+- **Poliamidas (ex: Nylon)** – roupas, cordas, escovas de dente  
+- **Policarbonato (PC)** – capacetes, DVDs, lentes  
+- **Ácido polilático (PLA)** – biopolímero biodegradável usado em embalagens e impressão 3D  
 
-    Empresas recicladoras de PE e PP processam entre 20 e 50 toneladas por mês, com poucas ultrapassando 100 toneladas mensais. As principais aplicações dos polímeros reciclados são em utilidades domésticas.
-    """)
+Esses materiais são amplamente utilizados devido a seu **baixo custo**, **resistência**, **leveza** e **versatilidade**.
+
+---
+
+### 🔥 Termoplásticos: características
+
+Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos**, que se amolecem quando aquecidos e endurecem ao esfriar, podendo ser moldados repetidamente.
+
+**Principais propriedades dos termoplásticos:**
+
+- Moldáveis com calor
+- Baixa densidade
+- Boa aparência superficial
+- Isolantes térmicos e elétricos
+- Resistência ao impacto
+- Fácil coloração e moldagem
+- Baixo custo de produção
+
+---
+
+### 📈 Panorama no Brasil
+
+O consumo de termoplásticos no Brasil tem crescido rapidamente.  
+**Exemplo:** O uso de PET aumentou mais de **2.200%** na última década, impulsionado por garrafas descartáveis e tecidos sintéticos.
+
+---
+
+### ♻️ Reciclagem e separação de polímeros
+
+A separação automatizada de plásticos pode ser feita por **diferença de densidade**, usando **tanques de flotação** ou **hidrociclones**, permitindo separar materiais como:
+
+- **PE** – flutua em água
+- **PP** – também flutua
+- **PS**, **PVC**, **PET** – afundam, mas com densidades distintas
+
+A **reciclagem** pode ser:
+
+- **Mecânica** – lavagem, trituração e reprocessamento
+- **Química** – quebra dos polímeros em monômeros para síntese de novos plásticos
+- **Energética** – queima para geração de calor ou eletricidade
+
+Empresas recicladoras de PE e PP no Brasil processam entre **20 e 50 toneladas por mês**, com poucas atingindo **mais de 100 toneladas mensais**.
+
+---
+
+### 🧰 Aplicações dos polímeros reciclados
+
+- Baldes, bacias, vasos, tampas
+- Vassouras, peças automotivas
+- Sacos de lixo, cabos, brinquedos
+- Materiais de construção e mobiliário urbano
+
+""")
+
 
 # Função: compostagem
 def mostrar_compostagem():
