@@ -972,7 +972,7 @@ def main():
     with tab7:
         mostrar_compostagem()
         
-    with tab3:
+    with tab8:
         mostrar_quiz()
     with tab9:
         st.header("📚 Atividades Pedagógicas")
