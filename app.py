@@ -52,67 +52,79 @@ def load_data():
         return polimeros, residuos
         
     except FileNotFoundError:
-        st.error("Arquivo não encontrado. Verifique se polimeros.csv e residuos.csv existem.")
+        st.error("Arquivos não encontrados. Verifique se polimeros.csv e residuos.csv existem.")
         return pd.DataFrame(), pd.DataFrame()
     except Exception as e:
         st.error(f"Erro ao carregar dados: {str(e)}")
         return pd.DataFrame(), pd.DataFrame()
 
 
-# Adicione esta função para carregar os dados da coleta seletiva
+#função para carregar os dados da coleta seletiva
 @st.cache_data
 def load_coleta_data():
-    url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
-    df = pd.read_csv(url)
-    return df
-# Adicione esta função para carregar os dados do quiz
+    try:
+        url = "https://raw.githubusercontent.com/michaufsc/glossario-quimica-residuos/refs/heads/main/pontos_coleta.csv"
+        df = pd.read_csv(url)
+        return df
+    except Exception as e:
+        st.error(f"Erro ao carregar dados de coleta: {str(e)}")
+        return pd.DataFrame()
+        
 @st.cache_data
 def load_quiz():
     try:
-        # Verifica se o arquivo existe
-        if not os.path.exists("quiz_perguntas.csv"):
-            st.error("Arquivo quiz_perguntas.csv não encontrado")
+        # Verificação mais robusta do arquivo
+        if not os.path.isfile("quiz_perguntas.csv"):
+            st.error("Arquivo quiz_perguntas.csv não encontrado no diretório atual")
             return []
 
-        # Tenta detectar automaticamente o formato
-        try:
-            # Primeira tentativa com delimitador ;
-            df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='utf-8', on_bad_lines='warn')
-        except:
+        # Tentativas de leitura mais organizadas
+        read_attempts = [
+            {"sep": ";", "encoding": "utf-8"},
+            {"sep": ",", "encoding": "utf-8"}, 
+            {"sep": ";", "encoding": "latin1"}
+        ]
+        
+        df = None
+        for attempt in read_attempts:
             try:
-                # Segunda tentativa com delimitador , (vírgula)
-                df = pd.read_csv("quiz_perguntas.csv", sep=",", encoding='utf-8', on_bad_lines='warn')
-            except:
-                # Terceira tentativa com encoding alternativo
-                df = pd.read_csv("quiz_perguntas.csv", sep=";", encoding='latin1', on_bad_lines='warn')
-
-        # Verifica se o DataFrame foi criado corretamente
-        if df.empty:
-            st.error("O arquivo está vazio ou não pôde ser lido")
+                df = pd.read_csv(
+                    "quiz_perguntas.csv",
+                    sep=attempt["sep"],
+                    encoding=attempt["encoding"],
+                    on_bad_lines='warn'
+                )
+                break
+            except Exception as e:
+                continue
+                
+        if df is None or df.empty:
+            st.error("Não foi possível ler o arquivo ou o arquivo está vazio")
             return []
 
-        # Padroniza os nomes das colunas
+        # Limpeza e padronização mais eficiente
         df.columns = df.columns.str.strip().str.lower()
         
-        # Mapeamento de colunas alternativas
+        # Mapeamento mais completo
         column_mapping = {
-            'pergunta': ['pergunta', 'question', 'pregunta'],
-            'opcao_1': ['opcao_1', 'opção 1', 'option1', 'alternativa_a'],
-            'opcao_2': ['opcao_2', 'opção 2', 'option2', 'alternativa_b'],
-            'opcao_3': ['opcao_3', 'opção 3', 'option3', 'alternativa_c'],
-            'opcao_4': ['opcao_4', 'opção 4', 'option4', 'alternativa_d'],
-            'resposta': ['resposta', 'answer', 'correct'],
-            'explicacao': ['explicacao', 'explicação', 'explanation']
+            'pergunta': ['pergunta', 'question', 'pregunta', 'enunciado'],
+            'opcao_1': ['opcao_1', 'opção 1', 'option1', 'alternativa_a', 'a)'],
+            'opcao_2': ['opcao_2', 'opção 2', 'option2', 'alternativa_b', 'b)'],
+            'opcao_3': ['opcao_3', 'opção 3', 'option3', 'alternativa_c', 'c)'],
+            'opcao_4': ['opcao_4', 'opção 4', 'option4', 'alternativa_d', 'd)'],
+            'resposta': ['resposta', 'answer', 'correct', 'correta', 'gabarito'],
+            'explicacao': ['explicacao', 'explicação', 'explanation', 'feedback']
         }
 
-        # Renomeia colunas para nomes padrão
+        # Renomeação mais segura
+        renamed_cols = {}
         for standard_name, alternatives in column_mapping.items():
             for alt in alternatives:
                 if alt in df.columns:
-                    df.rename(columns={alt: standard_name}, inplace=True)
-                    break
+                    renamed_cols[alt] = standard_name
+        df = df.rename(columns=renamed_cols)
 
-        # Verifica colunas obrigatórias
+        # Verificação de colunas obrigatórias mais clara
         required_cols = ['pergunta', 'opcao_1', 'opcao_2', 'opcao_3', 'opcao_4', 'resposta', 'explicacao']
         missing_cols = [col for col in required_cols if col not in df.columns]
         
@@ -121,14 +133,26 @@ def load_quiz():
             st.write("Colunas encontradas:", list(df.columns))
             return []
 
-        # Processa as perguntas
+        # Processamento mais seguro das perguntas
         questions = []
         for _, row in df.iterrows():
             try:
-                # Converte resposta para número (1-4)
-                resposta = int(float(str(row['resposta']).strip()))
-                if resposta not in [1, 2, 3, 4]:
-                    st.warning(f"Resposta inválida (deve ser 1-4): {resposta}")
+                # Tratamento mais robusto da resposta
+                resposta_str = str(row['resposta']).strip().upper()
+                resposta_num = None
+                
+                # Aceita respostas como "1", "A", "a)", etc.
+                if resposta_str in ['1', 'A', 'A)']:
+                    resposta_num = 1
+                elif resposta_str in ['2', 'B', 'B)']:
+                    resposta_num = 2
+                elif resposta_str in ['3', 'C', 'C)']:
+                    resposta_num = 3
+                elif resposta_str in ['4', 'D', 'D)']:
+                    resposta_num = 4
+                
+                if resposta_num is None:
+                    st.warning(f"Resposta inválida na pergunta: {row['pergunta']}")
                     continue
                     
                 questions.append({
@@ -139,11 +163,11 @@ def load_quiz():
                         str(row['opcao_3']).strip(),
                         str(row['opcao_4']).strip()
                     ],
-                    "resposta": resposta - 1,  # Convertendo para índice 0-3
+                    "resposta": resposta_num - 1,  # Convertendo para índice 0-3
                     "explicacao": str(row['explicacao']).strip()
                 })
             except Exception as e:
-                st.warning(f"Erro ao processar linha: {e}")
+                st.warning(f"Erro ao processar linha: {str(e)}")
                 continue
                 
         if not questions:
