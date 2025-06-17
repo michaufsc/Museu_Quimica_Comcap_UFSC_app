@@ -12,11 +12,6 @@ from datetime import datetime
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
 IMAGES_RESIDUOS_DIR = "imagens_residuos"
 
-# Cria as pastas de imagem se não existirem
-os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
-os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
-
-
 # Função para normalizar nomes (exemplo simples)
 def normalizar_nome(nome):
     return nome.lower().replace(" ", "_").replace("(", "").replace(")", "").replace(".", "").replace(",", "")
@@ -69,7 +64,7 @@ def load_coleta_data():
     except Exception as e:
         st.error(f"Erro ao carregar dados de coleta: {str(e)}")
         return pd.DataFrame()
-        
+#função dados quiz        
 @st.cache_data
 def load_quiz():
     try:
