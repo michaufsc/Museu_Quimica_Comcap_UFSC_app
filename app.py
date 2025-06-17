@@ -326,13 +326,7 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                         st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
-def mostrar_glossario(polimeros, residuos):
-    mostrar_glossario_polimeros(polimeros)
-    st.markdown("---")
-    mostrar_glossario_residuos(residuos)
-
-
-
+    
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
@@ -856,7 +850,9 @@ def main():
         mostrar_historia()
 
     with tab2:
-        mostrar_glossario(polimeros, residuos)
+        mostrar_glossario_polimeros(polimeros)
+        mostrar_glossario_residuos(residuos)
+
 
     with tab3:
         mostrar_quiz()
