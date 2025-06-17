@@ -957,14 +957,14 @@ def mostrar_cooperativas():
 
 # Função principal
 def main():
-    st.header("Museu do Lixo ♻️ COMCAP Florianópolis ")
+    st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
     st.subheader("Aplicativo para educação ambiental")
     st.subheader("Química dos resíduos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
     st.markdown("Curso de Graduação em Química")
     st.markdown("Universidade Federal de Santa Catarina (UFSC)")
     
- # Carregar os dados (leitura CSV)
+    # Carregar os dados (leitura CSV)
     polimeros, residuos = carregar_dados()
     
     # Abas principais com novas seções
@@ -972,9 +972,9 @@ def main():
         "🏛️ História do Museu",
         "🧪 Química dos Plásticos (Polímeros)",
         "🏷️ Tipos de Plásticos",
-         "🧵 Microplásticos",
+        "🧵 Microplásticos",
         "🏘️ Coleta Seletiva por Bairro",
-        "🤝 Cooperativass de Reciclagem",
+        "🤝 Cooperativas de Reciclagem",
         "🌱 Compostagem",
         "🧐 Quiz",
         "📚 Atividades Pedagógicas",
@@ -1004,42 +1004,44 @@ def main():
         
     with tab8:
         mostrar_quiz()
+        
     with tab9:
         st.header("📚 Atividades Pedagógicas")
         st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
 
     with tab10:
         st.header("ℹ️ Sobre o Projeto")
-st.markdown("""
-**Glossário Interativo de Resíduos e Polímeros**  
-- Desenvolvido para educação ambiental  
-- Dados técnicos baseados em normas ABNT  
-- Integrado com atividades pedagógicas  
-""")
+        st.markdown("""
+        **Glossário Interativo de Resíduos e Polímeros**  
+        - Desenvolvido para educação ambiental  
+        - Dados técnicos baseados em normas ABNT  
+        - Integrado com atividades pedagógicas  
+        """)
 
-st.markdown("""
-**Equipe:**  
-👨‍🎓 Michael Anderson da Luz Lopes  
-👨‍🎓 Carlos Rossoni Neto  
-👨‍🎓 Imbali Sanhá Fiaré  
-👩‍🏫 Professora Anelisa Maria Regiani  
+        st.markdown("""
+        **Equipe:**  
+        👨‍🎓 Michael Anderson da Luz Lopes  
+        👨‍🎓 Carlos Rossoni Neto  
+        👨‍🎓 Imbali Sanhá Fiaré  
+        👩‍🏫 Professora Anelisa Maria Regiani  
 
-**Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h-a)  
-**Curso:** Graduação em Química  
-**Instituição:** Universidade Federal de Santa Catarina (UFSC)  
+        **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)  
+        **Curso:** Graduação em Química  
+        **Instituição:** Universidade Federal de Santa Catarina (UFSC)  
 
-**Ferramentas utilizadas:**  
-<code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20"/> GitHub</code>  
-<code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20"/> Python</code>  
-<code><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="20"/> Streamlit</code>  
-""", unsafe_allow_html=True)
+        **Ferramentas utilizadas:**  
+        <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20"/> GitHub</code>  
+        <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20"/> Python</code>  
+        <code><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="20"/> Streamlit</code>  
+        """, unsafe_allow_html=True)
 
-st.markdown("""
-**Objetivos:**  
-🔹 Promover conscientização sobre gestão de resíduos  
-🔹 Facilitar a identificação de polímeros  
-🔹 Integrar conhecimentos químicos com educação ambiental  
-""")
+        st.markdown("""
+        **Objetivos:**  
+        🔹 Promover conscientização sobre gestão de resíduos  
+        🔹 Facilitar a identificação de polímeros  
+        🔹 Integrar conhecimentos químicos com educação ambiental  
+        """)
+
 # Execução do app
 if __name__ == "__main__":
     os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
