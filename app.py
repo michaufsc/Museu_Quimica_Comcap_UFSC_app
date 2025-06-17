@@ -508,7 +508,7 @@ São produzidos por organismos vivos e têm papel fundamental na biologia e na i
 
     """)
 
-    st.image("imagens_residuos/polimeros_naturais.jpg", 
+    st.image("imagens_residuos/polo.png", 
              caption="Exemplos de polímeros naturais presentes em plantas, animais e alimentos.", 
              use_column_width=True)
 
