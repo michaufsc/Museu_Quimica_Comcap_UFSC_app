@@ -1,21 +1,21 @@
-pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao;
-Qual símbolo identifica plásticos PET?;[1] PET;[2] PEAD;[3] PVC;[4] PS;1;O número 1 dentro do triângulo de setas identifica o PET;
-Qual resíduo demora MAIS para decompor?;Jornal;Fralda descartável;Casca de banana;Folha de papel;2;Fraldas podem levar 400-500 anos;;
-Onde descartar lâmpadas fluorescentes?;Lixo comum;Coleta seletiva;PEV;Compostagem;3;Pontos de Entrega Voluntária (PEV) para resíduos perigosos;;
+pergunta;opcao_1;opcao_2;opcao_3;opcao_4;resposta;explicacao
+Qual símbolo identifica plásticos PET?;[1] PET;[2] PEAD;[3] PVC;[4] PS;1;O número 1 dentro do triângulo de setas identifica o PET
+Qual resíduo demora MAIS para decompor?;Jornal;Fralda descartável;Casca de banana;Folha de papel;2;Fraldas podem levar 400-500 anos
+Onde descartar lâmpadas fluorescentes?;Lixo comum;Coleta seletiva;PEV;Compostagem;3;Pontos de Entrega Voluntária (PEV) para resíduos perigosos
 Qual o principal objetivo educativo do Museu do Lixo?;Mostrar arte moderna;Ensinar sobre os 4Rs;Expor objetos valiosos;Promover marcas sustentáveis;2;
-Como os microplásticos entram na cadeia alimentar?;Água contaminada;Respiração;Contato com a pele;Todos anteriores;4;Microplásticos são ingeridos por animais marinhos;
-Qual equipamento é mais necessário para cooperativas?;Computadores;Prensas hidráulicas;Móveis;Ar-condicionado;2;Prensas compactam materiais e otimizam espaço;;
-Por que lavar garrafas PET antes de reciclar?;Evitar contaminação;Exigência legal;Facilitar transporte;Mudar sua cor;1;Resíduos orgânicos prejudicam o processo;;
-Em que ano foi fundado o Museu do Lixo?;1998;2003;2010;2015;2;Inaugurado em 25/09/2003 pela COMCAP;
-O que são microplásticos?;Plásticos biodegradáveis;Partículas <5mm;Plásticos industriais;Novos polímeros;2;Definidos como partículas menores que 5mm;;
-Qual técnica identifica polímeros?;Espectroscopia Raman;Titulação;Destilação;Cromatografia;1;Espectroscopia é método não-destrutivo;;
+Como os microplásticos entram na cadeia alimentar?;Água contaminada;Respiração;Contato com a pele;Todos anteriores;4;Microplásticos são ingeridos por animais marinhos
+Qual equipamento é mais necessário para cooperativas?;Computadores;Prensas hidráulicas;Móveis;Ar-condicionado;2;Prensas compactam materiais e otimizam espaço
+Por que lavar garrafas PET antes de reciclar?;Evitar contaminação;Exigência legal;Facilitar transporte;Mudar sua cor;1;Resíduos orgânicos prejudicam o processo
+Em que ano foi fundado o Museu do Lixo?;1998;2003;2010;2015;2;Inaugurado em 25/09/2003 pela COMCAP
+O que são microplásticos?;Plásticos biodegradáveis;Partículas <5mm;Plásticos industriais;Novos polímeros;2;Definidos como partículas menores que 5mm
+Qual técnica identifica polímeros?;Espectroscopia Raman;Titulação;Destilação;Cromatografia;1;Espectroscopia é método não-destrutivo
 Qual personagem educativo do Museu?;Capitão Planeta;Dona Tainha;Super-Homem;Homem-Aranha;2;Dona Tainha é personagem criado pelo museu
-Qual NÃO deve ir para a compostagem?;Borras de café;Cascas de ovo;Restos de carne;Folhas secas;3;Carnes atraem animais e causam mau cheiro;;
-Qual porcentagem do lixo é orgânico?;15%;35%;55%;75%;2;Cerca de 35% são restos de alimentos;;
-Como agendar visita ao Museu do Lixo?;Email;Telefone;Site;Todos anteriores;4;Contato: (48) 3261-4808 ou ambiental.comcap@pmf.sc.gov.br;;
-Qual plástico libera HCl quando queimado?;PET;PEAD;PVC;PS;3;PVC libera ácido clorídrico (HCl);;
-O que é logística reversa?;Devolução de embalagens;Coleta seletiva;Compostagem;Incineração;1;Sistema de retorno de produtos após o uso;;
-Qual material compõe a mandala do museu?;Mármore;Cacos de vidro;Tampinhas plásticas;Folhas secas;3;Feita com tampinhas plásticas recicladas;
-Qual temperatura ideal para compostagem?;0-10°C;15-25°C;40-60°C;70-90°C;3;40-60°C acelera decomposição e mata patógenos;;
-Qual símbolo indica não reciclável?;Triângulo riscado;Quadrado vermelho;Círculo preto;Losango amarelo;1;Triângulo com X indica não reciclável;
-Quantos itens tem o acervo do Museu?;1.000;5.000;10.000;50.000;3;Cerca de 10 mil itens catalogados;;
+Qual NÃO deve ir para a compostagem?;Borras de café;Cascas de ovo;Restos de carne;Folhas secas;3;Carnes atraem animais e causam mau cheiro
+Qual porcentagem do lixo é orgânico?;15%;35%;55%;75%;2;Cerca de 35% são restos de alimentos
+Como agendar visita ao Museu do Lixo?;Email;Telefone;Site;Todos anteriores;4;Contato: (48) 3261-4808 ou ambiental.comcap@pmf.sc.gov.br
+Qual plástico libera HCl quando queimado?;PET;PEAD;PVC;PS;3;PVC libera ácido clorídrico (HCl)
+O que é logística reversa?;Devolução de embalagens;Coleta seletiva;Compostagem;Incineração;1;Sistema de retorno de produtos após o uso
+Qual material compõe a mandala do museu?;Mármore;Cacos de vidro;Tampinhas plásticas;Folhas secas;3;Feita com tampinhas plásticas recicladas
+Qual temperatura ideal para compostagem?;0-10°C;15-25°C;40-60°C;70-90°C;3;40-60°C acelera decomposição e mata patógenos
+Qual símbolo indica não reciclável?;Triângulo riscado;Quadrado vermelho;Círculo preto;Losango amarelo;1;Triângulo com X indica não reciclável
+Quantos itens tem o acervo do Museu?;1.000;5.000;10.000;50.000;3;Cerca de 10 mil itens catalogados
