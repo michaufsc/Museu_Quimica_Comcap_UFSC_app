@@ -506,15 +506,6 @@ São produzidos por organismos vivos e têm papel fundamental na biologia e na i
 - **Proteínas** (como colágeno, queratina, seda) – polímeros de aminoácidos com funções estruturais e metabólicas
 - **Borracha natural (látex)** – extraída da seringueira, utilizada em pneus, luvas, etc.
 
-    """)
-
-   st.image("imagens_residuos/polo.png",
-             caption="Exemplos de polímeros naturais presentes em plantas, animais e alimentos.", 
-             use_column_width=True)
-
-    st.markdown("""
----
-
 ### 🏭 Polímeros Sintéticos
 
 São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fontes renováveis, por meio de reações químicas como **adição** e **condensação**.
