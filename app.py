@@ -522,7 +522,7 @@ São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fon
 - **Ácido polilático (PLA)** – biopolímero biodegradável usado em embalagens e impressão 3D  
 
 Esses materiais são amplamente utilizados devido a seu **baixo custo**, **resistência**, **leveza** e **versatilidade**.
-
+st.image("imagens_residuos/tipos.png", use_container_width=True)
 ---
 
 ### 🔥 Termoplásticos: características
