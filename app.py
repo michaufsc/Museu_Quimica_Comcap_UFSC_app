@@ -861,7 +861,7 @@ def main():
 
     with tab4:
         mostrar_compostagem()
-0
+        
     with tab5:
         mostrar_quimica()
 
