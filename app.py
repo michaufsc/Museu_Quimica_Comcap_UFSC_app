@@ -486,21 +486,21 @@ Eles podem ser classificados em:
 
 Estão presentes em embalagens, roupas, componentes eletrônicos, materiais médicos e muito mais!
     """)
+
     # Exibe a imagem (sem legenda)
-   st.image("imagens_residuos/polo.png", use_column_width=True)
+    st.image("imagens_residuos/polo.png", use_column_width=True)
+
     st.markdown("""
 Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**, que se ligam entre si formando longas cadeias.  
 Essas cadeias podem ser **lineares**, **ramificadas** ou **reticuladas**, o que influencia diretamente as propriedades físico-químicas do material, como flexibilidade, resistência e transparência.
 
 Os polímeros podem ser divididos em duas grandes categorias:
 ---
-
 ### 🌱 Polímeros Naturais
 
 São produzidos por organismos vivos e têm papel fundamental na biologia e na indústria de base renovável.
 
 **Exemplos:**
-
 - **Celulose** – principal componente das paredes celulares de plantas; usada na produção de papel, algodão e tecidos  
 - **Amido** – reserva energética de vegetais como milho, batata e mandioca  
 - **Quitina** – encontrada no exoesqueleto de crustáceos e insetos  
@@ -512,7 +512,6 @@ São produzidos por organismos vivos e têm papel fundamental na biologia e na i
 São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fontes renováveis, por meio de reações químicas como **adição** e **condensação**.
 
 **Principais exemplos de polímeros sintéticos:**
-
 - **Polietileno (PE)** – sacolas, frascos e filmes plásticos  
 - **Polipropileno (PP)** – tampas, embalagens, seringas  
 - **Poli(tereftalato de etileno) (PET)** – garrafas, fibras de poliéster  
@@ -531,8 +530,14 @@ Esses materiais são amplamente utilizados devido a seu **baixo custo**, **resis
 Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos**, que se amolecem quando aquecidos e endurecem ao esfriar, podendo ser moldados repetidamente.
 
 **Principais propriedades dos termoplásticos:**
-
-- Moldávei
+- Moldáveis com calor
+- Baixa densidade
+- Boa aparência superficial
+- Isolantes térmicos e elétricos
+- Resistência ao impacto
+- Fácil coloração e moldagem
+- Baixo custo de produção
+""")
 
 
 # Função: compostagem
