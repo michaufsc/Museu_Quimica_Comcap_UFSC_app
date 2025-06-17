@@ -475,6 +475,8 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 ---
 """)
 #função química 
+import streamlit as st
+
 def mostrar_quimica():
     st.header("🧪 O que são Polímeros?")
 
@@ -506,7 +508,7 @@ São produzidos por organismos vivos e têm papel fundamental na biologia e na i
 - **Quitina** – encontrada no exoesqueleto de crustáceos e insetos  
 - **Proteínas** (como colágeno, queratina, seda) – polímeros de aminoácidos com funções estruturais e metabólicas  
 - **Borracha natural (látex)** – extraída da seringueira, utilizada em pneus, luvas, etc.
-""")
+    """)
 
     st.markdown("""
 ### 🏭 Polímeros Sintéticos
@@ -524,7 +526,7 @@ São desenvolvidos artificialmente, a partir de derivados do petróleo ou de fon
 - **Ácido polilático (PLA)** – biopolímero biodegradável usado em embalagens e impressão 3D  
 
 Esses materiais são amplamente utilizados devido a seu **baixo custo**, **resistência**, **leveza** e **versatilidade**.
-""")
+    """)
 
     st.image("imagens_residuos/tipos.png", use_container_width=True)
 
@@ -542,7 +544,7 @@ Polímeros como PE, PP, PET, PVC e PS pertencem à classe dos **termoplásticos*
 - Resistência ao impacto
 - Fácil coloração e moldagem
 - Baixo custo de produção
-""")
+    """)
 
 
 # Função: compostagem
