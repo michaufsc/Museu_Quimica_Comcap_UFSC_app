@@ -182,7 +182,7 @@ def load_quiz():
         return []
         
 # Adicione esta função para carregar os dados das cooperativas
-
+@st.cache_data
 def load_cooperativas():
     """
     Carrega os dados das cooperativas de reciclagem.
