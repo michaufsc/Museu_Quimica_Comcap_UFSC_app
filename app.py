@@ -548,8 +548,6 @@ def mostrar_quimica():
         """)
 
     with tab3:
-        st.image("imagens_residuos/ciclo_vida.png", use_column_width=True,
-                caption="Tecnologias emergentes no ciclo de vida")
         st.markdown("""
         **Tendências:**
         1. Biopolímeros (PLA, PHA)
