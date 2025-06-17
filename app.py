@@ -475,8 +475,6 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 ---
 """)
 #função química 
-import streamlit as st
-
 def mostrar_quimica():
     st.header("🧪 O que são Polímeros?")
 
