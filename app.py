@@ -37,12 +37,6 @@ def carregar_dados():
     residuos = pd.read_csv("dados/residuos.csv", sep=";")
     return polimeros, residuos
 
-def main():
-    polimeros, residuos = carregar_dados()
-    mostrar_glossario_polimeros(polimeros)
-    mostrar_glossario_residuos(residuos)
-
-
 
 #função para carregar os dados da coleta seletiva
 @st.cache_data
@@ -821,7 +815,10 @@ def main():
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
     st.markdown("Curso de Graduação em Química")
     st.markdown("Universidade Federal de Santa Catarina (UFSC)")
-
+    
+ # Carregar os dados (leitura CSV)
+    polimeros, residuos = carregar_dados()
+    
     # Abas principais com novas seções
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "🏛️ História do Museu",
