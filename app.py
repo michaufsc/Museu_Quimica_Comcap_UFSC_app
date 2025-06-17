@@ -598,6 +598,9 @@ def mostrar_quimica():
     4. Participação em cooperativas
     """)
 
+# Chamada da função (opcional - só necessário se for executar diretamente)
+if __name__ == "__main__":
+    mostrar_quimica()
 
 # Função: compostagem
 def mostrar_compostagem():
