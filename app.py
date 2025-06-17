@@ -478,6 +478,15 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 def mostrar_quimica():
     st.header("🧪 Ciência dos Polímeros e Sustentabilidade")
 
+    # Função segura para carregar imagens
+    def carregar_imagem(nome_arquivo):
+        try:
+            caminho = os.path.join("imagens_residuos", nome_arquivo)
+            return Image.open(caminho)
+        except Exception as e:
+            st.error(f"Erro ao carregar imagem {nome_arquivo}: {str(e)}")
+            return None
+
     # Seção 1: Conceitos Fundamentais
     st.markdown("""
     ## 🔬 O que são Polímeros?
@@ -487,8 +496,10 @@ def mostrar_quimica():
     - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
     """)
     
-    st.image("imagens_residuos/polo.png", use_column_width=True, 
-             caption="Estrutura molecular de polímeros sintéticos típicos")
+    polo_img = carregar_imagem("polo.png")
+    if polo_img:
+        st.image(polo_img, use_column_width=True, 
+                caption="Estrutura molecular de polímeros sintéticos típicos")
 
     # Seção 2: Classificação
     col1, col2 = st.columns(2)
@@ -513,8 +524,10 @@ def mostrar_quimica():
         - PLA (bioplástico)
         """)
 
-    st.image("imagens_residuos/tipos.png", use_column_width=True,
-             caption="Aplicações comerciais dos principais polímeros")
+    tipos_img = carregar_imagem("tipos.png")
+    if tipos_img:
+        st.image(tipos_img, use_column_width=True,
+                caption="Aplicações comerciais dos principais polímeros")
 
     # Seção 3: Gestão de Resíduos
     st.markdown("""
@@ -525,8 +538,10 @@ def mostrar_quimica():
     tab1, tab2, tab3 = st.tabs(["Composição", "Processos", "Inovações"])
 
     with tab1:
-        st.image("imagens_residuos/reci.png", use_column_width=True,
-                caption="Distribuição dos polímeros em resíduos urbanos")
+        reci_img = carregar_imagem("reci.png")
+        if reci_img:
+            st.image(reci_img, use_column_width=True,
+                    caption="Distribuição dos polímeros em resíduos urbanos")
         st.markdown("""
         **Dados de Reciclagem (Brasil):**
         - PET: 55% (líder em reciclagem)
@@ -536,8 +551,10 @@ def mostrar_quimica():
         """)
 
     with tab2:
-        st.image("imagens_residuos/mec.png", use_column_width=True,
-                caption="Fluxograma de reciclagem mecânica")
+        mec_img = carregar_imagem("mec.png")
+        if mec_img:
+            st.image(mec_img, use_column_width=True,
+                    caption="Fluxograma de reciclagem mecânica")
         st.markdown("""
         **Parâmetros Operacionais:**
         - Temperatura de extrusão:
@@ -548,6 +565,10 @@ def mostrar_quimica():
         """)
 
     with tab3:
+        ciclo_img = carregar_imagem("ciclo_vida.png")
+        if ciclo_img:
+            st.image(ciclo_img, use_column_width=True,
+                    caption="Tecnologias emergentes no ciclo de vida")
         st.markdown("""
         **Tendências:**
         1. Biopolímeros (PLA, PHA)
@@ -556,7 +577,8 @@ def mostrar_quimica():
         4. Sistemas IA para triagem
         """)
 
-    # Seção 4: Tabelas Comparativas
+    # Restante do código permanece igual...
+     # Seção 4: Tabelas Comparativas
     st.markdown("""
     ---
     ## 📊 Propriedades Comparativas
@@ -595,11 +617,6 @@ def mostrar_quimica():
     3. Preferência por reciclados
     4. Participação em cooperativas
     """)
-
-# Chamada da função (opcional - só necessário se for executar diretamente)
-if __name__ == "__main__":
-    mostrar_quimica()
-
 # Função: compostagem
 def mostrar_compostagem():
     st.header("🌱 Compostagem com Resíduos Orgânicos")
