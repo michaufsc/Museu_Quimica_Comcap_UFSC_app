@@ -488,8 +488,7 @@ Estão presentes em embalagens, roupas, componentes eletrônicos, materiais méd
     """)
 
     # Exibe a imagem (sem legenda)
-    st.image("imagens_residuos/polo.png", use_column_width=True)
-
+   st.image("imagens_residuos/polo.png", use_column_width=True)
     st.markdown("""
 Os **polímeros** são **macromoléculas** formadas por unidades repetitivas chamadas **monômeros**, que se ligam entre si formando longas cadeias.  
 Essas cadeias podem ser **lineares**, **ramificadas** ou **reticuladas**, o que influencia diretamente as propriedades físico-químicas do material, como flexibilidade, resistência e transparência.
