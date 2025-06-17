@@ -32,26 +32,16 @@ def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
 
 # Função para carregar dados polimeros e residuos
 @st.cache_data
-def load_data():
-    try:
-        # Carrega dados de polímeros
-        polimeros = pd.read_csv("polimeros.csv", sep=";", encoding='utf-8')
-        polimeros = polimeros.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        polimeros.columns = polimeros.columns.str.strip()
-        
-        # Carrega dados de resíduos
-        residuos = pd.read_csv("residuos.csv", sep=";", encoding='utf-8')
-        residuos = residuos.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        residuos.columns = residuos.columns.str.strip()
-        
-        return polimeros, residuos
-        
-    except FileNotFoundError:
-        st.error("Arquivos não encontrados. Verifique se polimeros.csv e residuos.csv existem.")
-        return pd.DataFrame(), pd.DataFrame()
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-        return pd.DataFrame(), pd.DataFrame()
+def carregar_dados():
+    polimeros = pd.read_csv("dados/polimeros.csv", sep=";")
+    residuos = pd.read_csv("dados/residuos.csv", sep=";")
+    return polimeros, residuos
+
+def main():
+    polimeros, residuos = carregar_dados()
+    mostrar_glossario_polimeros(polimeros)
+    mostrar_glossario_residuos(residuos)
+
 
 
 #função para carregar os dados da coleta seletiva
