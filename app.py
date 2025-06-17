@@ -31,11 +31,15 @@ def mostrar_imagem_com_fallback(nome_imagem, caminho_dir, legenda, cor_fundo):
         st.image(img_padrao, use_container_width=True, caption=legenda)
 
 # Função para carregar dados polimeros e residuos
-@st.cache_data
 def carregar_dados():
-    polimeros = pd.read_csv("dados/polimeros.csv", sep=";")
-    residuos = pd.read_csv("dados/residuos.csv", sep=";")
-    return polimeros, residuos
+    try:
+        polimeros = pd.read_csv("dados/polimeros.csv", sep=";")
+        residuos = pd.read_csv("dados/residuos.csv", sep=";")
+        return polimeros, residuos
+    except FileNotFoundError as e:
+        st.error(f"Arquivo não encontrado: {e.filename}")
+        return pd.DataFrame(), pd.DataFrame()
+
 
 
 #função para carregar os dados da coleta seletiva
