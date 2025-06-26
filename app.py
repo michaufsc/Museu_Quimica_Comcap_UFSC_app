@@ -959,7 +959,7 @@ def mostrar_cooperativas():
 def main():
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
     st.subheader("Aplicativo para educação ambiental")
-    st.subheader("Química dos resíduos")
+    st.subheader("Oceano de Plásticos")
     st.markdown("*Desenvolvido durante a disciplina de Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)*")
     st.markdown("Curso de Graduação em Química")
     st.markdown("Universidade Federal de Santa Catarina (UFSC)")
