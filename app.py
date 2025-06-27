@@ -613,46 +613,107 @@ def mostrar_quimica():
     """)
 #função isopor
 def mostrar_isopor():
-    st.header("📦 Isopor (Poliestireno Expandido - EPS)")
+    st.header("♻️ Floripa: 1ª Capital com Pontos Exclusivos para Isopor®")
+    st.markdown("""
+    **Projeto Recicla+EPS** - Uma iniciativa pioneira da Prefeitura de Florianópolis
+    """)
     
+    # Layout principal
     col1, col2 = st.columns([1, 2])
+    
     with col1:
-        mostrar_imagem_com_fallback("isopor.jpg", IMAGES_RESIDUOS_DIR, "Isopor - EPS", (240, 240, 240))
+        st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
+                caption="Ponto de Entrega Voluntária (PEV) de Isopor® - Foto: PMF/Divulgação",
+                use_container_width=True)
+        
+        st.markdown("""
+        ### 📌 Como preparar seu Isopor®:
+        1. **Limpe** (restos de alimento)
+        2. **Não precisa lavar** (apenas remover resíduos)
+        3. **Leve seco** aos PEVs
+        """)
     
     with col2:
-        st.markdown("""
-        ### Características:
-        - **Composição**: 98% ar + 2% poliestireno
-        - **Código de identificação**: ♸6
-        - **Tempo de decomposição**: Até 500 anos
-        - **Reciclável**: Sim, mas com dificuldades
-        """)
+        # Mapa dos pontos de coleta
+        pontos_isopor = pd.DataFrame({
+            'Local': [
+                'Centro - Hercílio Luz x Anita Garibaldi',
+                'Centro - Praça dos Namorados',
+                'Beira-Mar Norte - Mirante',
+                'Parque São Jorge - Av. Gov. José Boabaid',
+                'Trindade - Praça Gama Rosa',
+                'Coqueiros - Centro de Saúde',
+                'Estreito - Praça N.S. Fátima',
+                'Santa Mônica - Av. Madre Benvenuta',
+                'João Paulo - Praça Dr. Fausto Lobo',
+                'Jurerê - Final Av. dos Búzios'
+            ],
+            'Latitude': [
+                -27.5945, -27.5918, -27.5872,
+                -27.5701, -27.5867, -27.5728,
+                -27.6003, -27.5824, -27.5603,
+                -27.4245
+            ],
+            'Longitude': [
+                -48.5482, -48.5495, -48.5581,
+                -48.5268, -48.5214, -48.5472,
+                -48.5330, -48.5008, -48.5067,
+                -48.4221
+            ]
+        })
+        
+        st.map(pontos_isopor,
+             latitude='Latitude',
+             longitude='Longitude',
+             size=15,
+             color='#FF6B00')
     
+    # Seção de informações técnicas
+    with st.expander("📊 Dados Técnicos do Projeto", expanded=True):
+        col_a, col_b = st.columns(2)
+        
+        with col_a:
+            st.markdown("""
+            **✅ Benefícios:**
+            - 11 PEVs exclusivos
+            - Potencial: 10 ton/mês
+            - Compactação reduz 95% do volume
+            - Gera renda para cooperativas
+            """)
+        
+        with col_b:
+            st.markdown("""
+            **🔄 Processo:**
+            1. Coleta nos PEVs
+            2. Compactação na ACMR (Itacorubi)
+            3. Transformação em "pãozinho"
+            4. Reciclagem em Braço do Norte
+            """)
+    
+    # Lista completa de pontos
+    st.subheader("📍 Pontos de Entrega Voluntária (PEVs)")
     st.markdown("""
-    ### Problemas Ambientais:
-    - **Volume**: Ocupa muito espaço nos aterros
-    - **Fragmentação**: Transforma-se facilmente em microplásticos
-    - **Baixa taxa de reciclagem**: Menos de 10% é reciclado no Brasil
+    | Localização | Endereço |
+    |---|---|
+    | **Centro** | Hercílio Luz esquina com Anita Garibaldi |
+    | **Centro** | Praça dos Namorados, Largo São Sebastião |
+    | **Beira-Mar** | Mirante Av. Beira Mar Norte x Almirante Lamego |
+    | **Parque São Jorge** | Av. Gov. José Boabaid |
+    | **Trindade** | Praça da Rua Gama Rosa |
+    | **Coqueiros** | Em frente ao Centro de Saúde |
+    | **Estreito** | Praça Nossa Senhora de Fátima |
+    | **Santa Mônica** | Av. Madre Benvenuta (ao lado posto policial) |
+    | **João Paulo** | Rodovia João Paulo, Praça Dr. Fausto Lobo |
+    | **Jurerê** | Final Av. dos Búzios (junto ao PEV de Vidro) |
     """)
     
-    with st.expander("♻️ Como descartar corretamente"):
-        st.markdown("""
-        1. **Limpe** restos de alimento
-        2. **Compacte** para reduzir volume
-        3. **Encaminhe** para:
-           - Cooperativas especializadas
-           - Pontos de Entrega Voluntária (PEVs)
-           - Empresas de reciclagem de plásticos
-        """)
-    
+    # Rodapé com informações oficiais
+    st.markdown("---")
     st.markdown("""
-    ### Alternativas Sustentáveis:
-    - Embalagens de papelão reciclado
-    - Recipientes reutilizáveis
-    - Materiais biodegradáveis (amido de milho, cogumelo)
+    **📌 Fonte Oficial:**  
+    [Prefeitura de Florianópolis - Recicla+EPS](https://www.pmf.sc.gov.br/noticias/index.php?pagina=noticias_mostra&id=12623)  
+    **📞 Contato:** Secretaria Municipal de Meio Ambiente - (48) 3212-1650
     """)
-    
-
 
 # Função: compostagem
 
