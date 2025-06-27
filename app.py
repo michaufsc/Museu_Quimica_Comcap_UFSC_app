@@ -998,27 +998,26 @@ def mostrar_plastico_oceanos():
     with st.container():
         st.markdown("---")
         
-       if estudo_selecionado == "🧪 Persistência nos Sedimentos":
-        st.subheader("Quanto Tempo os Microplásticos Permanecem?")
-        
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.image(
-                "https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
-                caption="""Figura 1. Distribuição espacial de microplásticos em sedimentos costeiros. 
-                Fonte: Gonçalves, A. B., et al. (2024). Long-term persistence of microplastics in coastal sediments. 
-                Science of The Total Environment, 912, 169243. 
-                https://doi.org/10.1016/j.scitotenv.2023.169243""",
-                use_container_width=True
-            )
-        
-        with col2:
-            st.markdown("""
-            **Citação Completa do Estudo:**  
-            Gonçalves, A. B., Schmidt, C. A. P., & Almeida, M. T. (2024). *Long-term persistence of microplastics in coastal sediments*. 
-            Science of The Total Environment, 912, 169243.  
-            [https://doi.org/10.1016/j.scitotenv.2023.169243](https://doi.org/10.1016/j.scitotenv.2023.169243)
-            """)  
+        if estudo_selecionado == "🧪 Persistência nos Sedimentos":
+            st.subheader("Quanto Tempo os Microplásticos Permanecem?")
+            
+            col1, col2 = st.columns([1, 2])
+            with col1:
+                st.image(
+                    "https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
+                    caption="""Figura 1. Distribuição espacial de microplásticos em sedimentos costeiros. 
+                    Fonte: Gonçalves, A. B., et al. (2024). Long-term persistence of microplastics in coastal sediments. 
+                    Science of The Total Environment, 912, 169243. 
+                    https://doi.org/10.1016/j.scitotenv.2023.169243""",
+                    use_container_width=True
+                )
+            
+            with col2:
+                st.markdown("""
+                **Citação Completa do Estudo:**  
+                Gonçalves, A. B., Schmidt, C. A. P., & Almeida, M. T. (2024). *Long-term persistence of microplastics in coastal sediments*. 
+                Science of The Total Environment, 912, 169243.  
+                [https://doi.org/10.1016/j.scitotenv.2023.169243](https://doi.org/10.1016/j.scitotenv.2023.169243)
                 
                 **Dados Locais:**  
                 - Baía Norte: 28 partículas/g  
@@ -1085,7 +1084,6 @@ def mostrar_plastico_oceanos():
     col1.link_button("🌎 Artigo Científico", "https://doi.org/10.1016/j.scitotenv.2023.169243")
     col2.link_button("📰 Reportagem Completa", "#")
     col3.link_button("🔍 Estudo do Porto", "#")
-
 
 # Função principal
 def main():
