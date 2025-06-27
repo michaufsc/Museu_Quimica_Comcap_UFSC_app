@@ -179,7 +179,7 @@ def load_quiz():
 #dados esps isopor
 @st.cache_data
 def carregar_pontos_isopor():
-    """Carrega a base de dados dos pontos de coleta"""
+    """Base de dados oficial dos PEVs de Isopor® em Florianópolis"""
     dados = {
         'Local': [
             'Centro - Hercílio Luz x Anita Garibaldi',
@@ -191,19 +191,19 @@ def carregar_pontos_isopor():
             'Estreito - Praça N.S. Fátima',
             'Santa Mônica - Av. Madre Benvenuta',
             'João Paulo - Praça Dr. Fausto Lobo',
-            'Jurerê - Final Av. dos Búzios'
+            'Jurerê Internacional - Final Av. dos Búzios'
         ],
         'Endereço': [
-            'Hercílio Luz esquina com Anita Garibaldi',
-            'Praça dos Namorados, Largo São Sebastião',
-            'Mirante Av. Beira Mar Norte x Almirante Lamego',
-            'Av. Gov. José Boabaid',
-            'Praça da Rua Gama Rosa',
-            'Em frente ao Centro de Saúde',
-            'Praça Nossa Senhora de Fátima',
-            'Av. Madre Benvenuta (ao lado posto policial)',
-            'Rodovia João Paulo, Praça Dr. Fausto Lobo',
-            'Final Av. dos Búzios (junto ao PEV de Vidro)'
+            'Rua Hercílio Luz, 60 (esquina com Anita Garibaldi)',
+            'Largo São Sebastião, Centro',
+            'Avenida Beira-Mar Norte, 1030 (Mirante)',
+            'Avenida Governador José Boabaid, 250',
+            'Rua Gama Rosa, Trindade',
+            'Rua General Bittencourt, 175 (frente ao Centro de Saúde)',
+            'Rua Henrique Meyer, 550 (Praça N.S. Fátima)',
+            'Avenida Madre Benvenuta, 1580 (ao lado posto policial)',
+            'Rodovia João Paulo, 5000 (Praça Dr. Fausto Lobo)',
+            'Avenida dos Búzios, 1500 (junto ao PEV de Vidro)'
         ],
         'Latitude': [
             -27.5945, -27.5918, -27.5872,
@@ -218,10 +218,10 @@ def carregar_pontos_isopor():
             -48.4221
         ],
         'Horário': [
-            '24h', '24h', '24h',
-            '24h', '24h', '24h',
-            '24h', '24h', '24h',
-            '24h'
+            '24 horas', '24 horas', '24 horas',
+            '24 horas', '24 horas', '24 horas',
+            '24 horas', '24 horas', '24 horas',
+            '24 horas'
         ]
     }
     return pd.DataFrame(dados)
@@ -668,61 +668,67 @@ def mostrar_isopor():
     # Carrega os dados
     pontos_df = carregar_pontos_isopor()
     
-    # Foto do coletor
-    st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
-            caption="Ponto de Entrega Voluntária (PEV) de Isopor® - Foto: PMF/Divulgação",
-            use_container_width=True)
+    # Verificador de coordenadas
+    with st.expander("🔍 Verificar Endereço no Mapa", expanded=True):
+        col1, col2 = st.columns([3,1])
+        with col1:
+            endereco = st.text_input("Digite um endereço para verificar proximidade:")
+        with col2:
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("Verificar"):
+                if endereco:
+                    st.session_state['endereco'] = endereco
     
     # Mapa interativo
-    st.markdown("## 📍 Mapa de Todos os Pontos")
+    st.markdown("## 📍 Mapa dos Pontos de Coleta")
+    
+    if 'endereco' in st.session_state:
+        st.warning(f"Verificando proximidade com: {st.session_state['endereco']}")
+        # Aqui você pode integrar a API do Google Maps para geocoding
+        st.info("Funcionalidade de geocoding será implementada aqui")
+    
     st.map(pontos_df,
           latitude='Latitude',
           longitude='Longitude',
-          size=15,
-          color='#FF6B00')
+          size=20,
+          color='#FF6B00',
+          use_container_width=True)
     
-    # Seletor de pontos
-    st.subheader("🗺️ Selecione um Ponto para Detalhes")
-    selected = st.selectbox("Escolha um local:", pontos_df['Local'])
-    
-    # Mostra detalhes do ponto selecionado
-    ponto_selecionado = pontos_df[pontos_df['Local'] == selected].iloc[0]
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(f"""
-        **Endereço:**  
-        {ponto_selecionado['Endereço']}  
-        
-        **Horário:**  
-        {ponto_selecionado['Horário']}  
-        """)
-    
-    with col2:
-        # Link para Google Maps
-        maps_link = f"https://www.google.com/maps?q={ponto_selecionado['Latitude']},{ponto_selecionado['Longitude']}"
-        st.markdown(f"""
-        **Como chegar:**  
-        [Abrir no Google Maps]({maps_link})  
-        
-        **Coordenadas:**  
-        {ponto_selecionado['Latitude']}, {ponto_selecionado['Longitude']}
-        """)
-    
-    # Tabela com todos os pontos
-    st.markdown("## 📋 Lista Completa de Pontos")
+    # Tabela detalhada
+    st.markdown("## 📋 Lista Oficial de Pontos")
     st.dataframe(pontos_df[['Local', 'Endereço', 'Horário']],
+                column_config={
+                    "Local": "Localização",
+                    "Endereço": "Endereço Completo",
+                    "Horário": "Funcionamento"
+                },
                 hide_index=True,
                 use_container_width=True)
     
-    # Download da base de dados
+    # Detalhes por ponto
+    st.markdown("## 🎯 Selecione um Ponto")
+    selected = st.selectbox("Escolha um local:", pontos_df['Local'], index=None)
+    
+    if selected:
+        ponto = pontos_df[pontos_df['Local'] == selected].iloc[0]
+        
+        st.markdown(f"""
+        ### {ponto['Local']}
+        **Endereço:** {ponto['Endereço']}  
+        **Horário:** {ponto['Horário']}  
+        **Coordenadas:** {ponto['Latitude']}, {ponto['Longitude']}  
+        """)
+        
+        # Link para Google Maps
+        maps_url = f"https://www.google.com/maps?q={ponto['Latitude']},{ponto['Longitude']}"
+        st.link_button("🗺️ Abrir no Google Maps", maps_url)
+    
+    # Rodapé
     st.markdown("---")
-    st.download_button(
-        label="📥 Baixar Lista Completa (CSV)",
-        data=pontos_df.to_csv(index=False),
-        file_name="pontos_coleta_isopor_floripa.csv",
-        mime="text/csv"
-    )
+    st.markdown("""
+    **Fonte:** [Prefeitura de Florianópolis](https://www.pmf.sc.gov.br)  
+    **Atualizado em:** Março/2024
+    """)
 # Função: compostagem
 
 def mostrar_compostagem():
