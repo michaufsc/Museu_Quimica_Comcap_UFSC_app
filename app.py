@@ -663,71 +663,128 @@ def mostrar_quimica():
     """)
 #função isopor
 def mostrar_isopor():
-    st.header("♻️ Pontos de Coleta de Isopor® em Florianópolis")
+    st.header("♻️ Projeto Recicla+EPS - Florianópolis")
     
-    # Carrega os dados
-    pontos_df = carregar_pontos_isopor()
+    # Foto oficial do coletor
+    st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
+            caption="Ponto de Entrega Voluntária de Isopor® - Foto: PMF/Divulgação",
+            use_container_width=True)
     
-    # Verificador de coordenadas
-    with st.expander("🔍 Verificar Endereço no Mapa", expanded=True):
-        col1, col2 = st.columns([3,1])
-        with col1:
-            endereco = st.text_input("Digite um endereço para verificar proximidade:")
-        with col2:
-            st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("Verificar"):
-                if endereco:
-                    st.session_state['endereco'] = endereco
+    # Dicas de descarte
+    st.subheader("📦 Como Preparar seu Isopor®:")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        **✅ Faça assim:**  
+        • Limpe restos de alimentos  
+        • Não precisa lavar (apenas remover resíduos)  
+        • Deixe secar naturalmente  
+        """)
+    with col2:
+        st.markdown("""
+        **🚫 Evite:**  
+        • Isopor com gordura ou sujeira  
+        • Embalagens contaminadas  
+        • Descartar no lixo comum  
+        """)
+    
+    # Benefícios do projeto
+    st.subheader("🌱 Por que descartar corretamente?")
+    st.markdown("""
+    - Transforma-se em novos produtos (réguas, rodapés, placas)  
+    - Gera renda para cooperativas de reciclagem  
+    - Florianópolis recicla **10 toneladas/mês** de Isopor®  
+    - Reduz a poluição ambiental  
+    """)
     
     # Mapa interativo
-    st.markdown("## 📍 Mapa dos Pontos de Coleta")
+    st.subheader("🗺️ Todos os Pontos de Coleta")
+    pontos_df = pd.DataFrame({
+        'Local': [
+            'Centro - Hercílio Luz x Anita Garibaldi',
+            'Centro - Praça dos Namorados',
+            'Beira-Mar - Mirante',
+            'Parque São Jorge',
+            'Trindade - Praça Gama Rosa',
+            'Coqueiros - Centro de Saúde',
+            'Estreito - Praça N.S. Fátima',
+            'Santa Mônica',
+            'João Paulo',
+            'Jurerê Internacional'
+        ],
+        'Endereço': [
+            'Hercílio Luz esquina com Anita Garibaldi',
+            'Praça dos Namorados, Largo São Sebastião',
+            'Av. Beira-Mar Norte (Mirante)',
+            'Av. Gov. José Boabaid',
+            'Praça da Rua Gama Rosa',
+            'Em frente ao Centro de Saúde de Coqueiros',
+            'Praça Nossa Senhora de Fátima',
+            'Av. Madre Benvenuta (posto policial)',
+            'Rodovia João Paulo, Praça Dr. Fausto Lobo',
+            'Final da Av. dos Búzios (junto ao PEV de Vidro)'
+        ],
+        'Link': [
+            'https://maps.app.goo.gl/1',
+            'https://maps.app.goo.gl/2',
+            'https://maps.app.goo.gl/3',
+            'https://maps.app.goo.gl/4',
+            'https://maps.app.goo.gl/5',
+            'https://maps.app.goo.gl/6',
+            'https://maps.app.goo.gl/7',
+            'https://maps.app.goo.gl/8',
+            'https://maps.app.goo.gl/9',
+            'https://maps.app.goo.gl/10'
+        ],
+        'Latitude': [
+            -27.5945, -27.5918, -27.5872,
+            -27.5701, -27.5867, -27.5728,
+            -27.6003, -27.5824, -27.5603,
+            -27.4245
+        ],
+        'Longitude': [
+            -48.5482, -48.5495, -48.5581,
+            -48.5268, -48.5214, -48.5472,
+            -48.5330, -48.5008, -48.5067,
+            -48.4221
+        ]
+    })
     
-    if 'endereco' in st.session_state:
-        st.warning(f"Verificando proximidade com: {st.session_state['endereco']}")
-        # Aqui você pode integrar a API do Google Maps para geocoding
-        st.info("Funcionalidade de geocoding será implementada aqui")
-    
+    # Mostra mapa
     st.map(pontos_df,
           latitude='Latitude',
           longitude='Longitude',
-          size=20,
-          color='#FF6B00',
-          use_container_width=True)
+          size=15,
+          color='#FF6B00')
     
-    # Tabela detalhada
-    st.markdown("## 📋 Lista Oficial de Pontos")
-    st.dataframe(pontos_df[['Local', 'Endereço', 'Horário']],
-                column_config={
-                    "Local": "Localização",
-                    "Endereço": "Endereço Completo",
-                    "Horário": "Funcionamento"
-                },
-                hide_index=True,
-                use_container_width=True)
-    
-    # Detalhes por ponto
-    st.markdown("## 🎯 Selecione um Ponto")
-    selected = st.selectbox("Escolha um local:", pontos_df['Local'], index=None)
-    
-    if selected:
-        ponto = pontos_df[pontos_df['Local'] == selected].iloc[0]
-        
+    # Lista de pontos com links
+    st.subheader("📍 Lista Completa dos PEVs")
+    for _, row in pontos_df.iterrows():
         st.markdown(f"""
-        ### {ponto['Local']}
-        **Endereço:** {ponto['Endereço']}  
-        **Horário:** {ponto['Horário']}  
-        **Coordenadas:** {ponto['Latitude']}, {ponto['Longitude']}  
+        **{row['Local']}**  
+        {row['Endereço']}  
+        [Abrir no Google Maps]({row['Link']})  
         """)
-        
-        # Link para Google Maps
-        maps_url = f"https://www.google.com/maps?q={ponto['Latitude']},{ponto['Longitude']}"
-        st.link_button("🗺️ Abrir no Google Maps", maps_url)
+    
+    # Processo de reciclagem
+    st.subheader("🔄 O Que Acontece com o Isopor®?")
+    st.markdown("""
+    1. Coleta nos PEVs  
+    2. Compactação na ACMR (Itacorubi)  
+    3. Transformação em "pãozinho"  
+    4. Reciclagem em Braço do Norte  
+    5. Vira novos produtos como:  
+       - Réguas  
+       - Rodapés  
+       - Placas para construção  
+    """)
     
     # Rodapé
     st.markdown("---")
     st.markdown("""
-    **Fonte:** [Prefeitura de Florianópolis](https://www.pmf.sc.gov.br)  
-    **Atualizado em:** Março/2024
+    **📌 Fonte:** Prefeitura de Florianópolis - [Recicla+EPS](https://www.pmf.sc.gov.br)  
+    **📞 Dúvidas:** Secretaria de Meio Ambiente - (48) 3212-1650  
+    **🕒 Funcionamento:** Todos os pontos 24h
     """)
 # Função: compostagem
 
