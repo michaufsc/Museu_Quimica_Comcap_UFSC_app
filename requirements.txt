@@ -1,4 +1,6 @@
 streamlit
+pandas
+pillow
 folium
 streamlit-folium
-pandas
+plotly
