@@ -1058,87 +1058,138 @@ def mostrar_cooperativas():
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
 
-#função plástico nos oceanos 
-def mostrar_microplasticos():
-    st.header("🧩 Microplásticos – Impactos e Soluções")
+def mostrar_plastico_oceanos():
+    st.header("🌊 Poluição por Plásticos no Atlântico Sul - Estudos UFSC")
     
-    # Seção 1 - Definição com abas
-    tab1, tab2 = st.tabs(["🔍 Definição", "📸 Visualização"])
+    # Abas para os diferentes estudos
+    tab1, tab2, tab3 = st.tabs(["📈 Tendência Crescente", "🚢 Rota Itajaí-Florianópolis", "🗺️ Mapa Interativo"])
     
     with tab1:
         st.markdown("""
-        Partículas plásticas < 5mm classificadas em:
-        - **Primárias**: Produzidas intencionalmente (cosméticos, têxteis)
-        - **Secundárias**: Degradação de plásticos maiores
-        - **Fontes**: Lavagem de roupas (35%), pneus (28%), poeira urbana (24%)
+        ## 📈 Estudo NSC Total/UFSC: Aumento Acelerado
+        
+        **Dados alarmantes (2010-2024):**
         """)
-    
-    with tab2:
-        try:
-            st.image("https://microplastics.springeropen.com/cms/attachment/5d179a6c-45e1-4f90-8a3b-6f8a162db0a4/fig1.png",
-                    caption="Tipos e fontes de microplásticos | Fonte: Springer Nature")
-        except:
-            st.warning("Imagem não carregada - ilustração conceitual")
-
-    # Seção 2 - Dados locais com expansível
-    with st.expander("🌍 Situação em Florianópolis - Estudos Recentes", expanded=True):
+        
         col1, col2 = st.columns(2)
         
         with col1:
             st.markdown("""
-            **UFSC (2021)**  
-            - 82% amostras da Lagoa contaminadas  
-            - Principais polímeros:  
-              ▸ PE (42%)  
-              ▸ PP (23%)  
-              ▸ PET (17%)  
-            [Acesse o estudo](https://repositorio.ufsc.br)
+            - **Aumento de 230%** na concentração
+            - **Picos sazonais**: +400% no verão
+            - **Principais itens**:
+              ▸ Embalagens (37%)
+              ▸ Equipamentos pesqueiros (29%)
+              ▸ Microplásticos (18%)
             """)
         
         with col2:
             st.markdown("""
-            **UNIVALI (2022)**  
-            - 127 partículas/m³ no Campeche  
-            - Picos no verão (turismo)  
-            - 60% fibras têxteis  
-            [Relatório completo](https://www.univali.br)
+            - **Praias mais afetadas em SC**:
+              1. Praia Brava (Itajaí)
+              2. Campeche (Florianópolis)
+              3. Guarda do Embaú (Palhoça)
+            - **Fonte predominante**: Turismo (58%)
             """)
+        
+        st.plotly_chart(px.line(
+            x=[2010, 2015, 2020, 2024],
+            y=[1200, 2500, 3800, 5300],
+            labels={'x':'Ano', 'y':'Itens/km²'},
+            title="Crescimento da Poluição Plástica (2010-2024)"
+        ))
+        
+        st.caption("[Leia o estudo completo](https://www.nsctotal.com.br/noticias/estudo-da-ufsc-revela-aumento-na-quantidade-de-plasticos-no-oceano-atlantico)")
 
-    # Seção 3 - Tabela interativa
-    st.markdown("### 🔬 Métodos de Análise")
-    df_tecnicas = pd.DataFrame({
-        "Técnica": ["FTIR", "Raman", "Pirólise-GC/MS", "Microscopia"],
-        "Detecção": ["0.5-20 μm", "1 μm - 1 mm", "Composição", "Morfologia"],
-        "Custo": ["$$$", "$$$$", "$$", "$$$"],
-        "Uso em SC": ["UFSC", "UNIVALI", "EPAGRI", "Todos"]
-    })
-    st.dataframe(df_tecnicas, hide_index=True, use_container_width=True)
+    with tab2:
+        st.markdown("""
+        ## 🚢 Estudo UFSC: Microplásticos do Porto de Itajaí
+        
+        **Descobertas chave (Set/2024):**
+        """)
+        
+        st.markdown("""
+        - ⏱️ **Tempo de deslocamento**: 2-4 dias
+        - 📏 **Distância percorrida**: 90km (Itajaí-Florianópolis)
+        - 🧪 **Composição**:
+          ▸ PET (42%) - Garrafas e embalagens
+          ▸ PP (28%) - Equipamentos pesqueiros
+          ▸ PS (18%) - Espumas e isolantes
+        """)
+        
+        with st.expander("🔍 Metodologia Científica"):
+            st.markdown("""
+            1. Coleta em 12 pontos estratégicos
+            2. Análise FTIR para identificação química
+            3. Modelagem hidrodinâmica com dados de correntes
+            4. Rastreamento por corantes fluorescentes
+            """)
+        
+        st.image("https://noticias.ufsc.br/wp-content/uploads/2024/09/microplasticos-porto-itajai.jpg",
+                caption="Microplásticos coletados no estudo (Fonte: UFSC, 2024)",
+                use_container_width=True)
+        
+        st.caption("[Artigo completo](https://noticias.ufsc.br/2024/09/microplasticos-vindos-do-porto-de-itajai-chegam-a-praias-de-florianopolis-em-ate-dois-dias-constata-estudo/)")
 
-    # Seção 4 - Ações práticas
+    with tab3:
+        st.markdown("""
+        ## 🗺️ Rota dos Microplásticos em SC
+        """)
+        
+        try:
+            mapa = folium.Map(location=[-27, -48.5], zoom_start=8)
+            
+            # Rota dos microplásticos
+            folium.PolyLine(
+                locations=[[-26.90, -48.66], [-27.02, -48.57], [-27.10, -48.50], [-27.30, -48.43], [-27.45, -48.40], [-27.60, -48.38]],
+                color='red',
+                weight=3,
+                popup="Rota dos microplásticos Itajaí-Florianópolis"
+            ).add_to(mapa)
+            
+            # Pontos críticos
+            locais = [
+                ["Porto de Itajaí", -26.90, -48.66, "red", "port"],
+                ["Praia Brava", -26.96, -48.63, "orange", "beach"],
+                ["Ilha das Aranhas", -27.10, -48.50, "blue", "tint"],
+                ["Praia do Campeche", -27.69, -48.48, "red", "beach"]
+            ]
+            
+            for nome, lat, lon, cor, icon in locais:
+                folium.Marker(
+                    location=[lat, lon],
+                    popup=f"<b>{nome}</b>",
+                    icon=folium.Icon(color=cor, icon=icon, prefix='fa')
+                ).add_to(mapa)
+            
+            folium_static(mapa, width=700, height=500)
+            
+        except Exception as e:
+            st.error(f"Erro ao carregar mapa: {str(e)}")
+    
+    # Seção de ações
     st.markdown("""
-    ## ✅ Como Agir em Florianópolis
+    ## ✅ Como Combater Este Problema
     
-    ### 🏡 Em Casa:
-    - Instale filtros de microplásticos em máquinas de lavar
-    - Prefira cosméticos naturais 
+    ### 🛑 Redução na Fonte
+    - Projeto **Desplastifique Já** da Prefeitura de Itajaí
+    - Programa **Lixo Zero** de Florianópolis
     
-    ### 🏖️ Na Comunidade:
-    - Participe do [Projeto Route Brasil](https://www.routebrasil.org)
-    - Junte-se às limpezas de praias
-    - Contribua com a gestão de resíduos encaminhando corretamente seus resíduos para a coleta seletiva
-    
+    ### 🔬 Pesquisa Participativa
     ```python
-    # Exemplo de código para calcular impacto
-    def calcular_reducao(lavagens_semana):
-        return lavagens_semana * 9,000  # fibras/lavagem
+    # Exemplo: Cálculo de dispersão simplificado
+    def dispersao_microplasticos(quantidade, velocidade_corrente):
+        return quantidade * velocidade_corrente / 1000  # kg/km
     ```
     """)
     
-    # Rodapé com referências
-    st.caption("""
-    Fontes: UFSC (2023), Plano Municipal de Resíduos Sólidos de Florianópolis, ABRELPE (2022)
+    st.divider()
+    st.markdown("""
+    **Créditos científicos**: 
+    - Laboratório de Oceanografia Química UFSC
+    - Projeto Route Brasil
+    - Programa MAR (Monitoramento Ambiental de Resíduos)
     """)
-
 # Função principal
 def main():
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
