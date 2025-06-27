@@ -641,7 +641,7 @@ def mostrar_isopor():
     # Cria iframe do Google Maps
     def create_gmaps_link(coordinates):
         base_url = "https://www.google.com/maps/embed/v1/view"
-        key = "SUA_CHAVE_API_GOOGLE"  # Substitua pela sua chave API
+        key = "AIzaSyBE4y8zMEa2NOm-K6_-HMAh7JvNpMN2KJE"  # Substitua pela sua chave API
         center = f"{coordinates[0]},{coordinates[1]}"
         return f"{base_url}?key={key}&center={center}&zoom=15&maptype=roadmap"
     
