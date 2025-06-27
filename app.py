@@ -5,8 +5,10 @@ import os
 from PIL import Image
 import re
 import folium
+import plotly.express as px
 from streamlit_folium import folium_static
 from datetime import datetime
+
 st.set_page_config(layout="wide")
 
 # Adicione o CSS para melhorar as abas
@@ -1092,12 +1094,21 @@ def mostrar_plastico_oceanos():
             - **Fonte predominante**: Turismo (58%)
             """)
         
-        st.plotly_chart(px.line(
-            x=[2010, 2015, 2020, 2024],
-            y=[1200, 2500, 3800, 5300],
-            labels={'x':'Ano', 'y':'Itens/km²'},
-            title="Crescimento da Poluição Plástica (2010-2024)"
-        ))
+        # Gráfico com tratamento de erro
+        try:
+            fig = px.line(
+                x=[2010, 2015, 2020, 2024],
+                y=[1200, 2500, 3800, 5300],
+                labels={'x':'Ano', 'y':'Itens/km²'},
+                title="Crescimento da Poluição Plástica (2010-2024)"
+            )
+            st.plotly_chart(fig)
+        except Exception as e:
+            st.warning("Gráfico interativo não disponível. Mostrando versão simplificada:")
+            st.line_chart({
+                'Ano': [2010, 2015, 2020, 2024],
+                'Itens/km²': [1200, 2500, 3800, 5300]
+            })
         
         st.caption("[Leia o estudo completo](https://www.nsctotal.com.br/noticias/estudo-da-ufsc-revela-aumento-na-quantidade-de-plasticos-no-oceano-atlantico)")
 
@@ -1125,9 +1136,12 @@ def mostrar_plastico_oceanos():
             4. Rastreamento por corantes fluorescentes
             """)
         
-        st.image("https://noticias.ufsc.br/wp-content/uploads/2024/09/microplasticos-porto-itajai.jpg",
-                caption="Microplásticos coletados no estudo (Fonte: UFSC, 2024)",
-                use_container_width=True)
+        try:
+            st.image("https://noticias.ufsc.br/wp-content/uploads/2024/09/microplasticos-porto-itajai.jpg",
+                   caption="Microplásticos coletados no estudo (Fonte: UFSC, 2024)",
+                   use_container_width=True)
+        except:
+            st.warning("Imagem não carregada. Visualize no [artigo original](https://noticias.ufsc.br/2024/09/microplasticos-vindos-do-porto-de-itajai-chegam-a-praias-de-florianopolis-em-ate-dois-dias-constata-estudo/)")
         
         st.caption("[Artigo completo](https://noticias.ufsc.br/2024/09/microplasticos-vindos-do-porto-de-itajai-chegam-a-praias-de-florianopolis-em-ate-dois-dias-constata-estudo/)")
 
@@ -1141,7 +1155,8 @@ def mostrar_plastico_oceanos():
             
             # Rota dos microplásticos
             folium.PolyLine(
-                locations=[[-26.90, -48.66], [-27.02, -48.57], [-27.10, -48.50], [-27.30, -48.43], [-27.45, -48.40], [-27.60, -48.38]],
+                locations=[[-26.90, -48.66], [-27.02, -48.57], [-27.10, -48.50], 
+                          [-27.30, -48.43], [-27.45, -48.40], [-27.60, -48.38]],
                 color='red',
                 weight=3,
                 popup="Rota dos microplásticos Itajaí-Florianópolis"
@@ -1149,10 +1164,10 @@ def mostrar_plastico_oceanos():
             
             # Pontos críticos
             locais = [
-                ["Porto de Itajaí", -26.90, -48.66, "red", "port"],
-                ["Praia Brava", -26.96, -48.63, "orange", "beach"],
-                ["Ilha das Aranhas", -27.10, -48.50, "blue", "tint"],
-                ["Praia do Campeche", -27.69, -48.48, "red", "beach"]
+                ["Porto de Itajaí", -26.90, -48.66, "red", "industry"],
+                ["Praia Brava", -26.96, -48.63, "orange", "umbrella-beach"],
+                ["Ilha das Aranhas", -27.10, -48.50, "blue", "water"],
+                ["Praia do Campeche", -27.69, -48.48, "red", "umbrella-beach"]
             ]
             
             for nome, lat, lon, cor, icon in locais:
@@ -1165,7 +1180,9 @@ def mostrar_plastico_oceanos():
             folium_static(mapa, width=700, height=500)
             
         except Exception as e:
-            st.error(f"Erro ao carregar mapa: {str(e)}")
+            st.error("Mapa não pôde ser carregado. Visualização alternativa:")
+            st.image("https://maps.googleapis.com/maps/api/staticmap?center=-27.5,-48.5&zoom=9&size=800x400&maptype=roadmap&markers=color:red|-26.90,-48.66&markers=color:orange|-26.96,-48.63&markers=color:blue|-27.10,-48.50&markers=color:red|-27.69,-48.48&path=color:0xff0000|weight:5|-26.90,-48.66|-27.02,-48.57|-27.10,-48.50|-27.30,-48.43|-27.45,-48.40|-27.60,-48.38",
+                   use_container_width=True)
     
     # Seção de ações
     st.markdown("""
@@ -1181,14 +1198,6 @@ def mostrar_plastico_oceanos():
     def dispersao_microplasticos(quantidade, velocidade_corrente):
         return quantidade * velocidade_corrente / 1000  # kg/km
     ```
-    """)
-    
-    st.divider()
-    st.markdown("""
-    **Créditos científicos**: 
-    - Laboratório de Oceanografia Química UFSC
-    - Projeto Route Brasil
-    - Programa MAR (Monitoramento Ambiental de Resíduos)
     """)
 # Função principal
 def main():
