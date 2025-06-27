@@ -613,108 +613,101 @@ def mostrar_quimica():
     """)
 #função isopor
 def mostrar_isopor():
-    st.header("♻️ Floripa: 1ª Capital com Pontos Exclusivos para Isopor®")
+    st.header("♻️ Pontos de Coleta de Isopor® em Florianópolis")
+    
+    # Foto do coletor (substitua pela sua imagem)
+    st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
+            caption="Ponto de Entrega Voluntária (PEV) de Isopor® - Foto: PMF/Divulgação",
+            use_container_width=True)
+    
     st.markdown("""
-    **Projeto Recicla+EPS** - Uma iniciativa pioneira da Prefeitura de Florianópolis
+    ## 📍 Mapa Interativo dos Pontos de Coleta
     """)
     
-    # Layout principal
-    col1, col2 = st.columns([1, 2])
+    # Lista de coordenadas dos PEVs
+    pontos_isopor = {
+        'Centro - Hercílio Luz x Anita Garibaldi': (-27.5945, -48.5482),
+        'Centro - Praça dos Namorados': (-27.5918, -48.5495),
+        'Beira-Mar Norte - Mirante': (-27.5872, -48.5581),
+        'Parque São Jorge - Av. Gov. José Boabaid': (-27.5701, -48.5268),
+        'Trindade - Praça Gama Rosa': (-27.5867, -48.5214),
+        'Coqueiros - Centro de Saúde': (-27.5728, -48.5472),
+        'Estreito - Praça N.S. Fátima': (-27.6003, -48.5330),
+        'Santa Mônica - Av. Madre Benvenuta': (-27.5824, -48.5008),
+        'João Paulo - Praça Dr. Fausto Lobo': (-27.5603, -48.5067),
+        'Jurerê - Final Av. dos Búzios': (-27.4245, -48.4221)
+    }
     
-    with col1:
-        st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
-                caption="Ponto de Entrega Voluntária (PEV) de Isopor® - Foto: PMF/Divulgação",
-                use_container_width=True)
-        
-        st.markdown("""
-        ### 📌 Como preparar seu Isopor®:
-        1. **Limpe** (restos de alimento)
-        2. **Não precisa lavar** (apenas remover resíduos)
-        3. **Leve seco** aos PEVs
-        """)
+    # Cria iframe do Google Maps
+    def create_gmaps_link(coordinates):
+        base_url = "https://www.google.com/maps/embed/v1/view"
+        key = "SUA_CHAVE_API_GOOGLE"  # Substitua pela sua chave API
+        center = f"{coordinates[0]},{coordinates[1]}"
+        return f"{base_url}?key={key}&center={center}&zoom=15&maptype=roadmap"
     
-    with col2:
-        # Mapa dos pontos de coleta
-        pontos_isopor = pd.DataFrame({
-            'Local': [
-                'Centro - Hercílio Luz x Anita Garibaldi',
-                'Centro - Praça dos Namorados',
-                'Beira-Mar Norte - Mirante',
-                'Parque São Jorge - Av. Gov. José Boabaid',
-                'Trindade - Praça Gama Rosa',
-                'Coqueiros - Centro de Saúde',
-                'Estreito - Praça N.S. Fátima',
-                'Santa Mônica - Av. Madre Benvenuta',
-                'João Paulo - Praça Dr. Fausto Lobo',
-                'Jurerê - Final Av. dos Búzios'
-            ],
-            'Latitude': [
-                -27.5945, -27.5918, -27.5872,
-                -27.5701, -27.5867, -27.5728,
-                -27.6003, -27.5824, -27.5603,
-                -27.4245
-            ],
-            'Longitude': [
-                -48.5482, -48.5495, -48.5581,
-                -48.5268, -48.5214, -48.5472,
-                -48.5330, -48.5008, -48.5067,
-                -48.4221
-            ]
-        })
-        
-        st.map(pontos_isopor,
-             latitude='Latitude',
-             longitude='Longitude',
-             size=15,
-             color='#FF6B00')
+    # Mapa principal (primeiro ponto como exemplo)
+    primeira_localizacao = list(pontos_isopor.values())[0]
+    st.components.v1.html(
+        f"""
+        <iframe
+            width="100%"
+            height="450"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+            src="{create_gmaps_link(primeira_localizacao)}">
+        </iframe>
+        """,
+        height=450
+    )
     
-    # Seção de informações técnicas
-    with st.expander("📊 Dados Técnicos do Projeto", expanded=True):
-        col_a, col_b = st.columns(2)
-        
-        with col_a:
-            st.markdown("""
-            **✅ Benefícios:**
-            - 11 PEVs exclusivos
-            - Potencial: 10 ton/mês
-            - Compactação reduz 95% do volume
-            - Gera renda para cooperativas
-            """)
-        
-        with col_b:
-            st.markdown("""
-            **🔄 Processo:**
-            1. Coleta nos PEVs
-            2. Compactação na ACMR (Itacorubi)
-            3. Transformação em "pãozinho"
-            4. Reciclagem em Braço do Norte
-            """)
+    # Lista interativa de pontos
+    st.subheader("🗺️ Selecione um ponto no mapa:")
+    selected = st.selectbox("", list(pontos_isopor.keys()))
     
-    # Lista completa de pontos
-    st.subheader("📍 Pontos de Entrega Voluntária (PEVs)")
+    # Atualiza mapa conforme seleção
+    st.components.v1.html(
+        f"""
+        <iframe
+            width="100%"
+            height="450"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+            src="{create_gmaps_link(pontos_isopor[selected])}">
+        </iframe>
+        """,
+        height=450
+    )
+    
+    # Lista completa de endereços
     st.markdown("""
-    | Localização | Endereço |
+    ## 📋 Todos os Pontos de Coleta:
+    | Local | Endereço |
     |---|---|
-    | **Centro** | Hercílio Luz esquina com Anita Garibaldi |
-    | **Centro** | Praça dos Namorados, Largo São Sebastião |
-    | **Beira-Mar** | Mirante Av. Beira Mar Norte x Almirante Lamego |
-    | **Parque São Jorge** | Av. Gov. José Boabaid |
-    | **Trindade** | Praça da Rua Gama Rosa |
-    | **Coqueiros** | Em frente ao Centro de Saúde |
-    | **Estreito** | Praça Nossa Senhora de Fátima |
-    | **Santa Mônica** | Av. Madre Benvenuta (ao lado posto policial) |
-    | **João Paulo** | Rodovia João Paulo, Praça Dr. Fausto Lobo |
-    | **Jurerê** | Final Av. dos Búzios (junto ao PEV de Vidro) |
+    | Centro | Hercílio Luz esquina com Anita Garibaldi |
+    | Centro | Praça dos Namorados, Largo São Sebastião |
+    | Beira-Mar | Mirante Av. Beira Mar Norte x Almirante Lamego |
+    | Parque São Jorge | Av. Gov. José Boabaid |
+    | Trindade | Praça da Rua Gama Rosa |
+    | Coqueiros | Em frente ao Centro de Saúde |
+    | Estreito | Praça Nossa Senhora de Fátima |
+    | Santa Mônica | Av. Madre Benvenuta (ao lado posto policial) |
+    | João Paulo | Rodovia João Paulo, Praça Dr. Fausto Lobo |
+    | Jurerê | Final Av. dos Búzios (junto ao PEV de Vidro) |
     """)
     
-    # Rodapé com informações oficiais
-    st.markdown("---")
     st.markdown("""
-    **📌 Fonte Oficial:**  
-    [Prefeitura de Florianópolis - Recicla+EPS](https://www.pmf.sc.gov.br/noticias/index.php?pagina=noticias_mostra&id=12623)  
-    **📞 Contato:** Secretaria Municipal de Meio Ambiente - (48) 3212-1650
+    ---
+    **ℹ️ Como usar:**  
+    1. Selecione um local na lista acima  
+    2. Visualize a localização exata no mapa  
+    3. Clique no ícone do Google Maps para abrir no seu navegador  
+    
+    **📌 Dica:** No mapa aberto, digite seu endereço para ver a rota até o ponto de coleta mais próximo
     """)
-
 # Função: compostagem
 
 def mostrar_compostagem():
