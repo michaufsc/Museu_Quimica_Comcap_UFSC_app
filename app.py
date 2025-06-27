@@ -982,16 +982,15 @@ def mostrar_cooperativas():
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
         
-#função plástico nos oceanos
 def mostrar_plastico_oceanos():
     st.header("🔍 Microplásticos no Litoral Catarinense - O Que Dizem as Pesquisas?")
     
     # Menu de navegação por estudos
     estudo_selecionado = st.radio(
         "Selecione o estudo para explorar:",
-        ["🧪 Persistência nos Sedimentos (Gonçalves et al., 2024)", 
-         "🏖️ Praias de Florianópolis (UFSC/G1, 2024)",
-         "🚢 Impacto do Porto de Itajaí (Schmidt et al., 2024)"],
+        ["🧪 Persistência nos Sedimentos", 
+         "🏖️ Praias de Florianópolis",
+         "🚢 Impacto do Porto de Itajaí"],
         horizontal=True
     )
 
@@ -999,10 +998,7 @@ def mostrar_plastico_oceanos():
     with st.container():
         st.markdown("---")
         
-        # --------------------------------------------
-        # ESTUDO 1 - PERSISTÊNCIA NOS SEDIMENTOS
-        # --------------------------------------------
-        if estudo_selecionado == "🧪 Persistência nos Sedimentos (Gonçalves et al., 2024)":
+        if estudo_selecionado == "🧪 Persistência nos Sedimentos":
             st.subheader("Quanto Tempo os Microplásticos Permanecem?")
             
             col1, col2 = st.columns([1, 2])
@@ -1025,147 +1021,43 @@ def mostrar_plastico_oceanos():
                 - Ponta do Coral: 9 partículas/g  
                 """)
                 
-                st.progress(0.78, text="Sedimentos contaminados em SC")
-            
-            # Simulador de persistência
-            with st.expander("🧮 Simule o Tempo de Degradação"):
-                tipo_plastico = st.selectbox("Tipo de plástico:", ["PET (garrafas)", "PE (sacolas)", "PP (redes)"])
-                anos = st.slider("Tempo no ambiente (anos):", 0, 1000, 100)
-                
-                degradacao = {
-                    "PET (garrafas)": anos * 0.7,
-                    "PE (sacolas)": anos * 0.4,
-                    "PP (redes)": anos * 0.3
-                }
-                
-                st.metric("Porcentagem degradada:", f"{100 - degradacao[tipo_plastico]:.1f}% restantes")
-            
-            st.caption("""
-            **Referência Completa:**  
-            Gonçalves, A. B. et al. (2024). *Long-term persistence...* Science of The Total Environment, 912, 169243.  
-            [Acesse o artigo](https://doi.org/10.1016/j.scitotenv.2023.169243)
-            """)
+                st.progress(78, text="Sedimentos contaminados em SC")
 
-        # --------------------------------------------
-        # ESTUDO 2 - PRAIAS DE FLORIANÓPOLIS
-        # --------------------------------------------
-        elif estudo_selecionado == "🏖️ Praias de Florianópolis (UFSC/G1, 2024)":
+        elif estudo_selecionado == "🏖️ Praias de Florianópolis":
             st.subheader("De Onde Vêm os Microplásticos nas Nossas Praias?")
             
-            st.markdown("""
-            **Fonte dos Dados:**  
-            🔬 *Pesquisa do Laboratório de Oceanografia da UFSC*  
-            📅 Publicado em 24/09/2024 pelo G1 SC  
-            [Leia a reportagem](https://g1.globo.com/sc/santa-catarina/noticia/2024/09/24/origem-residuos-praia-florianopolis-microplasticos.ghtml)
-            """)
-            
-            # Mapa interativo
-            locais = pd.DataFrame({
+            # Versão simplificada sem Folium
+            st.map(pd.DataFrame({
+                'lat': [-27.69, -27.43, -27.51, -27.52],
+                'lon': [-48.48, -48.40, -48.37, -48.45],
                 'Praia': ["Campeche", "Jurerê", "Ingleses", "Canasvieiras"],
-                'Latitude': [-27.69, -27.43, -27.51, -27.52],
-                'Longitude': [-48.48, -48.40, -48.37, -48.45],
                 'MP (itens/m³)': [127, 89, 67, 53]
-            })
-            
-            st.map(locais,
-                 latitude='Latitude',
-                 longitude='Longitude',
-                 size='MP (itens/m³)',
-                 color='#FF0000',
-                 zoom=11)
-            
-            # Seção de origens
-            st.markdown("""
-            **Principais Fontes:**  
-            """)
-            
-            origens = pd.DataFrame({
-                'Fonte': ["Esgoto", "Turismo", "Pesca", "Outros"],
-                'Porcentagem': [32, 28, 23, 17]
-            })
-            
-            st.bar_chart(origens.set_index('Fonte'), height=300)
-            
-            st.markdown("""
-            **Dica Prática:**  
-            > *"Cada filtro de máquina de lavar retém até 87% das microfibras"*  
-            > Dra. Carla Santos (UFSC), coordenadora do estudo
-            """)
+            }), size='MP (itens/m³)', color='#FF0000')
 
-        # --------------------------------------------
-        # ESTUDO 3 - PORTO DE ITAJAÍ
-        # --------------------------------------------
         else:
             st.subheader("Como o Porto de Itajaí Impacta Nossas Praias?")
             
-            st.markdown("""
-            **Artigo Científico:**  
-            📚 Schmidt et al. (2024). *Marine Pollution Bulletin*  
-            🔗 [Acesse a pesquisa](https://doi.org/10.1016/j.marpolbul.2024.116408)
-            """)
+            # Versão alternativa sem Folium
+            st.map(pd.DataFrame({
+                'lat': [-26.90, -27.04, -27.60],
+                'lon': [-48.66, -48.55, -48.38],
+                'Ponto': ["Porto de Itajaí", "Ilha das Aranhas", "Campeche"]
+            }))
             
-            # Timeline interativa
-            st.markdown("⏳ **Rota dos Microplásticos:**")
             dias = st.slider("Dias após a liberação:", 0, 7, 2)
-            
-            rotas = {
-                0: "Porto de Itajaí",
-                1: "Ilha das Aranhas",
-                2: "Praia Brava",
-                3: "Jurerê",
-                4: "Praia do Forte",
-                5: "Campeche"
-            }
-            
-            st.write(f"**Localização após {dias} dias:** {rotas.get(dias, 'Oceano Aberto')}")
-            
-            # Visualização da rota
-            try:
-                m = folium.Map(location=[-27.1, -48.6], zoom_start=10)
-                folium.PolyLine(
-                    locations=[[-26.90,-48.66], [-27.04,-48.55], [-27.60,-48.38]],
-                    color='blue',
-                    weight=3,
-                    tooltip="Rota dos microplásticos"
-                ).add_to(m)
-                
-                progresso = min(dias/5, 1)
-                ponto_atual = [
-                    [-26.90 + progresso*0.7, -48.66 + progresso*0.22]
-                ]
-                
-                folium.Marker(
-                    ponto_atual[0],
-                    icon=folium.Icon(color='red', icon='info-sign')
-                ).add_to(m)
-                
-                folium_static(m, height=400)
-            except:
-                st.warning("Mapa interativo não disponível")
-            
-            st.markdown("""
-            **Dados Relevantes:**  
-            - 2 milhões de partículas/dia  
-            - 42% são fibras têxteis  
-            - Velocidade: ~3km/dia  
-            """)
+            progresso = min(dias/5, 1)
+            st.write(f"**Progresso da contaminação:** {progresso*100:.0f}%")
 
-    # --------------------------------------------
-    # SEÇÃO COMPARTILHÁVEL
-    # --------------------------------------------
     st.divider()
     st.markdown("""
     **📌 Quer Saber Mais?**  
     Compartilhe estas descobertas:
     """)
     
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.link_button("🌎 Artigo Científico (Gonçalves)", "https://doi.org/10.1016/j.scitotenv.2023.169243")
-    with col2:
-        st.link_button("📰 Reportagem Completa (G1)", "https://g1.globo.com/sc/santa-catarina/noticia/2024/09/24/origem-residuos-praia-florianopolis-microplasticos.ghtml")
-    with col3:
-        st.link_button("🔍 Estudo do Porto (Schmidt)", "https://doi.org/10.1016/j.marpolbul.2024.116408")
+    cols = st.columns(3)
+    cols[0].link_button("🌎 Artigo Científico", "https://doi.org/10.1016/j.scitotenv.2023.169243")
+    cols[1].link_button("📰 Reportagem Completa", "#")
+    cols[2].link_button("🔍 Estudo do Porto", "#")
 # Função principal
 def main():
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
