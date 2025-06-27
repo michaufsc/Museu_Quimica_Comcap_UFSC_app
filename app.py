@@ -7,6 +7,20 @@ import re
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+st.set_page_config(layout="wide")
+
+# Adicione o CSS para melhorar as abas
+st.markdown("""
+<style>
+    .stTabs [data-baseweb="tab-list"] {
+        flex-wrap: wrap;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: auto;
+        white-space: normal;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Caminho correto para a pasta de imagens
 IMAGES_MATERIAIS_DIR = "imagens_materiais"
@@ -935,64 +949,65 @@ def main():
     # Carregar os dados (leitura CSV)
     polimeros, residuos = carregar_dados()
     
-    # Abas principais com novas seções
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
-        "🏛️ História do Museu",
-        "🧪 Química dos Plásticos (Polímeros)",
-        "🏷️ Tipos de Plásticos",
-        "🧵 Microplásticos",
-        "🏘️ Coleta Seletiva por Bairro",
-        "🤝 Cooperativas de Reciclagem",
-        "🌱 Compostagem",
-        "🧐 Quiz",
-        "📚 Atividades Pedagógicas",
-        "ℹ️ Sobre"
-    ])
+    # Controle de abas - VERSÃO REVISADA
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+    "🏛️ História", 
+    "🧪 Química",
+    "🏷️ Plásticos",
+    "🧵 Microplásticos",
+    "🏘️ Coleta",
+    "🤝 Cooperativas",
+    "🌱 Compostagem",
+    "🧐 Quiz",
+    "📚 Atividades",
+    "ℹ️ Sobre"
+])
 
-    with tab1:
-        mostrar_historia()
-        
-    with tab2:
-        mostrar_quimica()
+with tab1:
+    mostrar_historia()
     
-    with tab3:
-        mostrar_glossario_polimeros(polimeros)
-        
-    with tab4:
-        mostrar_microplasticos()
-        
-    with tab5:
-        mostrar_coleta_seletiva()
-        
-    with tab6:
-        mostrar_cooperativas()
-   
-    with tab7:
-        mostrar_compostagem()
-        
-    with tab8:
-        mostrar_quiz()
-        
-    with tab9:
-        st.header("📚 Atividades Pedagógicas")
-        st.markdown("Sugestões de atividades educativas sobre resíduos e meio ambiente.")
+with tab2:
+    mostrar_quimica()
 
-    with tab10:
-        st.header("ℹ️ Sobre o Projeto")
-        st.markdown("""
-        **Glossário Interativo de Resíduos e Polímeros**  
-        - Desenvolvido para educação ambiental  
-        - Dados técnicos baseados em normas ABNT  
-        - Integrado com atividades pedagógicas  
-        """)
+with tab3:
+    mostrar_glossario_polimeros(polimeros)
 
-        st.markdown("""
-        **Equipe:**  
-        👨‍🎓 Michael Anderson da Luz Lopes  
-        👨‍🎓 Carlos Rossoni Neto  
-        👨‍🎓 Imbali Sanhá Fiaré  
-        👩‍🏫 Professora Anelisa Maria Regiani  
+with tab4:
+    mostrar_microplasticos()
 
+with tab5:
+    mostrar_coleta_seletiva()
+
+with tab6:
+    mostrar_cooperativas()
+
+with tab7:
+    mostrar_compostagem()
+
+with tab8:
+    mostrar_quiz()
+
+with tab9:
+    st.header("📚 Atividades Pedagógicas")
+    st.markdown("""
+    ### Sugestões de atividades:
+    - **Caça aos símbolos**: Identificar símbolos de reciclagem em embalagens
+    - **Análise de lixo**: Registrar tipos de resíduos gerados em casa
+    - **Visita virtual**: Explorar o Museu do Lixo através de fotos 360°
+    """)
+
+with tab10:
+    st.header("ℹ️ Sobre o Projeto")
+    st.markdown("""
+    **Glossário Interativo de Resíduos e Polímeros**  
+    Desenvolvido para educação ambiental com dados técnicos baseados em normas ABNT
+    
+    **Equipe:**  
+    👨‍🎓 Michael Anderson da Luz Lopes  
+    👨‍🎓 Carlos Rossoni Neto  
+    👨‍🎓 Imbali Sanhá Fiaré  
+    👩‍🏫 Professora Anelisa Maria Regiani  
+    """)
         **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)  
         **Curso:** Graduação em Química  
         **Instituição:** Universidade Federal de Santa Catarina (UFSC)  
