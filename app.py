@@ -983,7 +983,7 @@ def mostrar_cooperativas():
         st.caption("📍 Clique nos marcadores para ver detalhes")
         
 #função plástico nos oceanos
-   def mostrar_plastico_oceanos():
+def mostrar_plastico_oceanos():
     st.header("🔍 Microplásticos no Litoral Catarinense - O Que Dizem as Pesquisas?")
     
     # Menu de navegação por estudos
