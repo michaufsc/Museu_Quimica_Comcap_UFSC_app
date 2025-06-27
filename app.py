@@ -984,80 +984,88 @@ def mostrar_cooperativas():
         
 def mostrar_plastico_oceanos():
     st.header("🔍 Microplásticos no Litoral Catarinense - O Que Dizem as Pesquisas?")
-    
+
     # Menu de navegação por estudos
     estudo_selecionado = st.radio(
         "Selecione o estudo para explorar:",
-        ["🧪 Persistência nos Sedimentos", 
-         "🏖️ Praias de Florianópolis",
-         "🚢 Impacto do Porto de Itajaí"],
+        [
+            "🧪 Persistência nos Sedimentos",
+            "🏖️ Praias de Florianópolis",
+            "🚢 Impacto do Porto de Itajaí"
+        ],
         horizontal=True
     )
 
     # Container principal
     with st.container():
         st.markdown("---")
-        
+
         if estudo_selecionado == "🧪 Persistência nos Sedimentos":
             st.subheader("Quanto Tempo os Microplásticos Permanecem?")
-            
+
             col1, col2 = st.columns([1, 2])
             with col1:
-                st.image("https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
-                       caption="Distribuição em sedimentos marinhos",
-                       use_container_width=True)
-            
+                st.image(
+                    "https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
+                    caption="Distribuição em sedimentos marinhos",
+                    use_container_width=True
+                )
+
             with col2:
                 st.markdown("""
-                **Principais Descobertas:**  
-                🔊 *"Microplásticos podem persistir por até 700 anos nos sedimentos costeiros"*  
-                - Autores: Gonçalves et al.  
-                - Publicação: Science of The Total Environment  
-                - Ano: 2024  
-                
-                **Dados Locais:**  
-                - Baía Norte: 28 partículas/g  
-                - Praia Mole: 15 partículas/g  
-                - Ponta do Coral: 9 partículas/g  
+                    **Principais Descobertas:**  
+                    🔊 *"Microplásticos podem persistir por até 700 anos nos sedimentos costeiros"*  
+                    - Autores: Gonçalves et al.  
+                    - Publicação: *Science of The Total Environment*  
+                    - Ano: 2024  
+                    
+                    **Dados Locais:**  
+                    - **Baía Norte:** 28 partículas/g  
+                    - **Praia Mole:** 15 partículas/g  
+                    - **Ponta do Coral:** 9 partículas/g  
                 """)
-                
                 st.progress(78, text="Sedimentos contaminados em SC")
 
         elif estudo_selecionado == "🏖️ Praias de Florianópolis":
             st.subheader("De Onde Vêm os Microplásticos nas Nossas Praias?")
-            
-            # Versão simplificada sem Folium
-            st.map(pd.DataFrame({
+
+            # Dados de microplásticos por praia
+            df_praias = pd.DataFrame({
                 'lat': [-27.69, -27.43, -27.51, -27.52],
                 'lon': [-48.48, -48.40, -48.37, -48.45],
                 'Praia': ["Campeche", "Jurerê", "Ingleses", "Canasvieiras"],
                 'MP (itens/m³)': [127, 89, 67, 53]
-            }), size='MP (itens/m³)', color='#FF0000')
+            })
 
-        else:
+            st.map(df_praias, size='MP (itens/m³)', color='#FF0000')
+
+        else:  # "🚢 Impacto do Porto de Itajaí"
             st.subheader("Como o Porto de Itajaí Impacta Nossas Praias?")
-            
-            # Versão alternativa sem Folium
-            st.map(pd.DataFrame({
+
+            df_porto = pd.DataFrame({
                 'lat': [-26.90, -27.04, -27.60],
                 'lon': [-48.66, -48.55, -48.38],
                 'Ponto': ["Porto de Itajaí", "Ilha das Aranhas", "Campeche"]
-            }))
-            
+            })
+
+            st.map(df_porto)
+
             dias = st.slider("Dias após a liberação:", 0, 7, 2)
-            progresso = min(dias/5, 1)
-            st.write(f"**Progresso da contaminação:** {progresso*100:.0f}%")
+            progresso = min(dias / 5, 1)
+            st.write(f"**Progresso da contaminação:** {progresso * 100:.0f}%")
 
     st.divider()
+
     st.markdown("""
-    **📌 Quer Saber Mais?**  
-    Compartilhe estas descobertas:
+        **📌 Quer Saber Mais?**  
+        Compartilhe estas descobertas:
     """)
-    
+
     cols = st.columns(3)
     cols[0].link_button("🌎 Artigo Científico", "https://doi.org/10.1016/j.scitotenv.2023.169243")
     cols[1].link_button("📰 Reportagem Completa", "#")
     cols[2].link_button("🔍 Estudo do Porto", "#")
+
 # Função principal
 def main():
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
