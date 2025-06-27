@@ -175,6 +175,56 @@ def load_quiz():
     except Exception as e:
         st.error(f"Falha crítica ao carregar quiz: {str(e)}")
         return []
+
+#dados esps isopor
+@st.cache_data
+def carregar_pontos_isopor():
+    """Carrega a base de dados dos pontos de coleta"""
+    dados = {
+        'Local': [
+            'Centro - Hercílio Luz x Anita Garibaldi',
+            'Centro - Praça dos Namorados',
+            'Beira-Mar Norte - Mirante',
+            'Parque São Jorge - Av. Gov. José Boabaid',
+            'Trindade - Praça Gama Rosa',
+            'Coqueiros - Centro de Saúde',
+            'Estreito - Praça N.S. Fátima',
+            'Santa Mônica - Av. Madre Benvenuta',
+            'João Paulo - Praça Dr. Fausto Lobo',
+            'Jurerê - Final Av. dos Búzios'
+        ],
+        'Endereço': [
+            'Hercílio Luz esquina com Anita Garibaldi',
+            'Praça dos Namorados, Largo São Sebastião',
+            'Mirante Av. Beira Mar Norte x Almirante Lamego',
+            'Av. Gov. José Boabaid',
+            'Praça da Rua Gama Rosa',
+            'Em frente ao Centro de Saúde',
+            'Praça Nossa Senhora de Fátima',
+            'Av. Madre Benvenuta (ao lado posto policial)',
+            'Rodovia João Paulo, Praça Dr. Fausto Lobo',
+            'Final Av. dos Búzios (junto ao PEV de Vidro)'
+        ],
+        'Latitude': [
+            -27.5945, -27.5918, -27.5872,
+            -27.5701, -27.5867, -27.5728,
+            -27.6003, -27.5824, -27.5603,
+            -27.4245
+        ],
+        'Longitude': [
+            -48.5482, -48.5495, -48.5581,
+            -48.5268, -48.5214, -48.5472,
+            -48.5330, -48.5008, -48.5067,
+            -48.4221
+        ],
+        'Horário': [
+            '24h', '24h', '24h',
+            '24h', '24h', '24h',
+            '24h', '24h', '24h',
+            '24h'
+        ]
+    }
+    return pd.DataFrame(dados)
         
 # Adicione esta função para carregar os dados das cooperativas
 @st.cache_data
@@ -615,99 +665,64 @@ def mostrar_quimica():
 def mostrar_isopor():
     st.header("♻️ Pontos de Coleta de Isopor® em Florianópolis")
     
-    # Foto do coletor (substitua pela sua imagem)
+    # Carrega os dados
+    pontos_df = carregar_pontos_isopor()
+    
+    # Foto do coletor
     st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
             caption="Ponto de Entrega Voluntária (PEV) de Isopor® - Foto: PMF/Divulgação",
             use_container_width=True)
     
-    st.markdown("""
-    ## 📍 Mapa Interativo dos Pontos de Coleta
-    """)
+    # Mapa interativo
+    st.markdown("## 📍 Mapa de Todos os Pontos")
+    st.map(pontos_df,
+          latitude='Latitude',
+          longitude='Longitude',
+          size=15,
+          color='#FF6B00')
     
-    # Lista de coordenadas dos PEVs
-    pontos_isopor = {
-        'Centro - Hercílio Luz x Anita Garibaldi': (-27.5945, -48.5482),
-        'Centro - Praça dos Namorados': (-27.5918, -48.5495),
-        'Beira-Mar Norte - Mirante': (-27.5872, -48.5581),
-        'Parque São Jorge - Av. Gov. José Boabaid': (-27.5701, -48.5268),
-        'Trindade - Praça Gama Rosa': (-27.5867, -48.5214),
-        'Coqueiros - Centro de Saúde': (-27.5728, -48.5472),
-        'Estreito - Praça N.S. Fátima': (-27.6003, -48.5330),
-        'Santa Mônica - Av. Madre Benvenuta': (-27.5824, -48.5008),
-        'João Paulo - Praça Dr. Fausto Lobo': (-27.5603, -48.5067),
-        'Jurerê - Final Av. dos Búzios': (-27.4245, -48.4221)
-    }
+    # Seletor de pontos
+    st.subheader("🗺️ Selecione um Ponto para Detalhes")
+    selected = st.selectbox("Escolha um local:", pontos_df['Local'])
     
-    # Cria iframe do Google Maps
-    def create_gmaps_link(coordinates):
-        base_url = "https://www.google.com/maps/embed/v1/view"
-        key = "AIzaSyBE4y8zMEa2NOm-K6_-HMAh7JvNpMN2KJE"  # Substitua pela sua chave API
-        center = f"{coordinates[0]},{coordinates[1]}"
-        return f"{base_url}?key={key}&center={center}&zoom=15&maptype=roadmap"
+    # Mostra detalhes do ponto selecionado
+    ponto_selecionado = pontos_df[pontos_df['Local'] == selected].iloc[0]
     
-    # Mapa principal (primeiro ponto como exemplo)
-    primeira_localizacao = list(pontos_isopor.values())[0]
-    st.components.v1.html(
-        f"""
-        <iframe
-            width="100%"
-            height="450"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            src="{create_gmaps_link(primeira_localizacao)}">
-        </iframe>
-        """,
-        height=450
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"""
+        **Endereço:**  
+        {ponto_selecionado['Endereço']}  
+        
+        **Horário:**  
+        {ponto_selecionado['Horário']}  
+        """)
+    
+    with col2:
+        # Link para Google Maps
+        maps_link = f"https://www.google.com/maps?q={ponto_selecionado['Latitude']},{ponto_selecionado['Longitude']}"
+        st.markdown(f"""
+        **Como chegar:**  
+        [Abrir no Google Maps]({maps_link})  
+        
+        **Coordenadas:**  
+        {ponto_selecionado['Latitude']}, {ponto_selecionado['Longitude']}
+        """)
+    
+    # Tabela com todos os pontos
+    st.markdown("## 📋 Lista Completa de Pontos")
+    st.dataframe(pontos_df[['Local', 'Endereço', 'Horário']],
+                hide_index=True,
+                use_container_width=True)
+    
+    # Download da base de dados
+    st.markdown("---")
+    st.download_button(
+        label="📥 Baixar Lista Completa (CSV)",
+        data=pontos_df.to_csv(index=False),
+        file_name="pontos_coleta_isopor_floripa.csv",
+        mime="text/csv"
     )
-    
-    # Lista interativa de pontos
-    st.subheader("🗺️ Selecione um ponto no mapa:")
-    selected = st.selectbox("", list(pontos_isopor.keys()))
-    
-    # Atualiza mapa conforme seleção
-    st.components.v1.html(
-        f"""
-        <iframe
-            width="100%"
-            height="450"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            src="{create_gmaps_link(pontos_isopor[selected])}">
-        </iframe>
-        """,
-        height=450
-    )
-    
-    # Lista completa de endereços
-    st.markdown("""
-    ## 📋 Todos os Pontos de Coleta:
-    | Local | Endereço |
-    |---|---|
-    | Centro | Hercílio Luz esquina com Anita Garibaldi |
-    | Centro | Praça dos Namorados, Largo São Sebastião |
-    | Beira-Mar | Mirante Av. Beira Mar Norte x Almirante Lamego |
-    | Parque São Jorge | Av. Gov. José Boabaid |
-    | Trindade | Praça da Rua Gama Rosa |
-    | Coqueiros | Em frente ao Centro de Saúde |
-    | Estreito | Praça Nossa Senhora de Fátima |
-    | Santa Mônica | Av. Madre Benvenuta (ao lado posto policial) |
-    | João Paulo | Rodovia João Paulo, Praça Dr. Fausto Lobo |
-    | Jurerê | Final Av. dos Búzios (junto ao PEV de Vidro) |
-    """)
-    
-    st.markdown("""
-    ---
-    **ℹ️ Como usar:**  
-    1. Selecione um local na lista acima  
-    2. Visualize a localização exata no mapa  
-    3. Clique no ícone do Google Maps para abrir no seu navegador  
-    
-    **📌 Dica:** No mapa aberto, digite seu endereço para ver a rota até o ponto de coleta mais próximo
-    """)
 # Função: compostagem
 
 def mostrar_compostagem():
