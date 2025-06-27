@@ -1058,6 +1058,87 @@ def mostrar_cooperativas():
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
 
+#função plástico nos oceanos 
+def mostrar_microplasticos():
+    st.header("🧩 Microplásticos – Impactos e Soluções")
+    
+    # Seção 1 - Definição com abas
+    tab1, tab2 = st.tabs(["🔍 Definição", "📸 Visualização"])
+    
+    with tab1:
+        st.markdown("""
+        Partículas plásticas < 5mm classificadas em:
+        - **Primárias**: Produzidas intencionalmente (cosméticos, têxteis)
+        - **Secundárias**: Degradação de plásticos maiores
+        - **Fontes**: Lavagem de roupas (35%), pneus (28%), poeira urbana (24%)
+        """)
+    
+    with tab2:
+        try:
+            st.image("https://microplastics.springeropen.com/cms/attachment/5d179a6c-45e1-4f90-8a3b-6f8a162db0a4/fig1.png",
+                    caption="Tipos e fontes de microplásticos | Fonte: Springer Nature")
+        except:
+            st.warning("Imagem não carregada - ilustração conceitual")
+
+    # Seção 2 - Dados locais com expansível
+    with st.expander("🌍 Situação em Florianópolis - Estudos Recentes", expanded=True):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            **UFSC (2021)**  
+            - 82% amostras da Lagoa contaminadas  
+            - Principais polímeros:  
+              ▸ PE (42%)  
+              ▸ PP (23%)  
+              ▸ PET (17%)  
+            [Acesse o estudo](https://repositorio.ufsc.br)
+            """)
+        
+        with col2:
+            st.markdown("""
+            **UNIVALI (2022)**  
+            - 127 partículas/m³ no Campeche  
+            - Picos no verão (turismo)  
+            - 60% fibras têxteis  
+            [Relatório completo](https://www.univali.br)
+            """)
+
+    # Seção 3 - Tabela interativa
+    st.markdown("### 🔬 Métodos de Análise")
+    df_tecnicas = pd.DataFrame({
+        "Técnica": ["FTIR", "Raman", "Pirólise-GC/MS", "Microscopia"],
+        "Detecção": ["0.5-20 μm", "1 μm - 1 mm", "Composição", "Morfologia"],
+        "Custo": ["$$$", "$$$$", "$$", "$$$"],
+        "Uso em SC": ["UFSC", "UNIVALI", "EPAGRI", "Todos"]
+    })
+    st.dataframe(df_tecnicas, hide_index=True, use_container_width=True)
+
+    # Seção 4 - Ações práticas
+    st.markdown("""
+    ## ✅ Como Agir em Florianópolis
+    
+    ### 🏡 Em Casa:
+    - Instale filtros de microplásticos em máquinas de lavar
+    - Prefira cosméticos naturais 
+    
+    ### 🏖️ Na Comunidade:
+    - Participe do [Projeto Route Brasil](https://www.routebrasil.org)
+    - Junte-se às limpezas de praias
+    - Contribua com a gestão de resíduos encaminhando corretamente seus resíduos para a coleta seletiva
+    
+    ```python
+    # Exemplo de código para calcular impacto
+    def calcular_reducao(lavagens_semana):
+        return lavagens_semana * 9,000  # fibras/lavagem
+    ```
+    """)
+    
+    # Rodapé com referências
+    st.caption("""
+    Fontes: UFSC (2023), Plano Municipal de Resíduos Sólidos de Florianópolis, ABRELPE (2022)
+    """)
+
 # Função principal
 def main():
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
