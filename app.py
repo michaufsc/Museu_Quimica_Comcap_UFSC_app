@@ -983,88 +983,87 @@ def mostrar_cooperativas():
         st.caption("📍 Clique nos marcadores para ver detalhes")
         
 def mostrar_plastico_oceanos():
-    st.header("🔍 Microplásticos no Litoral Catarinense - O Que Dizem as Pesquisas?")
+    st.header("🔍 Microplásticos no Litoral Catarinense – Panorama Atualizado")
 
-    # Menu de navegação por estudos
-    estudo_selecionado = st.radio(
+    estudo = st.radio(
         "Selecione o estudo para explorar:",
         [
-            "🧪 Persistência nos Sedimentos",
-            "🏖️ Praias de Florianópolis",
-            "🚢 Impacto do Porto de Itajaí"
+            "🧪 Gonçalves et al. – Persistência em Sedimentos (2024)",
+            "🏖️ UFSC – Origem em Itajaí até Floripa",
+            "📉 Sea Shepherd/USP – Poluição nas Praias"
         ],
         horizontal=True
     )
 
-    # Container principal
-    with st.container():
-        st.markdown("---")
+    st.markdown("---")
+    col1, col2 = st.columns([1, 2])
 
-        if estudo_selecionado == "🧪 Persistência nos Sedimentos":
-            st.subheader("Quanto Tempo os Microplásticos Permanecem?")
+    if estudo.startswith("🧪"):
+        st.subheader("Persistência nos Sedimentos Costeiros")
+        with col1:
+            st.image(
+                "https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
+                caption="Distribuição de microplásticos em sedimentos costeiros",
+                use_container_width=True
+            )
+        with col2:
+            st.markdown("""
+            **Gonçalves et al. (2024, Science of The Total Environment)**  
+            - Microplásticos podem persistir **até 700 anos** nos sedimentos.  
+            - Densidades encontradas em SC:  
+              - **Baía Norte:** 28 p/g  
+              - **Praia Mole:** 15 p/g  
+              - **Ponta do Coral:** 9 p/g  
+            """)
+            st.progress(78, text="Sedimentos com alto índice de microplásticos em SC")
 
-            col1, col2 = st.columns([1, 2])
-            with col1:
-                st.image(
-                    "https://ars.els-cdn.com/content/image/1-s2.0-S0048969724033448-gr1.jpg",
-                    caption="Distribuição em sedimentos marinhos",
-                    use_container_width=True
-                )
-
-            with col2:
-                st.markdown("""
-                    **Principais Descobertas:**  
-                    🔊 *"Microplásticos podem persistir por até 700 anos nos sedimentos costeiros"*  
-                    - Autores: Gonçalves et al.  
-                    - Publicação: *Science of The Total Environment*  
-                    - Ano: 2024  
-                    
-                    **Dados Locais:**  
-                    - **Baía Norte:** 28 partículas/g  
-                    - **Praia Mole:** 15 partículas/g  
-                    - **Ponta do Coral:** 9 partículas/g  
-                """)
-                st.progress(78, text="Sedimentos contaminados em SC")
-
-        elif estudo_selecionado == "🏖️ Praias de Florianópolis":
-            st.subheader("De Onde Vêm os Microplásticos nas Nossas Praias?")
-
-            # Dados de microplásticos por praia
-            df_praias = pd.DataFrame({
-                'lat': [-27.69, -27.43, -27.51, -27.52],
-                'lon': [-48.48, -48.40, -48.37, -48.45],
-                'Praia': ["Campeche", "Jurerê", "Ingleses", "Canasvieiras"],
-                'MP (itens/m³)': [127, 89, 67, 53]
+    elif estudo.startswith("🏖️"):
+        st.subheader("Dispersão de Pellets: Porto de Itajaí → Florianópolis")
+        with col1:
+            st.markdown("""
+            **Marine Pollution Bulletin (set/2024):**  
+            - Pellets (≈5 mm) lançados em Itajaí/Imbituba atingem praias de Florianópolis (~80 km) em até **2 dias** :contentReference[oaicite:0]{index=0}  
+            - Simulações mensais consideraram temperatura, salinidade e correntes oceânicas.  
+            - Costas mais afetadas: praias norte da Ilha (Moçambique, Brava).  
+            """)
+        with col2:
+            df = pd.DataFrame({
+                'lat': [-27.43, -27.45, -27.50],
+                'lon': [-48.40, -48.46, -48.38],
+                'Praia': ["Brava", "Moçambique", "Campeche"],
+                'Chegada (dias)': [2, 2, 2]
             })
+            st.map(df)
+        st.write("🔴 Destaque: alto impacto na região Norte da Ilha, com urgência por políticas portuárias mais eficientes :contentReference[oaicite:1]{index=1}")
 
-            st.map(df_praias, size='MP (itens/m³)', color='#FF0000')
-
-        else:  # "🚢 Impacto do Porto de Itajaí"
-            st.subheader("Como o Porto de Itajaí Impacta Nossas Praias?")
-
-            df_porto = pd.DataFrame({
-                'lat': [-26.90, -27.04, -27.60],
-                'lon': [-48.66, -48.55, -48.38],
-                'Ponto': ["Porto de Itajaí", "Ilha das Aranhas", "Campeche"]
+    else:
+        st.subheader("Concentração de Microplásticos nas Praias de Floripa")
+        with col1:
+            st.markdown("""
+            **Sea Shepherd Brasil & USP (set/2024):**  
+            - 306 praias analisadas ao longo de 7 000 km de costa.  
+            - 97% delas continham microplásticos :contentReference[oaicite:2]{index=2}  
+            - **Pântano do Sul** foi a praia mais poluída do Brasil  
+              - ~144 MP/m²  
+            - Outras em Floripa: Rizzo (~79 MP/m²), Campeche (~6 MP/m²) :contentReference[oaicite:3]{index=3}  
+            """)
+        with col2:
+            df2 = pd.DataFrame({
+                'lat': [-27.63, -27.48, -27.52],
+                'lon': [-48.52, -48.46, -48.45],
+                'Praia': ["Pântano do Sul", "Rizzo", "Campeche"],
+                'MP (microplast/m²)': [144, 79, 6]
             })
-
-            st.map(df_porto)
-
-            dias = st.slider("Dias após a liberação:", 0, 7, 2)
-            progresso = min(dias / 5, 1)
-            st.write(f"**Progresso da contaminação:** {progresso * 100:.0f}%")
+            st.map(df2, size='MP (microplast/m²)', color='#800000')
 
     st.divider()
-
     st.markdown("""
-        **📌 Quer Saber Mais?**  
-        Compartilhe estas descobertas:
+    **📌 Fontes completas:**  
+    • [Science of The Total Environment (Gonçalves et al. 2024)](https://doi.org/10.1016/j.scitotenv.2023.169243)  
+    • [Marine Pollution Bulletin – UFSC/UFES/USP (set/2024)]  
+    • [Sea Shepherd Brasil & USP – Expedição Ondas Limpas (set/2024)]  
     """)
 
-    cols = st.columns(3)
-    cols[0].link_button("🌎 Artigo Científico", "https://doi.org/10.1016/j.scitotenv.2023.169243")
-    cols[1].link_button("📰 Reportagem Completa", "#")
-    cols[2].link_button("🔍 Estudo do Porto", "#")
 
 # Função principal
 def main():
