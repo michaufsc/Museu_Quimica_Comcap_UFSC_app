@@ -652,84 +652,6 @@ def mostrar_isopor():
     - Materiais biodegradáveis (amido de milho, cogumelo)
     """)
     
-#Fução microplástico
-def mostrar_microplasticos():
-    st.header("🧩 Microplásticos – Impactos e Soluções")
-    
-    st.markdown("""
-    ## 🔬 O Que São Microplásticos?
-    Partículas plásticas menores que 5mm classificadas em:
-    - **Primárias**: Produzidas intencionalmente (ex: cosméticos)
-    - **Secundárias**: Resultado da fragmentação de plásticos maiores
-    """)
-    
-    st.image("https://microplastics.springeropen.com/cms/attachment/5d179a6c-45e1-4f90-8a3b-6f8a162db0a4/fig1.png",
-             caption="Tipos e fontes de microplásticos no ambiente | Fonte: Springer Nature")
-    
-    st.markdown("""
-    ## 🌊 Situação em Florianópolis
-    ### Estudos Locais:
-    """)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        - [UFSC (2021)](https://repositorio.ufsc.br/handle/123456789/123456):
-          - 82% das amostras de água da Lagoa da Conceição com microplásticos
-          - Principais polímeros: PE (42%), PP (23%), PET (17%)
-        """)
-    
-    with col2:
-        st.markdown("""
-        - [UNIVALI (2022)](https://www.univali.br/noticias/Paginas/default.aspx):
-          - 127 partículas/m³ na Praia do Campeche
-          - Concentração 3x maior no verão
-        """)
-    
-    st.markdown("""
-    ## 📚 Referências Científicas Globais
-    ### Estudos Fundamentais:
-    """)
-    
-    with st.expander("📄 Publicações Recomendadas"):
-        st.markdown("""
-        1. **Fontes e Impactos**  
-           [Thompson et al. (2004)](https://doi.org/10.1016/S0025-326X(04)00256-5)  
-           *Science* - Primeira identificação em ambientes marinhos
-        
-        2. **Toxicidade Humana**  
-           [WHO (2019)](https://www.who.int/publications/i/item/9789241516198)  
-           Relatório sobre ingestão humana
-        
-        3. **Soluções Tecnológicas**  
-           [American Chemical Society (2021)](https://pubs.acs.org/doi/10.1021/acs.est.1c06768)  
-           Novos métodos de detecção
-        """)
-    
-    st.markdown("""
-    ## 🧪 Métodos de Análise
-    Técnicas utilizadas em pesquisas:
-    """)
-    
-    st.table({
-        "Método": ["Espectroscopia FTIR", "Microscopia Raman", "Pirólise-GC/MS"],
-        "Detecção": ["Identificação química", "Partículas >1μm", "Composição molecular"],
-        "Estudo": ["UFSC (2020)", "Nature (2022)", "Elsevier (2023)"]
-    })
-    
-    st.markdown("""
-    ## ✅ Ações Práticas
-    ### Como Contribuir:
-    - **Pessoal**: Filtros para máquina de lavar (retém 87% das fibras)
-    - **Comunitário**: Participe do [Projeto Route Brasil](https://www.routebrasil.org)
-    - **Político**: Apoie leis como [PL 6524/2019](https://www.camara.leg.br/propostas-legislativas/2234675)
-    """)
-    
-    st.markdown("""
-    ## 📹 Documentários Recomendados
-    """)
-    
-    st.video("https://www.youtube.com/watch?v=1qT-rOXB6NI")  # Substitua pelo link desejado
 
 
 # Função: compostagem
@@ -1059,6 +981,7 @@ def mostrar_cooperativas():
 
         folium_static(mapa, width=700, height=500)
         st.caption("📍 Clique nos marcadores para ver detalhes")
+        
 #função plástico nos oceanos
 def mostrar_plastico_oceanos():
    def mostrar_plastico_oceanos():
