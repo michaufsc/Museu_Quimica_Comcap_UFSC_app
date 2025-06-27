@@ -950,80 +950,87 @@ def main():
     polimeros, residuos = carregar_dados()
     
     # Controle de abas - VERSÃO REVISADA
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
-    "🏛️ História", 
-    "🧪 Química",
-    "🏷️ Plásticos",
-    "🧵 Microplásticos",
-    "🏘️ Coleta",
-    "🤝 Cooperativas",
-    "🌱 Compostagem",
-    "🧐 Quiz",
-    "📚 Atividades",
-    "ℹ️ Sobre"
-])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+        "🏛️ História", 
+        "🧪 Química",
+        "🏷️ Plásticos",
+        "🧵 Microplásticos",
+        "🏘️ Coleta",
+        "🤝 Cooperativas",
+        "🌱 Compostagem",
+        "🧐 Quiz",
+        "📚 Atividades",
+        "ℹ️ Sobre"
+    ])
 
-with tab1:
-    mostrar_historia()
-    
-with tab2:
-    mostrar_quimica()
+    with tab1:
+        mostrar_historia()
+        
+    with tab2:
+        mostrar_quimica()
 
-with tab3:
-    mostrar_glossario_polimeros(polimeros)
+    with tab3:
+        mostrar_glossario_polimeros(polimeros)
 
-with tab4:
-    mostrar_microplasticos()
+    with tab4:
+        mostrar_microplasticos()
+        
+    with tab5:
+        mostrar_coleta_seletiva()
+        
+    with tab6:
+        mostrar_cooperativas()
+   
+    with tab7:
+        mostrar_compostagem()
+        
+    with tab8:
+        mostrar_quiz()
+        
+    with tab9:
+        st.header("📚 Atividades Pedagógicas")
+        st.markdown("""
+        ### Sugestões de atividades:
+        - **Caça aos símbolos**: Identificar símbolos de reciclagem em embalagens
+        - **Análise de lixo**: Registrar tipos de resíduos gerados em casa
+        - **Visita virtual**: Explorar o Museu do Lixo através de fotos 360°
+        """)
 
-with tab5:
-    mostrar_coleta_seletiva()
+    with tab10:
+        st.header("ℹ️ Sobre o Projeto")
+        st.markdown("""
+        **Glossário Interativo de Resíduos e Polímeros**  
+        - Desenvolvido para educação ambiental  
+        - Dados técnicos baseados em normas ABNT  
+        - Integrado com atividades pedagógicas  
+        """)
 
-with tab6:
-    mostrar_cooperativas()
+        st.markdown("""
+        **Equipe:**  
+        👨‍🎓 Michael Anderson da Luz Lopes  
+        👨‍🎓 Carlos Rossoni Neto  
+        👨‍🎓 Imbali Sanhá Fiaré  
+        👩‍🏫 Professora Anelisa Maria Regiani  
 
-with tab7:
-    mostrar_compostagem()
+        **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)  
+        **Curso:** Graduação em Química  
+        **Instituição:** Universidade Federal de Santa Catarina (UFSC)  
 
-with tab8:
-    mostrar_quiz()
+        **Ferramentas utilizadas:**  
+        <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20"/> GitHub</code>  
+        <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20"/> Python</code>  
+        <code><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="20"/> Streamlit</code>  
+        """, unsafe_allow_html=True)
 
-with tab9:
-    st.header("📚 Atividades Pedagógicas")
-    st.markdown("""
-    ### Sugestões de atividades:
-    - **Caça aos símbolos**: Identificar símbolos de reciclagem em embalagens
-    - **Análise de lixo**: Registrar tipos de resíduos gerados em casa
-    - **Visita virtual**: Explorar o Museu do Lixo através de fotos 360°
-    """)
-with tab10:
-    st.header("ℹ️ Sobre o Projeto")
-    st.markdown("""
-    **Glossário Interativo de Resíduos e Polímeros**  
-    - Desenvolvido para educação ambiental  
-    - Dados técnicos baseados em normas ABNT  
-    - Integrado com atividades pedagógicas  
-    """)
+        st.markdown("""
+        **Objetivos:**  
+        🔹 Promover conscientização sobre gestão de resíduos  
+        🔹 Facilitar a identificação de polímeros  
+        🔹 Integrar conhecimentos químicos com educação ambiental  
+        """)
 
-    st.markdown("""
-    **Equipe:**  
-    👨‍🎓 Michael Anderson da Luz Lopes  
-    👨‍🎓 Carlos Rossoni Neto  
-    👨‍🎓 Imbali Sanhá Fiaré  
-    👩‍🏫 Professora Anelisa Maria Regiani  
-
-    **Disciplina:** Prática de Ensino em Espaços de Divulgação Científica (Ext 18h)  
-    **Curso:** Graduação em Química  
-    **Instituição:** Universidade Federal de Santa Catarina (UFSC)  
-
-    **Ferramentas utilizadas:**  
-    <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20"/> GitHub</code>  
-    <code><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20"/> Python</code>  
-    <code><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" width="20"/> Streamlit</code>  
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    **Objetivos:**  
-    🔹 Promover conscientização sobre gestão de resíduos  
-    🔹 Facilitar a identificação de polímeros  
-    🔹 Integrar conhecimentos químicos com educação ambiental  
-    """)
+# Execução do app
+if __name__ == "__main__":
+    os.makedirs(IMAGES_MATERIAIS_DIR, exist_ok=True)
+    os.makedirs(IMAGES_RESIDUOS_DIR, exist_ok=True)
+    main()
