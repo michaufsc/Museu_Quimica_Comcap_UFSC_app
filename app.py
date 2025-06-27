@@ -47,6 +47,7 @@ def load_coleta_data():
     except Exception as e:
         st.error(f"Erro ao carregar dados de coleta: {str(e)}")
         return pd.DataFrame()
+        
 #função dados quiz        
 @st.cache_data
 def load_quiz():
@@ -315,80 +316,91 @@ def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
     
     # Inicializa o estado do quiz se necessário
-    if 'questions' not in st.session_state:
+    if 'quiz_data' not in st.session_state:
         questions = load_quiz()
         if not questions:
-            st.error("Não foi possível carregar as perguntas do quiz. Verifique o arquivo quiz_perguntas.csv")
+            st.error("Não foi possível carregar as perguntas do quiz.")
             return
-        st.session_state.update({
+        st.session_state.quiz_data = {
             'questions': questions,
             'current_question': 0,
             'score': 0,
-            'quiz_complete': False,
-            'resposta_verificada': False
-        })
+            'user_answer': None,
+            'show_feedback': False
+        }
+    
+    quiz_data = st.session_state.quiz_data
     
     # Se o quiz foi completado, mostra resultados
-    if st.session_state.get('quiz_complete', False):
-        mostrar_resultado_final()
+    if quiz_data['current_question'] >= len(quiz_data['questions']):
+        mostrar_resultado_final(quiz_data['score'], len(quiz_data['questions']))
         return
     
     # Obtém a pergunta atual
-    question = st.session_state.questions[st.session_state.current_question]
+    question = quiz_data['questions'][quiz_data['current_question']]
     
-    # Mostra progresso e pergunta
-    mostrar_barra_progresso()
-    mostrar_pergunta(question)
+    # Mostra progresso
+    st.progress((quiz_data['current_question'] + 1) / len(quiz_data['questions']))
+    st.caption(f"Pergunta {quiz_data['current_question'] + 1} de {len(quiz_data['questions'])}")
     
-    # Processa resposta do usuário se já foi selecionada uma opção
-    if st.session_state.get('resposta_verificada', False):
-        mostrar_feedback(question)
-
-def mostrar_feedback(question):
-    """Mostra feedback da resposta e opção para próxima pergunta"""
-    selected_option = st.session_state.selected_option
+    # Mostra pergunta
+    st.subheader(question['pergunta'])
     
-    # Mostra feedback
-    if selected_option == question['resposta']:
-        st.success(f"✅ Correto! {question['explicacao']}")
-    else:
-        resposta_correta = question['opcoes'][question['resposta']]
-        st.error(f"❌ Errado. A resposta correta é: {resposta_correta}. {question['explicacao']}")
-    
-    # Botão para próxima pergunta
-    if st.button("➡️ Próxima pergunta", type="primary"):
-        avancar_quiz()
-
-def mostrar_pergunta(question):
-    st.subheader(f"Pergunta {st.session_state.current_question + 1} de {len(st.session_state.questions)}")
-    st.markdown(f"**{question['pergunta']}**")
-    
-    # Mostra opções como botões de rádio para melhor usabilidade
-    opcao_selecionada = st.radio(
-        "Selecione uma opção:",
-        question['opcoes'],
-        key=f"op_{st.session_state.current_question}",
-        index=None
+    # Mostra opções
+    options = question['opcoes']
+    user_answer = st.radio(
+        "Selecione sua resposta:",
+        options,
+        index=None,
+        key=f"question_{quiz_data['current_question']}"
     )
     
-    if opcao_selecionada and st.button("Enviar resposta"):
-        st.session_state.selected_option = question['opcoes'].index(opcao_selecionada)
-        st.session_state.resposta_verificada = True
-        if st.session_state.selected_option == question['resposta']:
-            st.session_state.score += 1
+    # Botão para enviar resposta
+    if st.button("Enviar resposta") and user_answer is not None:
+        quiz_data['user_answer'] = options.index(user_answer)
+        quiz_data['show_feedback'] = True
+        
+        # Verifica resposta
+        if quiz_data['user_answer'] == question['resposta']:
+            quiz_data['score'] += 1
+        
+        st.session_state.quiz_data = quiz_data
         st.rerun()
+    
+    # Mostra feedback após resposta
+    if quiz_data['show_feedback']:
+        if quiz_data['user_answer'] == question['resposta']:
+            st.success(f"✅ Correto! {question['explicacao']}")
+        else:
+            correct_answer = options[question['resposta']]
+            st.error(f"❌ Resposta incorreta. A resposta correta é: {correct_answer}. {question['explicacao']}")
+        
+        # Botão para próxima pergunta
+        if st.button("Próxima pergunta"):
+            quiz_data['current_question'] += 1
+            quiz_data['show_feedback'] = False
+            quiz_data['user_answer'] = None
+            st.session_state.quiz_data = quiz_data
+            st.rerun()
 
-def avancar_quiz():
-    st.session_state.current_question += 1
-    if st.session_state.current_question >= len(st.session_state.questions):
-        st.session_state.quiz_complete = True
+def mostrar_resultado_final(score, total_questions):
+    st.balloons()
+    st.success(f"## 🎯 Pontuação Final: {score}/{total_questions} ({(score/total_questions):.0%})")
+    
+    # Feedback personalizado
+    if score == total_questions:
+        st.info("### 🌟 Excelente! Você é um expert em reciclagem!")
+    elif score >= total_questions * 0.75:
+        st.info("### 👏 Muito bom! Seu conhecimento sobre o tema é ótimo!")
+    elif score >= total_questions * 0.5:
+        st.warning("### 📚 Bom trabalho! Você está no caminho certo!")
     else:
-        # Limpa estado para próxima pergunta
-        st.session_state.resposta_verificada = False
-        if 'selected_option' in st.session_state:
-            del st.session_state.selected_option
-    st.rerun()
-
+        st.error("### 📖 Continue estudando! Visite o glossário para aprender mais.")
+    
+    # Botão para reiniciar
+    if st.button("🔄 Refazer Quiz"):
+        del st.session_state.quiz_data
+        st.rerun()
 
 # Função: história do Museu
 def mostrar_historia():
