@@ -510,33 +510,15 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
 #função química 
 def mostrar_quimica():
-    st.header("🧪 Ciência dos Polímeros e Sustentabilidade")
+ # PRÉ-CARREGAMENTO DE IMAGENS (resolve o problema de não aparecerem)
+polo_img = carregar_imagem("polo.png")
+tipos_img = carregar_imagem("tipos2.png")
+reci_img = carregar_imagem("reci.png")
+mec_img = carregar_imagem("mec.png")
+ciclo_img = carregar_imagem("ciclo_vida.png")
 
-    # Função robusta para carregar imagens
-    def carregar_imagem(nome_arquivo):
-        try:
-            # Verifica todos os possíveis caminhos
-            caminhos_teste = [
-                os.path.join("imagens_residuos", nome_arquivo),
-                os.path.join("app/imagens_residuos", nome_arquivo),
-                os.path.join("/mount/src/glossario-quimica-residuos/imagens_residuos", nome_arquivo),
-                nome_arquivo  # Tenta no diretório atual como último recurso
-            ]
-            
-            for caminho in caminhos_teste:
-                if os.path.exists(caminho):
-                    return Image.open(caminho)
-            
-            raise FileNotFoundError(f"Imagem não encontrada em nenhum dos caminhos testados: {nome_arquivo}")
-        except Exception as e:
-            st.error(f"Erro ao carregar imagem {nome_arquivo}: {str(e)}")
-            return None
-
-   # Abas principais
-tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
-
-# Aba 1: O que são Polímeros
-with tab1:
+# ABA PRINCIPAL 1: O QUE SÃO POLÍMEROS
+def aba_polimeros():
     st.markdown("""
     ## 🔬 O que são Polímeros?
     Macromoléculas formadas por unidades repetitivas (**monômeros**) com cadeias:
@@ -545,15 +527,11 @@ with tab1:
     - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
     """)
     
-    polo_img = carregar_imagem("polo.png")
     if polo_img:
         st.image(polo_img, use_container_width=True, 
                 caption="Estrutura molecular de polímeros sintéticos típicos")
 
     # Classificação
-    st.markdown("""
-    ## 📌 Classificação dos Polímeros
-    """)
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -576,7 +554,6 @@ with tab1:
         - PLA (bioplástico)
         """)
 
-    tipos_img = carregar_imagem("tipos2.png")
     if tipos_img:
         st.image(tipos_img, use_container_width=True,
                 caption="Aplicações comerciais dos principais polímeros")
@@ -606,16 +583,15 @@ with tab1:
     | Resistência       | 50-70 MPa        | 55-80 MPa        |
     """)
 
-# Aba 2: Ciclo de Vida e Reciclagem
-with tab2:
+# ABA PRINCIPAL 2: CICLO DE VIDA
+def aba_reciclagem():
     st.markdown("""
-    ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
+    ## ♻️ Ciclo de Vida e Reciclagem
     """)
 
-    subtabs = st.tabs(["📊 Composição", "⚙️ Processos", "💡 Inovações"])
+    tab1, tab2, tab3 = st.tabs(["Composição", "Processos", "Inovações"])
 
-    with subtabs[0]:
-        reci_img = carregar_imagem("reci.png")
+    with tab1:
         if reci_img:
             st.image(reci_img, use_container_width=True,
                     caption="Distribuição dos polímeros em resíduos urbanos")
@@ -627,8 +603,7 @@ with tab2:
         - Embalagens multicamadas: virtualmente irrecicláveis
         """)
 
-    with subtabs[1]:
-        mec_img = carregar_imagem("mec.png")
+    with tab2:
         if mec_img:
             st.image(mec_img, use_container_width=True,
                     caption="Fluxograma de reciclagem mecânica")
@@ -641,8 +616,7 @@ with tab2:
         - Eficiência energética: 30-50% vs produção virgem
         """)
 
-    with subtabs[2]:
-        ciclo_img = carregar_imagem("ciclo_vida.png")
+    with tab3:
         if ciclo_img:
             st.image(ciclo_img, use_container_width=True,
                     caption="Tecnologias emergentes no ciclo de vida")
@@ -654,7 +628,7 @@ with tab2:
         4. Sistemas IA para triagem
         """)
 
-    # Boas Práticas (apenas na aba de Reciclagem)
+    # Boas Práticas
     st.markdown("""
     ---
     ## 🌍 Ações Sustentáveis
@@ -668,6 +642,15 @@ with tab2:
     3. Preferência por reciclados
     4. Participação em cooperativas
     """)
+
+# CONFIGURAÇÃO DAS ABAS PRINCIPAIS
+tab_polimeros, tab_reciclagem = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
+
+with tab_polimeros:
+    aba_polimeros()
+
+with tab_reciclagem:
+    aba_reciclagem()
 #função isopor
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
