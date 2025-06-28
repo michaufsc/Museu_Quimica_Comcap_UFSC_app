@@ -509,7 +509,7 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 ---
 """)
 def mostrar_quimica():
-    # Definição das cores de fallback
+    # Definição das cores de fallback (corrigindo a indentação)
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
     
@@ -525,7 +525,6 @@ def mostrar_quimica():
         - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
         """)
         
-        # Imagem polo.png
         mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR, 
                                   "Estrutura molecular de polímeros sintéticos típicos", COR_MATERIAIS)
 
@@ -563,7 +562,7 @@ def mostrar_quimica():
         """)
         # ... (restante das tabelas permanece igual)
     
-    with tab2:
+        with tab2:
         st.markdown("""
         ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
         """)
@@ -571,7 +570,6 @@ def mostrar_quimica():
         subtabs = st.tabs(["📊 Composição", "⚙️ Processos", "💡 Inovações"])
 
         with subtabs[0]:
-            # Imagem reci.png
             mostrar_imagem_com_fallback("reci.png", IMAGES_RESIDUOS_DIR,
                                       "Distribuição dos polímeros em resíduos urbanos", COR_RESIDUOS)
             st.markdown("""
@@ -583,7 +581,7 @@ def mostrar_quimica():
             """)
 
         with subtabs[1]:
-            # Imagem mec.png
+            # Imagem mec.png  
             mostrar_imagem_com_fallback("mec.png", IMAGES_RESIDUOS_DIR,
                                       "Fluxograma de reciclagem mecânica", COR_RESIDUOS)
             st.markdown("""
