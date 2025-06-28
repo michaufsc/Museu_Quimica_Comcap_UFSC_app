@@ -510,147 +510,140 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 """)
 #função química 
 def mostrar_quimica():
- # PRÉ-CARREGAMENTO DE IMAGENS (resolve o problema de não aparecerem)
-polo_img = carregar_imagem("polo.png")
-tipos_img = carregar_imagem("tipos2.png")
-reci_img = carregar_imagem("reci.png")
-mec_img = carregar_imagem("mec.png")
-ciclo_img = carregar_imagem("ciclo_vida.png")
+    # PRÉ-CARREGAMENTO DE IMAGENS (resolve o problema de não aparecerem)
+    polo_img = carregar_imagem("polo.png")
+    tipos_img = carregar_imagem("tipos2.png")
+    reci_img = carregar_imagem("reci.png")
+    mec_img = carregar_imagem("mec.png")
+    ciclo_img = carregar_imagem("ciclo_vida.png")
 
-# ABA PRINCIPAL 1: O QUE SÃO POLÍMEROS
-def aba_polimeros():
-    st.markdown("""
-    ## 🔬 O que são Polímeros?
-    Macromoléculas formadas por unidades repetitivas (**monômeros**) com cadeias:
-    - **Lineares** (ex: PE) - Flexíveis e moldáveis
-    - **Ramificadas** (ex: LDPE) - Menor densidade
-    - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
-    """)
+    # Criar abas principais
+    tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
     
-    if polo_img:
-        st.image(polo_img, use_container_width=True, 
-                caption="Estrutura molecular de polímeros sintéticos típicos")
-
-    # Classificação
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        ### 🌱 Polímeros Naturais
-        - Celulose (paredes celulares)
-        - Amido (reserva energética)
-        - Quitina (exoesqueletos)
-        - Proteínas (colágeno, seda)
-        - Látex (borracha natural)
-        """)
-    
-    with col2:
-        st.markdown("""
-        ### 🏭 Polímeros Sintéticos
-        - PET (garrafas)
-        - PE/PP (embalagens)
-        - PVC (tubos)
-        - PS (isopor)
-        - Nylon (têxteis)
-        - PLA (bioplástico)
-        """)
-
-    if tipos_img:
-        st.image(tipos_img, use_container_width=True,
-                caption="Aplicações comerciais dos principais polímeros")
-
-    # Tabelas Comparativas
-    st.markdown("""
-    ---
-    ## 📊 Propriedades Comparativas
-    """)
-
-    st.markdown("""
-    ### Termoplásticos vs Termorrígidos
-    | Propriedade       | Termoplásticos (ex: PET) | Termorrígidos (ex: Baquelite) |
-    |-------------------|--------------------------|-------------------------------|
-    | Moldagem          | Reciclável               | Não reciclável               |
-    | Resistência       | Média-Alta               | Muito Alta                   |
-    | Aplicação         | Embalagens               | Componentes elétricos        |
-    """)
-
-    st.markdown("""
-    ### Biopolímeros vs Convencionais
-    | Critério          | PLA              | PET              |
-    |-------------------|------------------|------------------|
-    | Matéria-prima     | Milho/Cana       | Petróleo         |
-    | Decomposição      | 6-24 meses       | 450+ anos        |
-    | Custo             | 2-3x maior       | Baixo            |
-    | Resistência       | 50-70 MPa        | 55-80 MPa        |
-    """)
-
-# ABA PRINCIPAL 2: CICLO DE VIDA
-def aba_reciclagem():
-    st.markdown("""
-    ## ♻️ Ciclo de Vida e Reciclagem
-    """)
-
-    tab1, tab2, tab3 = st.tabs(["Composição", "Processos", "Inovações"])
-
     with tab1:
-        if reci_img:
-            st.image(reci_img, use_container_width=True,
-                    caption="Distribuição dos polímeros em resíduos urbanos")
         st.markdown("""
-        **Dados de Reciclagem (Brasil):**
-        - PET: 55% (líder em reciclagem)
-        - PEAD: 30% 
-        - PVC: <5% (problema crítico)
-        - Embalagens multicamadas: virtualmente irrecicláveis
+        ## 🔬 O que são Polímeros?
+        Macromoléculas formadas por unidades repetitivas (**monômeros**) com cadeias:
+        - **Lineares** (ex: PE) - Flexíveis e moldáveis
+        - **Ramificadas** (ex: LDPE) - Menor densidade
+        - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
+        """)
+        
+        if polo_img:
+            st.image(polo_img, use_container_width=True, 
+                    caption="Estrutura molecular de polímeros sintéticos típicos")
+
+        # Classificação
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+            ### 🌱 Polímeros Naturais
+            - Celulose (paredes celulares)
+            - Amido (reserva energética)
+            - Quitina (exoesqueletos)
+            - Proteínas (colágeno, seda)
+            - Látex (borracha natural)
+            """)
+        
+        with col2:
+            st.markdown("""
+            ### 🏭 Polímeros Sintéticos
+            - PET (garrafas)
+            - PE/PP (embalagens)
+            - PVC (tubos)
+            - PS (isopor)
+            - Nylon (têxteis)
+            - PLA (bioplástico)
+            """)
+
+        if tipos_img:
+            st.image(tipos_img, use_container_width=True,
+                    caption="Aplicações comerciais dos principais polímeros")
+
+        # Tabelas Comparativas
+        st.markdown("""
+        ---
+        ## 📊 Propriedades Comparativas
         """)
 
+        st.markdown("""
+        ### Termoplásticos vs Termorrígidos
+        | Propriedade       | Termoplásticos (ex: PET) | Termorrígidos (ex: Baquelite) |
+        |-------------------|--------------------------|-------------------------------|
+        | Moldagem          | Reciclável               | Não reciclável               |
+        | Resistência       | Média-Alta               | Muito Alta                   |
+        | Aplicação         | Embalagens               | Componentes elétricos        |
+        """)
+
+        st.markdown("""
+        ### Biopolímeros vs Convencionais
+        | Critério          | PLA              | PET              |
+        |-------------------|------------------|------------------|
+        | Matéria-prima     | Milho/Cana       | Petróleo         |
+        | Decomposição      | 6-24 meses       | 450+ anos        |
+        | Custo             | 2-3x maior       | Baixo            |
+        | Resistência       | 50-70 MPa        | 55-80 MPa        |
+        """)
+    
     with tab2:
-        if mec_img:
-            st.image(mec_img, use_container_width=True,
-                    caption="Fluxograma de reciclagem mecânica")
         st.markdown("""
-        **Parâmetros Operacionais:**
-        - Temperatura de extrusão:
-          - PET: 270-290°C
-          - PP: 200-230°C
-        - Consumo hídrico: 10L/kg de plástico
-        - Eficiência energética: 30-50% vs produção virgem
+        ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
         """)
 
-    with tab3:
-        if ciclo_img:
-            st.image(ciclo_img, use_container_width=True,
-                    caption="Tecnologias emergentes no ciclo de vida")
+        subtabs = st.tabs(["📊 Composição", "⚙️ Processos", "💡 Inovações"])
+
+        with subtabs[0]:
+            if reci_img:
+                st.image(reci_img, use_container_width=True,
+                        caption="Distribuição dos polímeros em resíduos urbanos")
+            st.markdown("""
+            **Dados de Reciclagem (Brasil):**
+            - PET: 55% (líder em reciclagem)
+            - PEAD: 30% 
+            - PVC: <5% (problema crítico)
+            - Embalagens multicamadas: virtualmente irrecicláveis
+            """)
+
+        with subtabs[1]:
+            if mec_img:
+                st.image(mec_img, use_container_width=True,
+                        caption="Fluxograma de reciclagem mecânica")
+            st.markdown("""
+            **Parâmetros Operacionais:**
+            - Temperatura de extrusão:
+              - PET: 270-290°C
+              - PP: 200-230°C
+            - Consumo hídrico: 10L/kg de plástico
+            - Eficiência energética: 30-50% vs produção virgem
+            """)
+
+        with subtabs[2]:
+            if ciclo_img:
+                st.image(ciclo_img, use_container_width=True,
+                        caption="Tecnologias emergentes no ciclo de vida")
+            st.markdown("""
+            **Tendências:**
+            1. Biopolímeros (PLA, PHA)
+            2. Reciclagem química avançada
+            3. Catalisadores enzimáticos
+            4. Sistemas IA para triagem
+            """)
+
+        # Boas Práticas
         st.markdown("""
-        **Tendências:**
-        1. Biopolímeros (PLA, PHA)
-        2. Reciclagem química avançada
-        3. Catalisadores enzimáticos
-        4. Sistemas IA para triagem
+        ---
+        ## 🌍 Ações Sustentáveis
+        **Indústria:**
+        - Design para reciclagem
+        - Logística reversa eficiente
+
+        **Sociedade:**
+        1. Separação adequada
+        2. Redução de descartáveis
+        3. Preferência por reciclados
+        4. Participação em cooperativas
         """)
-
-    # Boas Práticas
-    st.markdown("""
-    ---
-    ## 🌍 Ações Sustentáveis
-    **Indústria:**
-    - Design para reciclagem
-    - Logística reversa eficiente
-
-    **Sociedade:**
-    1. Separação adequada
-    2. Redução de descartáveis
-    3. Preferência por reciclados
-    4. Participação em cooperativas
-    """)
-
-# CONFIGURAÇÃO DAS ABAS PRINCIPAIS
-tab_polimeros, tab_reciclagem = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
-
-with tab_polimeros:
-    aba_polimeros()
-
-with tab_reciclagem:
-    aba_reciclagem()
+        
 #função isopor
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
