@@ -532,7 +532,11 @@ def mostrar_quimica():
             st.error(f"Erro ao carregar imagem {nome_arquivo}: {str(e)}")
             return None
 
-    # Seção 1: Conceitos Fundamentais
+   # Abas principais
+tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
+
+# Aba 1: O que são Polímeros
+with tab1:
     st.markdown("""
     ## 🔬 O que são Polímeros?
     Macromoléculas formadas por unidades repetitivas (**monômeros**) com cadeias:
@@ -546,7 +550,10 @@ def mostrar_quimica():
         st.image(polo_img, use_container_width=True, 
                 caption="Estrutura molecular de polímeros sintéticos típicos")
 
-    # Seção 2: Classificação
+    # Classificação
+    st.markdown("""
+    ## 📌 Classificação dos Polímeros
+    """)
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -574,55 +581,7 @@ def mostrar_quimica():
         st.image(tipos_img, use_container_width=True,
                 caption="Aplicações comerciais dos principais polímeros")
 
-    # Seção 3: Gestão de Resíduos
-    st.markdown("""
-    ---
-    ## ♻️ Ciclo de Vida e Reciclagem
-    """)
-
-    tab1, tab2, tab3 = st.tabs(["Composição", "Processos", "Inovações"])
-
-    with tab1:
-        reci_img = carregar_imagem("reci.png")
-        if reci_img:
-            st.image(reci_img, use_container_width=True,
-                    caption="Distribuição dos polímeros em resíduos urbanos")
-        st.markdown("""
-        **Dados de Reciclagem (Brasil):**
-        - PET: 55% (líder em reciclagem)
-        - PEAD: 30% 
-        - PVC: <5% (problema crítico)
-        - Embalagens multicamadas: virtualmente irrecicláveis
-        """)
-
-    with tab2:
-        mec_img = carregar_imagem("mec.png")
-        if mec_img:
-            st.image(mec_img, use_container_width=True,
-                    caption="Fluxograma de reciclagem mecânica")
-        st.markdown("""
-        **Parâmetros Operacionais:**
-        - Temperatura de extrusão:
-          - PET: 270-290°C
-          - PP: 200-230°C
-        - Consumo hídrico: 10L/kg de plástico
-        - Eficiência energética: 30-50% vs produção virgem
-        """)
-
-    with tab3:
-        ciclo_img = carregar_imagem("ciclo_vida.png")
-        if ciclo_img:
-            st.image(ciclo_img, use_container_width=True,
-                    caption="Tecnologias emergentes no ciclo de vida")
-        st.markdown("""
-        **Tendências:**
-        1. Biopolímeros (PLA, PHA)
-        2. Reciclagem química avançada
-        3. Catalisadores enzimáticos
-        4. Sistemas IA para triagem
-        """)
-
-    # Seção 4: Tabelas Comparativas
+    # Tabelas Comparativas
     st.markdown("""
     ---
     ## 📊 Propriedades Comparativas
@@ -647,7 +606,55 @@ def mostrar_quimica():
     | Resistência       | 50-70 MPa        | 55-80 MPa        |
     """)
 
-    # Seção 5: Boas Práticas
+# Aba 2: Ciclo de Vida e Reciclagem
+with tab2:
+    st.markdown("""
+    ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
+    """)
+
+    subtabs = st.tabs(["📊 Composição", "⚙️ Processos", "💡 Inovações"])
+
+    with subtabs[0]:
+        reci_img = carregar_imagem("reci.png")
+        if reci_img:
+            st.image(reci_img, use_container_width=True,
+                    caption="Distribuição dos polímeros em resíduos urbanos")
+        st.markdown("""
+        **Dados de Reciclagem (Brasil):**
+        - PET: 55% (líder em reciclagem)
+        - PEAD: 30% 
+        - PVC: <5% (problema crítico)
+        - Embalagens multicamadas: virtualmente irrecicláveis
+        """)
+
+    with subtabs[1]:
+        mec_img = carregar_imagem("mec.png")
+        if mec_img:
+            st.image(mec_img, use_container_width=True,
+                    caption="Fluxograma de reciclagem mecânica")
+        st.markdown("""
+        **Parâmetros Operacionais:**
+        - Temperatura de extrusão:
+          - PET: 270-290°C
+          - PP: 200-230°C
+        - Consumo hídrico: 10L/kg de plástico
+        - Eficiência energética: 30-50% vs produção virgem
+        """)
+
+    with subtabs[2]:
+        ciclo_img = carregar_imagem("ciclo_vida.png")
+        if ciclo_img:
+            st.image(ciclo_img, use_container_width=True,
+                    caption="Tecnologias emergentes no ciclo de vida")
+        st.markdown("""
+        **Tendências:**
+        1. Biopolímeros (PLA, PHA)
+        2. Reciclagem química avançada
+        3. Catalisadores enzimáticos
+        4. Sistemas IA para triagem
+        """)
+
+    # Boas Práticas (apenas na aba de Reciclagem)
     st.markdown("""
     ---
     ## 🌍 Ações Sustentáveis
