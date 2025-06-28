@@ -569,7 +569,7 @@ def mostrar_quimica():
         - PLA (bioplástico)
         """)
 
-    tipos_img = carregar_imagem("tipos.png")
+    tipos_img = carregar_imagem("tipos2.png")
     if tipos_img:
         st.image(tipos_img, use_container_width=True,
                 caption="Aplicações comerciais dos principais polímeros")
