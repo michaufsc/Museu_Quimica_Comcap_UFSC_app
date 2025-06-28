@@ -555,12 +555,48 @@ def mostrar_quimica():
         mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
                                   "Aplicações comerciais dos principais polímeros", COR_MATERIAIS)
 
-        # Tabelas Comparativas (mantido igual)
+               # Tabelas Comparativas
         st.markdown("""
         ---
-        ## 📊 Propriedades Comparativas
+        ## 📊 Propriedades Comparativas dos Principais Polímeros
         """)
-        # ... (restante das tabelas permanece igual)
+
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            ### 🔥 Resistência Térmica
+            | Polímero | Ponto de Fusão (°C) | Máx. Uso Contínuo |
+            |----------|---------------------|-------------------|
+            | PET      | 260-265             | 120-150           |
+            | PEAD     | 130-137             | 80-100            |
+            | PVC      | 100-260             | 60-80             |
+            | PP       | 160-165             | 110-140           |
+            | PS       | 240                 | 70-95             |
+            """)
+
+        with col2:
+            st.markdown("""
+            ### ⚖️ Propriedades Mecânicas
+            | Polímero | Densidade (g/cm³) | Resistência (MPa) |
+            |----------|-------------------|------------------|
+            | PET      | 1.38-1.39         | 55-75            |
+            | PEAD     | 0.94-0.96         | 20-32            |
+            | PVC      | 1.38-1.55         | 40-60            |
+            | PP       | 0.90-0.91         | 30-40            |
+            | PS       | 1.04-1.05         | 30-50            |
+            """)
+
+        st.markdown("""
+        ### ♻️ Reciclabilidade
+        | Polímero | Código | Reciclável | Dificuldades          |
+        |----------|--------|------------|-----------------------|
+        | PET      | 1      | Alta       | Contaminação por corantes |
+        | PEAD     | 2      | Alta       | Separação por densidade |
+        | PVC      | 3      | Baixa      | Liberação de HCl       |
+        | PP       | 5      | Média      | Degradação térmica     |
+        | PS       | 6      | Baixa      | Baixo valor de mercado |
+        """)
     
     with tab2:
         st.markdown("""
