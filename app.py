@@ -1135,8 +1135,7 @@ def mostrar_plastico_oceanos():
         with col1:
             st.metric("Praia do Campeche", "127 partículas/m³")
             st.metric("Praia Mole", "15 partículas/g de sedimento")
-            st.image("https://cdn-icons-png.flaticon.com/512/4841/4841107.png", 
-                    width=150, caption="Ilustração de microplásticos")
+        
         
         with col2:
             st.metric("Baía Norte", "28 partículas/g de sedimento")
