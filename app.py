@@ -595,7 +595,7 @@ def mostrar_quimica():
 
         with subtabs[2]:
             # Imagem ciclo_vida.png
-            mostrar_imagem_com_fallback("ciclo_vida.png", IMAGES_RESIDUOS_DIR,
+            mostrar_imagem_com_fallback("biopoli.png", IMAGES_RESIDUOS_DIR,
                                       "Tecnologias emergentes no ciclo de vida", COR_RESIDUOS)
             st.markdown("""
             **Tendências:**
