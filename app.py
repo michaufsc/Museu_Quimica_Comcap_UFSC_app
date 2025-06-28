@@ -660,10 +660,19 @@ def mostrar_quimica():
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
     
-    # Foto oficial do coletor
-    st.image("https://www.pmf.sc.gov.br/fotos/noticias/2023/03/recicla_eps.jpg",
-            caption="Ponto de Entrega Voluntária de Isopor® - Foto: PMF/Divulgação",
-            use_container_width=True)
+    # Mostra apenas a imagem local eps.png
+    eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
+    
+    if os.path.exists(eps_path):
+        st.image(eps_path,
+               caption="Processo de reciclagem do EPS/Isopor®",
+               use_container_width=True)
+    else:
+        # Fallback visual se a imagem não existir
+        st.error("Imagem eps.png não encontrada na pasta de resíduos!")
+        st.image(Image.new('RGB', (600, 400), color=(255, 165, 0)),  # Fundo laranja
+               caption="Ilustração do Isopor® (imagem padrão)",
+               use_container_width=True)
     
     # Dicas de descarte
     st.subheader("📦 Como Preparar seu Isopor®:")
