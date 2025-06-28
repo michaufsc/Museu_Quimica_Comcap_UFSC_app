@@ -661,7 +661,7 @@ def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
     
     # Mostra apenas a imagem local eps.png
-    eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
+    eps_path = os.path.join(IMAGES_MATERIAIS_DIR, "eps.png")
     
     if os.path.exists(eps_path):
         st.image(eps_path,
