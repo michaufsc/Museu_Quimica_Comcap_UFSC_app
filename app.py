@@ -665,7 +665,7 @@ def mostrar_isopor():
     
     if os.path.exists(eps_path):
         st.image(eps_path,
-               caption="Processo de reciclagem do EPS/Isopor®",
+               caption="Local correto para descarte e encaminhamento para reciclagem do EPS/Isopor®",
                use_container_width=True)
     else:
         # Fallback visual se a imagem não existir
