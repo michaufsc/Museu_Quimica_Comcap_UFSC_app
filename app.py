@@ -562,7 +562,7 @@ def mostrar_quimica():
         """)
         # ... (restante das tabelas permanece igual)
     
-        with tab2:
+    with tab2:
         st.markdown("""
         ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
         """)
