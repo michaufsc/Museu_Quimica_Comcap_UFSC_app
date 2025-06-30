@@ -516,7 +516,7 @@ def mostrar_quimica():
     # Criar abas principais
     tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
     
-   with tab1:
+with tab1:
     st.markdown("""
     ## 🔬 O que são Polímeros?
 
