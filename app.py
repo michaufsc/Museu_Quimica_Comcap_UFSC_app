@@ -605,7 +605,7 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
 ♷ (5) PP - Polipropileno  
 ♸ (6) PS - Poliestireno
 """)
-       st.markdown("""
+      st.markdown("""
 ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
 
 ### 📊 Composição
