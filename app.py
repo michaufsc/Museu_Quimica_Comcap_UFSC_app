@@ -562,28 +562,17 @@ def mostrar_quimica():
         )
 
 
-        # Classificação
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("""
-            ### 🌱 Polímeros Naturais
-            - Celulose (paredes celulares)
-            - Amido (reserva energética)
-            - Quitina (exoesqueletos)
-            - Proteínas (colágeno, seda)
-            - Látex (borracha natural)
-            """)
-        
-        with col2:
-            st.markdown("""
-            ### 🏭 Polímeros Sintéticos
-            - PET (garrafas)
-            - PE/PP (embalagens)
-            - PVC (tubos)
-            - PS (isopor)
-            - Nylon (têxteis)
-            - PLA (bioplástico)
-            """)
+        st.markdown("""
+### 🔄 Classificação dos Polímeros
+
+Os polímeros podem ser classificados em dois grandes grupos: **naturais** e **sintéticos**, de acordo com sua origem.
+
+Os **polímeros naturais** são produzidos por organismos vivos e desempenham papéis fundamentais na estrutura e funcionamento dos seres vivos. Exemplos incluem a **celulose**, presente na parede celular das plantas; o **amido**, que atua como reserva energética; a **quitina**, encontrada no exoesqueleto de artrópodes; as **proteínas**, como o colágeno e a seda; e o **látex**, utilizado na fabricação de borracha natural.
+
+Já os **polímeros sintéticos** são obtidos em laboratório ou na indústria, a partir de processos de polimerização, e estão amplamente presentes em diversos setores. Entre eles estão o **PET**, usado em garrafas plásticas; o **PE** e o **PP**, comuns em embalagens; o **PVC**, utilizado em tubos e conexões; o **PS**, presente em isopor; o **Nylon**, usado em tecidos e cordas; e o **PLA**, um bioplástico derivado de fontes renováveis como o amido de milho.
+
+A distinção entre esses dois tipos está relacionada tanto à origem quanto às propriedades físico-químicas, aplicações industriais e impactos ambientais.
+""")
 
         # Imagem tipos2.png
         mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
