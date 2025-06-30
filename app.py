@@ -630,18 +630,18 @@ st.subheader("📦 Como Preparar seu Isopor®:")
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
-    **✅ Faça assim:**  
-    • Limpe restos de alimentos  
-    • Não precisa lavar (apenas remover resíduos)  
-    • Deixe secar naturalmente  
-    """)
+**✅ Faça assim:**  
+• Limpe restos de alimentos  
+• Não precisa lavar (apenas remover resíduos)  
+• Deixe secar naturalmente  
+""")
 with col2:
     st.markdown("""
-    **🚫 Evite:**  
-    • Isopor com gordura ou sujeira  
-    • Embalagens contaminadas  
-    • Descartar no lixo comum  
-    """)
+**🚫 Evite:**  
+• Isopor com gordura ou sujeira  
+• Embalagens contaminadas  
+• Descartar no lixo comum  
+""")
 
 # Benefícios do projeto
 st.subheader("🌱 Por que descartar corretamente?")
@@ -676,7 +676,6 @@ Os flocos podem ser compactados em blocos (lingotes), reduzindo o volume.
 **6. Reutilização**  
 Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
 """)
-
     
     # Mapa interativo
     st.subheader("🗺️ Todos os Pontos de Coleta")
