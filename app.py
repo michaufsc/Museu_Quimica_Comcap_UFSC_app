@@ -895,22 +895,27 @@ def mostrar_microplasticos():
 
     - **Primários**: fabricados intencionalmente nesse tamanho, como microesferas usadas em cosméticos, pastas de dente e produtos de limpeza.
     - **Secundários**: formados pela fragmentação de plásticos maiores devido ao sol, chuva, vento, ondas e ação de organismos.
-
-    Esses fragmentos acabam nos oceanos e podem permanecer por **décadas no ambiente**, acumulando-se em praias, sedimentos e até na água potável.
     """)
 
-    # Inserindo a imagem micro.png
     mostrar_imagem_com_fallback("micro.png", IMAGES_MATERIAIS_DIR,
                               "Tipos e fontes de microplásticos no ambiente marinho", 
-                              (200, 230, 200))  # Usando a cor verde claro definida anteriormente
+                              (200, 230, 200))
 
-    ### ⚗️ A Química contra a poluição invisível
+    st.markdown("""
+    ### 🌊 Impacto Ambiental
+
+    Esses fragmentos acabam nos oceanos e podem permanecer por décadas no ambiente, acumulando-se em:
+    - Praias e costas marinhas
+    - Sedimentos oceânicos
+    - Corpos de organismos marinhos
+    - Até na água potável
+
+    ### 🔬 O Papel da Química
 
     A Química nos permite detectar, identificar e compreender os efeitos dos microplásticos:
-
-    - Técnicas como **espectroscopia FTIR e Raman** identificam o tipo de polímero presente nas partículas.
-    - Substâncias tóxicas como **bisfenol A (BPA)** e **ftalatos**, presentes nos plásticos, podem se desprender e agir como **disruptores endócrinos**, afetando o sistema hormonal de animais e humanos.
-    - A combinação de análises físico-químicas com estudos biológicos permite avaliar os **efeitos toxicológicos em diferentes espécies.**
+    1. Análise espectroscópica (FTIR, Raman)
+    2. Cromatografia (GC-MS)
+    3. Técnicas de microscopia avançada
 
     ---
 
