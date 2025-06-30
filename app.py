@@ -625,32 +625,58 @@ def mostrar_isopor():
             use_container_width=True
         )
         
-    # Dicas de descarte
-    st.subheader("📦 Como Preparar seu Isopor®:")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        **✅ Faça assim:**  
-        • Limpe restos de alimentos  
-        • Não precisa lavar (apenas remover resíduos)  
-        • Deixe secar naturalmente  
-        """)
-    with col2:
-        st.markdown("""
-        **🚫 Evite:**  
-        • Isopor com gordura ou sujeira  
-        • Embalagens contaminadas  
-        • Descartar no lixo comum  
-        """)
-    
-    # Benefícios do projeto
-    st.subheader("🌱 Por que descartar corretamente?")
+ # Dicas de descarte
+st.subheader("📦 Como Preparar seu Isopor®:")
+col1, col2 = st.columns(2)
+with col1:
     st.markdown("""
-    - Transforma-se em novos produtos (réguas, rodapés, placas)  
-    - Gera renda para cooperativas de reciclagem  
-    - Florianópolis recicla **10 toneladas/mês** de Isopor®  
-    - Reduz a poluição ambiental  
+    **✅ Faça assim:**  
+    • Limpe restos de alimentos  
+    • Não precisa lavar (apenas remover resíduos)  
+    • Deixe secar naturalmente  
     """)
+with col2:
+    st.markdown("""
+    **🚫 Evite:**  
+    • Isopor com gordura ou sujeira  
+    • Embalagens contaminadas  
+    • Descartar no lixo comum  
+    """)
+
+# Benefícios do projeto
+st.subheader("🌱 Por que descartar corretamente?")
+st.markdown("""
+- Transforma-se em novos produtos (réguas, rodapés, placas)  
+- Gera renda para cooperativas de reciclagem  
+- Florianópolis recicla **10 toneladas/mês** de Isopor®  
+- Reduz a poluição ambiental  
+""")
+
+# Título geral da seção de reciclagem
+st.header("♻️ A Reciclagem do Isopor®")
+
+# Etapas da reciclagem
+st.subheader("🔄 Como o Isopor® é Reciclado: Passo a Passo")
+st.markdown("""
+**1. Coleta**  
+O isopor limpo é recolhido por cooperativas ou coleta seletiva.  
+
+**2. Triagem**  
+É separado de outros resíduos nas centrais de triagem.  
+
+**3. Trituração**  
+O material é quebrado em pequenos pedaços para facilitar o processamento.  
+
+**4. Compactação**  
+Os flocos podem ser compactados em blocos (lingotes), reduzindo o volume.  
+
+**5. Extrusão**  
+É derretido e transformado em grânulos de poliestireno reciclado.  
+
+**6. Reutilização**  
+Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
+""")
+
     
     # Mapa interativo
     st.subheader("🗺️ Todos os Pontos de Coleta")
