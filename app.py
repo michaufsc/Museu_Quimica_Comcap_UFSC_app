@@ -578,16 +578,16 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
         mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
                                   "Aplicações comerciais dos principais polímeros", COR_MATERIAIS)
 
-               # Tabelas Comparativas
-        st.markdown("""
-        ---
-        ## 📊 Propriedades Comparativas dos Principais Polímeros
-        """)
+ # Tabelas Comparativas
+st.markdown("""
+---
+## 📊 Propriedades Comparativas dos Principais Polímeros
+""")
 
-        col1, col2 = st.columns(2)
-        
-        with col1:
-         st.markdown("""
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("""
 ### 📊 Propriedades dos Polímeros Sintéticos
 
 | Polímero | Símbolo | Ponto de Fusão (°C) | Máx. Uso Contínuo (°C) | Densidade (g/cm³) | Resistência (MPa) | Reciclável | Dificuldades na Reciclagem               |
@@ -605,7 +605,9 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
 ♷ (5) PP - Polipropileno  
 ♸ (6) PS - Poliestireno
 """)
-      st.markdown("""
+
+with col2:
+    st.markdown("""
 ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
 
 ### 📊 Composição
