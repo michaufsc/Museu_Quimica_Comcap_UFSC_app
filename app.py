@@ -887,12 +887,6 @@ def mostrar_microplasticos():
     st.header("🧩 Microplásticos – Um Problema Invisível nos Mares")
 
     st.markdown("""
-    ### ♻️ Microplásticos: o que são e por que devemos nos preocupar?
-
-    Florianópolis é famosa por suas mais de 100 praias, mas por trás da paisagem deslumbrante há um problema invisível que ameaça a vida marinha e a saúde humana: **os microplásticos**.
-
-    ---
-
     ### 🔎 O que são microplásticos?
 
     Microplásticos são fragmentos de plástico com menos de 5 milímetros, muitas vezes invisíveis a olho nu.
@@ -903,8 +897,12 @@ def mostrar_microplasticos():
     - **Secundários**: formados pela fragmentação de plásticos maiores devido ao sol, chuva, vento, ondas e ação de organismos.
 
     Esses fragmentos acabam nos oceanos e podem permanecer por **décadas no ambiente**, acumulando-se em praias, sedimentos e até na água potável.
+    """)
 
-    ---
+    # Inserindo a imagem micro.png
+    mostrar_imagem_com_fallback("micro.png", IMAGES_MATERIAIS_DIR,
+                              "Tipos e fontes de microplásticos no ambiente marinho", 
+                              (200, 230, 200))  # Usando a cor verde claro definida anteriormente
 
     ### ⚗️ A Química contra a poluição invisível
 
