@@ -509,58 +509,58 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 ---
 """)
 def mostrar_quimica():
-    # Definição das cores de fallback (corrigindo a indentação)
+    # Definição das cores de fallback
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
-    
+
     # Criar abas principais
     tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
-    
-with tab1:
-    st.markdown("""
-    ## 🔬 O que são Polímeros?
 
-    Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo ao polímero uma massa molecular elevada e propriedades específicas, como elasticidade, resistência térmica e mecânica, além de versatilidade em aplicações industriais e tecnológicas.
+    with tab1:
+        st.markdown("""
+        ## 🔬 O que são Polímeros
 
-    De forma geral, os polímeros podem ser classificados em:
+        Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo ao polímero uma massa molecular elevada e propriedades específicas, como elasticidade, resistência térmica e mecânica, além de versatilidade em aplicações industriais e tecnológicas.
 
-    - **Naturais**: como a celulose, o amido e as proteínas;
-    - **Sintéticos**: como o polietileno (PE), o polipropileno (PP) e o poliestireno (PS), produzidos por reações de polimerização.
+        De forma geral, os polímeros podem ser classificados em:
 
-    Quanto ao comportamento térmico:
+        - **Naturais**: como a celulose, o amido e as proteínas;
+        - **Sintéticos**: como o polietileno (PE), o polipropileno (PP) e o poliestireno (PS), produzidos por reações de polimerização.
 
-    - **Termoplásticos**: amolecem ao aquecer e podem ser remodelados;
-    - **Termofixos**: não se fundem novamente após moldagem.
+        Quanto ao comportamento térmico:
 
-    Estruturalmente, os polímeros podem ser:
+        - **Termoplásticos**: amolecem ao aquecer e podem ser remodelados;
+        - **Termofixos**: não se fundem novamente após moldagem.
 
-    - **Lineares** (ex: PE) – Flexíveis e moldáveis;
-    - **Ramificadas** (ex: LDPE) – Menor densidade;
-    - **Reticuladas** (ex: borracha vulcanizada) – Alta rigidez e estabilidade térmica.
+        Estruturalmente, os polímeros podem ser:
 
-    Essas características influenciam diretamente as aplicações dos polímeros em setores como embalagens, medicina, engenharia, eletrônica, entre outros.
+        - **Lineares** (ex: PE) – Flexíveis e moldáveis;
+        - **Ramificadas** (ex: LDPE) – Menor densidade;
+        - **Reticuladas** (ex: borracha vulcanizada) – Alta rigidez e estabilidade térmica.
 
-    **Referências**:
+        Essas características influenciam diretamente as aplicações dos polímeros em setores como embalagens, medicina, engenharia, eletrônica, entre outros.
 
-    - ATKINS, P.; JONES, L. *Princípios de Química*. 5. ed. Bookman, 2012.  
-    - CALLISTER, W. D.; RETHWISCH, D. G. *Fundamentos da Ciência e Engenharia dos Materiais*. 9. ed. LTC, 2020.  
-    - MANO, E. B.; MENDES, L. C. *Introdução a Polímeros*. 4. ed. Edgard Blücher, 2005.  
-    - RICHARDSON, J. T. *Química dos Materiais Poliméricos*. LTC, 2000.  
-    - ODIAN, G. *Principles of Polymerization*. 4th ed. Wiley-Interscience, 2004.
-    """)
+        **Referências**:
 
-  mostrar_imagem_com_fallback(
-    "polo.png",
-    IMAGES_MATERIAIS_DIR,
-    """
-    **Figura:** Estrutura molecular de polímeros sintéticos típicos.  
-    **Fonte:** MARTINS, Daniela de Luna. *O que são polímeros?* Daniela Martins Group, 26 jan. 2022.  
-    Disponível em: [danielamartinsgroup.com.br](https://www.danielamartinsgroup.com.br/post/o-que-s%C3%A3o-pol%C3%ADmeros).  
-    Acesso em: 30 jun. 2025.
-    """,
-    COR_MATERIAIS
-)
-   
+        - ATKINS, P.; JONES, L. *Princípios de Química*. 5. ed. Bookman, 2012.  
+        - CALLISTER, W. D.; RETHWISCH, D. G. *Fundamentos da Ciência e Engenharia dos Materiais*. 9. ed. LTC, 2020.  
+        - MANO, E. B.; MENDES, L. C. *Introdução a Polímeros*. 4. ed. Edgard Blücher, 2005.  
+        - RICHARDSON, J. T. *Química dos Materiais Poliméricos*. LTC, 2000.  
+        - ODIAN, G. *Principles of Polymerization*. 4th ed. Wiley-Interscience, 2004.
+        """)
+
+        mostrar_imagem_com_fallback(
+            "polo.png",
+            IMAGES_MATERIAIS_DIR,
+            """
+            **Figura:** Estrutura molecular de polímeros sintéticos típicos.  
+            **Fonte:** MARTINS, Daniela de Luna. *O que são polímeros?* Daniela Martins Group, 26 jan. 2022.  
+            Disponível em: [danielamartinsgroup.com.br](https://www.danielamartinsgroup.com.br/post/o-que-s%C3%A3o-pol%C3%ADmeros).  
+            Acesso em: 30 jun. 2025.
+            """,
+            COR_MATERIAIS
+        )
+
 
         # Classificação
         col1, col2 = st.columns(2)
