@@ -587,83 +587,44 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
         col1, col2 = st.columns(2)
         
         with col1:
-          st.markdown("""
+         st.markdown("""
 ### 📊 Propriedades dos Polímeros Sintéticos
 
 | Polímero | Símbolo | Ponto de Fusão (°C) | Máx. Uso Contínuo (°C) | Densidade (g/cm³) | Resistência (MPa) | Reciclável | Dificuldades na Reciclagem               |
 |----------|---------|---------------------|------------------------|-------------------|-------------------|------------|------------------------------------------|
-| PET      | 🍼      | 260-265             | 120-150                | 1.38-1.39         | 55-75             | Alta (1)   | Contaminação por corantes                 |
-| PEAD     | 🛍️      | 130-137             | 80-100                 | 0.94-0.96         | 20-32             | Alta (2)   | Separação por densidade                   |
-| PVC      | 🚰      | 100-260             | 60-80                  | 1.38-1.55         | 40-60             | Baixa (3)  | Liberação de HCl durante processamento   |
-| PP       | 📦      | 160-165             | 110-140                | 0.90-0.91         | 30-40             | Média (5)  | Degradação térmica                        |
-| PS       | 🍨      | 240                 | 70-95                  | 1.04-1.05         | 30-50             | Baixa (6)  | Baixo valor de mercado                    |
+| PET      | ♳       | 260-265             | 120-150                | 1.38-1.39         | 55-75             | Alta (1)   | Contaminação por corantes                 |
+| PEAD     | ♴       | 130-137             | 80-100                 | 0.94-0.96         | 20-32             | Alta (2)   | Separação por densidade                   |
+| PVC      | ♵       | 100-260             | 60-80                  | 1.38-1.55         | 40-60             | Baixa (3)  | Liberação de HCl durante processamento   |
+| PP       | ♷       | 160-165             | 110-140                | 0.90-0.91         | 30-40             | Média (5)  | Degradação térmica                        |
+| PS       | ♸       | 240                 | 70-95                  | 1.04-1.05         | 30-50             | Baixa (6)  | Baixo valor de mercado                    |
 
 **Legenda dos códigos de reciclagem**:  
-(1) PET - Polietileno tereftalato  
-(2) PEAD - Polietileno de alta densidade  
-(3) PVC - Policloreto de vinila  
-(5) PP - Polipropileno  
-(6) PS - Poliestireno
+♳ (1) PET - Polietileno tereftalato  
+♴ (2) PEAD - Polietileno de alta densidade  
+♵ (3) PVC - Policloreto de vinila  
+♷ (5) PP - Polipropileno  
+♸ (6) PS - Poliestireno
 """)
+       st.markdown("""
+## ♻️ Ciclo de Vida e Reciclagem de Polímeros
 
-    
-    with tab2:
-        st.markdown("""
-        ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
-        """)
+### 📊 Composição
+A distribuição dos polímeros em resíduos urbanos mostra padrões distintos de reciclabilidade. No Brasil, os dados de reciclagem revelam que o PET lidera com 55% de taxa de reciclagem, seguido pelo PEAD com 30%. O PVC apresenta um problema crítico com menos de 5% de reciclagem, enquanto as embalagens multicamadas permanecem virtualmente irrecicláveis com a tecnologia atual.
 
-        subtabs = st.tabs(["📊 Composição", "⚙️ Processos", "💡 Inovações"])
+### ⚙️ Processos
+O fluxograma de reciclagem mecânica destaca parâmetros operacionais cruciais: as temperaturas de extrusão variam de 270-290°C para PET e 200-230°C para PP. O processo consome aproximadamente 10 litros de água por quilo de plástico processado, mas oferece ganhos significativos em eficiência energética, consumindo 30-50% menos energia comparado à produção de material virgem.
 
-        with subtabs[0]:
-            mostrar_imagem_com_fallback("reci.png", IMAGES_RESIDUOS_DIR,
-                                      "Distribuição dos polímeros em resíduos urbanos", COR_RESIDUOS)
-            st.markdown("""
-            **Dados de Reciclagem (Brasil):**
-            - PET: 55% (líder em reciclagem)
-            - PEAD: 30% 
-            - PVC: <5% (problema crítico)
-            - Embalagens multicamadas: virtualmente irrecicláveis
-            """)
+### 💡 Inovações
+As tecnologias emergentes no ciclo de vida dos polímeros incluem quatro tendências principais: (1) desenvolvimento de biopolímeros como PLA e PHA, (2) avanços em reciclagem química, (3) aplicação de catalisadores enzimáticos para degradação seletiva, e (4) implementação de sistemas de inteligência artificial para triagem automatizada de resíduos.
 
-        with subtabs[1]:
-            # Imagem mec.png  
-            mostrar_imagem_com_fallback("mec.png", IMAGES_RESIDUOS_DIR,
-                                      "Fluxograma de reciclagem mecânica", COR_RESIDUOS)
-            st.markdown("""
-            **Parâmetros Operacionais:**
-            - Temperatura de extrusão:
-              - PET: 270-290°C
-              - PP: 200-230°C
-            - Consumo hídrico: 10L/kg de plástico
-            - Eficiência energética: 30-50% vs produção virgem
-            """)
+## 🌍 Ações Sustentáveis
 
-        with subtabs[2]:
-            # Imagem ciclo_vida.png
-            mostrar_imagem_com_fallback("biopoli.png", IMAGES_MATERIAIS_DIR,
-                                      "Tecnologias emergentes no ciclo de vida", COR_RESIDUOS)
-            st.markdown("""
-            **Tendências:**
-            1. Biopolímeros (PLA, PHA)
-            2. Reciclagem química avançada
-            3. Catalisadores enzimáticos
-            4. Sistemas IA para triagem
-            """)
+**Na Indústria:**
+As melhores práticas envolvem estratégias de design para reciclagem desde a concepção do produto e a otimização de sistemas de logística reversa para aumentar as taxas de recuperação de materiais.
 
-        # Boas Práticas (mantido igual)
-        st.markdown("""
-        ---
-        ## 🌍 Ações Sustentáveis
-        **Indústria:**
-        - Design para reciclagem
-        - Logística reversa eficiente
-
-        **Sociedade:**
-        1. Separação adequada
-        2. Redução de descartáveis
-        3. Preferência por reciclados
-        4. Participação em cooperativas
-        """)
+**Para a Sociedade:**
+Recomenda-se: 1) separação adequada na fonte, 2) redução do consumo de descartáveis, 3) preferência por produtos feitos com material reciclado, e 4) participação ativa em cooperativas de reciclagem para fortalecer a economia circular.
+""")
         
 #função isopor
 def mostrar_isopor():
