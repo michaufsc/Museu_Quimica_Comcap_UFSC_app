@@ -678,7 +678,7 @@ Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças d
 """)
     
     # Mapa interativo
-    st.subheader("🗺️ Todos os Pontos de Coleta")
+st.subheader("🗺️ Todos os Pontos de Coleta")
     pontos_df = pd.DataFrame({
         'Local': [
             'Centro - Hercílio Luz x Anita Garibaldi',
