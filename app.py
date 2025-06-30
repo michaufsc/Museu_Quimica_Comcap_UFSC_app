@@ -512,11 +512,7 @@ def mostrar_quimica():
     # Definição das cores de fallback
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
-
-    # Criar abas principais
-    tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
-
-    with tab1:
+    
         st.markdown("""
         ## 🔬 O que são Polímeros
 
@@ -578,15 +574,9 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
         mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
                                   "Aplicações comerciais dos principais polímeros", COR_MATERIAIS)
 
- # Tabelas Comparativas
-st.markdown("""
----
 ## 📊 Propriedades Comparativas dos Principais Polímeros
 """)
 
-col1, col2 = st.columns(2)
-
-with col1:
     st.markdown("""
 ### 📊 Propriedades dos Polímeros Sintéticos
 
@@ -605,8 +595,6 @@ with col1:
 ♷ (5) PP - Polipropileno  
 ♸ (6) PS - Poliestireno
 """)
-
-with col2:
     st.markdown("""
 ## ♻️ Ciclo de Vida e Reciclagem de Polímeros
 
