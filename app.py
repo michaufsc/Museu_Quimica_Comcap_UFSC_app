@@ -608,157 +608,140 @@ def mostrar_isopor():
     *Observação*: "Isopor" é uma marca registrada que se tornou sinônimo de EPS no Brasil, representando produtos de alta qualidade nesta categoria de materiais.
     """)
     
-   # Mostra a imagem local eps.png
+    # Mostra a imagem local eps.png
     eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
     try:
         st.image(
             eps_path,
             caption="Diagrama do processo de reciclagem mecânica de EPS - Projeto Recicla+EPS",
-            use_container_width=True  # Parâmetro atualizado
+            use_container_width=True
         )
     except FileNotFoundError:
-        st.warning(f"Imagem não encontrada em: {eps_path}")
         placeholder = Image.new('RGB', (800, 400), color=(200, 230, 200))
         st.image(
             placeholder,
             caption="Diagrama ilustrativo do processo de reciclagem",
             use_container_width=True
         )
-        
- # Dicas de descarte
-st.subheader("📦 Como Preparar seu Isopor®:")
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown("""
-**✅ Faça assim:**  
-• Limpe restos de alimentos  
-• Não precisa lavar (apenas remover resíduos)  
-• Deixe secar naturalmente  
-""")
-with col2:
-    st.markdown("""
-**🚫 Evite:**  
-• Isopor com gordura ou sujeira  
-• Embalagens contaminadas  
-• Descartar no lixo comum  
-""")
-
-# Benefícios do projeto
-st.subheader("🌱 Por que descartar corretamente?")
-st.markdown("""
-- Transforma-se em novos produtos (réguas, rodapés, placas)  
-- Gera renda para cooperativas de reciclagem  
-- Florianópolis recicla **10 toneladas/mês** de Isopor®  
-- Reduz a poluição ambiental  
-""")
-
-# Título geral da seção de reciclagem
-st.header("♻️ A Reciclagem do Isopor®")
-
-# Etapas da reciclagem
-st.subheader("🔄 Como o Isopor® é Reciclado: Passo a Passo")
-st.markdown("""
-**1. Coleta**  
-O isopor limpo é recolhido por cooperativas ou coleta seletiva.  
-
-**2. Triagem**  
-É separado de outros resíduos nas centrais de triagem.  
-
-**3. Trituração**  
-O material é quebrado em pequenos pedaços para facilitar o processamento.  
-
-**4. Compactação**  
-Os flocos podem ser compactados em blocos (lingotes), reduzindo o volume.  
-
-**5. Extrusão**  
-É derretido e transformado em grânulos de poliestireno reciclado.  
-
-**6. Reutilização**  
-Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
-""")
     
-  # Mapa interativo
-st.subheader("🗺️ Todos os Pontos de Coleta")
+    # Dicas de descarte
+    st.subheader("📦 Como Preparar seu Isopor®:")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        **✅ Faça assim:**  
+        • Limpe restos de alimentos  
+        • Não precisa lavar (apenas remover resíduos)  
+        • Deixe secar naturalmente  
+        """)
+    with col2:
+        st.markdown("""
+        **🚫 Evite:**  
+        • Isopor com gordura ou sujeira  
+        • Embalagens contaminadas  
+        • Descartar no lixo comum  
+        """)
 
-pontos_df = pd.DataFrame({
-    'Local': [
-        'Centro - Hercílio Luz x Anita Garibaldi',
-        'Centro - Praça dos Namorados',
-        'Beira-Mar - Mirante',
-        'Parque São Jorge',
-        'Trindade - Praça Gama Rosa',
-        'Coqueiros - Centro de Saúde',
-        'Estreito - Praça N.S. Fátima',
-        'Santa Mônica',
-        'João Paulo',
-        'Jurerê Internacional'
-    ],
-    'Endereço': [
-        'Hercílio Luz esquina com Anita Garibaldi',
-        'Praça dos Namorados, Largo São Sebastião',
-        'Av. Beira-Mar Norte (Mirante)',
-        'Av. Gov. José Boabaid',
-        'Praça da Rua Gama Rosa',
-        'Em frente ao Centro de Saúde de Coqueiros',
-        'Praça Nossa Senhora de Fátima',
-        'Av. Madre Benvenuta (posto policial)',
-        'Rodovia João Paulo, Praça Dr. Fausto Lobo',
-        'Final da Av. dos Búzios (junto ao PEV de Vidro)'
-    ],
-    'Link': [
-        'https://maps.app.goo.gl/1',
-        'https://maps.app.goo.gl/2',
-        'https://maps.app.goo.gl/3',
-        'https://maps.app.goo.gl/4',
-        'https://maps.app.goo.gl/5',
-        'https://maps.app.goo.gl/6',
-        'https://maps.app.goo.gl/7',
-        'https://maps.app.goo.gl/8',
-        'https://maps.app.goo.gl/9',
-        'https://maps.app.goo.gl/10'
-    ],
-    'Latitude': [
-        -27.5945, -27.5918, -27.5872,
-        -27.5701, -27.5867, -27.5728,
-        -27.6003, -27.5824, -27.5603,
-        -27.4245
-    ],
-    'Longitude': [
-        -48.5482, -48.5495, -48.5581,
-        -48.5268, -48.5214, -48.5472,
-        -48.5330, -48.5008, -48.5067,
-        -48.4221
-    ]
-})
-
-# Exibir o mapa básico
-st.map(pontos_df, latitude='Latitude', longitude='Longitude')
-
-# (Opcional) Exibir mapa customizado - Streamlit atualmente não aceita "size" e "color" nativamente em st.map
-# Você pode usar st.pydeck_chart para mapas mais avançados
-
-# Lista de pontos com links
-st.subheader("📍 Lista Completa dos PEVs")
-for _, row in pontos_df.iterrows():
-    st.markdown(f"""
-**{row['Local']}**  
-📍 {row['Endereço']}  
-🔗 [Abrir no Google Maps]({row['Link']})  
-""")
-    
-    # Processo de reciclagem
-    st.subheader("🔄 O Que Acontece com o Isopor®?")
+    # Benefícios do projeto
+    st.subheader("🌱 Por que descartar corretamente?")
     st.markdown("""
-    1. Coleta nos PEVs  
-    2. Compactação na ACMR (Itacorubi)  
-    3. Transformação em "pãozinho"  
-    4. Reciclagem em Braço do Norte  
-    5. Vira novos produtos como:  
-       - Réguas  
-       - Rodapés  
-       - Placas para construção  
+    - Transforma-se em novos produtos (réguas, rodapés, placas)  
+    - Gera renda para cooperativas de reciclagem  
+    - Florianópolis recicla **10 toneladas/mês** de Isopor®  
+    - Reduz a poluição ambiental  
     """)
-    
+
+    # Título geral da seção de reciclagem
+    st.header("♻️ A Reciclagem do Isopor®")
+
+    # Etapas da reciclagem
+    st.subheader("🔄 Como o Isopor® é Reciclado: Passo a Passo")
+    st.markdown("""
+    **1. Coleta**  
+    O isopor limpo é recolhido por cooperativas ou coleta seletiva.  
+
+    **2. Triagem**  
+    É separado de outros resíduos nas centrais de triagem.  
+
+    **3. Trituração**  
+    O material é quebrado em pequenos pedaços para facilitar o processamento.  
+
+    **4. Compactação**  
+    Os flocos podem ser compactados em blocos (lingotes), reduzindo o volume.  
+
+    **5. Extrusão**  
+    É derretido e transformado em grânulos de poliestireno reciclado.  
+
+    **6. Reutilização**  
+    Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
+    """)
+
+    # Mapa interativo com pontos de coleta
+    st.subheader("🗺️ Todos os Pontos de Coleta")
+
+    pontos_df = pd.DataFrame({
+        'Local': [
+            'Centro - Hercílio Luz x Anita Garibaldi',
+            'Centro - Praça dos Namorados',
+            'Beira-Mar - Mirante',
+            'Parque São Jorge',
+            'Trindade - Praça Gama Rosa',
+            'Coqueiros - Centro de Saúde',
+            'Estreito - Praça N.S. Fátima',
+            'Santa Mônica',
+            'João Paulo',
+            'Jurerê Internacional'
+        ],
+        'Endereço': [
+            'Hercílio Luz esquina com Anita Garibaldi',
+            'Praça dos Namorados, Largo São Sebastião',
+            'Av. Beira-Mar Norte (Mirante)',
+            'Av. Gov. José Boabaid',
+            'Praça da Rua Gama Rosa',
+            'Em frente ao Centro de Saúde de Coqueiros',
+            'Praça Nossa Senhora de Fátima',
+            'Av. Madre Benvenuta (posto policial)',
+            'Rodovia João Paulo, Praça Dr. Fausto Lobo',
+            'Final da Av. dos Búzios (junto ao PEV de Vidro)'
+        ],
+        'Link': [
+            'https://maps.app.goo.gl/1',
+            'https://maps.app.goo.gl/2',
+            'https://maps.app.goo.gl/3',
+            'https://maps.app.goo.gl/4',
+            'https://maps.app.goo.gl/5',
+            'https://maps.app.goo.gl/6',
+            'https://maps.app.goo.gl/7',
+            'https://maps.app.goo.gl/8',
+            'https://maps.app.goo.gl/9',
+            'https://maps.app.goo.gl/10'
+        ],
+        'lat': [
+            -27.5945, -27.5918, -27.5872,
+            -27.5701, -27.5867, -27.5728,
+            -27.6003, -27.5824, -27.5603,
+            -27.4245
+        ],
+        'lon': [
+            -48.5482, -48.5495, -48.5581,
+            -48.5268, -48.5214, -48.5472,
+            -48.5330, -48.5008, -48.5067,
+            -48.4221
+        ]
+    })
+
+    # Exibir o mapa
+    st.map(pontos_df)
+
+    # Lista de pontos com links
+    st.subheader("📍 Lista Completa dos Pontos de Entrega Voluntária (PEVs)")
+    for _, row in pontos_df.iterrows():
+        st.markdown(f"""
+        **{row['Local']}**  
+        📍 {row['Endereço']}  
+        🔗 [Abrir no Google Maps]({row['Link']})  
+        """)
+
     # Rodapé
     st.markdown("---")
     st.markdown("""
@@ -766,6 +749,7 @@ for _, row in pontos_df.iterrows():
     **📞 Dúvidas:** Secretaria de Meio Ambiente - (48) 3212-1650  
     **🕒 Funcionamento:** Todos os pontos 24h
     """)
+
 # Função: compostagem
 
 def mostrar_compostagem():
