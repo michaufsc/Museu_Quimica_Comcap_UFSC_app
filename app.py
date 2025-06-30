@@ -677,7 +677,7 @@ Os flocos podem ser compactados em blocos (lingotes), reduzindo o volume.
 Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
 """)
     
-    # Mapa interativo
+  # Mapa interativo
 st.subheader("🗺️ Todos os Pontos de Coleta")
 
 pontos_df = pd.DataFrame({
@@ -731,24 +731,20 @@ pontos_df = pd.DataFrame({
     ]
 })
 
-# Exibir o mapa
+# Exibir o mapa básico
 st.map(pontos_df, latitude='Latitude', longitude='Longitude')
-    
-    # Mostra mapa
-    st.map(pontos_df,
-          latitude='Latitude',
-          longitude='Longitude',
-          size=15,
-          color='#FF6B00')
-    
-    # Lista de pontos com links
-    st.subheader("📍 Lista Completa dos PEVs")
-    for _, row in pontos_df.iterrows():
-        st.markdown(f"""
-        **{row['Local']}**  
-        {row['Endereço']}  
-        [Abrir no Google Maps]({row['Link']})  
-        """)
+
+# (Opcional) Exibir mapa customizado - Streamlit atualmente não aceita "size" e "color" nativamente em st.map
+# Você pode usar st.pydeck_chart para mapas mais avançados
+
+# Lista de pontos com links
+st.subheader("📍 Lista Completa dos PEVs")
+for _, row in pontos_df.iterrows():
+    st.markdown(f"""
+**{row['Local']}**  
+📍 {row['Endereço']}  
+🔗 [Abrir no Google Maps]({row['Link']})  
+""")
     
     # Processo de reciclagem
     st.subheader("🔄 O Que Acontece com o Isopor®?")
