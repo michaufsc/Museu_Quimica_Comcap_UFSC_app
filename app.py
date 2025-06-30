@@ -516,14 +516,39 @@ def mostrar_quimica():
     # Criar abas principais
     tab1, tab2 = st.tabs(["🔬 O que são Polímeros", "♻️ Ciclo de Vida e Reciclagem"])
     
-    with tab1:
-        st.markdown("""
-        ## 🔬 O que são Polímeros?
-        Macromoléculas formadas por unidades repetitivas (**monômeros**) com cadeias:
-        - **Lineares** (ex: PE) - Flexíveis e moldáveis
-        - **Ramificadas** (ex: LDPE) - Menor densidade
-        - **Reticuladas** (ex: Borracha vulcanizada) - Alta rigidez
-        """)
+   with tab1:
+    st.markdown("""
+    ## 🔬 O que são Polímeros?
+
+    Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo ao polímero uma massa molecular elevada e propriedades específicas, como elasticidade, resistência térmica e mecânica, além de versatilidade em aplicações industriais e tecnológicas.
+
+    De forma geral, os polímeros podem ser classificados em:
+
+    - **Naturais**: como a celulose, o amido e as proteínas;
+    - **Sintéticos**: como o polietileno (PE), o polipropileno (PP) e o poliestireno (PS), produzidos por reações de polimerização.
+
+    Quanto ao comportamento térmico:
+
+    - **Termoplásticos**: amolecem ao aquecer e podem ser remodelados;
+    - **Termofixos**: não se fundem novamente após moldagem.
+
+    Estruturalmente, os polímeros podem ser:
+
+    - **Lineares** (ex: PE) – Flexíveis e moldáveis;
+    - **Ramificadas** (ex: LDPE) – Menor densidade;
+    - **Reticuladas** (ex: borracha vulcanizada) – Alta rigidez e estabilidade térmica.
+
+    Essas características influenciam diretamente as aplicações dos polímeros em setores como embalagens, medicina, engenharia, eletrônica, entre outros.
+
+    **Referências**:
+
+    - ATKINS, P.; JONES, L. *Princípios de Química*. 5. ed. Bookman, 2012.  
+    - CALLISTER, W. D.; RETHWISCH, D. G. *Fundamentos da Ciência e Engenharia dos Materiais*. 9. ed. LTC, 2020.  
+    - MANO, E. B.; MENDES, L. C. *Introdução a Polímeros*. 4. ed. Edgard Blücher, 2005.  
+    - RICHARDSON, J. T. *Química dos Materiais Poliméricos*. LTC, 2000.  
+    - ODIAN, G. *Principles of Polymerization*. 4th ed. Wiley-Interscience, 2004.
+    """)
+
         
         mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR, 
                                   "Estrutura molecular de polímeros sintéticos típicos", COR_MATERIAIS)
