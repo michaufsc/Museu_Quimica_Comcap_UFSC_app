@@ -956,7 +956,7 @@ def mostrar_microplasticos():
     2. Dawson, A. L. et al. (2023). *Microplastics: A new contaminant in the environment*. **Frontiers in Environmental Science**, [PMC9914693](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9914693/)
     3. ISO/TR 21960:2020. *Plastics Environmental aspects State of knowledge and methodologies*.
     4. Browne, M. A. et al. (2011). *Accumulation of microplastic on shorelines worldwide: sources and sinks*. **Environmental Science & Technology**.
-    5. NOAA – National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
+    5. NOAA  National Oceanic and Atmospheric Administration (2009). *Microplastics Program Overview*.
     6. Cózar, A. et al. (2014). *Plastic debris in the open ocean*. **PNAS**.
     """)
 
