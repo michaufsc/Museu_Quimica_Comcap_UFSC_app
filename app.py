@@ -549,9 +549,18 @@ with tab1:
     - ODIAN, G. *Principles of Polymerization*. 4th ed. Wiley-Interscience, 2004.
     """)
 
-        
-        mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR, 
-                                  "Estrutura molecular de polímeros sintéticos típicos", COR_MATERIAIS)
+  mostrar_imagem_com_fallback(
+    "polo.png",
+    IMAGES_MATERIAIS_DIR,
+    """
+    **Figura:** Estrutura molecular de polímeros sintéticos típicos.  
+    **Fonte:** MARTINS, Daniela de Luna. *O que são polímeros?* Daniela Martins Group, 26 jan. 2022.  
+    Disponível em: [danielamartinsgroup.com.br](https://www.danielamartinsgroup.com.br/post/o-que-s%C3%A3o-pol%C3%ADmeros).  
+    Acesso em: 30 jun. 2025.
+    """,
+    COR_MATERIAIS
+)
+   
 
         # Classificação
         col1, col2 = st.columns(2)
