@@ -512,110 +512,70 @@ def mostrar_quimica():
     # Definição das cores de fallback
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
-    
-        st.markdown("""
-        ## 🔬 O que são Polímeros
-
-        Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo ao polímero uma massa molecular elevada e propriedades específicas, como elasticidade, resistência térmica e mecânica, além de versatilidade em aplicações industriais e tecnológicas.
-
-        De forma geral, os polímeros podem ser classificados em:
-
-        - **Naturais**: como a celulose, o amido e as proteínas;
-        - **Sintéticos**: como o polietileno (PE), o polipropileno (PP) e o poliestireno (PS), produzidos por reações de polimerização.
-
-        Quanto ao comportamento térmico:
-
-        - **Termoplásticos**: amolecem ao aquecer e podem ser remodelados;
-        - **Termofixos**: não se fundem novamente após moldagem.
-
-        Estruturalmente, os polímeros podem ser:
-
-        - **Lineares** (ex: PE) – Flexíveis e moldáveis;
-        - **Ramificadas** (ex: LDPE) – Menor densidade;
-        - **Reticuladas** (ex: borracha vulcanizada) – Alta rigidez e estabilidade térmica.
-
-        Essas características influenciam diretamente as aplicações dos polímeros em setores como embalagens, medicina, engenharia, eletrônica, entre outros.
-
-        **Referências**:
-
-        - ATKINS, P.; JONES, L. *Princípios de Química*. 5. ed. Bookman, 2012.  
-        - CALLISTER, W. D.; RETHWISCH, D. G. *Fundamentos da Ciência e Engenharia dos Materiais*. 9. ed. LTC, 2020.  
-        - MANO, E. B.; MENDES, L. C. *Introdução a Polímeros*. 4. ed. Edgard Blücher, 2005.  
-        - RICHARDSON, J. T. *Química dos Materiais Poliméricos*. LTC, 2000.  
-        - ODIAN, G. *Principles of Polymerization*. 4th ed. Wiley-Interscience, 2004.
-        """)
-
-        mostrar_imagem_com_fallback(
-            "polo.png",
-            IMAGES_MATERIAIS_DIR,
-            """
-            Figura: Estrutura molecular de polímeros sintéticos típicos.  
-            Fonte: MARTINS, Daniela de Luna. *O que são polímeros?* Daniela Martins Group, 26 jan. 2022.  
-            Disponível em: [danielamartinsgroup.com.br](https://www.danielamartinsgroup.com.br/post/o-que-s%C3%A3o-pol%C3%ADmeros).  
-            Acesso em: 30 jun. 2025.
-            """,
-            COR_MATERIAIS
-        )
-
-
-        st.markdown("""
-### 🔄 Classificação dos Polímeros
-
-Os polímeros podem ser classificados em dois grandes grupos: **naturais** e **sintéticos**, de acordo com sua origem.
-
-Os **polímeros naturais** são produzidos por organismos vivos e desempenham papéis fundamentais na estrutura e funcionamento dos seres vivos. Exemplos incluem a **celulose**, presente na parede celular das plantas; o **amido**, que atua como reserva energética; a **quitina**, encontrada no exoesqueleto de artrópodes; as **proteínas**, como o colágeno e a seda; e o **látex**, utilizado na fabricação de borracha natural.
-
-Já os **polímeros sintéticos** são obtidos em laboratório ou na indústria, a partir de processos de polimerização, e estão amplamente presentes em diversos setores. Entre eles estão o **PET**, usado em garrafas plásticas; o **PE** e o **PP**, comuns em embalagens; o **PVC**, utilizado em tubos e conexões; o **PS**, presente em isopor; o **Nylon**, usado em tecidos e cordas; e o **PLA**, um bioplástico derivado de fontes renováveis como o amido de milho.
-
-A distinção entre esses dois tipos está relacionada tanto à origem quanto às propriedades físico-químicas, aplicações industriais e impactos ambientais.
-""")
-
-        # Imagem tipos2.png
-        mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
-                                  "Aplicações comerciais dos principais polímeros", COR_MATERIAIS)
-
-## 📊 Propriedades Comparativas dos Principais Polímeros
-""")
 
     st.markdown("""
-### 📊 Propriedades dos Polímeros Sintéticos
+    ## 🔬 Polímeros: Estrutura, Propriedades e Sustentabilidade
 
-| Polímero | Símbolo | Ponto de Fusão (°C) | Máx. Uso Contínuo (°C) | Densidade (g/cm³) | Resistência (MPa) | Reciclável | Dificuldades na Reciclagem               |
-|----------|---------|---------------------|------------------------|-------------------|-------------------|------------|------------------------------------------|
-| PET      | ♳       | 260-265             | 120-150                | 1.38-1.39         | 55-75             | Alta (1)   | Contaminação por corantes                 |
-| PEAD     | ♴       | 130-137             | 80-100                 | 0.94-0.96         | 20-32             | Alta (2)   | Separação por densidade                   |
-| PVC      | ♵       | 100-260             | 60-80                  | 1.38-1.55         | 40-60             | Baixa (3)  | Liberação de HCl durante processamento   |
-| PP       | ♷       | 160-165             | 110-140                | 0.90-0.91         | 30-40             | Média (5)  | Degradação térmica                        |
-| PS       | ♸       | 240                 | 70-95                  | 1.04-1.05         | 30-50             | Baixa (6)  | Baixo valor de mercado                    |
+    Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo propriedades únicas como elasticidade, resistência térmica e mecânica.
 
-**Legenda dos códigos de reciclagem**:  
-♳ (1) PET - Polietileno tereftalato  
-♴ (2) PEAD - Polietileno de alta densidade  
-♵ (3) PVC - Policloreto de vinila  
-♷ (5) PP - Polipropileno  
-♸ (6) PS - Poliestireno
-""")
-    st.markdown("""
-## ♻️ Ciclo de Vida e Reciclagem de Polímeros
+    ### Classificação dos Polímeros
 
-### 📊 Composição
-A distribuição dos polímeros em resíduos urbanos mostra padrões distintos de reciclabilidade. No Brasil, os dados de reciclagem revelam que o PET lidera com 55% de taxa de reciclagem, seguido pelo PEAD com 30%. O PVC apresenta um problema crítico com menos de 5% de reciclagem, enquanto as embalagens multicamadas permanecem virtualmente irrecicláveis com a tecnologia atual.
+    Podemos classificar os polímeros em:
 
-### ⚙️ Processos
-O fluxograma de reciclagem mecânica destaca parâmetros operacionais cruciais: as temperaturas de extrusão variam de 270-290°C para PET e 200-230°C para PP. O processo consome aproximadamente 10 litros de água por quilo de plástico processado, mas oferece ganhos significativos em eficiência energética, consumindo 30-50% menos energia comparado à produção de material virgem.
+    - **Naturais**: celulose (paredes celulares vegetais), amido (reserva energética), proteínas (colágeno, seda), látex (borracha natural)
+    - **Sintéticos**: PET (garrafas), PE e PP (embalagens), PVC (tubos), PS (isopor), Nylon (tecidos), PLA (bioplásticos)
 
-### 💡 Inovações
-As tecnologias emergentes no ciclo de vida dos polímeros incluem quatro tendências principais: (1) desenvolvimento de biopolímeros como PLA e PHA, (2) avanços em reciclagem química, (3) aplicação de catalisadores enzimáticos para degradação seletiva, e (4) implementação de sistemas de inteligência artificial para triagem automatizada de resíduos.
+    Quanto ao comportamento térmico:
+    - **Termoplásticos**: Podem ser remodelados (PET, PE, PP)
+    - **Termofixos**: Mantêm forma após moldagem (borracha vulcanizada)
 
-## 🌍 Ações Sustentáveis
+    Estruturalmente:
+    - **Lineares**: Flexíveis (PE)
+    - **Ramificados**: Menor densidade (LDPE)
+    - **Reticulados**: Alta rigidez (borracha vulcanizada)
 
-**Na Indústria:**
-As melhores práticas envolvem estratégias de design para reciclagem desde a concepção do produto e a otimização de sistemas de logística reversa para aumentar as taxas de recuperação de materiais.
+    ### Propriedades dos Principais Polímeros Sintéticos
 
-**Para a Sociedade:**
-Recomenda-se: 1) separação adequada na fonte, 2) redução do consumo de descartáveis, 3) preferência por produtos feitos com material reciclado, e 4) participação ativa em cooperativas de reciclagem para fortalecer a economia circular.
-""")
-        
+    - **PET (♳)**: Ponto de fusão 260-265°C, densidade 1.38-1.39 g/cm³, resistência 55-75 MPa
+    - **PEAD (♴)**: Fusão 130-137°C, densidade 0.94-0.96 g/cm³, resistência 20-32 MPa
+    - **PVC (♵)**: Fusão 100-260°C, libera HCl no processamento
+    - **PP (♷)**: Fusão 160-165°C, resistência 30-40 MPa
+    - **PS (♸)**: Fusão 240°C, baixa reciclabilidade
+
+    ### Reciclagem e Sustentabilidade
+
+    No Brasil:
+    - PET: 55% de reciclagem
+    - PEAD: 30%
+    - PVC: <5%
+    - Embalagens multicamadas: difíceis de reciclar
+
+    Processo de reciclagem:
+    - Temperaturas: PET 270-290°C, PP 200-230°C
+    - Consumo: ~10L água/kg plástico
+    - Eficiência: 30-50% melhor que produção virgem
+
+    **Inovações:**
+    1. Biopolímeros (PLA, PHA)
+    2. Reciclagem química avançada
+    3. Catalisadores enzimáticos
+    4. IA para triagem automatizada
+
+    **Boas Práticas:**
+    - Indústria: Design ecológico, logística reversa
+    - Sociedade: Separação adequada, redução de descartáveis, apoio a cooperativas
+
+    **Referências:**
+    - ATKINS, P.; JONES, L. Princípios de Química. 5.ed. Bookman, 2012.
+    - CALLISTER, W. D. Fundamentos da Ciência dos Materiais. 9.ed. LTC, 2020.
+    - MANO, E. B. Introdução a Polímeros. 4.ed. Edgard Blücher, 2005.
+    """)
+
+    # Adicionar imagens
+    mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR,
+                              "Estrutura molecular de polímeros", COR_MATERIAIS)
+    mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
+                              "Aplicações dos polímeros", COR_MATERIAIS)
 #função isopor
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
