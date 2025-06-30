@@ -606,7 +606,9 @@ def mostrar_isopor():
     except FileNotFoundError:
         st.warning(f"Imagem não encontrada em: {eps_path}")
         # Cria um placeholder com a cor de fallback
-        st.image(Image.new('RGB', (800, 400), caption="Placeholder - Processo de reciclagem EPS")
+        placeholder = Image.new('RGB', (800, 400), color=(200, 230, 200))
+        st.image(placeholder, caption="Placeholder - Processo de reciclagem EPS")
+        
     # Dicas de descarte
     st.subheader("📦 Como Preparar seu Isopor®:")
     col1, col2 = st.columns(2)
