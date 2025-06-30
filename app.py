@@ -599,6 +599,7 @@ def mostrar_isopor():
     - Elementos flutuantes e moldes
     """)
     
+    
     # Mostra a imagem local eps.png
     eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
     try:
