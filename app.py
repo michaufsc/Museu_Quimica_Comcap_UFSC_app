@@ -922,8 +922,7 @@ def mostrar_microplasticos():
     - Inflamações e bloqueios intestinais;
     - Acúmulo de substâncias tóxicas nos tecidos.
 
-    Os efeitos não param por aí: os microplásticos **sobem na cadeia alimentar**, chegando até peixes e frutos do mar consumidos por humanos — um risco silencioso, mas real.
-
+     Os efeitos não param por aí: os microplásticos **sobem na cadeia alimentar**, chegando até peixes e frutos do mar consumidos por humanos - um risco silencioso, mas real.
     ---
 
     ### 🌍 O caso de Florianópolis
