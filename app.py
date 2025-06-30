@@ -580,20 +580,33 @@ def mostrar_quimica():
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
     
-    # Mostra apenas a imagem local eps.png
+    # Texto técnico sobre EPS
+    st.markdown("""
+    ### Poliestireno Expandido (EPS): O Material Versátil
+
+    O EPS, conhecido popularmente como isopor, é um plástico celular rígido composto por 98% de ar e apenas 2% de matéria-prima plástica. Sua estrutura única de células fechadas lhe confere propriedades excepcionais:
+
+    - **Excelente isolamento térmico** (condutividade 0,031-0,038 W/mK)
+    - **Baixa absorção de água** (<1% em 24h)
+    - **Resistência mecânica** proporcional à densidade (10-30 kg/m³)
+    - **Ampla faixa térmica** de trabalho (-40°C a +70°C)
+    - **100% reciclável** (mecânica e quimicamente)
+
+    **Aplicações principais:**
+    - Embalagens protetoras para eletrônicos
+    - Isolamento térmico em construção civil
+    - Componentes para refrigeração industrial
+    - Elementos flutuantes e moldes
+    """)
+    
+    # Mostra a imagem local eps.png
     eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
-    
-    if os.path.exists(eps_path):
-        st.image(eps_path,
-               caption="Local correto para descarte e encaminhamento para reciclagem do EPS/Isopor®",
-               use_container_width=True)
-    else:
-        # Fallback visual se a imagem não existir
-        st.error("Imagem eps.png não encontrada na pasta de resíduos!")
-        st.image(Image.new('RGB', (600, 400), color=(255, 165, 0)),  # Fundo laranja
-               caption="Ilustração do Isopor® (imagem padrão)",
-               use_container_width=True)
-    
+    try:
+        st.image(eps_path, caption="Processo de reciclagem de EPS - Projeto Recicla+EPS", use_column_width=True)
+    except FileNotFoundError:
+        st.warning(f"Imagem não encontrada em: {eps_path}")
+        # Cria um placeholder com a cor de fallback
+        st.image(Image.new('RGB', (800, 400), caption="Placeholder - Processo de reciclagem EPS")
     # Dicas de descarte
     st.subheader("📦 Como Preparar seu Isopor®:")
     col1, col2 = st.columns(2)
