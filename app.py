@@ -906,7 +906,7 @@ def mostrar_microplasticos():
 
     ### ⚗️ A Química contra a poluição invisível
 
-    A Química nos permite **detectar, identificar e compreender** os efeitos dos microplásticos:
+    A Química nos permite detectar, identificar e compreender os efeitos dos microplásticos:
 
     - Técnicas como **espectroscopia FTIR e Raman** identificam o tipo de polímero presente nas partículas.
     - Substâncias tóxicas como **bisfenol A (BPA)** e **ftalatos**, presentes nos plásticos, podem se desprender e agir como **disruptores endócrinos**, afetando o sistema hormonal de animais e humanos.
