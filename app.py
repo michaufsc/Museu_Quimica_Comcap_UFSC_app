@@ -587,39 +587,25 @@ A distinção entre esses dois tipos está relacionada tanto à origem quanto à
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("""
-            ### 🔥 Resistência Térmica
-            | Polímero | Ponto de Fusão (°C) | Máx. Uso Contínuo |
-            |----------|---------------------|-------------------|
-            | PET      | 260-265             | 120-150           |
-            | PEAD     | 130-137             | 80-100            |
-            | PVC      | 100-260             | 60-80             |
-            | PP       | 160-165             | 110-140           |
-            | PS       | 240                 | 70-95             |
-            """)
+          st.markdown("""
+### 📊 Propriedades dos Polímeros Sintéticos
 
-        with col2:
-            st.markdown("""
-            ### ⚖️ Propriedades Mecânicas
-            | Polímero | Densidade (g/cm³) | Resistência (MPa) |
-            |----------|-------------------|------------------|
-            | PET      | 1.38-1.39         | 55-75            |
-            | PEAD     | 0.94-0.96         | 20-32            |
-            | PVC      | 1.38-1.55         | 40-60            |
-            | PP       | 0.90-0.91         | 30-40            |
-            | PS       | 1.04-1.05         | 30-50            |
-            """)
+| Polímero | Símbolo | Ponto de Fusão (°C) | Máx. Uso Contínuo (°C) | Densidade (g/cm³) | Resistência (MPa) | Reciclável | Dificuldades na Reciclagem               |
+|----------|---------|---------------------|------------------------|-------------------|-------------------|------------|------------------------------------------|
+| PET      | 🍼      | 260-265             | 120-150                | 1.38-1.39         | 55-75             | Alta (1)   | Contaminação por corantes                 |
+| PEAD     | 🛍️      | 130-137             | 80-100                 | 0.94-0.96         | 20-32             | Alta (2)   | Separação por densidade                   |
+| PVC      | 🚰      | 100-260             | 60-80                  | 1.38-1.55         | 40-60             | Baixa (3)  | Liberação de HCl durante processamento   |
+| PP       | 📦      | 160-165             | 110-140                | 0.90-0.91         | 30-40             | Média (5)  | Degradação térmica                        |
+| PS       | 🍨      | 240                 | 70-95                  | 1.04-1.05         | 30-50             | Baixa (6)  | Baixo valor de mercado                    |
 
-        st.markdown("""
-        ### ♻️ Reciclabilidade
-        | Polímero | Código | Reciclável | Dificuldades          |
-        |----------|--------|------------|-----------------------|
-        | PET      | 1      | Alta       | Contaminação por corantes |
-        | PEAD     | 2      | Alta       | Separação por densidade |
-        | PVC      | 3      | Baixa      | Liberação de HCl       |
-        | PP       | 5      | Média      | Degradação térmica     |
-        | PS       | 6      | Baixa      | Baixo valor de mercado |
-        """)
+**Legenda dos códigos de reciclagem**:  
+(1) PET - Polietileno tereftalato  
+(2) PEAD - Polietileno de alta densidade  
+(3) PVC - Policloreto de vinila  
+(5) PP - Polipropileno  
+(6) PS - Poliestireno
+""")
+
     
     with tab2:
         st.markdown("""
