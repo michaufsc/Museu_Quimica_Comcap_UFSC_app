@@ -584,8 +584,27 @@ def mostrar_isopor():
     st.markdown("""
     ### Poliestireno Expandido (EPS): O Material Versátil
 
-    O EPS, conhecido popularmente como isopor, é um plástico celular rígido composto por 98% de ar e apenas 2% de matéria-prima plástica. Sua estrutura única de células fechadas lhe confere propriedades excepcionais:
+    O EPS, conhecido popularmente como isopor, é um plástico celular rígido composto por 98% de ar e apenas 2% de matéria-prima plástica. Sua estrutura única de células fechadas lhe confere propriedades excepcionais que o tornam indispensável em diversas aplicações.
 
+Do ponto de vista químico, o EPS é um polímero termoplástico derivado do estireno. Suas características técnicas incluem excelente isolamento térmico (com condutividade entre 0,031-0,038 W/mK), baixa absorção de água (menos de 1% em 24 horas) e resistência mecânica proporcional à sua densidade, que varia tipicamente entre 10 e 30 kg/m³.
+
+Na indústria, o EPS se destaca por três qualidades principais: seu desempenho como isolante térmico, sua leveza combinada com resistência e sua versatilidade de moldagem. Essas propriedades o tornam ideal para aplicações tão diversas como:
+
+Embalagens protetoras para produtos eletrônicos e eletrodomésticos
+
+Isolamento térmico em construções civis
+
+Componentes para refrigeração industrial
+
+Moldes para fundição
+
+Elementos flutuantes
+
+O material mantém suas propriedades em uma ampla faixa de temperaturas (-40°C a +70°C) e possui vida útil prolongada, especialmente em aplicações estáticas, onde pode durar mais de 50 anos.
+
+Do ponto de vista ambiental, o EPS é 100% reciclável, tanto mecanicamente quanto quimicamente. Sua produção moderna apresenta baixo consumo energético e as indústrias do setor têm implementado programas eficientes de logística reversa.
+
+Vale ressaltar que "Isopor" é uma marca registrada que se tornou sinônimo de EPS no Brasil, representando produtos de alta qualidade dentro desta categoria de materiais. Sua versatilidade e desempenho técnico continuam a impulsionar inovações e novas aplicações industriais.
     - **Excelente isolamento térmico** (condutividade 0,031-0,038 W/mK)
     - **Baixa absorção de água** (<1% em 24h)
     - **Resistência mecânica** proporcional à densidade (10-30 kg/m³)
