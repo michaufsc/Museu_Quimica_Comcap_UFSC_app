@@ -608,15 +608,22 @@ def mostrar_isopor():
     *Observação*: "Isopor" é uma marca registrada que se tornou sinônimo de EPS no Brasil, representando produtos de alta qualidade nesta categoria de materiais.
     """)
     
-    # Mostra a imagem local eps.png
+   # Mostra a imagem local eps.png
     eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
     try:
-        st.image(eps_path, caption="Processo de reciclagem de EPS - Projeto Recicla+EPS", use_column_width=True)
+        st.image(
+            eps_path,
+            caption="Diagrama do processo de reciclagem mecânica de EPS - Projeto Recicla+EPS",
+            use_container_width=True  # Parâmetro atualizado
+        )
     except FileNotFoundError:
         st.warning(f"Imagem não encontrada em: {eps_path}")
-        # Cria um placeholder com a cor de fallback
         placeholder = Image.new('RGB', (800, 400), color=(200, 230, 200))
-        st.image(placeholder, caption="Placeholder - Processo de reciclagem EPS")
+        st.image(
+            placeholder,
+            caption="Diagrama ilustrativo do processo de reciclagem",
+            use_container_width=True
+        )
         
     # Dicas de descarte
     st.subheader("📦 Como Preparar seu Isopor®:")
