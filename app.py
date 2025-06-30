@@ -609,7 +609,7 @@ def mostrar_isopor():
     """)
     
     # Mostra a imagem local eps.png
-    eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
+    eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "isopor.png")
     try:
         st.image(
             eps_path,
@@ -625,7 +625,7 @@ def mostrar_isopor():
         )
     
     # Dicas de descarte
-    st.subheader("📦 Como Preparar seu Isopor®:")
+    st.subheader("📦 Como Preparar seu Isopor® para a reciclagem:")
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -650,7 +650,21 @@ def mostrar_isopor():
     - Florianópolis recicla **10 toneladas/mês** de Isopor®  
     - Reduz a poluição ambiental  
     """)
-
+ # Mostra a imagem local eps.png
+    eps_path = os.path.join(IMAGES_RESIDUOS_DIR, "eps.png")
+    try:
+        st.image(
+            eps_path,
+            caption="Diagrama do processo de reciclagem mecânica de EPS - Projeto Recicla+EPS",
+            use_container_width=True
+        )
+    except FileNotFoundError:
+        placeholder = Image.new('RGB', (800, 400), color=(200, 230, 200))
+        st.image(
+            placeholder,
+            caption="Diagrama ilustrativo do processo de reciclagem",
+            use_container_width=True
+        )
     # Título geral da seção de reciclagem
     st.header("♻️ A Reciclagem do Isopor®")
 
