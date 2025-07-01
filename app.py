@@ -175,7 +175,65 @@ def load_quiz():
     except Exception as e:
         st.error(f"Falha crítica ao carregar quiz: {str(e)}")
         return []
-
+#acessibilidade
+def load_custom_css():
+    """Carrega os estilos CSS personalizados"""
+    st.markdown("""
+    <style>
+        /* Variáveis de cores */
+        :root {
+            --primary-color: #1e88e5;
+            --secondary-color: #2e7d32;
+            --error-color: #d32f2f;
+        }
+        
+        /* Estilos gerais */
+        body {
+            color: #333333;
+            line-height: 1.6;
+        }
+        
+        /* Cabeçalhos */
+        h1, h2, h3 {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Botões */
+        .stButton>button {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+        }
+        
+        /* Abas */
+        [data-baseweb="tab"] {
+            padding: 10px 16px !important;
+            margin: 0 4px !important;
+            border-radius: 4px !important;
+        }
+        
+        [data-baseweb="tab"][aria-selected="true"] {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+        }
+        
+        /* Melhorias de acessibilidade */
+        [data-baseweb="input"]:focus,
+        [data-baseweb="textarea"]:focus,
+        [data-baseweb="select"]:focus {
+            box-shadow: 0 0 0 2px var(--primary-color) !important;
+        }
+        
+        /* Imagens */
+        .stImage {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 8px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
 #dados esps isopor
 @st.cache_data
 def carregar_pontos_isopor():
@@ -1149,26 +1207,9 @@ def mostrar_plastico_oceanos():
     """)
 # Função principal
 def main():
-    # --- CSS PERSONALIZADO (COLOCAR AQUI NO TOPO DA main()) ---
-    st.markdown("""
-    <style>
-        /* Seus estilos personalizados */
-        :root {
-            --primary-color: #1e88e5;
-        }
-        
-        /* Exemplo: mudar cor de botões */
-        .stButton>button {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        /* Melhorar abas */
-        [data-baseweb="tab"] {
-            padding: 10px !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+     # Carrega CSS primeiro
+    load_custom_css()
+    
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
     st.subheader("Aplicativo para educação ambiental")
     st.subheader("Oceano de Plásticos")
