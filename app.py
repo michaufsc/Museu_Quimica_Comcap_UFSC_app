@@ -1149,6 +1149,27 @@ def mostrar_plastico_oceanos():
     """)
 # Função principal
 def main():
+    def main():
+    # --- CSS PERSONALIZADO (COLOCAR AQUI NO TOPO DA main()) ---
+    st.markdown("""
+    <style>
+        /* Seus estilos personalizados */
+        :root {
+            --primary-color: #1e88e5;
+        }
+        
+        /* Exemplo: mudar cor de botões */
+        .stButton>button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Melhorar abas */
+        [data-baseweb="tab"] {
+            padding: 10px !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
     st.header("Museu do Lixo ♻️ COMCAP Florianópolis")
     st.subheader("Aplicativo para educação ambiental")
     st.subheader("Oceano de Plásticos")
