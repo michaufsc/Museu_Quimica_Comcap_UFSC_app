@@ -631,7 +631,7 @@ def mostrar_quimica():
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
 
-st.markdown("""
+    st.markdown("""
     ## 🔬 Polímeros: Estrutura, Propriedades e Sustentabilidade
 
     Os **polímeros** são macromoléculas formadas pela repetição de unidades estruturais menores chamadas **monômeros**, unidas por ligações covalentes. Essa repetição pode ocorrer centenas ou milhares de vezes, conferindo propriedades únicas como elasticidade, resistência térmica e mecânica.
@@ -691,9 +691,10 @@ st.markdown("""
 
     # Adicionar imagens
     mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR,
-                              "Estrutura molecular de polímeros", COR_MATERIAIS)
+                                "Estrutura molecular de polímeros", COR_MATERIAIS)
     mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
-                              "Aplicações dos polímeros", COR_MATERIAIS)
+                                "Aplicações dos polímeros", COR_MATERIAIS)
+
 def mostrar_isopor():
     st.header("♻️ Projeto Recicla+EPS - Florianópolis")
     
