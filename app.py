@@ -1149,7 +1149,6 @@ def mostrar_plastico_oceanos():
     """)
 # Função principal
 def main():
-    def main():
     # --- CSS PERSONALIZADO (COLOCAR AQUI NO TOPO DA main()) ---
     st.markdown("""
     <style>
