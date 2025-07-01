@@ -774,7 +774,7 @@ def mostrar_isopor():
     try:
         st.image(
             eps_path,
-            caption="Diagrama do processo de reciclagem mecânica de EPS - Projeto Recicla+EPS",
+            caption="O EPS é amplamente utilizado em nossa sociedade",
             use_container_width=True
         )
     except FileNotFoundError:
