@@ -988,18 +988,17 @@ def mostrar_mapa_coleta():
 def mostrar_coleta_seletiva():
     st.header("♻️ Coleta Seletiva em Florianópolis – COMCAP")
 
-    # SEÇÃO 1 – Instruções gerais
+    # BLOCO 1 – ORIENTAÇÕES GERAIS
+    st.markdown("### ✅ Como separar corretamente os resíduos")
     st.markdown("""
-    ### ✅ Como separar corretamente os resíduos
-    Para garantir a reciclagem eficiente dos resíduos:
-
-    - Separe materiais **limpos e secos** em **sacos transparentes**.
+    - Separe os materiais **limpos e secos**, em **sacos transparentes**.
     - O **vidro** deve ser embalado separadamente e com segurança.
-    - **Isopor (EPS)** só é aceito se limpo e vai com o **plástico (vermelho)**.
-    - Embalagens longa vida devem estar limpas e vão no **papel (azul)**.
+    - **Isopor (EPS)** vai com o plástico (vermelho), somente se estiver limpo.
+    - **Embalagens longa vida** devem ser lavadas e descartadas no azul (papel).
     """)
 
-    st.subheader("🌈 Sistema de Cores COMCAP / CONAMA")
+    # BLOCO 2 – SISTEMA DE CORES
+    st.subheader("🌈 Sistema de Cores da Coleta Seletiva")
     with st.container():
         col1, col2, col3, col4 = st.columns(4)
 
@@ -1009,64 +1008,65 @@ def mostrar_coleta_seletiva():
 
         with col2:
             st.markdown("""<div style='background-color:#1E90FF; color:white; padding:10px; border-radius:5px; text-align:center;'><strong>AZUL</strong><br>PAPEL</div>""", unsafe_allow_html=True)
-            st.markdown("- Caixas\n- Folhas\n- Embalagens longa vida")
+            st.markdown("- Jornais\n- Caixas\n- Embalagens longa vida")
 
         with col3:
             st.markdown("""<div style='background-color:#FFD700; color:black; padding:10px; border-radius:5px; text-align:center;'><strong>AMARELO</strong><br>METAL</div>""", unsafe_allow_html=True)
-            st.markdown("- Latas\n- Grampos\n- Aerossóis vazios")
+            st.markdown("- Latas\n- Aerossóis vazios\n- Tampinhas")
 
         with col4:
             st.markdown("""<div style='background-color:#FF6347; color:white; padding:10px; border-radius:5px; text-align:center;'><strong>VERMELHO</strong><br>PLÁSTICO</div>""", unsafe_allow_html=True)
-            st.markdown("- Garrafas PET\n- Sacolas\n- Potes e utensílios")
+            st.markdown("- PET\n- Sacolas\n- Potes\n- Embalagens")
 
-    st.subheader("🚫 Materiais Não Recicláveis (Rejeitos)")
+    # BLOCO 3 – MATERIAIS NÃO RECICLÁVEIS
+    st.subheader("🚫 Materiais que não devem ir para reciclagem")
     st.markdown("""
-    | Cor | Tipo | Exemplos |
-    |------|------|----------|
+    | Cor | Tipo        | Exemplos |
+    |------|-------------|----------|
     | 🟫 Marrom | Orgânicos | Restos de comida, folhas |
-    | ⚫ Cinza | Rejeitos | Papel higiênico, fraldas |
+    | ⚫ Cinza | Rejeitos  | Fraldas, papel higiênico, espuma |
     | 🟧 Laranja | Perigosos | Pilhas, lâmpadas, medicamentos |
-    """)
+    """, unsafe_allow_html=True)
 
-    st.markdown("### 📌 Dicas Importantes:")
+    st.markdown("### 📌 Dicas importantes")
     st.markdown("""
-    - Nunca misture recicláveis com resíduos orgânicos ou contaminados.
-    - Embalagens com gordura ou restos de alimentos não são recicláveis.
-    - Leve **pilhas, lâmpadas e eletrônicos** a pontos de coleta específicos (PEVs).
+    - Evite colocar embalagens sujas nos recicláveis.
+    - Nunca misture lixo do banheiro com recicláveis.
+    - Leve pilhas, lâmpadas e eletrônicos aos **PEVs ou Ecopontos**.
     """)
 
-    # SEÇÃO 2 – Imagem oficial da COMCAP
-    st.subheader("🖼️ Cartaz oficial de separação COMCAP")
-    st.image("13_05_2021_12.24.12.f6158d3e9b4878aea6fe250550b754e3_page-0001 (1).jpg", use_column_width=True)
-    st.caption("Fonte: COMCAP – Prefeitura Municipal de Florianópolis")
+    # BLOCO 4 – CARTAZ COMCAP
+    st.subheader("🖼️ Cartaz oficial de separação por cores – COMCAP")
+    st.image("materiais/cartaz_comcap.jpg", use_column_width=True)
+    st.caption("Fonte: COMCAP – Prefeitura de Florianópolis")
 
-    # SEÇÃO 3 – Filtros e mapa dos pontos de coleta
+    # BLOCO 5 – FILTROS E MAPA INTERATIVO
     st.subheader("📍 Pontos de Coleta Seletiva por Bairro")
 
-    df = load_coleta_data()
-    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-    df = df.dropna(subset=['latitude', 'longitude'])
+    try:
+        df = load_coleta_data()  # Função que você já deve ter no projeto
+        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+        df = df.dropna(subset=['latitude', 'longitude'])
 
-    with st.expander("📋 Filtros - clique para abrir/fechar"):
-        bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
-        bairros.insert(0, "Todos")
-        bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
+        with st.expander("📋 Filtros - clique para abrir"):
+            bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
+            bairros.insert(0, "Todos")
+            bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
 
-        tipos = ["Todos"] + list(df['tipo'].dropna().unique())
-        tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
+            tipos = ["Todos"] + sorted(df['tipo'].dropna().unique())
+            tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
 
-    dados_filtrados = df.copy()
-    if bairro_selecionado != "Todos":
-        dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
-    if tipo_selecionado != "Todos":
-        dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
+        dados_filtrados = df.copy()
+        if bairro_selecionado != "Todos":
+            dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
+        if tipo_selecionado != "Todos":
+            dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
-    st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
-    st.dataframe(dados_filtrados.reset_index(drop=True))
+        st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
+        st.dataframe(dados_filtrados.reset_index(drop=True))
 
-    if not dados_filtrados.empty:
-        try:
+        if not dados_filtrados.empty:
             centro_lat = dados_filtrados['latitude'].mean()
             centro_lon = dados_filtrados['longitude'].mean()
 
@@ -1080,42 +1080,32 @@ def mostrar_coleta_seletiva():
                     icon=folium.Icon(color="green", icon="recycle", prefix="fa")
                 ).add_to(mapa)
 
-            st.markdown("### 🗺️ Mapa dos Pontos de Coleta")
+            st.markdown("### 🌍 Mapa dos Pontos Filtrados")
             folium_static(mapa)
-        except Exception as e:
-            st.warning(f"Não foi possível exibir o mapa: {str(e)}")
-    else:
-        st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+        else:
+            st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+    except Exception as e:
+        st.error(f"Erro ao carregar mapa: {e}")
 
-    # SEÇÃO 4 – Links úteis e dúvidas frequentes
+    # BLOCO 6 – LINKS ÚTEIS E DÚVIDAS
     st.markdown("---")
-    st.subheader("🔗 Materiais de apoio e dúvidas frequentes")
-
+    st.subheader("🔗 Links úteis e dúvidas frequentes")
     st.markdown("""
-    - 📄 [Manual Técnico COMCAP – Edificações Multifamiliares](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/20_05_2014_10.56.47.a758dfd1f3e270c2f6c847b37a9840f0.pdf)
-    - 🧾 [Roteiro da Coleta Seletiva (COMCAP)](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/23_01_2024_19.18.30.c7a5cbf241f899b74646f8d7668c6c98.pdf)
-    - 🌿 [Calendário de Coleta de Verdes (2025)](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/26_01_2024_16.09.47.b8ae2ab79b5fd10a2d6d2f6406c84a7b.pdf)
-    - 📦 [Lista de Ecopontos e PEVs](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/15_06_2022_12.00.23.7ce91bbd19a6b8b44d3f5ff383c59f3e.pdf)
-    - 🛋️ Agendamento de volumosos: [WhatsApp (48) 3216-0202](https://wa.me/554832160202)
+    - 📄 [Manual Técnico COMCAP – Edificações](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/20_05_2014_10.56.47.a758dfd1f3e270c2f6c847b37a9840f0.pdf)
+    - 🧾 [Roteiro da Coleta Seletiva](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/23_01_2024_19.18.30.c7a5cbf241f899b74646f8d7668c6c98.pdf)
+    - 🌿 [Calendário da Coleta de Verdes (2025)](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/26_01_2024_16.09.47.b8ae2ab79b5fd10a2d6d2f6406c84a7b.pdf)
+    - 📍 [Lista de Ecopontos e PEVs](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/15_06_2022_12.00.23.7ce91bbd19a6b8b44d3f5ff383c59f3e.pdf)
+    - 📲 Agendamento de volumosos: [WhatsApp (48) 3216-0202](https://wa.me/554832160202)
     """)
 
     st.markdown("""
     ### ❓ Dúvidas frequentes
-
-    - **Preciso lavar as embalagens recicláveis?**  
-      Sim. Resíduos sujos contaminam o material reciclável.
-
-    - **Onde descartar eletrônicos, pilhas e lâmpadas?**  
-      Leve aos **PEVs ou Ecopontos** mais próximos.
-
-    - **Vidros quebrados são recicláveis?**  
-      Sim, se forem comuns (não cristal) e bem embalados para segurança.
-
-    - **Posso colocar roupa ou pano na coleta seletiva?**  
-      Não. Destine para doação ou PEVs que aceitem tecidos.
+    - **Preciso lavar as embalagens?** Sim! Isso evita contaminação.
+    - **Vidro quebrado pode reciclar?** Sim, se for comum e bem embalado.
+    - **Roupas podem ir na coleta?** Não. Leve para doação ou PEV específico.
     """)
 
-    st.caption("📘 Conteúdo baseado no Manual Técnico COMCAP-AsBEA e na Lei Federal 12.305/2010 – PNRS.")
+    st.caption("📘 Conteúdo com base na Política Nacional de Resíduos Sólidos e na COMCAP/Prefeitura de Florianópolis.")
 
 
 
