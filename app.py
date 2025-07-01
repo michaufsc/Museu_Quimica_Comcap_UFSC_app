@@ -593,32 +593,42 @@ Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 - Personagens educativos como **Neiciclagem** e **Dona Tainha**
 """)
 
-    # Seção de imagens no final
+    # Seção de imagens no final com tratamento de erro
     st.markdown("---")
     st.subheader("📸 Conheça Nossa Estrutura")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.image(
-            os.path.join(IMAGES_MATERIAIS_DIR, "museuext.png"),
-            caption="Vista externa do Museu",
-            use_container_width=True,
-            alt="Fachada do Museu do Lixo com entrada principal colorida, mostrando painéis educativos feitos com materiais reciclados. Placa indicativa com o logo do museu."
-        )
+        try:
+            st.image(
+                os.path.join(IMAGES_MATERIAIS_DIR, "museuext.png"),
+                caption="Vista externa do Museu",
+                use_container_width=True,
+                alt="Fachada do Museu do Lixo com entrada principal colorida"
+            )
+        except FileNotFoundError:
+            st.warning("Imagem da fachada não encontrada")
+            placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
+            st.image(placeholder, caption="Fachada do Museu (imagem não disponível)", use_container_width=True)
     
     with col2:
-        st.image(
-            os.path.join(IMAGES_MATERIAIS_DIR, "museuint.png"),
-            caption="Nossa equipe de educadores",
-            use_container_width=True,
-            alt="Equipe de 5 educadores ambientais uniformizados sorrindo, em frente a exposição interativa. Um deles segura o mascote Reciclardo, personagem feito de garrafas PET."
-        )
+        try:
+            st.image(
+                os.path.join(IMAGES_MATERIAIS_DIR, "museuint.png"),
+                caption="Nossa equipe de educadores",
+                use_container_width=True,
+                alt="Equipe de educadores ambientais do museu"
+            )
+        except FileNotFoundError:
+            st.warning("Imagem da equipe não encontrada")
+            placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
+            st.image(placeholder, caption="Equipe do museu (imagem não disponível)", use_container_width=True)
 
     # Rodapé institucional
     st.markdown("""
     <div style="margin-top:30px; padding:10px; background-color:#f0f0f0; border-radius:5px;">
-        <p style="text-align:center; margin:0;">ℹ️ <strong>Agendamentos e informações:</strong> ambiental.comcap@pmf.sc.gov.br | (48) 3261-4808</p>
+        <p style="text-align:center; margin:0;">ℹ️ <strong>Agendamentos:</strong> ambiental.comcap@pmf.sc.gov.br | (48) 3261-4808</p>
     </div>
     """, unsafe_allow_html=True)
 def mostrar_quimica():
