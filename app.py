@@ -531,8 +531,40 @@ def mostrar_historia():
     st.header("🏛️ Museu do Lixo – História e Agenda")
 
     st.markdown("""
-O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou-se uma referência em **educação ambiental** em Santa Catarina. Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos quatro érres (4Rs): **Repensar, Reduzir, Reutilizar e Reciclar**.
+O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou-se uma referência em **educação ambiental** em Santa Catarina. 
+Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
+""")
 
+    # Seção dos 4Rs com emojis e layout destacado
+    st.markdown("""
+<div style="background-color:#f5f5f5; padding:20px; border-radius:10px; margin:15px 0;">
+    <h3 style="color:#2e7d32; text-align:center;">♻️ Os 4Rs da Sustentabilidade ♻️</h3>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top:20px;">
+        <div style="background:#e3f2fd; padding:15px; border-radius:8px; border-left:5px solid #2196f3;">
+            <h4 style="margin:0 0 10px 0; color:#0d47a1;">🔍 1. REPENSAR</h4>
+            <p style="margin:0;">Questionar nossos hábitos: <i>"Preciso mesmo disso?"</i></p>
+        </div>
+        
+        <div style="background:#e8f5e9; padding:15px; border-radius:8px; border-left:5px solid #4caf50;">
+            <h4 style="margin:0 0 10px 0; color:#1b5e20;">📉 2. REDUZIR</h4>
+            <p style="margin:0;">Diminuir a quantidade de resíduos gerados</p>
+        </div>
+        
+        <div style="background:#fff8e1; padding:15px; border-radius:8px; border-left:5px solid #ffc107;">
+            <h4 style="margin:0 0 10px 0; color:#ff6f00;">🔄 3. REUTILIZAR</h4>
+            <p style="margin:0;">Dar novos usos antes de descartar</p>
+        </div>
+        
+        <div style="background:#fce4ec; padding:15px; border-radius:8px; border-left:5px solid #e91e63;">
+            <h4 style="margin:0 0 10px 0; color:#ad1457;">♻ 4. RECICLAR</h4>
+            <p style="margin:0;">Transformar materiais em novos produtos</p>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+    st.markdown("""
 O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** para criar um espaço de memória sobre os hábitos de consumo da sociedade.
 
 As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em **ambientes temáticos**, montados e decorados com **materiais reaproveitados** — desde as tintas das paredes até a mandala do piso, tudo feito com resíduos reciclados.
@@ -551,21 +583,44 @@ As primeiras peças foram reunidas no antigo galpão de triagem da coleta seleti
 
 ### 📍 Localização  
 Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
-""")
 
-    st.markdown("""
 ### 🔍 Saiba mais
 
-- O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap, empresa de economia mista da Prefeitura de Florianópolis.  
-- Recebe cerca de **7 mil visitantes por ano**, mediante agendamento prévio.  
-- O acervo conta com aproximadamente **10 mil itens** recuperados na coleta ou por **entrega voluntária**, ainda em processo de catalogação.  
-- A instalação ocupa uma área de **200 m²**.  
-- Coleções em destaque: ferros de passar roupa, latas de refrigerante e de cerveja, máquinas fotográficas e de costura, aparelhos de telefone e computadores.  
-- Os ambientes são decorados com **materiais reutilizados**, desde tintas até pisos.  
-- Foram criados personagens para as atividades educativas, como **Neiciclagem** (Valdinei Marques), **Dona Tainha** (Joseane Rosa), **Vento Sul** e **Reciclardo** (Ricardo Conceição).
-
----
+- O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap  
+- Recebe cerca de **7 mil visitantes por ano**  
+- Acervo com **10 mil itens** recuperados  
+- Área de **200 m²** com decoração 100% reutilizada  
+- Personagens educativos como **Neiciclagem** e **Dona Tainha**
 """)
+
+    # Seção de imagens no final
+    st.markdown("---")
+    st.subheader("📸 Conheça Nossa Estrutura")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.image(
+            os.path.join(IMAGES_MATERIAIS_DIR, "museuext.png"),
+            caption="Vista externa do Museu",
+            use_container_width=True,
+            alt="Fachada do Museu do Lixo com entrada principal colorida, mostrando painéis educativos feitos com materiais reciclados. Placa indicativa com o logo do museu."
+        )
+    
+    with col2:
+        st.image(
+            os.path.join(IMAGES_MATERIAIS_DIR, "museuint.png"),
+            caption="Nossa equipe de educadores",
+            use_container_width=True,
+            alt="Equipe de 5 educadores ambientais uniformizados sorrindo, em frente a exposição interativa. Um deles segura o mascote Reciclardo, personagem feito de garrafas PET."
+        )
+
+    # Rodapé institucional
+    st.markdown("""
+    <div style="margin-top:30px; padding:10px; background-color:#f0f0f0; border-radius:5px;">
+        <p style="text-align:center; margin:0;">ℹ️ <strong>Agendamentos e informações:</strong> ambiental.comcap@pmf.sc.gov.br | (48) 3261-4808</p>
+    </div>
+    """, unsafe_allow_html=True)
 def mostrar_quimica():
     # Definição das cores de fallback
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
