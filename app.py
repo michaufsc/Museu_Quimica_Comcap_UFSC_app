@@ -530,139 +530,154 @@ def mostrar_resultado_final(score, total_questions):
 def mostrar_historia():
     st.header("🏛️ Museu do Lixo – História e Agenda")
 
+    # Introdução
     st.markdown("""
-O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou-se uma referência em **educação ambiental** em Santa Catarina. 
-Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
-""")
-
-   # Seção dos 4Rs com layout simplificado e seguro
-    st.markdown("""
-    ### ♻️ Os 4Rs da Sustentabilidade ♻️
+    O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou-se uma referência em **educação ambiental** em Santa Catarina. 
+    Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
     """)
-    
-    cols = st.columns(4)
-    
-    with cols[0]:
-        st.markdown("""
-        <div style="
-            background:#e3f2fd;
-            padding:15px;
-            border-radius:8px;
-            border-left:5px solid #2196f3;
-            margin-bottom:15px;
-        ">
-            <h4 style="color:#0d47a1; margin-top:0;">🔍 1. REPENSAR</h4>
-            <p>Questionar nossos hábitos: <em>"Preciso mesmo disso?"</em></p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with cols[1]:
-        st.markdown("""
-        <div style="
-            background:#e8f5e9;
-            padding:15px;
-            border-radius:8px;
-            border-left:5px solid #4caf50;
-            margin-bottom:15px;
-        ">
-            <h4 style="color:#1b5e20; margin-top:0;">📉 2. REDUZIR</h4>
-            <p>Diminuir a quantidade de resíduos gerados</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with cols[2]:
-        st.markdown("""
-        <div style="
-            background:#fff8e1;
-            padding:15px;
-            border-radius:8px;
-            border-left:5px solid #ffc107;
-            margin-bottom:15px;
-        ">
-            <h4 style="color:#ff6f00; margin-top:0;">🔄 3. REUTILIZAR</h4>
-            <p>Dar novos usos antes de descartar</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with cols[3]:
-        st.markdown("""
-        <div style="
-            background:#fce4ec;
-            padding:15px;
-            border-radius:8px;
-            border-left:5px solid #e91e63;
-            margin-bottom:15px;
-        ">
-            <h4 style="color:#ad1457; margin-top:0;">♻ 4. RECICLAR</h4>
-            <p>Transformar materiais em novos produtos</p>
-        </div>
-        """, unsafe_allow_html=True)
 
+    # Seção dos 4Rs - Versão otimizada
     st.markdown("""
-O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** para criar um espaço de memória sobre os hábitos de consumo da sociedade.
+    <div style="margin: 2rem 0;">
+        <h3 style="text-align: center; color: #2e7d32; margin-bottom: 1.5rem;">♻️ Os 4Rs da Sustentabilidade ♻️</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+            
+            <div style="flex: 1; min-width: 200px; background: #e3f2fd; padding: 1.2rem; 
+                    border-radius: 8px; border-left: 5px solid #2196f3;">
+                <h4 style="color: #0d47a1; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    🔍 1. REPENSAR
+                </h4>
+                <p style="margin-bottom: 0;">Questionar nossos hábitos: <em>"Preciso mesmo disso?"</em></p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px; background: #e8f5e9; padding: 1.2rem; 
+                    border-radius: 8px; border-left: 5px solid #4caf50;">
+                <h4 style="color: #1b5e20; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    📉 2. REDUZIR
+                </h4>
+                <p style="margin-bottom: 0;">Diminuir a quantidade de resíduos gerados</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px; background: #fff8e1; padding: 1.2rem; 
+                    border-radius: 8px; border-left: 5px solid #ffc107;">
+                <h4 style="color: #ff6f00; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    🔄 3. REUTILIZAR
+                </h4>
+                <p style="margin-bottom: 0;">Dar novos usos antes de descartar</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px; background: #fce4ec; padding: 1.2rem; 
+                    border-radius: 8px; border-left: 5px solid #e91e63;">
+                <h4 style="color: #ad1457; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+                    ♻ 4. RECICLAR
+                </h4>
+                <p style="margin-bottom: 0;">Transformar materiais em novos produtos</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em **ambientes temáticos**, montados e decorados com **materiais reaproveitados** — desde as tintas das paredes até a mandala do piso, tudo feito com resíduos reciclados.
+    # História do Museu
+    st.markdown("""
+    O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** 
+    para criar um espaço de memória sobre os hábitos de consumo da sociedade.
 
----
+    As primeiras peças foram reunidas no antigo galpão de triagem da coleta seletiva. Atualmente, o acervo está disposto em 
+    **ambientes temáticos**, montados e decorados com **materiais reaproveitados** — desde as tintas das paredes até a mandala 
+    do piso, tudo feito com resíduos reciclados.
 
-### 🕓 Horário de Funcionamento  
-📅 Segunda a sexta-feira  
-🕗 Das 8h às 17h
+    ---
 
-**Visitas monitoradas devem ser agendadas:**  
-📞 (48) 3261-4808  
-📧 ambiental.comcap@pmf.sc.gov.br
+    ### 🕓 Horário de Funcionamento  
+    📅 Segunda a sexta-feira  
+    🕗 Das 8h às 17h
 
----
+    **Visitas monitoradas devem ser agendadas:**  
+    📞 (48) 3261-4808  
+    📧 ambiental.comcap@pmf.sc.gov.br
 
-### 📍 Localização  
-Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
+    ---
 
-### 🔍 Saiba mais
+    ### 📍 Localização  
+    Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 
-- O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap  
-- Recebe cerca de **7 mil visitantes por ano**  
-- Acervo com **10 mil itens** recuperados  
-- Área de **200 m²** com decoração 100% reutilizada  
-- Personagens educativos como **Neiciclagem** e **Dona Tainha**
-""")
+    ### 🔍 Saiba mais
 
-    # Seção de imagens no final com tratamento de erro
+    - O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap  
+    - Recebe cerca de **7 mil visitantes por ano**  
+    - Acervo com **10 mil itens** recuperados  
+    - Área de **200 m²** com decoração 100% reutilizada  
+    - Personagens educativos como **Neiciclagem** e **Dona Tainha**
+    """)
+
+    # Seção de imagens com tratamento robusto
     st.markdown("---")
     st.subheader("📸 Conheça Nossa Estrutura")
     
     col1, col2 = st.columns(2)
     
+    # Imagem 1 - Fachada
     with col1:
         try:
-            st.image(
-                os.path.join(IMAGES_MATERIAIS_DIR, "museuext.png"),
-                caption="Vista externa do Museu",
-                use_container_width=True,
-                alt="Fachada do Museu do Lixo com entrada principal colorida"
-            )
-        except FileNotFoundError:
+            img_path = os.path.join("imagens_materiais", "museuext.png")
+            if os.path.exists(img_path):
+                st.image(
+                    img_path,
+                    caption="Vista externa do Museu",
+                    use_container_width=True,
+                    output_format="PNG",
+                    alt="Fachada do Museu do Lixo mostrando a entrada principal com estrutura colorida e placas educativas"
+                )
+            else:
+                raise FileNotFoundError
+        except Exception:
             st.warning("Imagem da fachada não encontrada")
             placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
-            st.image(placeholder, caption="Fachada do Museu (imagem não disponível)", use_container_width=True)
+            st.image(
+                placeholder, 
+                caption="Fachada do Museu (imagem não disponível)",
+                use_container_width=True,
+                alt="Imagem substituta da fachada do museu"
+            )
     
+    # Imagem 2 - Equipe
     with col2:
         try:
-            st.image(
-                os.path.join(IMAGES_MATERIAIS_DIR, "museuint.png"),
-                caption="Nossa equipe de educadores",
-                use_container_width=True,
-                alt="Equipe de educadores ambientais do museu"
-            )
-        except FileNotFoundError:
+            img_path = os.path.join("imagens_materiais", "museuint.png")
+            if os.path.exists(img_path):
+                st.image(
+                    img_path,
+                    caption="Nossa equipe de educadores",
+                    use_container_width=True,
+                    output_format="PNG",
+                    alt="Equipe de educadores ambientais uniformizados sorrindo, em frente a exposição de materiais reciclados"
+                )
+            else:
+                raise FileNotFoundError
+        except Exception:
             st.warning("Imagem da equipe não encontrada")
             placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
-            st.image(placeholder, caption="Equipe do museu (imagem não disponível)", use_container_width=True)
+            st.image(
+                placeholder, 
+                caption="Equipe do museu (imagem não disponível)",
+                use_container_width=True,
+                alt="Imagem substituta da equipe do museu"
+            )
 
     # Rodapé institucional
     st.markdown("""
-    <div style="margin-top:30px; padding:10px; background-color:#f0f0f0; border-radius:5px;">
-        <p style="text-align:center; margin:0;">ℹ️ <strong>Agendamentos:</strong> ambiental.comcap@pmf.sc.gov.br | (48) 3261-4808</p>
+    <div style="
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        text-align: center;
+    ">
+        <p style="margin: 0;">
+            ℹ️ <strong>Agendamentos:</strong> 
+            <a href="mailto:ambiental.comcap@pmf.sc.gov.br" style="color: #1a73e8;">ambiental.comcap@pmf.sc.gov.br</a> | 
+            📞 (48) 3261-4808
+        </p>
     </div>
     """, unsafe_allow_html=True)
 def mostrar_quimica():
