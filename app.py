@@ -1200,7 +1200,7 @@ def mostrar_cooperativas():
         st.caption("📍 Clique nos marcadores para ver detalhes")
         
 def mostrar_plastico_oceanos():
-def mostrar_plastico_oceanos():
+
     st.header("🌊 A Crise dos Plásticos nos Oceanos")
     
     st.markdown("""
