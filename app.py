@@ -528,6 +528,7 @@ def mostrar_resultado_final(score, total_questions):
 
 # Função: história do Museu
 def mostrar_historia():
+    st.empty()  # Limpa qualquer conteúdo residual
     st.header("🏛️ Museu do Lixo – História e Agenda")
 
     # Introdução
