@@ -536,48 +536,37 @@ def mostrar_historia():
     Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
     """)
 
-    # Seção dos 4Rs - Versão otimizada
+    # Seção dos 4Rs com HTML e CSS inline
     st.markdown("""
     <div style="margin: 2rem 0;">
         <h3 style="text-align: center; color: #2e7d32; margin-bottom: 1.5rem;">♻️ Os 4Rs da Sustentabilidade ♻️</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-            
-            <div style="flex: 1; min-width: 200px; background: #e3f2fd; padding: 1.2rem; 
-                    border-radius: 8px; border-left: 5px solid #2196f3;">
-                <h4 style="color: #0d47a1; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
-                    🔍 1. REPENSAR
-                </h4>
-                <p style="margin-bottom: 0;">Questionar nossos hábitos: <em>"Preciso mesmo disso?"</em></p>
+
+            <div style="flex: 1; min-width: 200px; background: #e3f2fd; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #2196f3;">
+                <h4 style="color: #0d47a1; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">🔍 1. REPENSAR</h4>
+                <p style="margin-bottom: 0;">Questionar nossos hábitos: <em>&quot;Preciso mesmo disso?&quot;</em></p>
             </div>
-            
-            <div style="flex: 1; min-width: 200px; background: #e8f5e9; padding: 1.2rem; 
-                    border-radius: 8px; border-left: 5px solid #4caf50;">
-                <h4 style="color: #1b5e20; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
-                    📉 2. REDUZIR
-                </h4>
+
+            <div style="flex: 1; min-width: 200px; background: #e8f5e9; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #4caf50;">
+                <h4 style="color: #1b5e20; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">📉 2. REDUZIR</h4>
                 <p style="margin-bottom: 0;">Diminuir a quantidade de resíduos gerados</p>
             </div>
-            
-            <div style="flex: 1; min-width: 200px; background: #fff8e1; padding: 1.2rem; 
-                    border-radius: 8px; border-left: 5px solid #ffc107;">
-                <h4 style="color: #ff6f00; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
-                    🔄 3. REUTILIZAR
-                </h4>
+
+            <div style="flex: 1; min-width: 200px; background: #fff8e1; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #ffc107;">
+                <h4 style="color: #ff6f00; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">🔄 3. REUTILIZAR</h4>
                 <p style="margin-bottom: 0;">Dar novos usos antes de descartar</p>
             </div>
-            
-            <div style="flex: 1; min-width: 200px; background: #fce4ec; padding: 1.2rem; 
-                    border-radius: 8px; border-left: 5px solid #e91e63;">
-                <h4 style="color: #ad1457; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
-                    ♻ 4. RECICLAR
-                </h4>
+
+            <div style="flex: 1; min-width: 200px; background: #fce4ec; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #e91e63;">
+                <h4 style="color: #ad1457; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">♻ 4. RECICLAR</h4>
                 <p style="margin-bottom: 0;">Transformar materiais em novos produtos</p>
             </div>
+
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # História do Museu
+    # Texto da história do museu
     st.markdown("""
     O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** 
     para criar um espaço de memória sobre os hábitos de consumo da sociedade.
@@ -602,7 +591,6 @@ def mostrar_historia():
     Rodovia Admar Gonzaga, 72 – Bairro Itacorubi, Florianópolis – SC
 
     ### 🔍 Saiba mais
-
     - O museu integra o roteiro de **visitação monitorada ao Centro de Valorização de Resíduos (CVR)** da Comcap  
     - Recebe cerca de **7 mil visitantes por ano**  
     - Acervo com **10 mil itens** recuperados  
@@ -610,12 +598,12 @@ def mostrar_historia():
     - Personagens educativos como **Neiciclagem** e **Dona Tainha**
     """)
 
-    # Seção de imagens com tratamento robusto
+    # Galeria de imagens
     st.markdown("---")
     st.subheader("📸 Conheça Nossa Estrutura")
-    
+
     col1, col2 = st.columns(2)
-    
+
     # Imagem 1 - Fachada
     with col1:
         try:
@@ -625,8 +613,7 @@ def mostrar_historia():
                     img_path,
                     caption="Vista externa do Museu",
                     use_container_width=True,
-                    output_format="PNG",
-                    alt="Fachada do Museu do Lixo mostrando a entrada principal com estrutura colorida e placas educativas"
+                    output_format="PNG"
                 )
             else:
                 raise FileNotFoundError
@@ -634,12 +621,11 @@ def mostrar_historia():
             st.warning("Imagem da fachada não encontrada")
             placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
             st.image(
-                placeholder, 
+                placeholder,
                 caption="Fachada do Museu (imagem não disponível)",
-                use_container_width=True,
-                alt="Imagem substituta da fachada do museu"
+                use_container_width=True
             )
-    
+
     # Imagem 2 - Equipe
     with col2:
         try:
@@ -649,8 +635,7 @@ def mostrar_historia():
                     img_path,
                     caption="Nossa equipe de educadores",
                     use_container_width=True,
-                    output_format="PNG",
-                    alt="Equipe de educadores ambientais uniformizados sorrindo, em frente a exposição de materiais reciclados"
+                    output_format="PNG"
                 )
             else:
                 raise FileNotFoundError
@@ -658,10 +643,9 @@ def mostrar_historia():
             st.warning("Imagem da equipe não encontrada")
             placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
             st.image(
-                placeholder, 
+                placeholder,
                 caption="Equipe do museu (imagem não disponível)",
-                use_container_width=True,
-                alt="Imagem substituta da equipe do museu"
+                use_container_width=True
             )
 
     # Rodapé institucional
@@ -680,6 +664,7 @@ def mostrar_historia():
         </p>
     </div>
     """, unsafe_allow_html=True)
+    
 def mostrar_quimica():
     # Definição das cores de fallback
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
