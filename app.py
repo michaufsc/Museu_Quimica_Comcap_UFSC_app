@@ -598,52 +598,33 @@ def mostrar_historia():
         try:
             img_path = os.path.join("imagens_materiais", "museuext.png")
             if os.path.exists(img_path):
-                st.image(
-                    img_path,
-                    caption="Vista externa do Museu",
-                    use_container_width=True,
-                    output_format="PNG"
-                )
+                st.image(img_path, caption="Vista externa do Museu", use_container_width=True)
             else:
                 raise FileNotFoundError
         except Exception:
             st.warning("Imagem da fachada não encontrada")
-            placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
-            st.image(
-                placeholder,
-                caption="Fachada do Museu (imagem não disponível)",
-                use_container_width=True
-            )
+            placeholder = Image.new('RGB', (600, 400), color=(220, 220, 220))
+            st.image(placeholder, caption="Fachada do Museu (imagem não disponível)", use_container_width=True)
 
     # Imagem 2 - Equipe
     with col2:
         try:
             img_path = os.path.join("imagens_materiais", "museuint.png")
             if os.path.exists(img_path):
-                st.image(
-                    img_path,
-                    caption="Nossa equipe de educadores",
-                    use_container_width=True,
-                    output_format="PNG"
-                )
+                st.image(img_path, caption="Nossa equipe de educadores", use_container_width=True)
             else:
                 raise FileNotFoundError
         except Exception:
             st.warning("Imagem da equipe não encontrada")
-            placeholder = Image.new('RGB', (400, 300), color=(220, 220, 220))
-            st.image(
-                placeholder,
-                caption="Equipe do museu (imagem não disponível)",
-                use_container_width=True
-            )
+            placeholder = Image.new('RGB', (600, 400), color=(220, 220, 220))
+            st.image(placeholder, caption="Equipe do museu (imagem não disponível)", use_container_width=True)
 
-    # Rodapé institucional
-st.markdown("### ℹ️ Agendamentos")
-st.markdown("""
+    # Rodapé institucional (ajustado para celular)
+    st.markdown("### ℹ️ Agendamentos")
+    st.markdown("""
 📧 [ambiental.comcap@pmf.sc.gov.br](mailto:ambiental.comcap@pmf.sc.gov.br)  
 📞 (48) 3261-4808
 """)
-
     
 def mostrar_quimica():
     # Definição das cores de fallback
