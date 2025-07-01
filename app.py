@@ -638,7 +638,7 @@ def mostrar_historia():
             )
 
     # Rodapé institucional
-   st.markdown("### ℹ️ Agendamentos")
+st.markdown("### ℹ️ Agendamentos")
 st.markdown("""
 📧 [ambiental.comcap@pmf.sc.gov.br](mailto:ambiental.comcap@pmf.sc.gov.br)  
 📞 (48) 3261-4808
