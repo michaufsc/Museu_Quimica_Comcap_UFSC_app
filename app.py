@@ -536,35 +536,24 @@ def mostrar_historia():
     Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
     """)
 
-    # Seção dos 4Rs com HTML e CSS inline
-    st.markdown("""
-    <div style="margin: 2rem 0;">
-        <h3 style="text-align: center; color: #2e7d32; margin-bottom: 1.5rem;">♻️ Os 4Rs da Sustentabilidade ♻️</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+    # Seção dos 4Rs – versão didática sem HTML
+    st.subheader("♻️ Os 4Rs da Sustentabilidade")
 
-            <div style="flex: 1; min-width: 200px; background: #e3f2fd; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #2196f3;">
-                <h4 style="color: #0d47a1; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">🔍 1. REPENSAR</h4>
-                <p style="margin-bottom: 0;">Questionar nossos hábitos: <em>&quot;Preciso mesmo disso?&quot;</em></p>
-            </div>
+    col1, col2 = st.columns(2)
 
-            <div style="flex: 1; min-width: 200px; background: #e8f5e9; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #4caf50;">
-                <h4 style="color: #1b5e20; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">📉 2. REDUZIR</h4>
-                <p style="margin-bottom: 0;">Diminuir a quantidade de resíduos gerados</p>
-            </div>
+    with col1:
+        st.markdown("### 🔍 1. REPENSAR")
+        st.success("Questionar nossos hábitos:\n\n*“Preciso mesmo disso?”*")
 
-            <div style="flex: 1; min-width: 200px; background: #fff8e1; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #ffc107;">
-                <h4 style="color: #ff6f00; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">🔄 3. REUTILIZAR</h4>
-                <p style="margin-bottom: 0;">Dar novos usos antes de descartar</p>
-            </div>
+        st.markdown("### 🔄 3. REUTILIZAR")
+        st.warning("Dar novos usos antes de descartar.")
 
-            <div style="flex: 1; min-width: 200px; background: #fce4ec; padding: 1.2rem; border-radius: 8px; border-left: 5px solid #e91e63;">
-                <h4 style="color: #ad1457; margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">♻ 4. RECICLAR</h4>
-                <p style="margin-bottom: 0;">Transformar materiais em novos produtos</p>
-            </div>
+    with col2:
+        st.markdown("### 📉 2. REDUZIR")
+        st.success("Diminuir a quantidade de resíduos gerados.")
 
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown("### ♻ 4. RECICLAR")
+        st.info("Transformar materiais usados em novos produtos.")
 
     # Texto da história do museu
     st.markdown("""
