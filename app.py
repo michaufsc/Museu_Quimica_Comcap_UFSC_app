@@ -638,21 +638,12 @@ def mostrar_historia():
             )
 
     # Rodapé institucional
-    st.markdown("""
-    <div style="
-        margin-top: 2rem;
-        padding: 1rem;
-        background-color: #f0f0f0;
-        border-radius: 8px;
-        text-align: center;
-    ">
-        <p style="margin: 0;">
-            ℹ️ <strong>Agendamentos:</strong> 
-            <a href="mailto:ambiental.comcap@pmf.sc.gov.br" style="color: #1a73e8;">ambiental.comcap@pmf.sc.gov.br</a> | 
-            📞 (48) 3261-4808
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+   st.markdown("### ℹ️ Agendamentos")
+st.markdown("""
+📧 [ambiental.comcap@pmf.sc.gov.br](mailto:ambiental.comcap@pmf.sc.gov.br)  
+📞 (48) 3261-4808
+""")
+
     
 def mostrar_quimica():
     # Definição das cores de fallback
