@@ -1037,7 +1037,7 @@ def mostrar_coleta_seletiva():
 
     # BLOCO 4 – CARTAZ COMCAP
     st.subheader("🖼️ Cartaz oficial de separação por cores – COMCAP")
-    st.image("materiais/cartaz_comcap.jpg", use_column_width=True)
+    st.image("IMAGENS_RESIDUOS/cartaz_comcap.jpg", use_column_width=True)
     st.caption("Fonte: COMCAP – Prefeitura de Florianópolis")
 
     # BLOCO 5 – FILTROS E MAPA INTERATIVO
