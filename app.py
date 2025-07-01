@@ -810,7 +810,7 @@ def mostrar_isopor():
     Os grânulos são usados para fabricar novos produtos: molduras, vasos, peças de construção etc.  
     """)
 
-    st.subheader("📍 Lista Completa dos Pontos de Entrega Voluntária (PEVs)")
+("📍 Lista Completa dos Pontos de Entrega Voluntária (PEVs)")
 
 # Dados dos pontos
 pontos_df = pd.DataFrame({
