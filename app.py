@@ -991,10 +991,10 @@ def mostrar_coleta_seletiva():
     # BLOCO 1 – ORIENTAÇÕES GERAIS
     st.markdown("### ✅ Como separar corretamente os resíduos")
     st.markdown("""
-    - Separe os materiais **limpos e secos**, em **sacos transparentes**.
-    - O **vidro** deve ser embalado separadamente e com segurança.
-    - **Isopor (EPS)** vai com o plástico (vermelho), somente se estiver limpo.
-    - **Embalagens longa vida** devem ser lavadas e descartadas no azul (papel).
+    - Separe os materiais **limpos e secos**, em **sacos transparentes**
+    - O **vidro** deve ser embalado separadamente e com segurança
+    - **Isopor (EPS)** vai com o plástico (vermelho), somente se estiver limpo
+    - **Embalagens longa vida** devem ser lavadas e descartadas no azul (papel)
     """)
 
     # BLOCO 2 – SISTEMA DE CORES
@@ -1003,109 +1003,141 @@ def mostrar_coleta_seletiva():
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.markdown("""<div style='background-color:#2E8B57; color:white; padding:10px; border-radius:5px; text-align:center;'><strong>VERDE</strong><br>VIDRO</div>""", unsafe_allow_html=True)
-            st.markdown("- Garrafas\n- Potes\n- Frascos")
+            st.markdown("""<div style='background-color:#2E8B57; color:white; padding:10px; border-radius:5px; text-align:center;'>
+                        <strong>VERDE</strong><br>VIDRO</div>""", 
+                        unsafe_allow_html=True)
+            st.markdown("""
+            - Garrafas
+            - Potes
+            - Frascos
+            - Copos (exceto cristal)
+            """)
 
         with col2:
-            st.markdown("""<div style='background-color:#1E90FF; color:white; padding:10px; border-radius:5px; text-align:center;'><strong>AZUL</strong><br>PAPEL</div>""", unsafe_allow_html=True)
-            st.markdown("- Jornais\n- Caixas\n- Embalagens longa vida")
+            st.markdown("""<div style='background-color:#1E90FF; color:white; padding:10px; border-radius:5px; text-align:center;'>
+                        <strong>AZUL</strong><br>PAPEL</div>""", 
+                        unsafe_allow_html=True)
+            st.markdown("""
+            - Jornais/revistas
+            - Caixas desmontadas
+            - Embalagens longa vida
+            - Papel de escritório
+            """)
 
         with col3:
-            st.markdown("""<div style='background-color:#FFD700; color:black; padding:10px; border-radius:5px; text-align:center;'><strong>AMARELO</strong><br>METAL</div>""", unsafe_allow_html=True)
-            st.markdown("- Latas\n- Aerossóis vazios\n- Tampinhas")
+            st.markdown("""<div style='background-color:#FFD700; color:black; padding:10px; border-radius:5px; text-align:center;'>
+                        <strong>AMARELO</strong><br>METAL</div>""", 
+                        unsafe_allow_html=True)
+            st.markdown("""
+            - Latas de alumínio
+            - Latas de aço
+            - Tampas metálicas
+            - Objetos de metal limpos
+            """)
 
         with col4:
-            st.markdown("""<div style='background-color:#FF6347; color:white; padding:10px; border-radius:5px; text-align:center;'><strong>VERMELHO</strong><br>PLÁSTICO</div>""", unsafe_allow_html=True)
-            st.markdown("- PET\n- Sacolas\n- Potes\n- Embalagens")
+            st.markdown("""<div style='background-color:#FF6347; color:white; padding:10px; border-radius:5px; text-align:center;'>
+                        <strong>VERMELHO</strong><br>PLÁSTICO</div>""", 
+                        unsafe_allow_html=True)
+            st.markdown("""
+            - Garrafas PET
+            - Embalagens de produtos
+            - Sacos/sacolas
+            - Utensílios plásticos
+            """)
 
     # BLOCO 3 – MATERIAIS NÃO RECICLÁVEIS
     st.subheader("🚫 Materiais que não devem ir para reciclagem")
     st.markdown("""
-    | Cor | Tipo        | Exemplos |
-    |------|-------------|----------|
-    | 🟫 Marrom | Orgânicos | Restos de comida, folhas |
-    | ⚫ Cinza | Rejeitos  | Fraldas, papel higiênico, espuma |
-    | 🟧 Laranja | Perigosos | Pilhas, lâmpadas, medicamentos |
-    """, unsafe_allow_html=True)
-
-    st.markdown("### 📌 Dicas importantes")
-    st.markdown("""
-    - Evite colocar embalagens sujas nos recicláveis.
-    - Nunca misture lixo do banheiro com recicláveis.
-    - Leve pilhas, lâmpadas e eletrônicos aos **PEVs ou Ecopontos**.
+    | Categoria | Exemplos | Destinação Correta |
+    |-----------|----------|--------------------|
+    | **Rejeitos** | Papel higiênico, fraldas | Lixo comum (cinza) |
+    | **Orgânicos** | Restos de comida, podas | Compostagem (marrom) |
+    | **Perigosos** | Pilhas, lâmpadas, medicamentos | PEVs Específicos |
+    | **Eletrônicos** | Celulares, computadores | Logística Reversa |
     """)
 
-    # BLOCO 4 – CARTAZ COMCAP
-    st.subheader("🖼️ Cartaz oficial de separação por cores – COMCAP")
-    st.image("IMAGENS_RESIDUOS/cartaz_comcap.png", use_column_width=True)
-    st.caption("Fonte: COMCAP – Prefeitura de Florianópolis")
+    # BLOCO 4 – DICAS PRÁTICAS (substitui o cartaz removido)
+    st.subheader("💡 Dicas de Separação")
+    st.markdown("""
+    - **Lave rapidamente** embalagens de alimentos antes de descartar
+    - **Amasse latas** e **dobre papéis** para economizar espaço
+    - **Separe vidros quebrados** em caixas identificadas
+    - **Tire tampas** de recipientes antes de reciclar
+    - **Dúvidas?** Consulte o [Guia COMCAP](https://www.pmf.sc.gov.br)
+    """)
 
-    # BLOCO 5 – FILTROS E MAPA INTERATIVO
+    # BLOCO 5 – MAPA INTERATIVO (mantido da versão original)
     st.subheader("📍 Pontos de Coleta Seletiva por Bairro")
-
     try:
-        df = load_coleta_data()  # Função que você já deve ter no projeto
-        df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-        df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-        df = df.dropna(subset=['latitude', 'longitude'])
+        df = load_coleta_data()
+        if not df.empty:
+            df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+            df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+            df = df.dropna(subset=['latitude', 'longitude'])
 
-        with st.expander("📋 Filtros - clique para abrir"):
-            bairros = sorted(df['nome'].str.extract(r'^(.*?)(?=\s*-)')[0].dropna().unique())
-            bairros.insert(0, "Todos")
-            bairro_selecionado = st.selectbox("Selecione um bairro:", bairros, index=0)
+            with st.expander("🔍 Filtros", expanded=False):
+                col_filtro1, col_filtro2 = st.columns(2)
+                with col_filtro1:
+                    bairro_selecionado = st.selectbox(
+                        "Selecione um bairro:",
+                        ["Todos"] + sorted(df['bairro'].dropna().unique())
+                    )
+                with col_filtro2:
+                    tipo_selecionado = st.selectbox(
+                        "Tipo de ponto:",
+                        ["Todos"] + sorted(df['tipo'].dropna().unique())
+                    )
 
-            tipos = ["Todos"] + sorted(df['tipo'].dropna().unique())
-            tipo_selecionado = st.radio("Tipo de ponto:", tipos, horizontal=True)
+            # Aplicar filtros
+            dados_filtrados = df.copy()
+            if bairro_selecionado != "Todos":
+                dados_filtrados = dados_filtrados[dados_filtrados['bairro'] == bairro_selecionado]
+            if tipo_selecionado != "Todos":
+                dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
 
-        dados_filtrados = df.copy()
-        if bairro_selecionado != "Todos":
-            dados_filtrados = dados_filtrados[dados_filtrados['nome'].str.contains(bairro_selecionado, case=False, na=False)]
-        if tipo_selecionado != "Todos":
-            dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
+            # Mostrar resultados
+            st.markdown(f"**{len(dados_filtrados)} pontos encontrados**")
+            
+            if not dados_filtrados.empty:
+                # Mapa
+                centro_lat = dados_filtrados['latitude'].mean()
+                centro_lon = dados_filtrados['longitude'].mean()
+                mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=14)
 
-        st.markdown(f"### 📌 {len(dados_filtrados)} ponto(s) encontrado(s)")
-        st.dataframe(dados_filtrados.reset_index(drop=True))
+                for _, row in dados_filtrados.iterrows():
+                    folium.Marker(
+                        location=[row['latitude'], row['longitude']],
+                        popup=f"<b>{row['nome']}</b><br>{row['endereco']}",
+                        icon=folium.Icon(color="green", icon="recycle")
+                    ).add_to(mapa)
 
-        if not dados_filtrados.empty:
-            centro_lat = dados_filtrados['latitude'].mean()
-            centro_lon = dados_filtrados['longitude'].mean()
-
-            mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=13)
-
-            for _, row in dados_filtrados.iterrows():
-                popup = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-                folium.Marker(
-                    location=[row['latitude'], row['longitude']],
-                    popup=popup,
-                    icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-                ).add_to(mapa)
-
-            st.markdown("### 🌍 Mapa dos Pontos Filtrados")
-            folium_static(mapa)
-        else:
-            st.warning("Nenhum ponto encontrado com os filtros selecionados.")
+                folium_static(mapa, width=700, height=500)
+                
+                # Tabela
+                st.dataframe(
+                    dados_filtrados[['nome', 'endereco', 'tipo', 'horario']],
+                    hide_index=True,
+                    column_config={
+                        "nome": "Local",
+                        "endereco": "Endereço",
+                        "tipo": "Tipo",
+                        "horario": "Horário"
+                    }
+                )
+            else:
+                st.warning("Nenhum ponto encontrado com os filtros selecionados.")
     except Exception as e:
-        st.error(f"Erro ao carregar mapa: {e}")
+        st.error(f"Erro ao carregar dados: {str(e)}")
 
-    # BLOCO 6 – LINKS ÚTEIS E DÚVIDAS
+    # BLOCO 6 – LINKS ÚTEIS
     st.markdown("---")
-    st.subheader("🔗 Links úteis e dúvidas frequentes")
+    st.subheader("📌 Informações Oficiais")
     st.markdown("""
-    - 📄 [Manual Técnico COMCAP – Edificações](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/20_05_2014_10.56.47.a758dfd1f3e270c2f6c847b37a9840f0.pdf)
-    - 🧾 [Roteiro da Coleta Seletiva](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/23_01_2024_19.18.30.c7a5cbf241f899b74646f8d7668c6c98.pdf)
-    - 🌿 [Calendário da Coleta de Verdes (2025)](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/26_01_2024_16.09.47.b8ae2ab79b5fd10a2d6d2f6406c84a7b.pdf)
-    - 📍 [Lista de Ecopontos e PEVs](https://www.pmf.sc.gov.br/arquivos/arquivos/pdf/15_06_2022_12.00.23.7ce91bbd19a6b8b44d3f5ff383c59f3e.pdf)
-    - 📲 Agendamento de volumosos: [WhatsApp (48) 3216-0202](https://wa.me/554832160202)
+    - [🗓️ Calendário de Coleta 2024](https://www.pmf.sc.gov.br)
+    - [📘 Guia Completo da COMCAP](https://www.pmf.sc.gov.br)
+    - [📞 Central de Atendimento: (48) 3212-1650](tel:+554832121650)
     """)
-
-    st.markdown("""
-    ### ❓ Dúvidas frequentes
-    - **Preciso lavar as embalagens?** Sim! Isso evita contaminação.
-    - **Vidro quebrado pode reciclar?** Sim, se for comum e bem embalado.
-    - **Roupas podem ir na coleta?** Não. Leve para doação ou PEV específico.
-    """)
-
-    st.caption("📘 Conteúdo com base na Política Nacional de Resíduos Sólidos e na COMCAP/Prefeitura de Florianópolis.")
 
 
 
