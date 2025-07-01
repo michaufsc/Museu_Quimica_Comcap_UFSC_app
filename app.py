@@ -1222,9 +1222,6 @@ def mostrar_plastico_oceanos():
 
     Dados científicos recentes mostram que Santa Catarina não está imune a este problema:
     """)
-
-    # Container para estudos da UFSC
-    with st.expander("🔬 Principais Estudos da UFSC (2020-2024)"):
         st.markdown("""
         #### 1. Distribuição de Microplásticos em Praias Urbanas
         **Autores:** Schmidt, C.; et al.  
