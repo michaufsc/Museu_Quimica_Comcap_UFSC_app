@@ -535,34 +535,68 @@ O **Museu do Lixo**, instalado pela Comcap em **25 de setembro de 2003**, tornou
 Sua abordagem lúdica e acessível reforça conceitos de **consumo consciente** com base nos princípios:
 """)
 
-    # Seção dos 4Rs com emojis e layout destacado
+   # Seção dos 4Rs com layout simplificado e seguro
     st.markdown("""
-<div style="background-color:#f5f5f5; padding:20px; border-radius:10px; margin:15px 0;">
-    <h3 style="color:#2e7d32; text-align:center;">♻️ Os 4Rs da Sustentabilidade ♻️</h3>
+    ### ♻️ Os 4Rs da Sustentabilidade ♻️
+    """)
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top:20px;">
-        <div style="background:#e3f2fd; padding:15px; border-radius:8px; border-left:5px solid #2196f3;">
-            <h4 style="margin:0 0 10px 0; color:#0d47a1;">🔍 1. REPENSAR</h4>
-            <p style="margin:0;">Questionar nossos hábitos: <i>"Preciso mesmo disso?"</i></p>
+    cols = st.columns(4)
+    
+    with cols[0]:
+        st.markdown("""
+        <div style="
+            background:#e3f2fd;
+            padding:15px;
+            border-radius:8px;
+            border-left:5px solid #2196f3;
+            margin-bottom:15px;
+        ">
+            <h4 style="color:#0d47a1; margin-top:0;">🔍 1. REPENSAR</h4>
+            <p>Questionar nossos hábitos: <em>"Preciso mesmo disso?"</em></p>
         </div>
-        
-        <div style="background:#e8f5e9; padding:15px; border-radius:8px; border-left:5px solid #4caf50;">
-            <h4 style="margin:0 0 10px 0; color:#1b5e20;">📉 2. REDUZIR</h4>
-            <p style="margin:0;">Diminuir a quantidade de resíduos gerados</p>
+        """, unsafe_allow_html=True)
+    
+    with cols[1]:
+        st.markdown("""
+        <div style="
+            background:#e8f5e9;
+            padding:15px;
+            border-radius:8px;
+            border-left:5px solid #4caf50;
+            margin-bottom:15px;
+        ">
+            <h4 style="color:#1b5e20; margin-top:0;">📉 2. REDUZIR</h4>
+            <p>Diminuir a quantidade de resíduos gerados</p>
         </div>
-        
-        <div style="background:#fff8e1; padding:15px; border-radius:8px; border-left:5px solid #ffc107;">
-            <h4 style="margin:0 0 10px 0; color:#ff6f00;">🔄 3. REUTILIZAR</h4>
-            <p style="margin:0;">Dar novos usos antes de descartar</p>
+        """, unsafe_allow_html=True)
+    
+    with cols[2]:
+        st.markdown("""
+        <div style="
+            background:#fff8e1;
+            padding:15px;
+            border-radius:8px;
+            border-left:5px solid #ffc107;
+            margin-bottom:15px;
+        ">
+            <h4 style="color:#ff6f00; margin-top:0;">🔄 3. REUTILIZAR</h4>
+            <p>Dar novos usos antes de descartar</p>
         </div>
-        
-        <div style="background:#fce4ec; padding:15px; border-radius:8px; border-left:5px solid #e91e63;">
-            <h4 style="margin:0 0 10px 0; color:#ad1457;">♻ 4. RECICLAR</h4>
-            <p style="margin:0;">Transformar materiais em novos produtos</p>
+        """, unsafe_allow_html=True)
+    
+    with cols[3]:
+        st.markdown("""
+        <div style="
+            background:#fce4ec;
+            padding:15px;
+            border-radius:8px;
+            border-left:5px solid #e91e63;
+            margin-bottom:15px;
+        ">
+            <h4 style="color:#ad1457; margin-top:0;">♻ 4. RECICLAR</h4>
+            <p>Transformar materiais em novos produtos</p>
         </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
     st.markdown("""
 O museu nasceu do sonho de mais de dez anos de trabalhadores da Comcap, que desejavam **resgatar objetos descartados** para criar um espaço de memória sobre os hábitos de consumo da sociedade.
