@@ -956,189 +956,152 @@ def mostrar_compostagem():
     """)
     st.markdown("✂️ **Dica prática**: Use serragem ou podas trituradas para equilibrar a umidade nas leiras!")
 
-#função mapa
-def mostrar_mapa_coleta():
-    st.header("🗺️ Mapa Completo dos Pontos de Coleta Seletiva")
 
-    df_coleta = load_coleta_data()
-
-    # Verificação básica
-    if 'latitude' not in df_coleta.columns or 'longitude' not in df_coleta.columns:
-        st.error("Os dados não possuem colunas 'latitude' e 'longitude'")
-        return
-
-    # Centro do mapa
-    centro_lat = df_coleta['latitude'].mean()
-    centro_lon = df_coleta['longitude'].mean()
-
-    # Criação do mapa
-    mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=12)
-
-    for _, row in df_coleta.iterrows():
-        popup_text = f"<b>{row.get('nome', 'Ponto de Coleta')}</b><br>{row.get('endereco', '')}<br>{row.get('tipo', '')}"
-        folium.Marker(
-            location=[row['latitude'], row['longitude']],
-            popup=popup_text,
-            icon=folium.Icon(color="green", icon="recycle", prefix='fa')
-        ).add_to(mapa)
-
-    folium_static(mapa)
 
 # coleta seletiva
 def mostrar_coleta_seletiva():
-    st.header("♻️ Coleta Seletiva em Florianópolis – COMCAP")
+    # Configuração inicial
+    st.set_page_config(
+        page_title="Coleta Seletiva Florianópolis",
+        page_icon="♻️",
+        layout="wide"
+    )
 
-    # BLOCO 1 – ORIENTAÇÕES GERAIS
-    st.markdown("### ✅ Como separar corretamente os resíduos")
+    # Dados dos PEVs (exemplo)
+    PEVS = pd.DataFrame({
+        "Bairro": ["Centro", "Trindade", "Lagoa", "Ingleses", "Campeche"],
+        "Endereço": [
+            "Rua Felipe Schmidt, 123",
+            "Rua Lauro Linhares, 456",
+            "Rua Osni Ortiga, 789",
+            "Av. das Rendeiras, 101",
+            "Av. Pequeno Príncipe, 202"
+        ],
+        "Tipo": ["PEV 24h", "PEV 24h", "Ecoponto", "PEV 24h", "PEV 24h"]
+    })
+
+    # Cabeçalho
+    st.title("♻️ Guia Completo da Coleta Seletiva - COMCAP Florianópolis")
     st.markdown("""
-    - Separe os materiais **limpos e secos**, em **sacos transparentes**
-    - O **vidro** deve ser embalado separadamente e com segurança
-    - **Isopor (EPS)** vai com o plástico (vermelho), somente se estiver limpo
-    - **Embalagens longa vida** devem ser lavadas e descartadas no azul (papel)
+    Bem-vindo ao guia oficial da coleta seletiva de Florianópolis! Aqui você encontrará:
+    - Como separar corretamente seus resíduos
+    - Dias e horários da coleta no seu bairro
+    - Locais de entrega voluntária
+    - Contatos úteis
     """)
 
-    # BLOCO 2 – SISTEMA DE CORES
-    st.subheader("🌈 Sistema de Cores da Coleta Seletiva")
-    with st.container():
-        col1, col2, col3, col4 = st.columns(4)
+    # Seção 1: Como separar
+    st.header("🗂️ Como Separar Seus Resíduos")
+    
+    cols = st.columns(4)
+    materiais = {
+        "AZUL": ("#1E90FF", "PAPEL", ["Jornais/revistas", "Caixas de papelão", "Folhas de papel"]),
+        "VERMELHO": ("#FF6347", "PLÁSTICO", ["Garrafas PET", "Embalagens limpas", "Utensílios plásticos"]),
+        "AMARELO": ("#FFD700", "METAL", ["Latas de alumínio", "Objetos metálicos", "Tampinhas"]),
+        "VERDE": ("#2E8B57", "VIDRO", ["Garrafas", "Potes", "Frascos de vidro"])
+    }
+    
+    for i, (cor, (hex, nome, itens)) in enumerate(materiais.items()):
+        with cols[i]:
+            st.markdown(f"""
+            <div style='background-color:{hex}; color:white; padding:10px; border-radius:5px; text-align:center; margin-bottom:10px;'>
+            <strong>{cor}</strong><br>{nome}</div>
+            {''.join([f'• {item}<br>' for item in itens])}
+            """, unsafe_allow_html=True)
 
-        with col1:
-            st.markdown("""<div style='background-color:#2E8B57; color:white; padding:10px; border-radius:5px; text-align:center;'>
-                        <strong>VERDE</strong><br>VIDRO</div>""", 
-                        unsafe_allow_html=True)
-            st.markdown("""
-            - Garrafas
-            - Potes
-            - Frascos
-            - Copos (exceto cristal)
-            """)
+    # Seção 2: Materiais não recicláveis
+    st.header("🚫 Materiais Não Aceitos")
+    with st.expander("Clique para ver a lista completa"):
+        st.markdown("""
+        **Rejeitos:**
+        - Papel higiênico usado
+        - Fraldas descartáveis
+        - Guardanapos engordurados
+        
+        **Perigosos:**
+        - Pilhas e baterias
+        - Lâmpadas fluorescentes
+        - Eletrônicos
+        
+        **Orgânicos:**
+        - Restos de alimentos
+        - Podas de jardim
+        """)
 
-        with col2:
-            st.markdown("""<div style='background-color:#1E90FF; color:white; padding:10px; border-radius:5px; text-align:center;'>
-                        <strong>AZUL</strong><br>PAPEL</div>""", 
-                        unsafe_allow_html=True)
-            st.markdown("""
-            - Jornais/revistas
-            - Caixas desmontadas
-            - Embalagens longa vida
-            - Papel de escritório
-            """)
+    # Seção 3: Dias da coleta
+    st.header("📅 Dias da Coleta por Bairro")
+    st.table({
+        "Região": ["Centro", "Norte", "Sul"],
+        "Bairros": ["Centro, Agronômica", "Ingleses, Canasvieiras", "Campeche, Rio Tavares"],
+        "Dias": ["Segunda e quinta", "Terça e sexta", "Quarta e sábado"],
+        "Horário": ["7h às 19h", "7h às 19h", "7h às 19h"]
+    })
 
-        with col3:
-            st.markdown("""<div style='background-color:#FFD700; color:black; padding:10px; border-radius:5px; text-align:center;'>
-                        <strong>AMARELO</strong><br>METAL</div>""", 
-                        unsafe_allow_html=True)
-            st.markdown("""
-            - Latas de alumínio
-            - Latas de aço
-            - Tampas metálicas
-            - Objetos de metal limpos
-            """)
+    # Seção 4: PEVs
+    st.header("📍 Pontos de Entrega Voluntária (PEVs)")
+    st.markdown("[🔗 Abrir Mapa Oficial dos PEVs](https://www.pmf.sc.gov.br/comcap)")
+    
+    # Filtros para a tabela
+    bairro_selecionado = st.selectbox(
+        "Filtrar por bairro:",
+        ["Todos"] + list(PEVS["Bairro"].unique())
+    )
+    
+    if bairro_selecionado != "Todos":
+        PEVS = PEVS[PEVS["Bairro"] == bairro_selecionado]
+    
+    st.dataframe(
+        PEVS,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Bairro": "Bairro",
+            "Endereço": "Endereço Completo",
+            "Tipo": st.column_config.SelectboxColumn(
+                "Tipo",
+                options=["PEV 24h", "Ecoponto"]
+            )
+        }
+    )
 
-        with col4:
-            st.markdown("""<div style='background-color:#FF6347; color:white; padding:10px; border-radius:5px; text-align:center;'>
-                        <strong>VERMELHO</strong><br>PLÁSTICO</div>""", 
-                        unsafe_allow_html=True)
-            st.markdown("""
-            - Garrafas PET
-            - Embalagens de produtos
-            - Sacos/sacolas
-            - Utensílios plásticos
-            """)
+    # Seção 5: Dicas
+    st.header("💡 Dicas Importantes")
+    dicas = [
+        "Lave rapidamente as embalagens antes de descartar",
+        "Amasse latas e caixas para economizar espaço",
+        "Separe vidros quebrados com cuidado",
+        "Use sacos transparentes para recicláveis"
+    ]
+    
+    for i, dica in enumerate(dicas, 1):
+        st.markdown(f"{i}. {dica}")
 
-    # BLOCO 3 – MATERIAIS NÃO RECICLÁVEIS
-    st.subheader("🚫 Materiais que não devem ir para reciclagem")
-    st.markdown("""
-    | Categoria | Exemplos | Destinação Correta |
-    |-----------|----------|--------------------|
-    | **Rejeitos** | Papel higiênico, fraldas | Lixo comum (cinza) |
-    | **Orgânicos** | Restos de comida, podas | Compostagem (marrom) |
-    | **Perigosos** | Pilhas, lâmpadas, medicamentos | PEVs Específicos |
-    | **Eletrônicos** | Celulares, computadores | Logística Reversa |
-    """)
+    # Seção 6: Contatos
+    st.header("📞 Contatos Úteis")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **COMCAP**  
+        📞 (48) 3212-1650  
+        📧 comcap@pmf.sc.gov.br  
+        🕒 Seg-Sex: 8h-18h
+        """)
+    
+    with col2:
+        st.markdown("""
+        **Coleta de Volumosos**  
+        📞 (48) 3216-0202  
+        **Emergências Ambientais**  
+        🚨 0800 644 1144
+        """)
 
-    # BLOCO 4 – DICAS PRÁTICAS (substitui o cartaz removido)
-    st.subheader("💡 Dicas de Separação")
-    st.markdown("""
-    - **Lave rapidamente** embalagens de alimentos antes de descartar
-    - **Amasse latas** e **dobre papéis** para economizar espaço
-    - **Separe vidros quebrados** em caixas identificadas
-    - **Tire tampas** de recipientes antes de reciclar
-    - **Dúvidas?** Consulte o [Guia COMCAP](https://www.pmf.sc.gov.br)
-    """)
-
-    # BLOCO 5 – MAPA INTERATIVO (mantido da versão original)
-    st.subheader("📍 Pontos de Coleta Seletiva por Bairro")
-    try:
-        df = load_coleta_data()
-        if not df.empty:
-            df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
-            df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
-            df = df.dropna(subset=['latitude', 'longitude'])
-
-            with st.expander("🔍 Filtros", expanded=False):
-                col_filtro1, col_filtro2 = st.columns(2)
-                with col_filtro1:
-                    bairro_selecionado = st.selectbox(
-                        "Selecione um bairro:",
-                        ["Todos"] + sorted(df['bairro'].dropna().unique())
-                    )
-                with col_filtro2:
-                    tipo_selecionado = st.selectbox(
-                        "Tipo de ponto:",
-                        ["Todos"] + sorted(df['tipo'].dropna().unique())
-                    )
-
-            # Aplicar filtros
-            dados_filtrados = df.copy()
-            if bairro_selecionado != "Todos":
-                dados_filtrados = dados_filtrados[dados_filtrados['bairro'] == bairro_selecionado]
-            if tipo_selecionado != "Todos":
-                dados_filtrados = dados_filtrados[dados_filtrados['tipo'] == tipo_selecionado]
-
-            # Mostrar resultados
-            st.markdown(f"**{len(dados_filtrados)} pontos encontrados**")
-            
-            if not dados_filtrados.empty:
-                # Mapa
-                centro_lat = dados_filtrados['latitude'].mean()
-                centro_lon = dados_filtrados['longitude'].mean()
-                mapa = folium.Map(location=[centro_lat, centro_lon], zoom_start=14)
-
-                for _, row in dados_filtrados.iterrows():
-                    folium.Marker(
-                        location=[row['latitude'], row['longitude']],
-                        popup=f"<b>{row['nome']}</b><br>{row['endereco']}",
-                        icon=folium.Icon(color="green", icon="recycle")
-                    ).add_to(mapa)
-
-                folium_static(mapa, width=700, height=500)
-                
-                # Tabela
-                st.dataframe(
-                    dados_filtrados[['nome', 'endereco', 'tipo', 'horario']],
-                    hide_index=True,
-                    column_config={
-                        "nome": "Local",
-                        "endereco": "Endereço",
-                        "tipo": "Tipo",
-                        "horario": "Horário"
-                    }
-                )
-            else:
-                st.warning("Nenhum ponto encontrado com os filtros selecionados.")
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {str(e)}")
-
-    # BLOCO 6 – LINKS ÚTEIS
+    # Rodapé
     st.markdown("---")
-    st.subheader("📌 Informações Oficiais")
     st.markdown("""
-    - [🗓️ Calendário de Coleta 2024](https://www.pmf.sc.gov.br)
-    - [📘 Guia Completo da COMCAP](https://www.pmf.sc.gov.br)
-    - [📞 Central de Atendimento: (48) 3212-1650](tel:+554832121650)
+    **Fonte:** [Prefeitura de Florianópolis - COMCAP](https://www.pmf.sc.gov.br/comcap)  
+    Atualizado em Junho/2024 ♻️
     """)
-
 
 
 # Aba: Microplásticos
