@@ -1133,12 +1133,21 @@ def mostrar_cooperativas():
     As cooperativas de reciclagem em Florianópolis exercem um papel essencial...
     """)
     
-    try:
-         st.image("imagen_materiais/copimagem.png",  # ← Nome da pasta corrigido
-                caption="Cooperativas de Reciclagem",
-                width=600)
-    except FileNotFoundError:
-        st.error("Erro: Não foi possível carregar a imagem. Verifique se:")
+    # Caminho corrigido usando a variável global IMAGES_MATERIAIS_DIR
+    caminho_imagem = os.path.join(IMAGES_MATERIAIS_DIR, "copimagem.png")
+    
+    # Verificação robusta com diagnóstico
+    if os.path.exists(caminho_imagem):
+        try:
+            st.image(caminho_imagem, 
+                    caption="Cooperativas de Reciclagem",
+                    width=600)
+        except Exception as e:
+            st.error(f"Erro ao carregar a imagem: {str(e)}")
+    else:
+        st.error(f"Arquivo não encontrado em: {os.path.abspath(caminho_imagem)}")
+        st.warning("Conteúdo da pasta:")
+        st.write(os.listdir(IMAGES_MATERIAIS_DIR))  # Mostra o que há na pasta
         
     st.markdown("""
     ### Governança e Organização
