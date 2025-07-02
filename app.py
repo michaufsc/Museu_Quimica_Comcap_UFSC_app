@@ -632,6 +632,7 @@ def mostrar_quimica():
     COR_MATERIAIS = (220, 220, 255)  # Azul claro
     COR_RESIDUOS = (200, 230, 200)   # Verde claro
 
+    # Parte 1: Teoria sobre polímeros
     st.markdown("""
     ## 🔬 Polímeros: Estrutura, Propriedades e Sustentabilidade
 
@@ -660,13 +661,19 @@ def mostrar_quimica():
     - **PVC (♵)**: Fusão 100-260°C, libera HCl no processamento
     - **PP (♷)**: Fusão 160-165°C, resistência 30-40 MPa
     - **PS (♸)**: Fusão 240°C, baixa reciclabilidade
-   
-    # Adicionar imagens
-    mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR,
-                                "Estrutura molecular de polímeros", COR_MATERIAIS)
-    mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
-                                "Aplicações dos polímeros", COR_MATERIAIS)
-                                
+    """)
+
+    # Adicionar imagens após a primeira parte do texto
+    col1, col2 = st.columns(2)
+    with col1:
+        mostrar_imagem_com_fallback("polo.png", IMAGES_MATERIAIS_DIR,
+                                  "Estrutura molecular de polímeros", COR_MATERIAIS)
+    with col2:
+        mostrar_imagem_com_fallback("tipos2.png", IMAGES_MATERIAIS_DIR,
+                                  "Aplicações dos polímeros", COR_MATERIAIS)
+
+    # Parte 2: Continuação do texto sobre reciclagem
+    st.markdown("""
     ### Reciclagem e Sustentabilidade
 
     No Brasil:
