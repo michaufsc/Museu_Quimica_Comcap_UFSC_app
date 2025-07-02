@@ -1154,57 +1154,28 @@ def mostrar_cooperativas():
 
     df = load_cooperativas()
 
-    tab_lista, tab_mapa = st.tabs(["📋 Lista de Cooperativas", "🗺️ Mapa"])
+    st.subheader("Cooperativas Cadastradas")
 
-    with tab_lista:
-        st.subheader("Cooperativas Cadastradas")
+    busca = st.text_input("Pesquisar cooperativas:", placeholder="Digite nome ou endereço")
 
-        busca = st.text_input("Pesquisar cooperativas:", placeholder="Digite nome ou endereço")
+    if busca:
+        df_filtrado = df[
+            df['nome'].str.contains(busca, case=False, na=False) |
+            df['endereco'].str.contains(busca, case=False, na=False)
+        ]
+    else:
+        df_filtrado = df.copy()
 
-        if busca:
-            df_filtrado = df[
-                df['nome'].str.contains(busca, case=False, na=False) |
-                df['endereco'].str.contains(busca, case=False, na=False)
-            ]
-        else:
-            df_filtrado = df.copy()
-
-        st.dataframe(
-            df_filtrado.rename(columns={
-                'nome': 'Cooperativa',
-                'endereco': 'Endereço',
-                'descricao': 'Descrição'
-            }),
-            hide_index=True,
-            use_container_width=True,
-            height=min(400, 45 * len(df_filtrado) + 45)
-        )
-
-    with tab_mapa:
-        st.subheader("Localização das Cooperativas")
-
-        mapa = folium.Map(
-            location=[df['latitude'].mean(), df['longitude'].mean()],
-            zoom_start=13,
-            tiles="cartodbpositron"
-        )
-
-        for _, row in df.iterrows():
-            folium.Marker(
-                location=[row['latitude'], row['longitude']],
-                popup=folium.Popup(f"""
-                    <div style='width:250px'>
-                        <h4>{row['nome']}</h4>
-                        <p><b>Endereço:</b> {row['endereco']}</p>
-                        <p><b>Atuação:</b> {row['descricao']}</p>
-                    </div>
-                """, max_width=300),
-                icon=folium.Icon(color="green", icon="recycle", prefix="fa")
-            ).add_to(mapa)
-
-        folium_static(mapa, width=700, height=500)
-        st.caption("📍 Clique nos marcadores para ver detalhes")
-        
+    st.dataframe(
+        df_filtrado.rename(columns={
+            'nome': 'Cooperativa',
+            'endereco': 'Endereço',
+            'descricao': 'Descrição'
+        }),
+        hide_index=True,
+        use_container_width=True,
+        height=min(400, 45 * len(df_filtrado) + 45)
+    )
 def mostrar_plastico_oceanos():
 
     st.header("🌊 A Crise dos Plásticos nos Oceanos")
