@@ -1134,7 +1134,7 @@ def mostrar_cooperativas():
     """)
     
     try:
-         st.image("imagen_materiias/copimagem.png",  # ← Nome da pasta corrigido
+         st.image("imagen_materiais/copimagem.png",  # ← Nome da pasta corrigido
                 caption="Cooperativas de Reciclagem",
                 width=600)
     except FileNotFoundError:
