@@ -619,6 +619,35 @@ def mostrar_historia():
             st.warning("Imagem da equipe não encontrada")
             placeholder = Image.new('RGB', (600, 400), color=(220, 220, 220))
             st.image(placeholder, caption="Equipe do museu (imagem não disponível)", use_container_width=True)
+        # Sobre a Comcap
+      # Sobre a Comcap
+    st.markdown("---")
+    st.subheader("🏢 Sobre a Comcap")
+
+    st.markdown("""
+    A **Comcap – Companhia de Melhoramentos da Capital** é uma autarquia da Prefeitura de Florianópolis responsável por 
+    **limpeza urbana, coleta de resíduos sólidos e ações de educação ambiental**. Foi fundada em 1971 e transformada em 
+    autarquia em 2017.
+
+    ### 🏛️ O que faz a Comcap?
+
+    - 🚛 Realiza a **coleta de lixo domiciliar e seletiva** em todos os bairros de Florianópolis  
+    - 🧹 Cuida da **varrição de vias públicas**, capina e remoção de resíduos urbanos  
+    - 🏫 Mantém o **Museu do Lixo**, dentro do Centro de Valorização de Resíduos (CVR), como referência em educação ambiental  
+    - 🌿 Administra o **Jardim Botânico de Florianópolis** desde 2016  
+
+    ### 📊 Dimensões e Impacto
+
+    - 📅 **Fundação**: 1971 (autarquia desde 2017)  
+    - 👥 **Funcionários**: Cerca de 1.500 colaboradores  
+    - ♻️ **Volume de resíduos coletados por ano**:  
+      - Aproximadamente **193 mil toneladas no total**  
+      - Sendo cerca de **70 mil toneladas de orgânicos**  
+      - E **12 mil toneladas de recicláveis** por mês
+
+    🔗 Saiba mais no site oficial: [https://www.pmf.sc.gov.br/comcap](https://www.pmf.sc.gov.br/comcap)
+    """)
+
 
     # Rodapé institucional (ajustado para celular)
     st.markdown("### ℹ️ Agendamentos")
