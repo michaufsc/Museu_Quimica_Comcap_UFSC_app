@@ -1134,7 +1134,7 @@ def mostrar_cooperativas():
     """)
     
     # Adicionando a imagem após o primeiro parágrafo
-    st.image("materiais/copeimagem.png")
+    st.image("materiais/copimagem.png")
     
     st.markdown("""
     ### Governança e Organização
