@@ -1130,7 +1130,7 @@ def mostrar_cooperativas():
     st.header("♻️ Cooperativas de Reciclagem de Florianópolis")
 
     st.markdown("""
-    As cooperativas de reciclagem em Florianópolis exercem um papel essencial...
+    As cooperativas de reciclagem em Florianópolis exercem um papel essencial na gestão dos resíduos sólidos urbanos, contribuindo para a sustentabilidade ambiental, inclusão social e geração de trabalho digno para catadores e cooperados. Estas organizações funcionam a partir de princípios democráticos e autogestionários, promovendo o protagonismo dos trabalhadores no processo produtivo e na tomada de decisões.
     """)
     
     # Caminho corrigido usando a variável global IMAGES_MATERIAIS_DIR
