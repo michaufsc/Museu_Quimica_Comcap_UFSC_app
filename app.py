@@ -960,148 +960,85 @@ def mostrar_compostagem():
 
 # coleta seletiva
 def mostrar_coleta_seletiva():
-    # Configuração inicial
     st.set_page_config(
-        page_title="Coleta Seletiva Florianópolis",
+        page_title="Coleta Seletiva em Florianópolis",
         page_icon="♻️",
         layout="wide"
     )
 
-    # Dados dos PEVs (exemplo)
-    PEVS = pd.DataFrame({
-        "Bairro": ["Centro", "Trindade", "Lagoa", "Ingleses", "Campeche"],
-        "Endereço": [
-            "Rua Felipe Schmidt, 123",
-            "Rua Lauro Linhares, 456",
-            "Rua Osni Ortiga, 789",
-            "Av. das Rendeiras, 101",
-            "Av. Pequeno Príncipe, 202"
-        ],
-        "Tipo": ["PEV 24h", "PEV 24h", "Ecoponto", "PEV 24h", "PEV 24h"]
-    })
+    st.title("♻️ Coleta Seletiva em Florianópolis")
 
-    # Cabeçalho
-    st.title("♻️ Guia Completo da Coleta Seletiva - COMCAP Florianópolis")
+    # DICAS DE SEPARAÇÃO
+    st.header("💡 Como Separar Corretamente Seus Resíduos")
     st.markdown("""
-    Bem-vindo ao guia oficial da coleta seletiva de Florianópolis! Aqui você encontrará:
-    - Como separar corretamente seus resíduos
-    - Dias e horários da coleta no seu bairro
-    - Locais de entrega voluntária
-    - Contatos úteis
+    Contribua com a coleta seletiva seguindo essas orientações:
+
+    - ✅ **Lave e esvazie** embalagens recicláveis (plástico, metal, vidro, papel).
+    - ✅ **Amasse embalagens** para economizar espaço.
+    - ✅ **Use sacos transparentes** para facilitar a triagem.
+    - ❌ **Não misture lixo orgânico com recicláveis**.
+    - ❌ **Evite papel sujo ou engordurado**.
+    - 🚨 **Vidros quebrados devem ser embalados separadamente**.
+    - ⚠️ **Pilhas, baterias, eletrônicos, lâmpadas e medicamentos** devem ser levados aos ecopontos ou PEVs específicos.
     """)
 
-    # Seção 1: Como separar
-    st.header("🗂️ Como Separar Seus Resíduos")
-    
-    cols = st.columns(4)
-    materiais = {
-        "AZUL": ("#1E90FF", "PAPEL", ["Jornais/revistas", "Caixas de papelão", "Folhas de papel"]),
-        "VERMELHO": ("#FF6347", "PLÁSTICO", ["Garrafas PET", "Embalagens limpas", "Utensílios plásticos"]),
-        "AMARELO": ("#FFD700", "METAL", ["Latas de alumínio", "Objetos metálicos", "Tampinhas"]),
-        "VERDE": ("#2E8B57", "VIDRO", ["Garrafas", "Potes", "Frascos de vidro"])
-    }
-    
-    for i, (cor, (hex, nome, itens)) in enumerate(materiais.items()):
-        with cols[i]:
-            st.markdown(f"""
-            <div style='background-color:{hex}; color:white; padding:10px; border-radius:5px; text-align:center; margin-bottom:10px;'>
-            <strong>{cor}</strong><br>{nome}</div>
-            {''.join([f'• {item}<br>' for item in itens])}
-            """, unsafe_allow_html=True)
+    st.markdown("---")
+    st.header("📎 Acesse os Links Oficiais da Prefeitura")
 
-    # Seção 2: Materiais não recicláveis
-    st.header("🚫 Materiais Não Aceitos")
-    with st.expander("Clique para ver a lista completa"):
-        st.markdown("""
-        **Rejeitos:**
-        - Papel higiênico usado
-        - Fraldas descartáveis
-        - Guardanapos engordurados
-        
-        **Perigosos:**
-        - Pilhas e baterias
-        - Lâmpadas fluorescentes
-        - Eletrônicos
-        
-        **Orgânicos:**
-        - Restos de alimentos
-        - Podas de jardim
-        """)
+    st.markdown("""
+    ### 📄 Informações e Documentos
 
-    # Seção 3: Dias da coleta
-    st.header("📅 Dias da Coleta por Bairro")
-    st.table({
-        "Região": ["Centro", "Norte", "Sul"],
-        "Bairros": ["Centro, Agronômica", "Ingleses, Canasvieiras", "Campeche, Rio Tavares"],
-        "Dias": ["Segunda e quinta", "Terça e sexta", "Quarta e sábado"],
-        "Horário": ["7h às 19h", "7h às 19h", "7h às 19h"]
-    })
+    - [📘 Coleta Seletiva por Bairros (PDF)](https://www.pmf.sc.gov.br/arquivos/documentos/pdf/26_09_2023_15.26.16.8e205a59c090b98fc50ed49e314c90cc.pdf)
+    - [📙 Coleta Convencional por Bairros (PDF)](https://www.pmf.sc.gov.br/arquivos/documentos/pdf/26_09_2023_15.24.20.a8304eceb7cd33a8b67b1c5b262a3e0d.pdf)
+    - [📚 Mais Informações sobre Coletas (Site da PMF)](https://www.pmf.sc.gov.br/servicos/index.php?pagina=servpagina&id=260)
+    """)
 
-    # Seção 4: PEVs
-    st.header("📍 Pontos de Entrega Voluntária (PEVs)")
-    st.markdown("[🔗 Abrir Mapa Oficial dos PEVs](https://www.pmf.sc.gov.br/comcap)")
-    
-    # Filtros para a tabela
-    bairro_selecionado = st.selectbox(
-        "Filtrar por bairro:",
-        ["Todos"] + list(PEVS["Bairro"].unique())
-    )
-    
-    if bairro_selecionado != "Todos":
-        PEVS = PEVS[PEVS["Bairro"] == bairro_selecionado]
-    
-    st.dataframe(
-        PEVS,
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Bairro": "Bairro",
-            "Endereço": "Endereço Completo",
-            "Tipo": st.column_config.SelectboxColumn(
-                "Tipo",
-                options=["PEV 24h", "Ecoponto"]
-            )
-        }
-    )
+    st.markdown("""
+    ### 🗺️ Mapas Interativos
 
-    # Seção 5: Dicas
-    st.header("💡 Dicas Importantes")
-    dicas = [
-        "Lave rapidamente as embalagens antes de descartar",
-        "Amasse latas e caixas para economizar espaço",
-        "Separe vidros quebrados com cuidado",
-        "Use sacos transparentes para recicláveis"
-    ]
-    
-    for i, dica in enumerate(dicas, 1):
-        st.markdown(f"{i}. {dica}")
+    - [🗺️ Mapa da Coleta Seletiva por Região (Google Maps)](https://www.google.com/maps/d/u/0/viewer?mid=1O_t7--E4ThnhgLoJChHu2ymi3GtUpjV7&ll=-27.60205956989343%2C-48.49012502589044&z=10)
+    - [🗺️ Mapa da Coleta Convencional (Google Maps)](https://www.google.com/maps/d/u/0/viewer?hl=pt-BR&ll=-27.580450935796346%2C-48.54644372984463&z=12&mid=1tbLrVVv9QGukKekrxpENiylwAbGAmFqn)
+    - [🥬 Mapa da Seletiva Flex - Orgânicos](https://www.google.com/maps/d/viewer?mid=1s5N4nqbBBbJpnE9gQ7Hu14L-1NTfVFDS&ll=-27.59521928888022%2C-48.5046136&z=11)
+    - [🍾 PEVs Exclusivos para Vidro (Google Maps)](https://www.google.com/maps/d/u/0/viewer?mid=1hTeXGy8ckN5BzkIQdAlOdV_b72XNq0s&ll=-27.60189878885822%2C-48.49012502589044&z=10)
+    """)
 
-    # Seção 6: Contatos
+    st.markdown("""
+    ### 🏠 Ecopontos Oficiais
+
+    - [🏢 Rede de Ecopontos da SMMA - PMF](https://www.pmf.sc.gov.br/entidades/residuos/index.php?cms=ecopontos+da+smma&menu=4&submenuid=150)
+    """)
+
+    st.info("ℹ️ Os links acima são atualizados diretamente pela Prefeitura de Florianópolis (COMCAP / SMMA).")
+
+    # CONTATOS
+    st.markdown("---")
     st.header("📞 Contatos Úteis")
     col1, col2 = st.columns(2)
-    
     with col1:
         st.markdown("""
-        **COMCAP**  
+        **COMCAP - Atendimento Geral**  
         📞 (48) 3212-1650  
         📧 comcap@pmf.sc.gov.br  
-        🕒 Seg-Sex: 8h-18h
-        """)
-    
-    with col2:
-        st.markdown("""
-        **Coleta de Volumosos**  
-        📞 (48) 3216-0202  
-        **Emergências Ambientais**  
-        🚨 0800 644 1144
+        🕒 Segunda a Sexta: 8h às 18h
         """)
 
-    # Rodapé
+    with col2:
+        st.markdown("""
+        **Coleta de Volumosos (agendamento)**  
+        📞 (48) 3216-0202  
+
+        **Emergências Ambientais**  
+        ☎️ 0800 644 1144
+        """)
+
+    # RODAPÉ
     st.markdown("---")
     st.markdown("""
-    **Fonte:** [Prefeitura de Florianópolis - COMCAP](https://www.pmf.sc.gov.br/comcap)  
-    Atualizado em Junho/2024 ♻️
-    """)
+    <div style='font-size: 0.9em; color: gray;'>
+        Fonte: <a href="https://www.pmf.sc.gov.br/comcap" target="_blank">Prefeitura de Florianópolis - COMCAP</a><br>
+        Atualizado em Julho/2024 ♻️
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # Aba: Microplásticos
