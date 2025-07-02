@@ -1131,7 +1131,12 @@ def mostrar_cooperativas():
 
     st.markdown("""
     As cooperativas de reciclagem em Florianópolis exercem um papel essencial na gestão dos resíduos sólidos urbanos, contribuindo para a sustentabilidade ambiental, inclusão social e geração de trabalho digno para catadores e cooperados. Estas organizações funcionam a partir de princípios democráticos e autogestionários, promovendo o protagonismo dos trabalhadores no processo produtivo e na tomada de decisões.
-
+    """)
+    
+    # Adicionando a imagem após o primeiro parágrafo
+    st.image("materiais/copeimagem.png")
+    
+    st.markdown("""
     ### Governança e Organização
     A governança das cooperativas é pautada na participação coletiva, que fortalece a autonomia dos cooperados e a gestão compartilhada dos recursos. Apesar disso, enfrentam desafios estruturais como limitações de infraestrutura, falta de equipamentos e veículos próprios, além da necessidade de capacitação em áreas administrativas e de segurança no trabalho.
 
