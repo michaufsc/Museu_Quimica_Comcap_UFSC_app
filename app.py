@@ -1134,12 +1134,11 @@ def mostrar_cooperativas():
     """)
     
     try:
-        st.image("materiais/copimagem.png", 
+         st.image("imagen_materiias/copimagem.png",  # ← Nome da pasta corrigido
                 caption="Cooperativas de Reciclagem",
                 width=600)
     except FileNotFoundError:
-        st.warning("Imagem não encontrada: copimagem.png")
-        # Opcional: Mostrar uma imagem alternativa ou continuar sem imagem
+        st.error("Erro: Não foi possível carregar a imagem. Verifique se:")
         
     st.markdown("""
     ### Governança e Organização
