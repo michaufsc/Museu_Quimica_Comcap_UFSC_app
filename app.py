@@ -569,10 +569,10 @@ def mostrar_historia():
 
     ### 🕓 Horário de Funcionamento  
     📅 Segunda a sexta-feira  
-    🕗 Das 8h às 17h
+    🕗 Das 8h às 16h
 
     **Visitas monitoradas devem ser agendadas:**  
-    📞 (48) 3261-4808  
+    📞 (48) 3261-4826  
     📧 ambiental.comcap@pmf.sc.gov.br
 
     ---
