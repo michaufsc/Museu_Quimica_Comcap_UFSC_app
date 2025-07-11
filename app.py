@@ -387,51 +387,35 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
                 st.markdown(f"**Descrição:** {row['Descrição']}")
 
         st.divider()
-def mostrar_glossario_residuos(residuos: pd.DataFrame):
-    st.header("♻️ Glossário Completo de Resíduos")
+def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
+    st.header("🧪 Glossário Completo de Polímeros")
 
-    if residuos.empty:
-        st.warning("Nenhum dado de resíduos disponível.")
-        return
-
-    for _, row in residuos.iterrows():
+    for _, row in polimeros.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                # Trata nome e caminho da imagem
-                tipo = str(row.get('Tipo', 'Resíduo')).strip()
-                subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
-                
-                nome_imagem = normalizar_nome(subtipo) + ".png"
-                caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
+                nome_imagem = normalizar_nome(row['Sigla']) + ".png"
+                caminho_imagem = os.path.join(IMAGES_MATERIAIS_DIR, nome_imagem)
 
-                # Mostra imagem se existir
                 if os.path.exists(caminho_imagem):
-                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=subtipo)
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{row['Nome']}")
                 else:
-                    img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=subtipo)
+                    img_padrao = Image.new('RGB', (300, 300), color=(220, 220, 255))
+                    st.image(img_padrao, use_container_width=True, caption=f"{row['Nome']}")
 
             with col2:
-                st.subheader(f"{tipo} - {subtipo}")
-                
-                # Campos que serão exibidos no glossário
-                campos = {
-                    'Código': row.get('Código', ''),
-                    'Exemplos Comuns': row.get('Exemplos Comuns', ''),
-                    'Tempo de Decomposição': row.get('Tempo de Decomposição', ''),
-                    'Reciclável': row.get('Reciclável', ''),
-                    'Rota de Tratamento': row.get('Rota de Tratamento', ''),
-                    'Descrição Técnica': row.get('Descrição Técnica', '')
-                }
-
-                # Exibe apenas os campos preenchidos
-                for campo, valor in campos.items():
-                    if valor:
-                        st.markdown(f"**{campo}:** {valor}")
+                st.subheader(f"{row['Sigla']} - {row['Nome']}")
+                st.markdown(f"**Código:** {row.get('Código', 'Não informado')}")
+                st.markdown(f"**Tipo de Polimerização:** {row.get('Tipo de Polimerização', 'Não informado')}")
+                st.markdown(f"**Densidade:** {row.get('Densidade', 'Não informado')}")
+                st.markdown(f"**Ponto de Fusão:** {row.get('Ponto de Fusão', 'Não informado')}")
+                st.markdown(f"**Reciclável:** {row.get('Reciclável', 'Não informado')}")
+                st.markdown(f"**Aplicações Comuns:** {row.get('Aplicações Comuns', 'Não informado')}")
+                st.markdown(f"**Descrição:** {row.get('Descrição', 'Não informado')}")
 
         st.divider()
+
 
 # Função: quiz interativo
 def mostrar_quiz():
