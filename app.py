@@ -389,37 +389,34 @@ def mostrar_glossario_polimeros(polimeros: pd.DataFrame):
         st.divider()
 def mostrar_glossario_residuos(residuos: pd.DataFrame):
     st.header("♻️ Glossário Completo de Resíduos")
-    
-    # Verifica se o DataFrame está vazio
+
     if residuos.empty:
         st.warning("Nenhum dado de resíduos disponível.")
         return
-
-    # Verifica as colunas disponíveis (para debug)
-    st.write("Colunas disponíveis:", residuos.columns.tolist())
 
     for _, row in residuos.iterrows():
         with st.container():
             col1, col2 = st.columns([1, 3], gap="medium")
 
             with col1:
-                # Acesso seguro às colunas
+                # Trata nome e caminho da imagem
                 tipo = str(row.get('Tipo', 'Resíduo')).strip()
                 subtipo = str(row.get('Subtipo', tipo)).split('(')[0].strip()
                 
                 nome_imagem = normalizar_nome(subtipo) + ".png"
                 caminho_imagem = os.path.join(IMAGES_RESIDUOS_DIR, nome_imagem)
 
+                # Mostra imagem se existir
                 if os.path.exists(caminho_imagem):
-                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=f"{subtipo}")
+                    st.image(Image.open(caminho_imagem), use_container_width=True, caption=subtipo)
                 else:
                     img_padrao = Image.new('RGB', (300, 300), color=(200, 230, 200))
-                    st.image(img_padrao, use_container_width=True, caption=f"{subtipo}")
+                    st.image(img_padrao, use_container_width=True, caption=subtipo)
 
             with col2:
                 st.subheader(f"{tipo} - {subtipo}")
                 
-                # Adiciona todas as colunas disponíveis dinamicamente
+                # Campos que serão exibidos no glossário
                 campos = {
                     'Código': row.get('Código', ''),
                     'Exemplos Comuns': row.get('Exemplos Comuns', ''),
@@ -428,13 +425,14 @@ def mostrar_glossario_residuos(residuos: pd.DataFrame):
                     'Rota de Tratamento': row.get('Rota de Tratamento', ''),
                     'Descrição Técnica': row.get('Descrição Técnica', '')
                 }
-                
+
+                # Exibe apenas os campos preenchidos
                 for campo, valor in campos.items():
-                    if valor:  # Só mostra se tiver valor
+                    if valor:
                         st.markdown(f"**{campo}:** {valor}")
 
         st.divider()
-    
+
 # Função: quiz interativo
 def mostrar_quiz():
     st.header("🧐 Quiz de Resíduos e Polímeros")
