@@ -554,7 +554,7 @@ def mostrar_historia():
     🕗 Das 8h às 16h
 
     **Visitas monitoradas devem ser agendadas:**  
-    📞 (48) 3261-4826  
+    📞 (48) 920016470  
     📧 ambiental.comcap@pmf.sc.gov.br
 
     ---
